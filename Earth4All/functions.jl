@@ -1,5 +1,14 @@
 using IfElse
 
+function delay_n(eqs, D, x, rt, lv, delay, order)
+   append!(eqs, [rt[1] ~ lv[1] / (delay / order)])
+   append!(eqs, [D(lv[1]) ~ x - rt[1]])
+   for d in 2:order
+      append!(eqs, [rt[d] ~ lv[d] / (delay / order)])
+      append!(eqs, [D(lv[d]) ~ rt[d-1] - rt[d]])
+   end
+end
+
 """
    `ramp(x, slope, startx, endx)`
 
