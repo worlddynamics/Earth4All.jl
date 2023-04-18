@@ -3,7 +3,7 @@ using DifferentialEquations
 
 function pop_run_solution()
     isdefined(@__MODULE__, :_solution_pop_run) && return _solution_pop_run
-    global _solution_pop_run = WorldDynamics.solve(pop_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
+    global _solution_pop_run = WorldDynamics.solve(pop_run(), (1980, 2100), dt=0.015625, dtmax=0.015625)
     return _solution_pop_run
 end
 function _variables_pop()

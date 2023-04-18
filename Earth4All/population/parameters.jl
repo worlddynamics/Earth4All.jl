@@ -11,6 +11,8 @@ _params = Dict{Symbol,Float64}(
     :GEFR => 0.2,
     :MFM => 1.6,
     :MLEM => 1.1,
+    :OWELE => -0.02,
+    :OW2022 => 1.35,
     :SSP2FA2022F => 1,
     :TAHI => 10,
 )

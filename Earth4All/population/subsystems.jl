@@ -17,6 +17,8 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @parameters GEFR = params[:GEFR] [description = "Goal for Extra Fertility Reduction"]
     @parameters MFM = params[:MFM] [description = "Max fertility multiplier"]
     @parameters MLEM = params[:MLEM] [description = "Max life expectancy multiplier"]
+    @parameters OW2022 = params[:OW2022] [description = "Observed warming in 2022 deg C"]
+    @parameters OWELE = params[:OWELE] [description = "sOWeoLE<0: observed warming effect on life expectancy"]
     @parameters SSP2FA2022F = params[:SSP2FA2022F] [description = "SSP2 Family Action from 2022 Flag"]
     @parameters TAHI = params[:TAHI] [description = "Time to adapt to higher income y"]
 
@@ -31,13 +33,16 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables EGDPP(t) = inits[:EGDPP] [description = "Effective GDP per Person kDollar/p/y"]
     @variables FM(t) [description = "Fertility Multiplier"]
     @variables GDPP(t) [description = "GDP per Person kDollar/p/y"]
+    @variables LEM(t) [description = "Life Expectancy Multiplier"]
     @variables PASS20(t) = inits[:PASS20] [description = "Passing 20 Mp/y"]
     @variables PASS40(t) = inits[:PASS40] [description = "Passing 40 Mp/y"]
     @variables PASS60(t) = inits[:PASS60] [description = "Passing 60 Mp/y"]
     @variables POP(t) [description = "Population Mp"]
+    @variables WELE(t) [description = "Warming Effect on Life Expectancy"]
 
-    @variables GDP(t) [description = "GDP GDollar/y"]
-    @variables IPP(t) [description = "Introduction period for policy y"]
+    @variables GDP(t)
+    @variables IPP(t)
+    @variables OW(t)
 
     eqs = [
         CEFR ~ CMFR * GEFR
@@ -46,10 +51,23 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
         D(EGDPP) ~ (GDPP - EGDPP) / TAHI
         FM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MFM - 1) / 78, 2022, 2100), 1), 1)
         GDPP ~ GDP / POP
+        LEM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1)
         POP ~ t  # A0020 + A2040 + A4060 + A60PL
-        #
+        WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1)
+    ]
+
+    return ODESystem(eqs; name=name)
+end
+
+function population_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+    @variables GDP(t) [description = "GDP GDollar/y"]
+    @variables IPP(t) [description = "Introduction period for policy y"]
+    @variables OW(t) [description = "Observed warming deg C"]
+
+    eqs = [
         GDP ~ interpolate(t, tables[:GDP], ranges[:GDP])
         IPP ~ interpolate(t, tables[:IPP], ranges[:IPP])
+        OW ~ interpolate(t, tables[:OW], ranges[:OW])
     ]
 
     return ODESystem(eqs; name=name)
