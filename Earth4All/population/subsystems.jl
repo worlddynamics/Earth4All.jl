@@ -105,10 +105,10 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
         PW ~ OP / A20PA
         WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1)
     ]
-    delay_n(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
-    delay_n(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
-    delay_n(eqs, PASS40, RT_PASS60, LV_PASS60, 20, ORDER)
-    delay_n(eqs, PASS60, RT_DEATHS, LV_DEATHS, LE60, ORDER)
+    delay_n!(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
+    delay_n!(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
+    delay_n!(eqs, PASS40, RT_PASS60, LV_PASS60, 20, ORDER)
+    delay_n!(eqs, PASS60, RT_DEATHS, LV_DEATHS, LE60, ORDER)
 
     return ODESystem(eqs; name=name)
 end
