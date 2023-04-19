@@ -38,20 +38,19 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CSR(t) [description = "Change in signal rate 1/y"]
     @variables CBSR(t) = inits[:CBSR] [description = "Central bank signal rate 1/y"]
 
+    eqs = []
 
-    eqs =[ 
-        NCCR ~ 0.02 *(1 + GRCR * (OGR / 0.03 -1)) 
-        CBC ~ CCSD + NCCR
-        TIR ~ CBSR + NBBM
-        WBC ~ CCSD
-        GBC ~ TIR
-        CBC1980 ~ NSR + NBBM + NBOM + NCCR
-        TGIR ~ GBC + ELTI
-        ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1))
-        CSR ~ (ISR - CBSR) / SRAT
-        D(CBSR) ~ CSR
-    ]
-
+    add_equation!(eqs, NCCR ~ 0.02 *(1 + GRCR * (OGR / 0.03 -1))) 
+    add_equation!(eqs, CBC ~ CCSD + NCCR)
+    add_equation!(eqs, TIR ~ CBSR + NBBM)
+    add_equation!(eqs, WBC ~ CCSD)
+    add_equation!(eqs, GBC ~ TIR)
+    add_equation!(eqs, CBC1980 ~ NSR + NBBM + NBOM + NCCR)
+    add_equation!(eqs, TGIR ~ GBC + ELTI)
+    add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
+    add_equation!(eqs, CSR ~ (ISR - CBSR) / SRAT)
+    add_equation!(eqs, D(CBSR) ~ CSR)
+    
     smooth!(eqs, CCSD, TIR+NBOM, FSRT)
     smooth!(eqs, ELTI, PI, IEFT)
     smooth!(eqs, PI, IR, IPT)
@@ -65,11 +64,11 @@ function finance_support(; name, params=_params, inits=_inits, tables=_tables, r
     @variables IR(t) [description = "Inflation rate 1/y"]
     @variables UR(t) [description = "Unemployment rate"]
     
-    eqs = [
-        OGR ~ interpolate(t, tables[:OGR], ranges[:OGR])
-        IR ~ interpolate(t, tables[:IR], ranges[:IR])
-        UR ~ interpolate(t, tables[:UR], ranges[:UR])
-    ]
+    eqs = []
 
+    add_equation!(eqs, OGR ~ interpolate(t, tables[:OGR], ranges[:OGR]))
+    add_equation!(eqs, IR ~ interpolate(t, tables[:IR], ranges[:IR]))
+    add_equation!(eqs, UR ~ interpolate(t, tables[:UR], ranges[:UR]))
+    
     return ODESystem(eqs; name=name)
 end
