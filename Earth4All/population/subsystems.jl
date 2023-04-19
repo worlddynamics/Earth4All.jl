@@ -73,42 +73,43 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables IPP(t)
     @variables OW(t)
 
-    eqs = [
-        D(A0020) ~ BIRTHS - PASS20
-        D(A2040) ~ PASS20 - PASS40
-        A20PA ~ A2040 + A4060 + A60PL - OP
-        D(A4060) ~ PASS40 - PASS60
-        D(A60PL) ~ PASS60 - DEATHS
-        BIRTHR ~ BIRTHS / POP
-        BIRTHS ~ A2040 * FW * (OF / FP)
-        CEFR ~ CMFR * GEFR
-        DEATHR ~ DEATHS / POP
-        DEATHS ~ RT_DEATHS[ORDER]
-        DNC ~ ((DNCM + (DNC80 - DNCM) * exp(-DNCG * (EGDPP - inits[:EGDPP]))) * (1 + DNCA * (EGDPP - inits[:EGDPP]))) * (1 - EFR) * FM
-        DR ~ (A0020 + A60PL) / (A2040 + A4060)
-        EFR ~ ramp(t, GEFR / IPP, 2022, 2022 + IPP)
-        EPA ~ ramp(t, (GEPA - inits[:EPA]) / IPP, 2022, 2022 + IPP)
-        D(EGDPP) ~ (GDPP - EGDPP) / TAHI
-        FM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MFM - 1) / 78, 2022, 2100), 1), 1)
-        GDPP ~ GDP / POP
-        LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LEM
-        LE60 ~ LE - 60
-        LEM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1)
-        OF ~ DNC * FADFS
-        OP ~ A60PL * (LE - PA) / (LE - 60)
-        PA ~ IfElse.ifelse(LE < inits[:LE], inits[:PA], inits[:PA] + LEEPA * (LE + EPA - inits[:LE]))
-        PASS20 ~ RT_PASS20[ORDER]
-        PASS40 ~ RT_PASS40[ORDER]
-        PASS60 ~ RT_PASS60[ORDER]
-        PGR ~ BIRTHR - DEATHR
-        POP ~ A0020 + A2040 + A4060 + A60PL
-        PW ~ OP / A20PA
-        WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1)
-    ]
-    delay_n(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
-    delay_n(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
-    delay_n(eqs, PASS40, RT_PASS60, LV_PASS60, 20, ORDER)
-    delay_n(eqs, PASS60, RT_DEATHS, LV_DEATHS, LE60, ORDER)
+    eqs = []
+
+    add_equation!(eqs, D(A0020) ~ BIRTHS - PASS20)
+    add_equation!(eqs, D(A2040) ~ PASS20 - PASS40)
+    add_equation!(eqs, A20PA ~ A2040 + A4060 + A60PL - OP)
+    add_equation!(eqs, D(A4060) ~ PASS40 - PASS60)
+    add_equation!(eqs, D(A60PL) ~ PASS60 - DEATHS)
+    add_equation!(eqs, BIRTHR ~ BIRTHS / POP)
+    add_equation!(eqs, BIRTHS ~ A2040 * FW * (OF / FP))
+    add_equation!(eqs, CEFR ~ CMFR * GEFR)
+    add_equation!(eqs, DEATHR ~ DEATHS / POP)
+    add_equation!(eqs, DEATHS ~ RT_DEATHS[ORDER])
+    add_equation!(eqs, DNC ~ ((DNCM + (DNC80 - DNCM) * exp(-DNCG * (EGDPP - inits[:EGDPP]))) * (1 + DNCA * (EGDPP - inits[:EGDPP]))) * (1 - EFR) * FM)
+    add_equation!(eqs, DR ~ (A0020 + A60PL) / (A2040 + A4060))
+    add_equation!(eqs, EFR ~ ramp(t, GEFR / IPP, 2022, 2022 + IPP))
+    add_equation!(eqs, EPA ~ ramp(t, (GEPA - inits[:EPA]) / IPP, 2022, 2022 + IPP))
+    add_equation!(eqs, D(EGDPP) ~ (GDPP - EGDPP) / TAHI)
+    add_equation!(eqs, FM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MFM - 1) / 78, 2022, 2100), 1), 1))
+    add_equation!(eqs, GDPP ~ GDP / POP)
+    add_equation!(eqs, LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LEM)
+    add_equation!(eqs, LE60 ~ LE - 60)
+    add_equation!(eqs, LEM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1))
+    add_equation!(eqs, OF ~ DNC * FADFS)
+    add_equation!(eqs, OP ~ A60PL * (LE - PA) / (LE - 60))
+    add_equation!(eqs, PA ~ IfElse.ifelse(LE < inits[:LE], inits[:PA], inits[:PA] + LEEPA * (LE + EPA - inits[:LE])))
+    add_equation!(eqs, PASS20 ~ RT_PASS20[ORDER])
+    add_equation!(eqs, PASS40 ~ RT_PASS40[ORDER])
+    add_equation!(eqs, PASS60 ~ RT_PASS60[ORDER])
+    add_equation!(eqs, PGR ~ BIRTHR - DEATHR)
+    add_equation!(eqs, POP ~ A0020 + A2040 + A4060 + A60PL)
+    add_equation!(eqs, PW ~ OP / A20PA)
+    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1))
+ 
+    delay_n!(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
+    delay_n!(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
+    delay_n!(eqs, PASS40, RT_PASS60, LV_PASS60, 20, ORDER)
+    delay_n!(eqs, PASS60, RT_DEATHS, LV_DEATHS, LE60, ORDER)
 
     return ODESystem(eqs; name=name)
 end
@@ -118,11 +119,11 @@ function population_support(; name, params=_params, inits=_inits, tables=_tables
     @variables IPP(t) [description = "Introduction period for policy y"]
     @variables OW(t) [description = "Observed warming deg C"]
 
-    eqs = [
-        GDP ~ interpolate(t, tables[:GDP], ranges[:GDP])
-        IPP ~ interpolate(t, tables[:IPP], ranges[:IPP])
-        OW ~ interpolate(t, tables[:OW], ranges[:OW])
-    ]
-
+    eqs = []
+    
+    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, IPP ~ interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, OW ~ interpolate(t, tables[:OW], ranges[:OW]))
+    
     return ODESystem(eqs; name=name)
 end
