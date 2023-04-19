@@ -1,5 +1,10 @@
 using IfElse
 
+"""
+   `delay_n(eqs, x, rt, lv, delay, order)`
+   
+Returns an N'th order exponential delay.
+"""  
 function delay_n(eqs, x, rt, lv, delay, order)
    append!(eqs, [rt[1] ~ lv[1] / (delay / order)])
    append!(eqs, [D(lv[1]) ~ x - rt[1]])
@@ -17,8 +22,9 @@ Returns `0` until the `startx` and then slopes upward until `endx` and then hold
 ramp(x, slope, startx, endx) = IfElse.ifelse(x > startx, IfElse.ifelse(x < endx, slope * (x - startx), slope * (endx - startx)), 0)
 
 """
-   smoothi!(eqs, x, input, delay_time)
-   Returns a exponential smooth of the input.
+   `smooth!(eqs, x, input, delay_time)`
+
+Returns a exponential smooth of the input.
 """
 function smooth!(eqs, x, input, delay_time)
    append!(eqs, [D(x) ~ (input - x) / delay_time])
