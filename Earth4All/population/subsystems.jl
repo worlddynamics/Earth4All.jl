@@ -5,7 +5,6 @@ include("../functions.jl")
 D = Differential(t)
 
 function population(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    ORDER = 10
     @parameters CMFR = params[:CMFR] [description = "Cost of Max Fertility Reduction (share of GDP)"]
     @parameters DNC80 = params[:DNC80] [description = "DNC in 1980"]
     @parameters DNCA = params[:DNCA] [description = "DNCalfa<0"]
@@ -24,11 +23,12 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @parameters LEMAX = params[:LEMAX] [description = "LEmax"]
     @parameters MFM = params[:MFM] [description = "Max Fertility Multiplier"]
     @parameters MLEM = params[:MLEM] [description = "Max Life Expectancy Multiplier"]
-    # @parameters ORDER = params[:ORDER] [description = "Order of delay functions"]
     @parameters OW2022 = params[:OW2022] [description = "Observed Warming in 2022 deg C"]
     @parameters OWELE = params[:OWELE] [description = "sOWeoLE<0: Observed Warming Effect on Life Expectancy"]
     @parameters SSP2FA2022F = params[:SSP2FA2022F] [description = "SSP2 Family Action from 2022 Flag"]
     @parameters TAHI = params[:TAHI] [description = "Time to adapt to higher income y"]
+
+    ORDER = Int64(params[:ORDER])
 
     @variables A0020(t) = inits[:A0020] [description = "Aged 0-20 years Mp"]
     @variables A2040(t) = inits[:A2040] [description = "Aged 20-40 years Mp"]
@@ -50,10 +50,10 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables LE(t) = inits[:LE] [description = "Life Expectancy y"]
     @variables LE60(t) [description = "LE at 60 y"]
     @variables LEM(t) [description = "Life Expectancy Multiplier"]
-    @variables (LV_DEATHS(t))[1:ORDER] = fill(inits[:DEATHS], ORDER) [description = "LV functions for deaths Mp/y"]
-    @variables (LV_PASS20(t))[1:ORDER] = fill(inits[:PASS20], ORDER) [description = "LV functions for passing 20 Mp/y"]
-    @variables (LV_PASS40(t))[1:ORDER] = fill(inits[:PASS40], ORDER) [description = "LV functions for passing 40 Mp/y"]
-    @variables (LV_PASS60(t))[1:ORDER] = fill(inits[:PASS60], ORDER) [description = "LV functions for passing 60 Mp/y"]
+    @variables (LV_DEATHS(t))[1:ORDER] = fill(inits[:DEATHS] * (inits[:LE] - 60) / ORDER, ORDER) [description = "LV functions for deaths Mp/y"]
+    @variables (LV_PASS20(t))[1:ORDER] = fill(inits[:PASS20] * 20 / ORDER, ORDER) [description = "LV functions for passing 20 Mp/y"]
+    @variables (LV_PASS40(t))[1:ORDER] = fill(inits[:PASS40] * 20 / ORDER, ORDER) [description = "LV functions for passing 40 Mp/y"]
+    @variables (LV_PASS60(t))[1:ORDER] = fill(inits[:PASS60] * 20 / ORDER, ORDER) [description = "LV functions for passing 60 Mp/y"]
     @variables OF(t) [description = "Observed Fertility"]
     @variables OP(t) [description = "On Pension Mp"]
     @variables PA(t) = inits[:PA] [description = "Pension Age y"]
@@ -63,10 +63,10 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables PGR(t) [description = "Population Growth Rate Mp"]
     @variables POP(t) [description = "Population Mp"]
     @variables PW(t) [description = "Pensioners per Worker p/p"]
-    @variables (RT_DEATHS(t))[1:ORDER] = fill(inits[:DEATHS], ORDER) [description = "RT functions for deaths Mp/y"]
-    @variables (RT_PASS20(t))[1:ORDER] = fill(inits[:PASS20], ORDER) [description = "RT functions for passing 20 Mp/y"]
-    @variables (RT_PASS40(t))[1:ORDER] = fill(inits[:PASS40], ORDER) [description = "RT functions for passing 40 Mp/y"]
-    @variables (RT_PASS60(t))[1:ORDER] = fill(inits[:PASS60], ORDER) [description = "RT functions for passing 60 Mp/y"]
+    @variables (RT_DEATHS(t))[1:ORDER] = fill(inits[:DEATHS] * (inits[:LE] - 60) / ORDER, ORDER) [description = "RT functions for deaths Mp/y"]
+    @variables (RT_PASS20(t))[1:ORDER] = fill(inits[:PASS20] * 20 / ORDER, ORDER) [description = "RT functions for passing 20 Mp/y"]
+    @variables (RT_PASS40(t))[1:ORDER] = fill(inits[:PASS40] * 20 / ORDER, ORDER) [description = "RT functions for passing 40 Mp/y"]
+    @variables (RT_PASS60(t))[1:ORDER] = fill(inits[:PASS60] * 20 / ORDER, ORDER) [description = "RT functions for passing 60 Mp/y"]
     @variables WELE(t) [description = "Warming Effect on Life Expectancy"]
 
     @variables GDP(t)

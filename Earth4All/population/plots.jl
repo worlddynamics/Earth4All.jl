@@ -9,8 +9,9 @@ end
 function _variables_pop()
     @named pop = population()
     variables = [
-        (pop.EFR, 0, 0.5, "Extra fertility reduction"),
-        (pop.IPP, 20, 31, "Introduction period for policy"),
+        (pop.BIRTHS, 0, 140, "Births Mp/y"),
+        (pop.LE60, 0, 40, "LE at 60 y"),
+        (pop.POP, 3000, 11000, "Population Mp"),
     ]
     return variables
 end
