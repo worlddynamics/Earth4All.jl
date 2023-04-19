@@ -20,6 +20,6 @@ ramp(x, slope, startx, endx) = IfElse.ifelse(x > startx, IfElse.ifelse(x < endx,
    smoothi!(eqs, x, input, delay_time)
    Returns a exponential smooth of the input.
 """
-function smoothi!(eqs, x, input, delay_time)
+function smooth!(eqs, x, input, delay_time)
    append!(eqs, [D(x) ~ (input - x) / delay_time])
 end
