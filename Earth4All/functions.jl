@@ -1,11 +1,11 @@
 using IfElse
 
 """
-   `add_equations(eqs, equation)`
+   `add_equation(eqs, equation)`
 
 Adds `equation`` to the list `eqs` of equations.
 """
-function add_equations!(eqs, equation)
+function add_equation!(eqs, equation)
    append!(eqs, [equation])
 end
 
