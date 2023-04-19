@@ -1,6 +1,6 @@
 using IfElse
 
-function delay_n(eqs, D, x, rt, lv, delay, order)
+function delay_n(eqs, x, rt, lv, delay, order)
    append!(eqs, [rt[1] ~ lv[1] / (delay / order)])
    append!(eqs, [D(lv[1]) ~ x - rt[1]])
    for d in 2:order
