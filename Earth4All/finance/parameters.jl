@@ -5,7 +5,6 @@ _params = Dict{Symbol,Float64}(
     :NBBM => 0.005,
     :NSR => 0.02,
     :IEFT => 10,
-    :I => 0.02,
     :IPT => 1,
     :UPT => 1,
     :INSR => 0.7,
