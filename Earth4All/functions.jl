@@ -9,6 +9,12 @@ function delay_n(eqs, D, x, rt, lv, delay, order)
    end
 end
 
+function interpolate(x, pairs::Vector{Tuple{Float64,Float64}})
+   xvalues = map(t -> t[1], pairs)
+   yvalues = map(t -> t[end], pairs)
+   WorldDynamics.interpolate(x, yvalues, xvalues)
+end
+
 """
    `ramp(x, slope, startx, endx)`
 
