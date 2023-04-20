@@ -1,0 +1,5 @@
+[deps]
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
+IfElse = "615f187c-cbe4-4ef1-ba3b-2fcf58d6d173"
+ModelingToolkit = "961ee093-0014-501f-94e3-6117800e7a78"
+WorldDynamics = "34572acc-64b2-43ec-bac8-7b2a4baad13f"
