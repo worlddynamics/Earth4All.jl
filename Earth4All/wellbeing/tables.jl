@@ -7682,6 +7682,11 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         55.4261,
         55.4708,
     ),
+    :IEST => (
+        1,
+        1,
+        0,
+    ),
     :INEQ => (
         0.607317,
         0.607607,
@@ -23047,6 +23052,10 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         0.830178,
         0.830178,
         0.830177,
+    ),
+    :PSESTR => (
+        0,
+        1,
     ),
     :PSP => (
         1.22172,
@@ -46100,8 +46109,10 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
 )
 _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :GDPP => (1980, 2100),
+    :IEST => (0, 2),
     :INEQ => (1980, 2100),
     :LPR => (1980, 2100),
+    :PSESTR => (0, 1),
     :PSP => (1980, 2100),
     :PW => (1980, 2100),
     :WDI => (1980, 2100),

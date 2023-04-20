@@ -38,9 +38,3 @@ Returns a exponential smooth of the input.
 function smooth!(eqs, x, input, delay_time)
    append!(eqs, [D(x) ~ (input - x) / delay_time])
 end
-
-function interpolate(x, pairs::Vector{Tuple{Float64,Float64}})
-   xvalues = map(t -> t[1], pairs)
-   yvalues = map(t -> t[end], pairs)
-   WorldDynamics.interpolate(x, yvalues, xvalues)
-end

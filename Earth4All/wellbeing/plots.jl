@@ -10,7 +10,7 @@ end
 function _variables_wb()
     @named wb = wellbeing()
     variables = [
-        (wb.AWBI, 0, 140, "Average WellBeing Index"),
+        (wb.AWBI, 0, 4, "Average WellBeing Index"),
     ]
     return variables
 end
