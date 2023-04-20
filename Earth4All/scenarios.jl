@@ -11,6 +11,9 @@ function e4a_run(; kwargs...)
     systems = [
         fin, fin_sup, pop, pop_sup, pub, pub_sup, wb, wb_sup,
     ]
+    # systems = [
+    #     pop, pop_sup, wb, wb_sup,
+    # ]
 
     connection_eqs = [
         fin.OGR ~ fin_sup.OGR
@@ -38,6 +41,17 @@ function e4a_run(; kwargs...)
         wb.PW ~ wb_sup.PW
         wb.WDI ~ wb_sup.WDI
     ]
+    # connection_eqs = [
+    #     pop.GDP ~ pop_sup.GDP
+    #     pop.IPP ~ wb.IPP
+    #     pop.OW ~ pop_sup.OW
+    #     wb.GDPP ~ pop.GDPP
+    #     wb.INEQ ~ wb_sup.INEQ
+    #     wb.LPR ~ wb_sup.LPR
+    #     wb.PSP ~ wb_sup.PSP
+    #     wb.PW ~ wb_sup.PW
+    #     wb.WDI ~ wb_sup.WDI
+    # ]
 
     return WorldDynamics.compose(systems, connection_eqs)
 end

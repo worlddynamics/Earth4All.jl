@@ -1,6 +1,6 @@
 _params = Dict{Symbol,Float64}(
     :AI => 0.6,
-    :AP => 0.2,
+    :AP => 0.02,
     :AWBPD => 9,
     :DRDI => 0.5,
     :DRPS => 0.7,
