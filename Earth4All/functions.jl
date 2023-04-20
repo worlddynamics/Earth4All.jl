@@ -3,7 +3,7 @@ using IfElse
 """
    `add_equation(eqs, equation)`
 
-Adds `equation`` to the list `eqs` of equations.
+Adds `equation` to the list `eqs` of equations.
 """
 function add_equation!(eqs, equation)
    append!(eqs, [equation])
