@@ -32,8 +32,10 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @parameters TW = params[:TW] [description = "Threshold Warming deg C"]
 
     @variables IEST(t) [description = "Inequity Effect on Social Trust"]
+    @variables IST(t) [description = "Indicated Social Trust"]
     @variables PSESTR(t) [description = "Public Spending Effect on Social TRust"]
     @variables PSSGDP(t) [description = "Public Spending as Share of GDP"]
+    @variables ST(t) = inits[:ST] [description = "Social Trust"]
 
     @variables GDPP(t)
     @variables INEQ(t)
@@ -42,11 +44,13 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables PW(t)
     @variables WDI(t)
 
-    eqs = [
-        IEST ~ interpolate(INEQ / AI, [(0.0, 1.0), (1.0, 1.0), (2.0, 0.0)])
-        PSSGDP ~ PSP / GDPP
-        PSESTR ~ interpolate(PSSGDP / SPS, [(0.0, 0.0), (1.0, 1.0)])
-    ]
+    eqs = []
+
+    add_equation!(eqs, IEST ~ interpolate(INEQ / AI, [(0.0, 1.0), (1.0, 1.0), (2.0, 0.0)]))
+    add_equation!(eqs, IST ~ PSESTR * IEST)
+    add_equation!(eqs, PSSGDP ~ PSP / GDPP)
+    add_equation!(eqs, PSESTR ~ interpolate(PSSGDP / SPS, [(0.0, 0.0), (1.0, 1.0)]))
+
     return ODESystem(eqs; name=name)
 end
 
@@ -58,14 +62,14 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
     @variables PW(t)
     @variables WDI(t)
 
-    eqs = [
-        GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP])
-        INEQ ~ interpolate(t, tables[:INEQ], ranges[:INEQ])
-        LBR ~ interpolate(t, tables[:LBR], ranges[:LBR])
-        PSP ~ interpolate(t, tables[:PSP], ranges[:PSP])
-        PW ~ interpolate(t, tables[:PW], ranges[:PW])
-        WDI ~ interpolate(t, tables[:WDI], ranges[:WDI])
-    ]
+    eqs = []
+
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
+    add_equation!(eqs, LBR ~ WorldDynamics.interpolate(t, tables[:LBR], ranges[:LBR]))
+    add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
+    add_equation!(eqs, PW ~ WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
+    add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)
 end
