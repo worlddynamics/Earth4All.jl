@@ -105,7 +105,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, POP ~ A0020 + A2040 + A4060 + A60PL)
     add_equation!(eqs, PW ~ OP / A20PA)
     add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1))
- 
+
     delay_n!(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
     delay_n!(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
     delay_n!(eqs, PASS40, RT_PASS60, LV_PASS60, 20, ORDER)
@@ -120,10 +120,10 @@ function population_support(; name, params=_params, inits=_inits, tables=_tables
     @variables OW(t) [description = "Observed warming deg C"]
 
     eqs = []
-    
+
     add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, IPP ~ interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OW ~ interpolate(t, tables[:OW], ranges[:OW]))
-    
+
     return ODESystem(eqs; name=name)
 end

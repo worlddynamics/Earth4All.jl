@@ -10,4 +10,7 @@ include("Population.jl")
 include("Finance.jl")
 include("Public.jl")
 
+include("scenarios.jl")
+include("plots.jl")
+
 end
