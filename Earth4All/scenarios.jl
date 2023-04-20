@@ -5,11 +5,13 @@ function e4a_run(; kwargs...)
     @named pop_sup = Population.population_support(; kwargs...)
     @named pub = Public.public(; kwargs...)
     @named pub_sup = Public.public_support(; kwargs...)
+    @named pub_GDP = Public.public_GDP(; kwargs...)
+    @named pub_GDP_sup = Public.public_GDP_support(; kwargs...)
     @named wb = Wellbeing.wellbeing(; kwargs...)
     @named wb_sup = Wellbeing.wellbeing_support(; kwargs...)
 
     systems = [
-        fin, fin_sup, pop, pop_sup, pub, pub_sup, wb, wb_sup,
+        fin, fin_sup, pop, pop_sup, pub, pub_sup, pub_GDP, pub_GDP_sup, wb, wb_sup,
     ]
     # systems = [
     #     pop, pop_sup, wb, wb_sup,
@@ -34,10 +36,13 @@ function e4a_run(; kwargs...)
         pub.POP ~ pop.POP
         pub.GDPP ~ pop.GDPP
         pub.II ~ pub_sup.II
+        pub_GDP.GS ~ pub_GDP_sup.GS
+        pub_GDP.GDP ~ pub_sup.GDP
+        pub_GDP.POP ~ pop.POP
         wb.GDPP ~ pop.GDPP
         wb.INEQ ~ wb_sup.INEQ
         wb.LPR ~ wb_sup.LPR
-        wb.PSP ~ pub.PSP
+        wb.PSP ~ pub_GDP.PSP
         wb.PW ~ wb_sup.PW
         wb.WDI ~ wb_sup.WDI
     ]

@@ -89,7 +89,7 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
     @variables GDPP(t)
     @variables INEQ(t)
     @variables LPR(t)
-    @variables PSP(t)
+    @variables PSP(t) [description = "Public Spending per person kdollar/p/y"]
     @variables PW(t)
     @variables WDI(t)
 

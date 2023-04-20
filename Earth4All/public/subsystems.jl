@@ -24,12 +24,12 @@ function public_GDP(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables POP(t)
   
     @variables GSSGDP(t) [description = "Government spending as share of GDP"]
-    @variables PS(t) [description = "Public spending per person kDollar/p/k"]
+    @variables PSP(t) [description = "Public spending per person kDollar/p/k"]
    
     eqs = []
 
     add_equation!(eqs, GSSGDP ~ GS / GDP) 
-    add_equation!(eqs, PS ~ GS / POP)
+    add_equation!(eqs, PSP ~ GS / POP)
    
     return ODESystem(eqs; name=name)
 end
@@ -88,7 +88,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables IPR(t) [description = "Infrastructure purchases ratio y"]
     @variables PPP(t) [description = "Productivity of public purchases"]
     @variables VPSS(t) [description = "Value of public services supplied GDollar/y"]
-    @variables PSP(t) [description = "Public services per person kDollar/p/k"]
+    @variables PSEP(t) [description = "Public SErvices per person kDollar/p/k"]
     @variables SC(t) [description = "State capacity (fraction of GDP)"]
     @variables DRTA(t) [description = "Domestic rate of technological advance 1/y"]
     @variables IROTA(t) [description = "Imported ROTA 1/y"]
@@ -108,7 +108,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, IPR ~ CPUS / GP)
     add_equation!(eqs, PPP ~ max(0, 1 + IPRVPSS * log(IPR/IPR1980)))
     add_equation!(eqs, VPSS ~ GP * PPP)
-    add_equation!(eqs, PSP ~ VPSS / POP)
+    add_equation!(eqs, PSEP ~ VPSS / POP)
     add_equation!(eqs, SC ~ VPSS / GDP)
     add_equation!(eqs, DRTA ~ (DROTA1980 + IfElse.ifelse(t > 2022, EDROTA2022, 0) * (1 + SCROTA * (SC / SC1980)-1)))
     add_equation!(eqs, IROTA ~ IfElse.ifelse(t > 2022, max(0, MIROTA2022 * (1 - 1 * (GDPP / GDPTL - 1))), 0))
