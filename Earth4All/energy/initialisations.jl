@@ -1,4 +1,5 @@
 _inits = Dict{Symbol,Float64}(
+    :EEPI2022 => 1,
 
 )
 

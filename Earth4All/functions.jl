@@ -38,3 +38,17 @@ Returns a exponential smooth of the input.
 function smooth!(eqs, x, input, delay_time)
    append!(eqs, [D(x) ~ (input - x) / delay_time])
 end
+
+"""
+   `clip(returnifgte, returniflt, inputvalue, threshold)`
+
+Returns `returnifgte` if the value `inputvalue` is greater than the threshold `threshold`, `returniflt` otherwise. This function corresponds to the `CLIP` (also called `FIFGE`) function in the `DYNAMO` language.
+"""
+clip(returnifgte, returniflt, inputvalue, threshold) = IfElse.ifelse(inputvalue ≥ threshold, returnifgte, returniflt)
+
+"""
+   `step(inputvalue, returnifgte, threshold)`
+
+Returns `0` if the value `inputvalue` is smaller than the threshold `threshold`, `returnifgte` otherwise. This function corresponds to the `STEP` function in the `DYNAMO` language.
+"""
+step(inputvalue, returnifgte, threshold) = clip(returnifgte, zero(returnifgte), inputvalue, threshold)
