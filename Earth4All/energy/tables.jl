@@ -23048,12 +23048,41 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         27.4287,
         27.4283
     ),
+    :TPPUEBEE => (
+        0,
+        4,
+        4,
+        7,
+        7,
+        9,
+        9,
+        12,
+        12,
+        13,
+        13,
+    ),
+    :TPPUFFNEUBEE => (
+        0.3,
+        0.3,
+        0.3,
+        2,
+        2,
+        3.1,
+        3.1,
+        4,
+        4,
+        4,
+        5,
+    ),
+
 )
 
 _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :GDPP => (1980, 2100),
     :POP => (1980, 2100),
     :IPP => (1980, 2100),
+    :TPPUEBEE => (0, 65),
+    :TPPUFFNEUBEE => (0,50),
 )
 
 gettables() = copy(_tables)
