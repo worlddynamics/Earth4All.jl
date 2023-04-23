@@ -4,7 +4,7 @@ function energy_run(; kwargs...)
 
 
     systems = [
-        en,en_sup
+        en, en_sup
     ]
 
     connection_eqs = [

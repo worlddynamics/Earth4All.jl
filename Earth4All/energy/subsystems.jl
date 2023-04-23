@@ -1,6 +1,7 @@
 include("../functions.jl")
 @register ramp(x, slope, startx, endx)
 
+
 @variables t
 D = Differential(t)
 
@@ -82,7 +83,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables DRECC(t) [description = "Desired renewable el capacity change GW"]
     @variables REC(t) = inits[:REC] [description = "Renewable electricity capacity GW"]
     @variables AREC(t) [description = "Addition of renewable el capacity GW/y"]
-    @variables DREC(t) [description = "Discard renewable el capacity GW/y"]
+    @variables DIREC(t) [description = "Discard renewable el capacity GW/y"]
     @variables ASWC(t) [description = "Addition of sun and wind capacity GW/y"]
     @variables ACSWCF1980(t) = inits[:ACSWCF1980] [description = "ACcumulated sun and wind capacity from 1980 GW"]
     @variables NDSWC(t) [description = "Number of dubling in sun and wind capacity"]
@@ -148,8 +149,8 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * t - 1980))
     add_equation!(eqs, D(EEPI2022) ~ IEEPI)
     add_equation!(eqs, IEEPI ~ EROCEPA2022 * 0 + step(t, EROCEPA2022, 2022))
-    add_equation!(eqs, TPPUEBEE ~ interpolate(GDPP, tables[:TPPUEBEE], ranges[:TPPUEBEE]))
-    add_equation!(eqs, TPPUFFNEUBEE ~ interpolate(GDPP, tables[:TPPUFFNEUBEE], ranges[:TPPUFFNEUBEE]))
+    add_equation!(eqs, TPPUEBEE ~ interpolate1(GDPP,[(0.,0.),(10.,4.),(20.,7.),(30.,9.),(50.,12.),(65.,13.)]))
+    add_equation!(eqs, TPPUFFNEUBEE ~ interpolate1(GDPP,[(0.,0.3),(15.,2.),(25.,3.1),(35.,4.),(50.,5.)]))
     add_equation!(eqs, DEBNE ~ (POP * TPPUEBEE * exp(-NIEE * (t - 1980))) / EEPI2022)
     add_equation!(eqs, DFFNEUBNE ~ (POP * TPPUFFNEUBEE * exp(-NIEE * (t - 1980))) / EEPI2022)
     add_equation!(eqs, FNE ~ FNE1980 + ramp(t, (FNE2022 - FNE1980) / 42, 1980, 2022) + ramp(t, (GFNE - FNE2022) / IPP, 2022, 2022 + IPP))
@@ -164,8 +165,8 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, DREC ~ DSRE / RCUT)
     add_equation!(eqs, DRECC ~ DREC - REC) 
     add_equation!(eqs, D(REC) ~ AREC - DREC)
-    add_equation!(eqs, AREC ~ max(0, (DREC / RECT) + (DREC)))
-    add_equation!(eqs, DREC ~ REC / LREC)
+    add_equation!(eqs, AREC ~ max(0, (DREC / RECT) + (DIREC)))
+    add_equation!(eqs, DIREC ~ REC / LREC) 
     add_equation!(eqs, ASWC ~ AREC)
     add_equation!(eqs, D(ACSWCF1980) ~ ASWC)
     add_equation!(eqs, NDSWC ~ log(2) + log(ACSWCF1980 / SWC1980) )
@@ -197,7 +198,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, FCUT ~ DFE / FEC)
     add_equation!(eqs, FCUTLOFC ~ 1 + sFCUTLOFC * ((FCUT / EKHPY) - 1))
     add_equation!(eqs, FEP ~ FEC * FCUT)
-    add_equation!(eqs, NC ~ interpolate(t, tables[:NC], ranges[:NC]))
+    add_equation!(eqs, NC ~ interpolate1(t, [(1980.,75.),(2000.,310.),(2020.,310.),(2098.9,310.)]))
     add_equation!(eqs, NEP ~ NC * NCUT)
     add_equation!(eqs, EP ~ FEP + NEP + REP)
     add_equation!(eqs, ELB ~ EP / DE)
