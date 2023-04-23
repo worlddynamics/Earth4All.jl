@@ -34,6 +34,12 @@ _params = Dict{Symbol,Float64}(
     :EKHPY => 8,
     :FECCT => 3,
     :NLFEC => 40,
+    :sFCUTLOFC => 0.5,
+    :NCUT => 8,
+    :TCE => 0.03,
+    :AFMCM => 1.35,
+    :TCFFFNEU => 240,
+    :TC => 0.02,
 
 )
 

@@ -8,6 +8,8 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GDPP(t)
     @variables POP(t)
     @variables IPP(t)
+    @variables GDP(t) 
+    @variables CAC(t)
 
     @parameters MNFCO2PP = params[:MNFCO2PP] [description = "Max non-fossil CO2 per person tCO2/p/y"]
     @parameters FCO2SCCS2022 = params[:FCO2SCCS2022] [description = "Fraction of CO2-sources with CCS in 2022"]
@@ -38,12 +40,18 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters KWEPKGH2 = params[:KWEPKGH2] [description = "kWh electricity per kg of hydrogen"]
     @parameters TPTH2 = params[:TPTH2] [description = "toe per tH2"]
     @parameters BEM = params[:BEM] [description = "Biomass energy Mtoe/y"]
-    @parameters EFPP = params[:EFPP] [description = "Effieciency of fossil power plant TWh-el/TWh-heat"]
+    @parameters EFPP = params[:EFPP] [description = "Efficiency of fossil power plant TWh-el/TWh-heat"]
     @parameters TWHPEJCE = params[:TWHPEJCE] [description = "TWh-heat per EJ - calorific equivalent"]
     @parameters MTPEJCE = params[:MTPEJCE] [description = "Mtoe per EJ - calorific equivalent"]
     @parameters EKHPY = params[:EKHPY] [description = "8 khours per year"]
-    @parameters FECCT = params[:FECCT] [description = "Fossil el cap contruction time y"]
+    @parameters FECCT = params[:FECCT] [description = "Fossil el cap construction time y"]
     @parameters NLFEC = params[:NLFEC] [description = "Normal life of fossil el capacity y"]
+    @parameters sFCUTLOFC = params[:sFCUTLOFC] [description = "sFCUTeoLOFC>0"]
+    @parameters NCUT = params[:NCUT] [description = "Nuclear capacity up-time kh/y"]
+    @parameters TCE = params[:TCE] [description = "Traditional cost of electricity $/kWh"]
+    @parameters AFMCM = params[:AFMCM] [description = "Adjustment factor to make cost match 1980 - 2022"]
+    @parameters TCFFFNEU = params[:TCFFFNEU] [description = "Traditional cost of fossil fuels for non-el use $/toe"]
+    @parameters TC = params[:TC] [description = "Transmission cost $/kWh"]
 
    
     @variables NFCO2PP(t) [description = "Non-fossil CO2 per person tCO2/p/y"]
@@ -101,6 +109,31 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables DFECC(t) [description = "Desired fossil el capacity change GW/y"]
     @variables AFEC(t) [description = "Addition of fossil el capacity GW/y"]
     @variables FEC(t) = inits[:FEC] [description = "Fossil el capacity GW"]
+    @variables LFEC(t) [description = "Life of fossil el capacity"]
+    @variables DIFEC(t) [description = "Discard of fossil el capacity GW/y"]
+    @variables FCUT(t) [description = "Fossil capacity up-time kh/y"]
+    @variables FCUTLOFC(t) [description = "FCUTeoLOFC"]
+    @variables FEP(t) [description = "Fossil electricity production TWh/y"]
+    @variable NC(t) [description = "Nuclear capacity GW"]
+    @variables NEP(t) [description = "Nuclear electricity production TWh/y"]
+    @variables EP(t) [description = "Electricity production TWh/y"]
+    @variables ELB(t) [description = "ELectricity balance"]
+    @variables FFPNE(t) [description = "Fraction fossil plus nuclear electricity"]
+    @variables EU(t) [description = "Energy use Mtoe/y"]
+    @variables EUPP(t) [description = "Energy use per person toe/p/y"]
+    @variables FFE(t) [description = "Fossil fuels for electricity Mtoe/y"]
+    @variables TCEG(t) [description = "Traditional cost of electricity G$/y"]
+    @variables TCFFFNEUG(t) [description = "Traditional cost of fossil fuels for non-el-use G$/y"]
+    @variables CFFFNEU(t) [description = "Cost of fossil fuels for non-el-use G$/y"]
+    @variables CG(t) [description = "Cost of grid G$/y"]
+    @variables TGC(t) [description = "Traditional grid cost G$/y"]
+    @variables TCEN(t) [description = "Traditional cost of energy G$/y"]
+    @variables TCENSGDP(t) [description = "Traditional cost of energy as share of GDP"]
+    @variables CE(t) [description = "Cost of energy G$/y"]
+    @variables RECTEC(t) [description = "Ratio of Energy cost to Trad Energy cost"]
+    @variables CESGDP(t) [description = "Cost of energy as share of GDP"]
+    @variables ECETSGDP(t) [description = "Extra cost of Energy Turnaround as share of GDP"]
+    
 
     eqs = []
 
@@ -124,7 +157,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CNE ~ (ECRUNEFF / 1000) * ERDNEFFFNE)
     add_equation!(eqs, EIDEFNE ~ ERDNEFFFNE * EUEPRUNEFF)
     add_equation!(eqs, DFFFNEU ~ DFFNEUBNE - ERDNEFFFNE)
-    add_equation!(eqs, UFF ~ DFFFNEU + FFE) # FFE to be defined
+    add_equation!(eqs, UFF ~ DFFFNEU + FFE) 
     add_equation!(eqs, DE ~ DEBNE + EIDEFNE)
     add_equation!(eqs, DRES ~ REFF1980 + ramp(t, (REFF2022 - REFF1980) / 42, 1980, 2022) + ramp(t, (GREF - REFF2022) / IPP, 2022, 2022 + IPP))
     add_equation!(eqs, DSRE ~ DE * DRES)
@@ -142,7 +175,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, OPEXREG ~ OPEXRED * REP) 
     add_equation!(eqs, CRE ~ CAPEXREG + OPEXREG)
     add_equation!(eqs, CAPEXFEG ~ CAPEXFED * AFEC) 
-    add_equation!(eqs, OPEXFEG ~ OPEXFED * FEP) # FEP to be defined
+    add_equation!(eqs, OPEXFEG ~ OPEXFED * FEP)
     add_equation!(eqs, CFE ~ CAPEXFEG + OPEXFEG)
     add_equation!(eqs, CEL ~ CRE + CFE + CNED)
     add_equation!(eqs, REP ~ REC * RCUT)
@@ -153,13 +186,36 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, IIASAREP ~ REP / TWEPEJEE + RHP / MTPEJEE)
     add_equation!(eqs, FTWEPMt ~ TWEPEJEE / MTPEJCE)
     add_equation!(eqs, IIASAFEP ~ UFF / MTPEJCE)
-    add_equation!(eqs, LCEP ~ REP + NEP) # NEP to be defined
+    add_equation!(eqs, LCEP ~ REP + NEP) 
     add_equation!(eqs, DFE ~ max(0, DE - LCEP))
     add_equation!(eqs, DFEC ~ DFE / EKHPY)
-    add_equation!(eqs, DFECC ~ (DFEC - FEC) / FECCT + DIFEC) # DIFEC to be defined
+    add_equation!(eqs, DFECC ~ (DFEC - FEC) / FECCT + DIFEC) 
     add_equation!(eqs, AFEC ~ max(0, DFECC))
     add_equation!(eqs, D(FEC) ~ AFEC - DFEC)
-
+    add_equation!(eqs, LFEC ~ NLFEC * FCUTLOFC) 
+    add_equation!(eqs, DIFEC ~ FEC / LFEC)
+    add_equation!(eqs, FCUT ~ DFE / FEC)
+    add_equation!(eqs, FCUTLOFC ~ 1 + sFCUTLOFC * ((FCUT / EKHPY) - 1))
+    add_equation!(eqs, FEP ~ FEC * FCUT)
+    add_equation!(eqs, NC ~ interpolate(t, tables[:NC], ranges[:NC]))
+    add_equation!(eqs, NEP ~ NC * NCUT)
+    add_equation!(eqs, EP ~ FEP + NEP + REP)
+    add_equation!(eqs, ELB ~ EP / DE)
+    add_equation!(eqs, FFPNE ~ (FEP + NEP) / EP)
+    add_equation!(eqs, EU ~ DFFFNEU + EP / FTWEPMt + RHP)
+    add_equation!(eqs, EUPP ~ EU / POP)
+    add_equation!(eqs, FFE ~ FEP / FTWEPMt)
+    add_equation!(eqs, TCEG ~ (DEBNE * TCE / 1000) * AFMCM)
+    add_equation!(eqs, TCFFFNEUG ~ (DFFNEUBNE * TCFFFNEU / 1000) * AFMCM)
+    add_equation!(eqs, CFFFNEU ~ (DFFFNEU * TCFFFNEU) / 1000 )
+    add_equation!(eqs, CG ~ EP * TC)
+    add_equation!(eqs, TGC ~ DEBNE * TC)
+    add_equation!(eqs, TCEN ~ TCE + TCFFFNEU + TGC)
+    add_equation!(eqs, TCENSGDP ~ TCEN / GDP)
+    add_equation!(eqs, CE ~ CFFFNEU + CEL + CG + CNE + CCCSG + CAC)
+    add_equation!(eqs, RECTEC ~ CE / TCEN)
+    add_equation!(eqs, CESGDP ~ CE / GDP)
+    add_equation!(eqs, ECETSGDP ~ IfElse.ifelse(t > 2022, (CE - TCEN) / GDP, 0)) 
 
     return ODESystem(eqs; name=name)
 end
@@ -168,12 +224,17 @@ function energy_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables GDPP(t) [description = "GDP per person kDollar/p/y"] 
     @variables POP(t) [description = "Population Mp"]
     @variables IPP(t) [description = "Introduction period for policy y"]
+    @variables GDP(t) [description = "GDP G$/y"]
+    @variables CAC(t) [description = "Cost of air capture G$/y"]
     
     eqs = []
 
     add_equation!(eqs, GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, POP ~ interpolate(t, tables[:POP], ranges[:POP]))
     add_equation!(eqs, IPP ~ interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, CAC ~ interpolate(t, tables[:CAC], ranges[:CAC]))
     
     return ODESystem(eqs; name=name)
 end
+
