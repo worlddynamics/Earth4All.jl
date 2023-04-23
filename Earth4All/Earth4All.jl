@@ -11,7 +11,7 @@ include("Finance.jl")
 include("Public.jl")
 include("Other.jl")
 
-include("scenarios.jl")
-include("plots.jl")
+include("earth4all/scenarios.jl")
+include("earth4all/plots.jl")
 
 end
