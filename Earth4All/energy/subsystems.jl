@@ -114,7 +114,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables FCUT(t) [description = "Fossil capacity up-time kh/y"]
     @variables FCUTLOFC(t) [description = "FCUTeoLOFC"]
     @variables FEP(t) [description = "Fossil electricity production TWh/y"]
-    @variable NC(t) [description = "Nuclear capacity GW"]
+    @variables NC(t) [description = "Nuclear capacity GW"]
     @variables NEP(t) [description = "Nuclear electricity production TWh/y"]
     @variables EP(t) [description = "Electricity production TWh/y"]
     @variables ELB(t) [description = "ELectricity balance"]
@@ -144,9 +144,9 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CO2EP ~ UFF * (TCO2PT / 1000) * (1 - FCO2SCCS))
     add_equation!(eqs, CO2EMPP ~ (CO2EI / POP) * 1000)
     add_equation!(eqs, CCCSG ~ CCCSt * ICCSC)
-    add_equation!(eqs, ICCSC ~ FCO2SCSS * ( CO2NFIP + CO2EP) / (1 - FCO2SCCS))
+    add_equation!(eqs, ICCSC ~ FCO2SCCS * ( CO2NFIP + CO2EP) / (1 - FCO2SCCS))
     add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * t - 1980))
-    add_equations!(eqs, D(EEPI2022) ~ IEEPI)
+    add_equation!(eqs, D(EEPI2022) ~ IEEPI)
     add_equation!(eqs, IEEPI ~ EROCEPA2022 * 0 + step(t, EROCEPA2022, 2022))
     add_equation!(eqs, TPPUEBEE ~ interpolate(GDPP, tables[:TPPUEBEE], ranges[:TPPUEBEE]))
     add_equation!(eqs, TPPUFFNEUBEE ~ interpolate(GDPP, tables[:TPPUFFNEUBEE], ranges[:TPPUFFNEUBEE]))
@@ -183,7 +183,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GHMt ~ GHMH2 * TPTH2)
     add_equation!(eqs, RHP ~ BEM + GHMt)
     add_equation!(eqs, TWEPEJEE ~ TWHPEJCE * EFPP)
-    add_equation!(eqs, IIASAREP ~ REP / TWEPEJEE + RHP / MTPEJEE)
+    add_equation!(eqs, IIASAREP ~ REP / TWEPEJEE + RHP / MTPEJCE)
     add_equation!(eqs, FTWEPMt ~ TWEPEJEE / MTPEJCE)
     add_equation!(eqs, IIASAFEP ~ UFF / MTPEJCE)
     add_equation!(eqs, LCEP ~ REP + NEP) 
