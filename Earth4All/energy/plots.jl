@@ -10,7 +10,7 @@ end
 function _variables_en()
     @named en = energy()
     variables = [
-        (en.EU, 0, 20000, ""),
+        (en.CE, 0, 7000, ""),
       
     ]
     return variables

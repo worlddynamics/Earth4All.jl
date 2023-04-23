@@ -146,7 +146,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CO2EMPP ~ (CO2EI / POP) * 1000)
     add_equation!(eqs, CCCSG ~ CCCSt * ICCSC)
     add_equation!(eqs, ICCSC ~ FCO2SCCS * ( CO2NFIP + CO2EP) / (1 - FCO2SCCS))
-    add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * t - 1980))
+    add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * (t - 1980)))
     add_equation!(eqs, D(EEPI2022) ~ IEEPI)
     add_equation!(eqs, IEEPI ~ EROCEPA2022 * 0 + step(t, EROCEPA2022, 2022))
     add_equation!(eqs, TPPUEBEE ~ interpolate1(GDPP,[(0.,0.),(10.,4.),(20.,7.),(30.,9.),(50.,12.),(65.,13.)]))
@@ -164,8 +164,8 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, DSRE ~ DE * DRES)
     add_equation!(eqs, DREC ~ DSRE / RCUT)
     add_equation!(eqs, DRECC ~ DREC - REC) 
-    add_equation!(eqs, D(REC) ~ AREC - DREC)
-    add_equation!(eqs, AREC ~ max(0, (DREC / RECT) + (DIREC)))
+    add_equation!(eqs, D(REC) ~ AREC - DIREC)
+    add_equation!(eqs, AREC ~ max(0, (DRECC / RECT) + (DIREC)))
     add_equation!(eqs, DIREC ~ REC / LREC) 
     add_equation!(eqs, ASWC ~ AREC)
     add_equation!(eqs, D(ACSWCF1980) ~ ASWC)
@@ -192,7 +192,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, DFEC ~ DFE / EKHPY)
     add_equation!(eqs, DFECC ~ (DFEC - FEC) / FECCT + DIFEC) 
     add_equation!(eqs, AFEC ~ max(0, DFECC))
-    add_equation!(eqs, D(FEC) ~ AFEC - DFEC)
+    add_equation!(eqs, D(FEC) ~ AFEC - DIFEC)
     add_equation!(eqs, LFEC ~ NLFEC * FCUTLOFC) 
     add_equation!(eqs, DIFEC ~ FEC / LFEC)
     add_equation!(eqs, FCUT ~ DFE / FEC)
@@ -230,11 +230,11 @@ function energy_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, POP ~ interpolate(t, tables[:POP], ranges[:POP]))
-    add_equation!(eqs, IPP ~ interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, CAC ~ interpolate(t, tables[:CAC], ranges[:CAC]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, CAC ~ WorldDynamics.interpolate(t, tables[:CAC], ranges[:CAC]))
     
     return ODESystem(eqs; name=name)
 end
