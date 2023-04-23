@@ -79,7 +79,5 @@ function interpolate(x, yvalues::Vector{Float64}, xvalues::Vector{Float64})
 end
 
 function interpolate1(x, pairs::Vector{Tuple{Float64, Float64}})
-   xvalues = map(t -> t[1], pairs)
-   yvalues = map(t -> t[end], pairs)
-   interpolate(x, yvalues, xvalues)
+   interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
 end
