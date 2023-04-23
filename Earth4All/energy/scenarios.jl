@@ -8,6 +8,11 @@ function energy_run(; kwargs...)
     ]
 
     connection_eqs = [
+        en.GDPP ~ en_sup.GDPP
+        en.POP ~ en_sup.POP 
+        en.IPP ~ en_sup.IPP  
+        en.GDP ~ en_sup.GDP 
+        en.CAC ~ en_sup.CAC  
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)

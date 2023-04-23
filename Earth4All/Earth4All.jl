@@ -10,6 +10,7 @@ include("Population.jl")
 include("Finance.jl")
 include("Public.jl")
 include("Other.jl")
+include("Energy.jl")
 
 include("earth4all/scenarios.jl")
 include("earth4all/plots.jl")
