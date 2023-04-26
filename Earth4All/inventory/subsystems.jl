@@ -60,7 +60,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 	add_equation!(eqs, D(DelDI) ~ CDDI)
 	add_equation!(eqs, CDDI ~ ROC * DelDI)
 	add_equation!(eqs, DSWI ~ 1 + SINVEOSWI * (PRI / DRI - 1))
-	add_equation!(eqs, IC ~ INV * RS)
+	add_equation!(eqs, IC ~ INV / RS)
 	add_equation!(eqs, IR ~ SINVEOIN * (PRI / MRIWI - 1))
 	add_equation!(eqs, D(INV) ~ OG - DEL)
 	add_equation!(eqs, NI ~ Sa)
