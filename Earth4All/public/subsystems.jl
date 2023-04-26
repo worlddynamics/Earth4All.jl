@@ -43,9 +43,9 @@ function public_GDP_support(; name, params=_params, inits=_inits, tables=_tables
   
     eqs = []
     
-    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, GS ~ interpolate(t, tables[:GS], ranges[:GS]))    
-    add_equation!(eqs, POP ~ interpolate(t, tables[:POP], ranges[:POP]))   
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))    
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))   
      
     return ODESystem(eqs; name=name)
 end
@@ -136,17 +136,17 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, CTA ~ interpolate(t, tables[:CTA], ranges[:CTA]))   
-    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, CTPIS ~ interpolate(t, tables[:CTPIS], ranges[:CTPIS]))   
-    add_equation!(eqs, IPT ~ interpolate(t, tables[:IPT], ranges[:IPT]))
-    add_equation!(eqs, OW2022 ~ interpolate(t, tables[:OW2022] , ranges[:OW2022]))
-    add_equation!(eqs, OW ~ interpolate(t, tables[:OW], ranges[:OW]))  
-    add_equation!(eqs, GP ~ interpolate(t, tables[:GP], ranges[:GP]))  
-    add_equation!(eqs, CPUS ~ interpolate(t, tables[:CPUS], ranges[:CPUS]))  
-    add_equation!(eqs, POP ~ interpolate(t, tables[:POP], ranges[:POP]))   
-    add_equation!(eqs, GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP]))   
-    add_equation!(eqs, II ~ interpolate(t, tables[:II], ranges[:II]))   
+    add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))   
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, CTPIS ~ WorldDynamics.interpolate(t, tables[:CTPIS], ranges[:CTPIS]))   
+    add_equation!(eqs, IPT ~ WorldDynamics.interpolate(t, tables[:IPT], ranges[:IPT]))
+    add_equation!(eqs, OW2022 ~ WorldDynamics.interpolate(t, tables[:OW2022] , ranges[:OW2022]))
+    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))  
+    add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))  
+    add_equation!(eqs, CPUS ~ WorldDynamics.interpolate(t, tables[:CPUS], ranges[:CPUS]))  
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))   
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))   
+    add_equation!(eqs, II ~ WorldDynamics.interpolate(t, tables[:II], ranges[:II]))   
     
     return ODESystem(eqs; name=name)
 end

@@ -66,9 +66,9 @@ function finance_support(; name, params=_params, inits=_inits, tables=_tables, r
     
     eqs = []
 
-    add_equation!(eqs, OGR ~ interpolate(t, tables[:OGR], ranges[:OGR]))
-    add_equation!(eqs, IR ~ interpolate(t, tables[:IR], ranges[:IR]))
-    add_equation!(eqs, UR ~ interpolate(t, tables[:UR], ranges[:UR]))
+    add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
+    add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
+    add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
     
     return ODESystem(eqs; name=name)
 end

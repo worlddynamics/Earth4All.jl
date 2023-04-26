@@ -87,8 +87,8 @@ function inventory_support(; name, params=_params, inits=_inits, tables=_tables,
 
     eqs = []
 
-    add_equation!(eqs, ORO ~ interpolate(t, tables[:ORO], ranges[:ORO]))
-    add_equation!(eqs, TPP ~ interpolate(t, tables[:TPP], ranges[:TPP]))
+    add_equation!(eqs, ORO ~ WorldDynamics.interpolate(t, tables[:ORO], ranges[:ORO]))
+    add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
 
     return ODESystem(eqs; name=name)
 end

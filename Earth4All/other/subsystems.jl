@@ -27,7 +27,7 @@ function other1_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     
     return ODESystem(eqs; name=name)
 end
@@ -54,8 +54,8 @@ function other2_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, CF ~ interpolate(t, tables[:CF], ranges[:CF]))
-    add_equation!(eqs, CE ~ interpolate(t, tables[:CE], ranges[:CE]))
+    add_equation!(eqs, CF ~ WorldDynamics.interpolate(t, tables[:CF], ranges[:CF]))
+    add_equation!(eqs, CE ~ WorldDynamics.interpolate(t, tables[:CE], ranges[:CE]))
     
     return ODESystem(eqs; name=name)
 end
@@ -91,9 +91,9 @@ function other3_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, INEQ ~ interpolate(t, tables[:INEQ], ranges[:INEQ]))
-    add_equation!(eqs, GDPP ~ interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, POP ~ interpolate(t, tables[:POP], ranges[:POP]))
+    add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
     
     return ODESystem(eqs; name=name)
 end
