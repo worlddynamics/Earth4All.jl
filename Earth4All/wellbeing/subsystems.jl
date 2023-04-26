@@ -67,14 +67,14 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     add_equation!(eqs, AWBI ~ (0.5 * AWBDI + 0.5 * AWBPS) * AWBIN * AWBGW * AWBP)
     add_equation!(eqs, AWBP ~ (1 + PREAWBF * (ORP - TPR)) * WBEP)
     add_equation!(eqs, AWBPS ~ exp(DRPS + log(PSP / TPS)))
-    add_equation!(eqs, IEST ~ interpolate(INEQ / AI, tables[:IEST], ranges[:IEST]))
+    add_equation!(eqs, IEST ~ WorldDynamics.interpolate(INEQ / AI, tables[:IEST], ranges[:IEST]))
     add_equation!(eqs, IPP ~ IfElse.ifelse(EIPF > 0, EIP, RD))
     add_equation!(eqs, IRD ~ NRD * STRERD * STEERD)
     add_equation!(eqs, IST ~ PSESTR * IEST)
     smooth!(eqs, ORP, ((AWBI - PAWBI) / AWBI) / AWBPD, AWBPD)
     smooth!(eqs, PAWBI, AWBI, AWBPD)
     add_equation!(eqs, PSSGDP ~ PSP / GDPP)
-    add_equation!(eqs, PSESTR ~ interpolate(PSSGDP / SPS, tables[:PSESTR], ranges[:PSESTR]))
+    add_equation!(eqs, PSESTR ~ WorldDynamics.interpolate(PSSGDP / SPS, tables[:PSESTR], ranges[:PSESTR]))
     smooth!(eqs, RD, IRD, TCRD)
     add_equation!(eqs, STE ~ 1 + PESTF * (ORP - AP))
     add_equation!(eqs, STEERD ~ 1 + STEERDF * (STE / inits[:STE] - 1))
@@ -95,12 +95,12 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
 
     eqs = []
 
-    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
-    add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
-    add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
-    add_equation!(eqs, PW ~ WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
-    add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, INEQ ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
+    add_equation!(eqs, LPR ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
+    add_equation!(eqs, PSP ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
+    add_equation!(eqs, PW ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
+    add_equation!(eqs, WDI ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)
 end
