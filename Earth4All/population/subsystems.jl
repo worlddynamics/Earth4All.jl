@@ -121,9 +121,9 @@ function population_support(; name, params=_params, inits=_inits, tables=_tables
 
     eqs = []
 
-    add_equation!(eqs, GDP ~ interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, IPP ~ interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, OW ~ interpolate(t, tables[:OW], ranges[:OW]))
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
 
     return ODESystem(eqs; name=name)
 end
