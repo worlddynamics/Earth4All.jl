@@ -10,9 +10,7 @@ function _variables_inv()
     @named inv = inventory()
     variables = [
         (inv.PRI, 0, 2, "PRI"),
-        (inv.PI, 0, 8, "PI"),
-        
-    ]
+        (inv.PI, 0, 8, "PI"),]
     return variables
 end
 
