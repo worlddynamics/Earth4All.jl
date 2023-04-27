@@ -3,7 +3,7 @@ _inits = Dict{Symbol,Float64}(
     :CH4A => 2.5,
     :CO2A => 2600,
     :ISCEGA => 12,
-    :PWA => 0.4, #table vensim
+    :PWA => 0.4,
     :EHS => 0,
 )
 

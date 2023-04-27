@@ -143,7 +143,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, CO2GDP ~ (CO2E / GDP) * 1000)
     add_equation!(eqs, CAC ~ DACCO2 * CCCSt)
     add_equation!(eqs, DACCO2 ~ IfElse.ifelse(t > 2022, ramp(t, (DACCO22100) / IPP, 2022, 2022 + IPP), 0))
-    add_equation!(eqs, CO2A ~ CO2E + CO2FCH4 - CO2AB + CO2FCH4) #STRANGE EQUATION!
+    add_equation!(eqs, D(CO2A) ~ CO2E - CO2AB + 2 * CO2FCH4) #STRANGE EQUATION!
     add_equation!(eqs, CO2CA ~ CO2A / GCO2PP)
     add_equation!(eqs, CO2FPP ~ interpolate1(t, [(1980., 0.0032),(1990., 0.0041),(2000., 0.0046),(2020., 0.0051),(2100.,0.006)]))
     add_equation!(eqs, FCO2 ~ CO2CA * CO2FPP)
@@ -169,6 +169,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, TRHGA ~ TRSA1980 * ((OBWA + 287) / 287))
     add_equation!(eqs, HDO ~ EHS * TRHGA)
     add_equation!(eqs, D(EHS) ~ EWFF - ECIM - HDO - HTS)
+
     smooth!(eqs, PWA, OBWA, PD)
 
     return ODESystem(eqs; name=name)

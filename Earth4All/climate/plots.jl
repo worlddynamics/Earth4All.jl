@@ -10,9 +10,14 @@ function _variables_cli()
     @named cli  =  climate()
 
     variables = [
-        (cli.OBWA, 0, 0.4,""),
+        (cli.OBWA, 0, 4,"Observed warming deg C"),
+        (cli.CO2E, 0, 44, "CO2 emissions GtCO2/y"),
+        (cli.CO2CA, 0, 600, "CO2 concentration in atm ppm"),
+        (cli.MMF, 0, 8, "Man-made forcing W/m2"),
+        (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
+        (cli.WVF, 0, 8, "Water vapour feedback W/m2"),
     ]
     return variables
 end
 
-fig_cli(; kwargs...) = plotvariables(climate_run_solution(), (t, 1980, 2100), _variables_cli(); title="Climate sector plots", showaxis=false, showlegend=true, kwargs...)
+fig_cli(; kwargs...) = plotvariables(climate_run_solution(), (t, 1980, 2100), _variables_cli(); title="Climate sector plots", showaxis=true, showlegend=true, kwargs...)
