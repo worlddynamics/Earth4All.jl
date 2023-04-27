@@ -10,8 +10,7 @@ function _variables_cli()
     @named cli  =  climate()
 
     variables = [
-        (oth1.RGGDPP, 0, 0.04, "Rate of growth of GDP per person"),
-   
+        (cli.OBWA, 0, 0.4,""),
     ]
     return variables
 end

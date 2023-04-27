@@ -13,7 +13,6 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CCCSt(t)
     @variables CO2ELULUC(t)
 
-
     @parameters ERDN2OKF2022 = params[:ERDN2OKF2022] [description = "Extra rate of decline in N2O per kg fertilizer from 2022"]
     @parameters RDN2OKF = params[:RDN2OKF] [description = "Rate of decline in N2O per kg fertilizer 1/y"]
     @parameters KN2OKF1980 = params[:KN2OKF1980] [description = "kg N2O per kg fertilizer in 1980 "]
@@ -42,6 +41,20 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters GLSU = params[:GLSU] [description = "GLobal SUrface Mkm2"]
     @parameters ISCEGA1980 = params[:ISCEGA1980] [description = "Ice and snow cover excluding Greenland and Antarctica in 1980 Mkm2"]
     @parameters TRSS1980 = params[:TRSS1980] [description = "Transfer rate surface-space in 1980 1/y"]
+    @parameters MRS1980 = params[:MRS1980] [description = "Melting rate surface in 1980 1/y"]
+    @parameters WA1980 = params[:WA1980] [description = "Warming in 1980 deg C"]
+    @parameters SVDR = params[:SVDR] [description = "Surface vs deep rate"]
+    @parameters AI1980 = params[:AI1980] [description = "Amount of ice in 1980 MKm3"]
+    @parameters TPM3I = params[:TPM3I] [description = "Ton per m3 ice"]
+    @parameters HRMI = params[:HRMI] [description = "Heat required to melt ice kJ/kg"]
+    @parameters OWWV = params[:OWWV] [description = "sOWeoWV>0"]
+    @parameters WVC1980 = params[:WVC1980] [description = "Water Vapour Concentration in 1980 g/kg"]
+    @parameters WVF1980 = params[:WVF1980] [description = "Water Vapour Feedback in 1980 W/m2"]
+    @parameters WVWVF = params[:WVWVF] [description = "sWVeoWVF>0"]
+    @parameters WFEH = params[:WFEH] [description = "Warming from Extra Heat deg/ZJ"]
+    @parameters EH1980 = params[:EH1980] [description = "Extra Heat in 1980 ZJ"]
+    @parameters TRSA1980 = params[:TRSA1980] [description = "Transfer rate surface-abyss in 1980 1/y"]
+    @parameters PD =params[:PD] [description = " Perception delay y"]
    
     @variables KN2OEKF(t) [description = "kg N2O emission per kg fertilizer"]
     @variables MMN2OE(t) [description = "Man-made N2O emissions GtN2O/y"]
@@ -80,6 +93,24 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables GHGE(t) [description = "GHG emissions GtCO2e/y"]
     @variables AL1980(t) [description = "ALbedo in 1980"]
     @variables AL(t) [description = "ALbedo"]
+    @variables TRHGS(t) [description = "Transfer rate for heat going to space 1/y"]
+    @variables HTS(t) [description = "Heat to space ZJ/y"]
+    @variables MRS(t) [description = "Melting rate surface 1/y"]
+    @variables MRDI(t) [description = "Melting rate deep ice 1/y"]
+    @variables ECIM(t) [description = "Extra cooling from ice melt ZJ/y"]
+    @variables MEL(t) [description = "Melting Mha/y"]
+    @variables ISCEGA(t) = inits[:ISCEGA] [description = "Ice and snow cover excluding Greenland and Antarctica Mkm2"]
+    @variables ISC(t) [description = "Ice and snow cover Mha"]
+    @variables WVC(t) [description = "Water Vapour Concentration g/kg"]
+    @variables WVF(t) [description = "Water Vapour Feedback W/m2"]
+    @variables TMMF(t) [description = "Total man-made forcing W/m2"]
+    @variables EWFF(t) [description = "Extra Warming from forcing ZJ/y"]
+    @variables OBWA(t) [description = "OBserved WArming deg C"]
+    @variables REHE(t) [description = "Risk of extreme heat event"]
+    @variables PWA(t) = inits[:PWA] [description = "Perceived warming deg C"]
+    @variables TRHGA(t)  [description = "Transfer rate for heat going to abyss 1/y"] 
+    @variables HDO(t) [description = "Heat to deep ocean ZJ/y"]
+    @variables EHS(t) = inits[:EHS] [description = "Extra heat in surface ZJ"]
 
   
     eqs = []
@@ -96,15 +127,15 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, FN2O ~ N2OCA * N2OFPP)
     add_equation!(eqs, KCH4EKC ~ KCH4KC1980 * exp(- (RDCH4KC) * (t - 1980)) * IfElse.ifelse(t > 2022, exp(-(ERDCH4KC2022) * (t - 2022)), 1))
     add_equation!(eqs, MMCH4E ~ CRSU * KCH4EKC / 1000)
-    add_equation!(eqs, NCH4E ~ interpolate1(t, [(1980.,0.19),(2020.,0.19),(2100,0.19)]))
+    add_equation!(eqs, NCH4E ~ interpolate1(t, [(1980.,0.19),(2020.,0.19),(2100.,0.19)]))
     add_equation!(eqs, CH4E ~ NCH4E + MMCH4E)
     add_equation!(eqs, CH4C1980 ~ CH4A1980 / MAT)
     add_equation!(eqs, D(CH4A) ~ CH4E - CH4BD)
     add_equation!(eqs, CH4BD ~ CH4A / LCH4A)
     add_equation!(eqs, CH4CA ~ CH4A / GCH4PP)
-    add_equation!(eqs, CH4FPP ~ interpolate1(t, [(1980.,0.82),(2000.,0.94),(2020,1.01),(2100,1.1)]))
+    add_equation!(eqs, CH4FPP ~ interpolate1(t, [(1980.,0.82),(2000.,0.94),(2020.,1.01),(2100.,1.1)]))
     add_equation!(eqs, FCH4 ~ CH4CA * CH4FPP)
-    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OBWA / OBWA2022 - 1), 1)) # OBWA to be def
+    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OBWA / OBWA2022 - 1), 1)) 
     add_equation!(eqs, LECO2A ~ LECO2A1980 * OWLCO2)
     add_equation!(eqs, CO2FCH4 ~ CH4BD * TCO2PTCH4)
     add_equation!(eqs, CO2AB ~ (CO2A - CO2A1850) / LECO2A) 
@@ -120,8 +151,25 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, MMF ~ FCO2 + FOG + FCH4 + FN2O)
     add_equation!(eqs, GHGE ~ CO2E * TCO2ETCO2 + CH4E * TCO2ETCH4 + N2OE * TCO2ETN2O)
     add_equation!(eqs, AL1980 ~ (ISCEGA1980 * ALIS + (GLSU - ISCEGA1980) * ALGAV) / GLSU)
-    add_equation!(eqs, AL ~ (ISCEGA * ALIS + (GLSU - ISCEGA) * ALGAV) / GLSU ) # ISCEGA to be def
-
+    add_equation!(eqs, AL ~ (ISCEGA * ALIS + (GLSU - ISCEGA) * ALGAV) / GLSU ) 
+    add_equation!(eqs, TRHGS ~ (TRSS1980 * ((OBWA + 297 ) /297)) * (AL / AL1980))
+    add_equation!(eqs, HTS ~ EHS * TRHGS) # EHS
+    add_equation!(eqs, MRS ~ MRS1980 * (OBWA / WA1980))
+    add_equation!(eqs, MRDI ~ MRS / SVDR)
+    add_equation!(eqs, ECIM ~ MRDI * AI1980 * TPM3I * HRMI)
+    add_equation!(eqs, MEL ~ ISCEGA * MRS)
+    add_equation!(eqs, D(ISCEGA) ~ - MEL)
+    add_equation!(eqs, ISC ~ ISCEGA * 100)
+    add_equation!(eqs, WVC ~ WVC1980 * (1 + OWWV * (OBWA / WA1980 - 1)))
+    add_equation!(eqs, WVF ~ WVF1980 * (1 + WVWVF * (WVC / WVC1980 - 1)))
+    add_equation!(eqs, TMMF ~ MMF + WVF)
+    add_equation!(eqs, EWFF ~ (TMMF * GLSU) * 31.5 / 1000)
+    add_equation!(eqs, OBWA ~ WA1980 + (EHS - EH1980) * WFEH)
+    add_equation!(eqs, REHE ~ interpolate1(OBWA , [(0.,1.),(1.2,4.8),(2.,8.6),(2.9,14.),(5.2,40.)]))
+    add_equation!(eqs, TRHGA ~ TRSA1980 * ((OBWA + 287) / 287))
+    add_equation!(eqs, HDO ~ EHS * TRHGA)
+    add_equation!(eqs, D(EHS) ~ EWFF - ECIM - HDO - HTS)
+    smooth!(eqs, PWA, OBWA, PD)
 
     return ODESystem(eqs; name=name)
 end
@@ -144,6 +192,7 @@ function climate_support(; name, params=_params, inits=_inits, tables=_tables, r
     add_equation!(eqs, CO2EI ~ WorldDynamics.interpolate(t, tables[:CO2EI], ranges[:CO2EI]))
     add_equation!(eqs, CCCSt ~ WorldDynamics.interpolate(t, tables[:CCCSt], ranges[:CCCSt]))
     add_equation!(eqs, CO2ELULUC ~ WorldDynamics.interpolate(t, tables[:CO2ELULUC], ranges[:CO2ELULUC]))
+
     return ODESystem(eqs; name=name)
 end
 
