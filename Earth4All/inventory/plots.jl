@@ -21,5 +21,5 @@ function _variables_inv()
     return variables
 end
 
-fig_inv(; kwargs...) = plotvariables(inv_run_solution(), (t, 1980, 2100), _variables_inv(); title="Inventory sector plots", showaxis=true, showlegend=true, kwargs...)
+fig_inv(; kwargs...) = plotvariables(inv_run_solution(), (t, 1980, 2040), _variables_inv(); title="Inventory sector plots", showaxis=true, showlegend=true, kwargs...)
 
