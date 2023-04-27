@@ -10,8 +10,16 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables POP(t)
     @variables IPP(t)
 
+    @parameters GITRO = params[:GITRO] [description = "Goal for income tax rate owners"]
+    @parameters ITRO2022 = params[:ITRO2022] [description = "Income tax rate owners in 2022"]
+    @parameters ITRO1980 = params[:ITRO1980] [description = "Income tax rate owners in 1980"]
+
+    @variables BITRO(t) [description = "Basic income tax rate owners"]
+
     
     eqs = []
+
+    add_equation!(eqs, BITRO ~ min(1, ITRO1980) + ramp(t, (ITRO2022 - ITRO1980) / 42, 1980, 2022) + ramp(t, (GITRO - ITRO2022) / 78, 2022, 2100))
     
     return ODESystem(eqs; name=name)
 end
