@@ -15,7 +15,6 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 	@parameters NOR1 = params[:NOR1] [description = "Normal (1)"]
 	@parameters OO = params[:OO] [description = "Optimal output in 1980 Gu/y"]
 	@parameters PH = params[:PH] [description = "Pulse height (1)"]
-	@parameters PNIS = params[:PNIS]    [description = "Pink noise in sales"]
 	@parameters PPU = params[:PPU] [description = "Price per unit /u"]
 	@parameters SAT = params[:SAT] [description = "Sales averaging time y"]
 	@parameters SINVEODDI = params[:SINVEODDI] [description = "sINVeoDDI < 0"]
@@ -45,6 +44,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 	@variables IR(t) [description = "Inflation rate 1/y"]
 	@variables NI(t) [description = "National income G/y"]
 	@variables OG(t) [description = "Output Gu/y"]
+	@variables PNIS(t) [description = "Pink noise in sales"]
 	@variables ROC(t) [description = "ROC in DDI 1/y"]
 	@variables Sa(t) [description = "Sales G/y"]
 	
@@ -64,6 +64,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 	add_equation!(eqs, IR ~ SINVEOIN * (PRI / MRIWI - 1))
 	add_equation!(eqs, D(INV) ~ OG - DEL)
 	add_equation!(eqs, NI ~ Sa)
+	add_equation!(eqs, PNIS~ 1)
 	add_equation!(eqs, OG ~ ORO * SsWI / SWI)
 	add_equation!(eqs, D(PI) ~ CPI)
 	add_equation!(eqs, CPI ~ PI * IR)
