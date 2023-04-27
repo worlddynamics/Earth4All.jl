@@ -13,6 +13,7 @@ include("Other.jl")
 include("Energy.jl")
 include("Inventory.jl")
 include("Climate.jl")
+include("Demand.jl")
 
 include("earth4all/scenarios.jl")
 include("earth4all/plots.jl")
