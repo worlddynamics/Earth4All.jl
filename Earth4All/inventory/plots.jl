@@ -9,16 +9,17 @@ end
 function _variables_inv()
     @named inv = inventory()
     variables = [
-        
-        (inv.PI, 0, 8, "PI"),
-        (inv.PRI, 0, 2, "PRI" ),
-        (inv.DelDI, 0, 1, "Delivery delay Index" ),
-        (inv.IR, 0, 0.4, "IR")
+        (inv.PNIS, 0, 2, "PNIS"),
+        (inv.PRI, 0, 1.5, "PRI" ),
+        (inv.DelDI, 0.9, 1.1, "Delivery Delay Index" ),
+        (inv.IR, -0.1, 0.1, "IR"),
+        (inv.PI, 0,4, "PI")
+
 
         
     ]
     return variables
 end
 
-fig_inv(; kwargs...) = plotvariables(inv_run_solution(), (t, 1980, 2100), _variables_inv(); title="Inventory sector plots", showaxis=true, showlegend=true, kwargs...)
+fig_inv(; kwargs...) = plotvariables(inv_run_solution(), (t, 1980, 2040), _variables_inv(); title="Inventory sector plots", showaxis=true, showlegend=true, kwargs...)
 

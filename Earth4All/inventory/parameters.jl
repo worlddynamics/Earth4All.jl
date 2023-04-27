@@ -9,7 +9,6 @@ _params = Dict{Symbol,Float64}(
     :NOR1 => 1,
     :OO => 28087,
     :PH => 0,
-    :PNIS => 1,
     :PPU => 1,
     :SAT => 1,
     :SINVEODDI => -0.6,

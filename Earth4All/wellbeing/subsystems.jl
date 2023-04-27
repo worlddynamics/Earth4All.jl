@@ -95,12 +95,12 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
 
     eqs = []
 
-    add_equation!(eqs, GDPP ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, INEQ ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
-    add_equation!(eqs, LPR ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
-    add_equation!(eqs, PSP ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
-    add_equation!(eqs, PW ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
-    add_equation!(eqs, WDI ~ WorldDynamics.WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
+    add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
+    add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
+    add_equation!(eqs, PW ~ WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
+    add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)
 end
