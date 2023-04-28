@@ -27,6 +27,9 @@ _params = Dict{Symbol,Float64}(
     :MGDB => 1,
     :GDDP => 10,
     :GPP => 200,
+    :FGDC2022 => 0.1,   
+    :TAB => 1,
+    :GCF => 0.75,
 
 
 )

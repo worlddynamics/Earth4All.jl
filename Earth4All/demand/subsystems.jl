@@ -47,6 +47,9 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters MGDB = params[:MGDB] [description = "Max government debt burden y"]
     @parameters GDDP = params[:GDDP] [description = "Government DrawDown period y"]
     @parameters GPP = params[:GPP] [description = "Government Payback period y"]
+    @parameters FGDC2022 = params[:FGDC2022] [description = "Fraction of government debt cancelled in 2022 1/y"]
+    @parameters TAB = params[:TAB] [description = "Time to adjust budget y"]
+    @parameters GCF = params[:GCF] [description = "Government consumption fraction"]
 
 
     @variables BITRO(t) [description = "Basic income tax rate owners"]
@@ -75,7 +78,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables OOIAT(t) [description = "Owner operating income after taxes GDollar/y"]
     @variables INEQ(t) [description = "Inequality"]
     @variables INEQI(t) [description = "Inequality index (1980 = 1)"]
-    @variables OCI(t) [description = "Owner cash inflow GDollar/y"]
+    @variables OCIN(t) [description = "Owner cash inflow GDollar/y"]
     @variables POCI(t) = inits[:POCI] [description = "Permanent owner cash inflow GDollar/y"]
     @variables OSF(t) [description = "Owner savings fraction"]
     @variables OCF(t) [description = "Owner consumption fraction"]
@@ -103,7 +106,25 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables CSGDP(t) [description = "Consumption as share of GDP"] 
     @variables CPP(t) [description = "Consumption per person GDollar/y"]
     @variables MGD(t) [description = "Max government debt GDollar"]
-
+    @variables GND(t) [description = "Government new debt GDollar/y"]
+    @variables GD(t) = inits[:GD] [description = "Government debt GDollar"] 
+    @variables GP(t) [description = "Government payback GDollar/y"]
+    @variables CANCD(t) [description = "Cancellation of debt GDollar/y"]
+    @variables GIC(t) [description = "Government interest cost GDollar/y"]
+    @variables CFGB(t) [description = "Cash flow from government to banks GDollar/y"]
+    @variables BCIL(t) [description = "Bank cash inflow form lending GDollar/y"]
+    @variables BCISNI(t) [description = "Bank cash inflow as share of NI"]
+    @variables GDB(t) [description = "Government debt burden y"]
+    @variables GFSNI(t) [description = "Government finance as share of NI"]
+    @variables GCIN(t) [description = "Government cash inflow GDollar/y"]
+    @variables TPP(t) [description = "Total purchasing power GDollar/y"]
+    @variables PGCIN(t) = inits[:PGCIN] [description = "Permanent government cash inflow GDollar/y"]
+    @variables GPU(t) [description = "Government purchases GDollar/y"]
+    @variables GIPC(t) [description = "Government investments in public capacity GDollar/y"]
+    @variables GS(t) [description = "Government spendings GDollar/y"]
+    @variables GSGDP(t) [description = "Government share of GDP"]
+    @variables SSGDP(t) [description = "Savings share of GDP"]
+    @variables CONTR(t) [description = "Control variable (C+G+S)/NI = 1"]
     
 
     
@@ -117,7 +138,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GETF2022 ~ EGTF2022 + ETTAF2022)
     smooth!(eqs, ETF2022, GETF2022, TINT)
     add_equation!(eqs, WT ~ ITW + ETF2022 * (1 - FETPO))
-    add_equation!(eqs, WI ~ NI * WSO)
+    add_equation!(eqs, WI ~ NI * WSO)GIPC
     add_equation!(eqs, WTR ~ WT / WI)
     add_equation!(eqs, GFGBW ~ FT1980 + IfElse.ifelse(t > 2022, ETGBW, 0))
     smooth!(eqs, FGBW, GFGBW, TINT)
@@ -129,13 +150,13 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GGI ~ WT + OT + STO + STW + IC2022)
     add_equation!(eqs, TP ~ GGI * FGBW)
     add_equation!(eqs, WIAT ~ WI - WT + TP)
-    add_equation!(eqs, GNI ~ GGI - TP + ST) # ST is not defined yet
+    add_equation!(eqs, GNI ~ GGI - TP + ST)
     add_equation!(eqs, GNISNI ~ GNI / NI)
     add_equation!(eqs, OOIAT ~ OI - OT) 
     add_equation!(eqs, INEQ ~ OOIAT / WIAT)
     add_equation!(eqs, INEQI ~ INEQ / INEQ1980)
-    add_equation!(eqs, OCI ~ OOIAT)
-    smooth!(eqs, POCI, OCI, TAOC)
+    add_equation!(eqs, OCIN ~ OOIAT)
+    smooth!(eqs, POCI, OCIN, TAOC)
     add_equation!(eqs, OSF ~ OSF1980 + (1 + GDPOSR * (EGDPP / GDPP -1)))
     add_equation!(eqs, OCF ~ 1 - OSF)
     add_equation!(eqs, OC ~ POCI * OCF)
@@ -162,6 +183,25 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CSGDP ~ CD / NI)
     add_equation!(eqs, CPP ~ CD / POP)
     add_equation!(eqs, MGD ~ NI * MGDB)
+    add_equation!(eqs, GND ~ max(0, (MGD - GD) / GDDP) + step(t, GSF2022, 2022) * NI)
+    add_equation!(eqs, D(GD) ~ GND - CANCD - GP)
+    add_equation!(eqs, GP ~ GD / GPP)
+    add_equation!(eqs, CANCD ~ pulse(t, 2022,1) * GD * FGDC2022 )
+    add_equation!(eqs, GIC ~ GD * GBC)
+    add_equation!(eqs, CFGB ~ GIC + GP - GND)
+    add_equation!(eqs, BCIL ~ CFWB + CFGB)
+    add_equation!(eqs, BCISNI ~ BCIL / NI)
+    add_equation!(eqs, GDB ~ GD / NI)
+    add_equation!(eqs, GFSNI ~ (GIC + GP) / NI)
+    add_equation!(eqs, GCIN ~ GNI - CFGB)
+    add_equation!(eqs, TPP ~ WCIN + GCIN + OCIN - ST)
+    smooth!(eqs, PGCIN, GCIN, TAB)
+    add_equation!(eqs, GPU ~ PGCIN * GCF)
+    add_equation!(eqs, GIPC ~ PGCIN - GPU)
+    add_equation!(eqs, GS ~ GPU + GIPC)
+    add_equation!(eqs, GSGDP ~ GS / NI)
+    add_equation!(eqs, SSGDP ~ TS / NI)
+    add_equation!(eqs, CONTR ~ CSGDP + GSGDP + SSGDP)
 
     
     return ODESystem(eqs; name=name)
