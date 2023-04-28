@@ -1,5 +1,6 @@
 include("../functions.jl")
 @register ramp(x, slope, startx, endx)
+@register pulse(x, start, width)
 
 
 @variables t
@@ -33,7 +34,6 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters GEIC = params[:GEIC] [description = "Goal for extra income from commons (share of NI)"]
     @parameters INEQ1980 = params[:INEQ1980] [description = "Inequality in 1980"]
     @parameters TAOC = params[:TAOC] [description = "Time to adjust owner consumption y"]
-    @parameters OCI1980 = params[:OCI1980] [description = "Owner cash inflow in 1980"]
     @parameters GDPOSR = params[:GDPOSR] [description = "sGDPeoOSR<0"]
     @parameters OSF1980 = params[:OSF1980] [description = "Owner savings fraction in 1980"]
     @parameters MWDB = params[:MWDB] [description = "Max workers debt burden y"]
@@ -56,7 +56,6 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables ITO(t) [description = "Income tax owners"]
     @variables ITW(t) [description = "Income tax workers"]
     @variables EGTF2022(t) [description = "Extra general tax from 2022"]
-    @variables EPTF2022(t) [description = "Extra pension tax from 2022"]
     @variables ETTAF2022(t) [description = "Extra taxes for TAs from 2022 GDollar/y"]
     @variables GETF2022(t) [description = "Goal for extra taxes from 2022 GDollar/y"]
     @variables ETF2022(t) = inits[:ETF2022] [description = "Extra taxes from 2022 GDollar/y"]
@@ -73,8 +72,8 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GGI(t) [description = "Government gross income GDollar/y"]
     @variables TP(t) [description = "Transfer payments GDollar/y"]
     @variables WIAT(t) [description = "Worker income after taxes GDollar/y"]
-    @variables GNI(t) [description = "Gross net income GDollar/y"]
-    @variables GNISNI(t) [description = "Gross net income as share of NI"]
+    @variables GNI(t) = inits[:GNI] [description = "Governament net income GDollar/y"]
+    @variables GNISNI(t) [description = "Governament net income as share of NI"]
     @variables OOIAT(t) [description = "Owner operating income after taxes GDollar/y"]
     @variables INEQ(t) [description = "Inequality"]
     @variables INEQI(t) [description = "Inequality index (1980 = 1)"]
@@ -133,16 +132,16 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, BITRO ~ min(1, ITRO1980) + ramp(t, (ITRO2022 - ITRO1980) / 42, 1980, 2022) + ramp(t, (GITRO - ITRO2022) / 78, 2022, 2100))
     add_equation!(eqs, ITO ~ BITRO * NI * (1 - WSO))
     add_equation!(eqs, ITW ~ BITRW * NI * WSO)
-    add_equation!(eqs, EPTF2022 ~ IfElse.ifelse(t > 2022, EGTRF2022 + EETF2022 + EPTF2022, 0) * NI)
     add_equation!(eqs, ETTAF2022 ~ IfElse.ifelse(t > 2022, ECTAF2022  * FETACPET, 0))
+    add_equation!(eqs, EGTF2022 ~ IfElse.ifelse(t > 2022, EGTRF2022 + EETF2022 + EPTF2022, 0) * NI)
     add_equation!(eqs, GETF2022 ~ EGTF2022 + ETTAF2022)
     smooth!(eqs, ETF2022, GETF2022, TINT)
     add_equation!(eqs, WT ~ ITW + ETF2022 * (1 - FETPO))
-    add_equation!(eqs, WI ~ NI * WSO)GIPC
+    add_equation!(eqs, WI ~ NI * WSO)
     add_equation!(eqs, WTR ~ WT / WI)
     add_equation!(eqs, GFGBW ~ FT1980 + IfElse.ifelse(t > 2022, ETGBW, 0))
     smooth!(eqs, FGBW, GFGBW, TINT)
-    add_equation!(eqs, IC2022 ~ NI * IfElse.ifelse(t > 2022, ramp(t, GEIC / IPP, 2022, 2022 + IPP),0))
+    add_equation!(eqs, IC2022 ~ NI * IfElse.ifelse(t > 2022, ramp(t, GEIC / IPP, 2022, 2020 + IPP),0))
     add_equation!(eqs, OT ~ ITO + ETF2022 * FETPO)
     add_equation!(eqs, OI ~ NI * (1 - WSO))
     add_equation!(eqs, OTR ~ OT / OI)
@@ -186,7 +185,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GND ~ max(0, (MGD - GD) / GDDP) + step(t, GSF2022, 2022) * NI)
     add_equation!(eqs, D(GD) ~ GND - CANCD - GP)
     add_equation!(eqs, GP ~ GD / GPP)
-    add_equation!(eqs, CANCD ~ pulse(t, 2022,1) * GD * FGDC2022 )
+    add_equation!(eqs, CANCD ~ pulse(t, 2022.,1.) * GD * FGDC2022 )
     add_equation!(eqs, GIC ~ GD * GBC)
     add_equation!(eqs, CFGB ~ GIC + GP - GND)
     add_equation!(eqs, BCIL ~ CFWB + CFGB)

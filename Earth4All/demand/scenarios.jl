@@ -9,10 +9,15 @@ function demand_run(; kwargs...)
 
     connection_eqs = [
         dem.GDPP ~ dem_sup.GDPP
-        dem.POP ~ dem_sup.POP 
-        dem.IPP ~ dem_sup.IPP  
-        dem.GDP ~ dem_sup.GDP 
-        dem.CAC ~ dem_sup.CAC  
+        dem.POP ~ dem_sup.POP
+        dem.IPP ~ dem_sup.IPP
+        dem.WSO ~ dem_sup.WSO
+        dem.NI ~ dem_sup.NI
+        dem.ECTAF2022 ~ dem_sup.ECTAF2022
+        dem.GBC ~ dem_sup.GBC
+        dem.WBC ~ dem_sup.WBC
+        dem.WF ~ dem_sup.WF
+        dem.EGDPP ~ dem_sup.EGDPP
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)
