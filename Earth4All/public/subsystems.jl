@@ -83,18 +83,18 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 end
 
 function public_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables CPUS(t) [description = "Capacity PUS Geu"]
-    @variables CTA(t) [description = "Cost of TAs Gdollar/y"]
-    @variables CTPIS(t) [description = "Construction Time PIS y"]
-    @variables GDP(t) [description = "GDP Gdollar/y"]
-    @variables GDPP(t) [description = "GDP per Person kDollar/p/k"]
-    @variables GP(t) [description = "Government Purchases Gdollar/y"]
-    @variables GS(t) [description = "Government Spending Gdollar/y"]
-    @variables II(t) [description = "Inequality Index"]
-    @variables IPT(t) [description = "Investment Planning Time y"]
-    @variables OW(t) [description = "Observed Warming deg C"]
-    @variables OW2022(t) [description = "Observed Warming in 2022 deg C"]
-    @variables POP(t) [description = "POPulation Mp"]
+    @variables CPUS(t) [description = "Output.Capacity PUS Geu"]
+    @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
+    @variables CTPIS(t) [description = "Output.Construction time PIS y"]
+    @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
+    @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
+    @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
+    @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
+    @variables II(t) [description = "Demand.Inequality index"]
+    @variables IPT(t) [description = "Output.Investment planning time y"]
+    @variables OW(t) [description = "Climate.Observed warming deg C"]
+    @variables OW2022(t) [description = "Climate.Observed warming in 2022 deg C"]
+    @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
 
