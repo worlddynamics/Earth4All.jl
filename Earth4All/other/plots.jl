@@ -6,15 +6,16 @@ function oth_run_solution()
     global _solution_oth_run = WorldDynamics.solve(other_run(), (1980, 2100), dt=0.015625, dtmax=0.015625)
     return _solution_oth_run
 end
+
 function _variables_oth()
-    @named oth1  =  other1()
-    @named oth2  =  other2()
-    @named oth3  =  other3()
+    @named oth = other()
+
     variables = [
-        (oth1.RGGDPP, 0, 0.04, "Rate of growth of GDP per person"),
-        (oth2.CTA, 0, 20000, "Cost of TAs"),
-        (oth3.PB15, 0, 10000, "Population below 15"),
+        (oth.CTA, 0, 20000, "CTA"),
+        (oth.PB15, 0, 10000, "PB15"),
+        (oth.RGGDPP, 0, 0.04, "RGGDPP"),
     ]
+
     return variables
 end
 

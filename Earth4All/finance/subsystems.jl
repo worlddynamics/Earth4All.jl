@@ -5,42 +5,42 @@ include("../functions.jl")
 D = Differential(t)
 
 function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables OGR(t)
+    @parameters GRCR = params[:GRCR] [description = "sGReoCR<0: Growth Rate effect on Credit Risk"]
+    @parameters FSRT = params[:FSRT] [description = "Financial Sector Response Time y"]
+    @parameters NBOM = params[:NBOM] [description = "Normal Bank Operating Margin 1/y"]
+    @parameters NBBM = params[:NBBM] [description = "Normal Basic Bank Margin 1/y"]
+    @parameters NSR = params[:NSR] [description = "Normal Signal Rate 1/y"]
+    @parameters IEFT = params[:IEFT] [description = "Inflation Expectation Formation Time y"]
+    @parameters IPT = params[:IPT] [description = "Inflation Perception Time CB y"]
+    @parameters UPT = params[:UPT] [description = "Unemployment Perception Time CB y"]
+    @parameters INSR = params[:INSR] [description = "sINeoSR>0: INflation effect on Signal Rate"]
+    @parameters IT = params[:IT] [description = "Inflation Target 1/y"]
+    @parameters UT = params[:UT] [description = "Unemployment Target"]
+    @parameters UNSR = params[:UNSR] [description = "sUNeoSR<0: UNemployment effect on Signal Rate"]
+    @parameters SRAT = params[:SRAT] [description = "Signal Rate Adjustment Time y"]
+
+    @variables NCCR(t) [description = "Normal Corporate Credit Risk 1/y"]
+    @variables CBC(t) [description = "Corporate Borrowing Cost 1/y"]
+    @variables TIR(t) [description = "3m Interest Rate 1/y"]
+    @variables CCSD(t) = inits[:CCSD] [description = "Cost of Capital for Secured Debt 1/y"]
+    @variables WBC(t) [description = "Working Borrowing Cost 1/y"]
+    @variables GBC(t) [description = "Government Borrowing Cost 1/y"]
+    @variables CBC1980(t) [description = "Corporate Borrowing Cost in 1980 1/y"]
+    @variables TGIR(t) [description = "10-year Government Interest Rate 1/y"]
+    @variables ELTI(t) = inits[:ELTI] [description = "Expected Long Term Inflation 1/y"]
+    @variables PI(t) = inits[:PI] [description = "Perceived Inflation CB 1/y"]
+    @variables PU(t) = inits[:PU] [description = "Perceived Unemployment CB"]
+    @variables ISR(t) [description = "Indicated Signal Rate 1/y"]
+    @variables CSR(t) [description = "Change in Signal Rate 1/y"]
+    @variables CBSR(t) = inits[:CBSR] [description = "Central Bank Signal Rate 1/y"]
+
     @variables IR(t)
+    @variables OGR(t)
     @variables UR(t)
-
-    @parameters GRCR = params[:GRCR] [description = "sGReoCR<0"]
-    @parameters FSRT = params[:FSRT] [description = "Financial sector response time y"]
-    @parameters NBOM = params[:NBOM] [description = "Normal bank operating margin 1/y"]
-    @parameters NBBM = params[:NBBM] [description = "Normal basic bank margin 1/y"]
-    @parameters NSR = params[:NSR] [description = "Normal signal rate 1/y"]
-    @parameters IEFT = params[:IEFT] [description = "Inflation expectation formation time y"]
-    @parameters IPT = params[:IPT] [description = "Inflation perception time CB y"]
-    @parameters UPT = params[:UPT] [description = "Unemployment perception time CB y"]
-    @parameters INSR = params[:INSR] [description = "sINeoSR>0"]
-    @parameters IT = params[:IT] [description = "Inflation target 1/y"]
-    @parameters UT = params[:UT] [description = "Unemployment target"]
-    @parameters UNSR = params[:UNSR] [description = "sUNeoSR<0"]
-    @parameters SRAT = params[:SRAT] [description = "Signal rate adjustment time y"]
-
-    @variables NCCR(t) [description = "Normal corporate credit risk 1/y"]
-    @variables CBC(t)  [description = "Corporate borrowing cost 1/y"]
-    @variables TIR(t) [description = "3m interest rate 1/y"]
-    @variables CCSD(t) = inits[:CCSD] [description = "Cost of capital for secured debt 1/y"]
-    @variables WBC(t) [description = "Working borrowing cost 1/y"]
-    @variables GBC(t) [description = "Government borrowing cost 1/y"]
-    @variables CBC1980(t) [description = "Corporate borrowing cost in 1980 1/y"]
-    @variables TGIR(t) [description = "10 - year government interest rate 1/y"]
-    @variables ELTI(t) = inits[:ELTI] [description = "Expected long term inflation 1/y"]
-    @variables PI(t) = inits[:PI] [description = "Perceived inflation CB 1/y"]
-    @variables PU(t) = inits[:PU] [description = "Perceived unemployment CB"]
-    @variables ISR(t) [description = "Indicated signal rate 1/y"]  
-    @variables CSR(t) [description = "Change in signal rate 1/y"]
-    @variables CBSR(t) = inits[:CBSR] [description = "Central bank signal rate 1/y"]
 
     eqs = []
 
-    add_equation!(eqs, NCCR ~ 0.02 *(1 + GRCR * (OGR / 0.03 -1))) 
+    add_equation!(eqs, NCCR ~ 0.02 * (1 + GRCR * (OGR / 0.03 - 1)))
     add_equation!(eqs, CBC ~ CCSD + NCCR)
     add_equation!(eqs, TIR ~ CBSR + NBBM)
     add_equation!(eqs, WBC ~ CCSD)
@@ -50,8 +50,8 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
     add_equation!(eqs, CSR ~ (ISR - CBSR) / SRAT)
     add_equation!(eqs, D(CBSR) ~ CSR)
-    
-    smooth!(eqs, CCSD, TIR+NBOM, FSRT)
+
+    smooth!(eqs, CCSD, TIR + NBOM, FSRT)
     smooth!(eqs, ELTI, PI, IEFT)
     smooth!(eqs, PI, IR, IPT)
     smooth!(eqs, PU, UR, UPT)
@@ -60,15 +60,15 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 end
 
 function finance_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables OGR(t) [description = "Output growth rate 1/y"] 
-    @variables IR(t) [description = "Inflation rate 1/y"]
-    @variables UR(t) [description = "Unemployment rate"]
-    
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables OGR(t) [description = "Output.Output Growth Rate 1/y"]
+    @variables UR(t) [description = "Labour market.Unemployment Rate"]
+
     eqs = []
 
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
     add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
-    
+
     return ODESystem(eqs; name=name)
 end

@@ -115,9 +115,9 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
 end
 
 function population_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDP(t) [description = "GDP GDollar/y"]
-    @variables IPP(t) [description = "Introduction period for policy y"]
-    @variables OW(t) [description = "Observed warming deg C"]
+    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    @variables OW(t) [description = "Climate.Observed warming deg C"]
 
     eqs = []
 
