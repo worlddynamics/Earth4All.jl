@@ -10,14 +10,10 @@ function _variables_inv()
     @named inv = inventory()
     variables = [
         (inv.PNIS, 0, 2, "PNIS"),
-        (inv.PRI, 0, 1.5, "PRI" ),
-        (inv.DelDI, 0.9, 1.1, "Delivery Delay Index" ),
+        (inv.PRI, 0, 1.5, "PRI"),
+        (inv.DELDI, 0.9, 1.1, "DELDI"),
         (inv.IR, -0.1, 0.1, "IR"),
-        (inv.PI, 0,4, "PI")
-
-
-        
-    ]
+        (inv.PI, 0, 4, "PI")]
     return variables
 end
 
