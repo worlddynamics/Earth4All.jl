@@ -5,16 +5,16 @@ using WorldDynamics
 
 include("functions.jl")
 
-include("Wellbeing.jl")
-include("Population.jl")
-include("Finance.jl")
-include("Public.jl")
-include("Other.jl")
-include("Energy.jl")
-include("Inventory.jl")
 include("Climate.jl")
+include("Energy.jl")
+include("Finance.jl")
 include("FoodLand.jl")
+include("Inventory.jl")
 include("LabourMarket.jl")
+include("Other.jl")
+include("Population.jl")
+include("Public.jl")
+include("Wellbeing.jl")
 
 include("earth4all/scenarios.jl")
 include("earth4all/plots.jl")
