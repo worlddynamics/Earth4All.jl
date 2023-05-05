@@ -12,6 +12,8 @@ function _variables_out()
 
     variables = [
         (out.OGR, -0.1, 0.1, "OGR"),
+        (out.OLY, 0, 350000, "OLY"),
+        (out.ORO, 0, 350000, "ORO"),
     ]
 
     return variables

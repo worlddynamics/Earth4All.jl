@@ -12,10 +12,9 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters CTPIS = params[:CTPIS] [description = "Construction Time PIS y"]
     @parameters CTPUS = params[:CTPUS] [description = "Construction Time PUS y"]
     @parameters CUCPIS1980 = (params[:CAPPIS1980] / params[:LCPIS1980]) * params[:CTPIS] * params[:EMCUC] [description = "CUC PIS in 1980 Gcu"]
-    # @parameters CUCPUS1980 = (params[:CAPPUS1980] / params[:LCPUS1980]) * params[:CTPUS] * params[:EMCUC] [description = "CUC PUS in 1980 Gcu"]
     @parameters ED1980 = params[:ED1980] [description = "Excess Demand in 1980"]
     @parameters EDEFRA = params[:EDEFRA] [description = "sEDeoFRA>0: Excess Demand Effect on FRA"]
-    @parameters EDELC = params[:EDELC] [description = "sEDeoLOC>0: Excess Demand Effect on Life of Capacity"]
+    @parameters EDELCM = params[:EDELCM] [description = "sEDeoLOC>0: Excess Demand Effect on Life of Capacity"]
     @parameters EMCUC = params[:EMCUC] [description = "Extra Mult on CUC, to avoid initial transient in investment share of GDP"]
     @parameters FCI = params[:FCI] [description = "Foreign Capital Inflow Gdollar/y"]
     @parameters FRA1980 = params[:FRA1980] [description = "FRA in 1980"]
@@ -28,7 +27,6 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters LAMBDA = params[:LAMBDA] [description = "Lambda"]
     @parameters LAUS1980 = params[:LAUS1980] [description = "Labour Use in 1980 Gph/y"]
     @parameters LCPIS1980 = params[:LCPIS1980] [description = "Life of Capacity PIS in 1980 y"]
-    @parameters LCPUS1980 = 15 * params[:OWELC] [description = "Life of Capacity PUS in 1980 y"]
     @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
     @parameters OG1980 = params[:OG1980] [description = "Output Growth in 1980 1/y (to avoid transient)"]
     @parameters OO1980 = params[:CAPPIS1980] / params[:PCORPIS] + params[:CAPPUS1980] / params[:PCORPUS] [description = "Optimal output in 1980 Gu/y"]
@@ -53,7 +51,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables CPUS(t) = params[:CAPPUS1980] [description = "Capacity PUS Gcu"]
     @variables CRR(t) [description = "Capacity Renewal Rate 1/y"]
     @variables CUCPIS(t) = (params[:CAPPIS1980] / params[:LCPIS1980]) * params[:CTPIS] * params[:EMCUC] [description = "Capacity Under Construction PIS Gcu"]
-    @variables CUCPUS(t) = (params[:CAPPUS1980] / params[:LCPUS1980]) * params[:CTPUS] * params[:EMCUC] [description = "Capacity Under Construction PUS Gcu"]
+    @variables CUCPUS(t) = inits[:CUCPUS] [description = "Capacity Under Construction PUS Gcu"]
     @variables COCA(t) [description = "COst of CApacity dollar/cu"]
     @variables ECR(t) [description = "Effect of Capacity Renewal 1/y"]
     @variables EDE(t) [description = "Excess DEmand"]
@@ -63,14 +61,15 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables FACNC(t) = inits[:FACNC] [description = "Fraction of Available Capital to New Capacity"]
     @variables FRACAMGDPPL(t) [description = "FRACA Mult from GDPpP - Line"]
     @variables FRACAMGDPPT(t) [description = "FRACA Mult from GDPpP - Table"]
-    @variables INCPIS(t) [description = "Investment in New Capacity PIS G$/y"]
+    @variables INCPIS(t) [description = "Investment in New Capacity PIS Gdollar/y"]
     @variables ISGDP(t) [description = "Investment Share of GDP"]
     @variables LCPIS(t) [description = "Life of Capacity PIS y"]
     @variables LCPUS(t) [description = "Life of Capacity PUS y"]
+    @variables LCPUS1980(t) [description = "Life of Capacity PUS in 1980 y"]
     @variables OBSGIPIS(t) [description = "Off-Balance Sheet Govmnt Inv in PIS (share of GDP)"]
     @variables OBSGIPUS(t) [description = "Off-Balance Sheet Govmnt Inv in PUS (share of GDP)"]
     @variables OGR(t) = params[:OG1980] [description = "Output Growth Rate 1/y"]
-    @variables OLY(t) = (params[:CAPPIS1980] / params[:PCORPIS] + params[:CAPPUS1980] / params[:PCORPUS]) / (1+params[:OG1980])[description="Output Last Year Gdollar/y"]
+    @variables OLY(t) = (params[:CAPPIS1980] / params[:PCORPIS] + params[:CAPPUS1980] / params[:PCORPUS]) / (1 + params[:OG1980]) [description = "Output Last Year Gdollar/y"]
     @variables OOV(t) [description = "Optimal Ouput - Value Gdollar/y"]
     @variables ORO(t) [description = "Optimal Real Output Gu/y"]
     @variables OWECC(t) [description = "OWeoCOC: Observed Warming Effect on Cost of Capacity"]
@@ -100,7 +99,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CIPIS ~ max((INCPIS + OBSGIPIS * GDP) / COCA, 0))
     add_equation!(eqs, CIPUS ~ max((GIPC + OBSGIPIS * GDP) / COCA, 0))
     add_equation!(eqs, CDPIS ~ CPIS / LCPIS)
-    add_equation!(eqs, CDPIS ~ CPUS / LCPUS)
+    add_equation!(eqs, CDPUS ~ CPUS / LCPUS)
     add_equation!(eqs, COCA ~ CC1980 * OWECC)
     add_equation!(eqs, D(CPIS) ~ CAPIS - CDPIS)
     add_equation!(eqs, D(CPUS) ~ CAPUS - CDPUS)
@@ -110,7 +109,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, ECR ~ (ITFP - ETFP) * CRR)
     add_equation!(eqs, EDE ~ TPP / OOV)
     add_equation!(eqs, EDEFCA ~ 1 + EDEFRA * (PEDE / ED1980 - 1))
-    add_equation!(eqs, EDELC ~ 1 + EDELC * (PEDE / ED1980 - 1))
+    add_equation!(eqs, EDELC ~ 1 + EDELCM * (PEDE / ED1980 - 1))
     add_equation!(eqs, D(ETFP) ~ ECR)
     smooth!(eqs, FACNC, FRA1980 * FRACAMGDPPL * (WSOEFCA + CBCEFCA + EDEFCA) / 3, IPT)
     add_equation!(eqs, FRACAMGDPPL ~ max(FRACAM, 1 + GDPPEFRACA * (GDPP / GDPP1980 - 1)))
@@ -119,6 +118,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, ISGDP ~ (INCPIS + GIPC) / GDP)
     add_equation!(eqs, LCPIS ~ (LCPIS1980 * OWELC) / EDELC)
     add_equation!(eqs, LCPUS ~ LCPUS1980)
+    add_equation!(eqs, LCPUS1980 ~ 15 * OWELC)
     add_equation!(eqs, OBSGIPIS ~ IfElse.ifelse(t > 2022, USPIS2022, 0))
     add_equation!(eqs, OBSGIPUS ~ IfElse.ifelse(t > 2022, 0.01 + USPUS2022, 0.01))
     smooth!(eqs, OGR, (ORO - OLY) / OLY, 1)
@@ -143,7 +143,7 @@ function output_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables LAUS(t) [description = "Labour and market.LAbour USe Gph/y"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
     @variables TOSA(t) [description = "Demand.TOtal SAvings Gdollar/y"]
-    @variables TPP(t) [description = "Demand.Total Purchasing Power G$/y"]
+    @variables TPP(t) [description = "Demand.Total Purchasing Power Gdollar/y"]
     @variables WASH(t) [description = "Labour and market.WAge SHare"]
 
     eqs = []

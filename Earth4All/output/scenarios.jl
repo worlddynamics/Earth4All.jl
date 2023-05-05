@@ -7,6 +7,17 @@ function output_run(; kwargs...)
     ]
 
     connection_eqs = [
+        out.CBC ~ out_sup.CBC
+        out.CBC1980 ~ out_sup.CBC1980
+        out.GDP ~ out_sup.GDP
+        out.GDPP ~ out_sup.GDPP
+        out.GIPC ~ out_sup.GIPC
+        out.ITFP ~ out_sup.ITFP
+        out.LAUS ~ out_sup.LAUS
+        out.OW ~ out_sup.OW
+        out.TOSA ~ out_sup.TOSA
+        out.TPP ~ out_sup.TPP
+        out.WASH ~ out_sup.WASH
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)
