@@ -19,7 +19,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters FCI = params[:FCI] [description = "Foreign Capital Inflow Gdollar/y"]
     @parameters FRA1980 = params[:FRA1980] [description = "FRA in 1980"]
     @parameters FRACAM = params[:FRACAM] [description = "FRACA Min"]
-    @parameters GDPP1980 = params[:GDPPEFRACA] [description = "GDP per Person in 1980"]
+    @parameters GDPP1980 = params[:GDPP1980] [description = "GDP per Person in 1980"]
     @parameters GDPPEFRACA = params[:GDPPEFRACA] [description = "sGDPppeoFRACA<0: GDP per Person Effect on FRACA"]
     @parameters IPT = params[:IPT] [description = "Investment Planning Time y"]
     @parameters JOBS1980 = params[:JOBS1980] [description = "JOBS in 1980 M-ftj"]
@@ -29,7 +29,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters LCPIS1980 = params[:LCPIS1980] [description = "Life of Capacity PIS in 1980 y"]
     @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
     @parameters OG1980 = params[:OG1980] [description = "Output Growth in 1980 1/y (to avoid transient)"]
-    @parameters OO1980 = params[:CAPPIS1980] / params[:PCORPIS] + params[:CAPPUS1980] / params[:PCORPUS] [description = "Optimal output in 1980 Gu/y"]
+    @parameters OO1980 = params[:OO1980] [description = "Optimal output in 1980 Gu/y"]
     @parameters OWECCM = params[:OWECCM] [description = "sOWeoCOC>0: Observed Warming Effect on Cost of Capacity"]
     @parameters OWELCM = params[:OWELCM] [description = "sOWeoLOC<0: Observed Warming Effect on Life of Capacity"]
     @parameters PRUN = params[:CU1980] * (1 + params[:MA1980]) [description = "Price per Unit dollar/u"]
@@ -97,7 +97,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CAPUS ~ CUCPUS / CTPUS)
     add_equation!(eqs, CBCEFCA ~ 1 + CBCEFRA * (CBC / CBC1980 - 1))
     add_equation!(eqs, CIPIS ~ max((INCPIS + OBSGIPIS * GDP) / COCA, 0))
-    add_equation!(eqs, CIPUS ~ max((GIPC + OBSGIPIS * GDP) / COCA, 0))
+    add_equation!(eqs, CIPUS ~ max((GIPC + OBSGIPUS * GDP) / COCA, 0))
     add_equation!(eqs, CDPIS ~ CPIS / LCPIS)
     add_equation!(eqs, CDPUS ~ CPUS / LCPUS)
     add_equation!(eqs, COCA ~ CC1980 * OWECC)
@@ -134,8 +134,8 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 end
 
 function output_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables CBC(t) [description = "Corporate Borrowing Cost 1/y"]
-    @variables CBC1980(t) [description = "Corporate Borrowing Cost in 1980 1/y"]
+    @variables CBC(t) [description = "Finance.Corporate Borrowing Cost 1/y"]
+    @variables CBC1980(t) [description = "Finance.Corporate Borrowing Cost in 1980 1/y"]
     @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
     @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
     @variables GIPC(t) [description = "Demand.Govmnt Investment in Public Capacity Gdollar/y"]

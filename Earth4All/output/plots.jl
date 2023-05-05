@@ -11,6 +11,8 @@ function _variables_out()
     @named out = output()
 
     variables = [
+        (out.CUCPIS, 0, 100000, "CUCPIS"),
+        (out.CUCPUS, 0, 30000, "CUCPUS"),
         (out.OGR, -0.1, 0.1, "OGR"),
         (out.OLY, 0, 350000, "OLY"),
         (out.ORO, 0, 350000, "ORO"),

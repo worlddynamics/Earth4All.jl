@@ -24,6 +24,7 @@ _params = Dict{Symbol,Float64}(
     :MA1980 => 0.25,
     :OBWA2022 => 1.35, # Taken from Climate sector
     :OG1980 => 0.06,
+    :OO1980 => 28087, # Taken from Vensim table
     :OWECCM => 0.2,
     :OWELCM => -0.1,
     :PCORPIS => 2.3,
