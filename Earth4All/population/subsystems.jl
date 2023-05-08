@@ -23,7 +23,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @parameters LEMAX = params[:LEMAX] [description = "LEmax"]
     @parameters MFM = params[:MFM] [description = "Max Fertility Multiplier"]
     @parameters MLEM = params[:MLEM] [description = "Max Life Expectancy Multiplier"]
-    @parameters OW2022 = params[:OW2022] [description = "Observed Warming in 2022 deg C"]
+    @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
     @parameters OWELE = params[:OWELE] [description = "sOWeoLE<0: Observed Warming Effect on Life Expectancy"]
     @parameters SSP2FA2022F = params[:SSP2FA2022F] [description = "SSP2 Family Action from 2022 Flag"]
     @parameters TAHI = params[:TAHI] [description = "Time to adapt to higher income y"]
@@ -104,7 +104,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, PGR ~ BIRTHR - DEATHR)
     add_equation!(eqs, POP ~ A0020 + A2040 + A4060 + A60PL)
     add_equation!(eqs, PW ~ OP / A20PA)
-    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OBWA / OW2022 - 1)), 1))
+    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OBWA / OBWA2022 - 1)), 1))
 
     delay_n!(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
     delay_n!(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)

@@ -32,7 +32,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @parameters LER80 = params[:LER80] [description = "Land Erosion Rate in 1980 1/y"]
     @parameters MFAM = params[:MFAM] [description = "Max Forest Absorption Multiplier"]
     @parameters OGRR80 = params[:OGRR80] [description = "OGRR in 1980 1/y"]
-    @parameters OW2022 = params[:OW2022] [description = "Climate.Observed Warming in 2022 deg C"]
+    @parameters OBWA2022 = params[:OBWA2022] [description = "Climate.OBserved WArming in 2022 deg C"]
     @parameters OWEACY = params[:OWEACY] [description = "sOWeoACY<0: Observed Warming Effect on Average Crop Yeld"]
     @parameters ROCFP = params[:ROCFP] [description = "ROC in Fertilizer Productivity 1/y"]
     @parameters ROCFSP = params[:ROCFSP] [description = "ROC in Food Sector Productivity 1/y"]
@@ -226,7 +226,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, TURMP ~ interpolate1(GDPP, [(0.0, 0.0), (6.1, 6.0), (8.8, 8.5), (14.0, 13.0), (30.0, 27.0), (40.0, 32.0), (50.0, 33.0), (100.0, 25.0)]))
     add_equation!(eqs, UREX ~ max(0, (IUL - URLA) / UDT))
     add_equation!(eqs, D(URLA) ~ UREX)
-    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OBWA / OW2022 - 1), 1))
+    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OBWA / OBWA2022 - 1), 1))
 
     return ODESystem(eqs; name=name)
 end
