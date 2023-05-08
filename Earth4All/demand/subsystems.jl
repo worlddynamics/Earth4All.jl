@@ -7,17 +7,6 @@ include("../functions.jl")
 D = Differential(t)
 
 function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables POP(t)
-    @variables IPP(t)
-    @variables WSO(t)
-    @variables NI(t)
-    @variables ECTAF2022(t)
-    @variables GBC(t)
-    @variables WBC(t)
-    @variables WF(t)
-    @variables EGDPP(t)
-
-
     @parameters GITRO = params[:GITRO] [description = "Goal for income tax rate owners"]
     @parameters ITRO2022 = params[:ITRO2022] [description = "Income tax rate owners in 2022"]
     @parameters ITRO1980 = params[:ITRO1980] [description = "Income tax rate owners in 1980"]
@@ -50,7 +39,6 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters TAB = params[:TAB] [description = "Time to adjust budget y"]
     @parameters GCF = params[:GCF] [description = "Government consumption fraction"]
     @parameters GDPP1980 = params[:GDPP1980] [description = "GDP per person in 1980 kDollar/p/y"]
-
 
     @variables BITRO(t) [description = "Basic income tax rate owners"]
     @variables ITO(t) [description = "Income tax owners"]
@@ -124,6 +112,16 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GSGDP(t) [description = "Government share of GDP"]
     @variables SSGDP(t) [description = "Savings share of GDP"]
     @variables CONTR(t) [description = "Control variable (C+G+S)/NI = 1"]
+
+    @variables ECTAF2022(t)
+    @variables EGDPP(t)
+    @variables GBC(t)
+    @variables IPP(t)
+    @variables NI(t)
+    @variables POP(t)
+    @variables WBC(t)
+    @variables WF(t)
+    @variables WSO(t)
 
     eqs = []
 
@@ -206,29 +204,29 @@ end
 
 function demand_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
 
-    @variables POP(t) [description = "Population Mp"]
-    @variables IPP(t) [description = "Introduction period for policy y"]
-    @variables WSO(t) [description = "Worker share output "]
-    @variables NI(t) [description = "National income GDollar/y"]
-    @variables ECTAF2022(t) [description = "Extra Cost of TAs from 2022"]
-    @variables GBC(t) [description = "Government borrowing cost 1/y"]
-    @variables WBC(t) [description = "Worker borrowing cost 1/y"]
-    @variables WF(t) [description = "Work force Mp"]
-    @variables EGDPP(t) [description = "Effective GDP per person kDollar/p/y"]
+    @variables ECTAF2022(t) [description = "Public.Extra Cost of TAs from 2022"]
+    @variables EGDPP(t) [description = "Population.Effective GDP per person kDollar/p/y"]
+    @variables GBC(t) [description = "Finance.Government borrowing cost 1/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    @variables NI(t) [description = "Inventory.National income GDollar/y"]
+    @variables POP(t) [description = "Population.Population Mp"]
+    @variables WBC(t) [description = "Finance.Worker borrowing cost 1/y"]
+    @variables WF(t) [description = "Labour and market.Work force Mp"]
+    @variables WSO(t) [description = "Labour and market.Worker share output "]
 
 
     eqs = []
 
 
-    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
-    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, WSO ~ WorldDynamics.interpolate(t, tables[:WSO], ranges[:WSO]))
-    add_equation!(eqs, NI ~ WorldDynamics.interpolate(t, tables[:NI], ranges[:NI]))
     add_equation!(eqs, ECTAF2022 ~ WorldDynamics.interpolate(t, tables[:ECTAF2022], ranges[:ECTAF2022]))
+    add_equation!(eqs, EGDPP ~ WorldDynamics.interpolate(t, tables[:EGDPP], ranges[:EGDPP]))
     add_equation!(eqs, GBC ~ WorldDynamics.interpolate(t, tables[:GBC], ranges[:GBC]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, NI ~ WorldDynamics.interpolate(t, tables[:NI], ranges[:NI]))
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
     add_equation!(eqs, WBC ~ WorldDynamics.interpolate(t, tables[:WBC], ranges[:WBC]))
     add_equation!(eqs, WF ~ WorldDynamics.interpolate(t, tables[:WF], ranges[:WF]))
-    add_equation!(eqs, EGDPP ~ WorldDynamics.interpolate(t, tables[:EGDPP], ranges[:EGDPP]))
+    add_equation!(eqs, WSO ~ WorldDynamics.interpolate(t, tables[:WSO], ranges[:WSO]))
 
     return ODESystem(eqs; name=name)
 end
