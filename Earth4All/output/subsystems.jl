@@ -40,7 +40,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 
     @variables AVCA(t) [description = "AVailable CApital Gdollar/y"]
     @variables CBCEFCA(t) [description = "CBC Effect on Flow to Capacity Addion"]
-    @variables CAP(t) [description = "CAPacity Gcu"]
+    @variables CAPA(t) [description = "CAPAcity Gcu"]
     @variables CAPIS(t) [description = "Capacity Addition PIS Gcu/y"]
     @variables CAPUS(t) [description = "Capacity Addition PUS Gcu/y"]
     @variables CDPIS(t) [description = "Capacity Discard PIS Gcu/y"]
@@ -92,7 +92,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     eqs = []
 
     add_equation!(eqs, AVCA ~ TOSA + FCI)
-    add_equation!(eqs, CAP ~ CPIS + CPUS)
+    add_equation!(eqs, CAPA ~ CPIS + CPUS)
     add_equation!(eqs, CAPIS ~ CUCPIS / CTPIS)
     add_equation!(eqs, CAPUS ~ CUCPUS / CTPUS)
     add_equation!(eqs, CBCEFCA ~ 1 + CBCEFRA * (CBC / CBC1980 - 1))
