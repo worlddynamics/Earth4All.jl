@@ -54,8 +54,8 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters WFEH = params[:WFEH] [description = "Warming from Extra Heat deg/ZJ"]
     @parameters EH1980 = params[:EH1980] [description = "Extra Heat in 1980 ZJ"]
     @parameters TRSA1980 = params[:TRSA1980] [description = "Transfer rate surface-abyss in 1980 1/y"]
-    @parameters PD =params[:PD] [description = " Perception delay y"]
-   
+    @parameters PD = params[:PD] [description = "Perception delay y"]
+
     @variables KN2OEKF(t) [description = "kg N2O emission per kg fertilizer"]
     @variables MMN2OE(t) [description = "Man-made N2O emissions GtN2O/y"]
     @variables NN2OE(t) [description = "Natural N2O emissions GtN2O/y"]
@@ -108,64 +108,64 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables OBWA(t) [description = "OBserved WArming deg C"]
     @variables REHE(t) [description = "Risk of extreme heat event"]
     @variables PWA(t) = inits[:PWA] [description = "Perceived warming deg C"]
-    @variables TRHGA(t)  [description = "Transfer rate for heat going to abyss 1/y"] 
+    @variables TRHGA(t) [description = "Transfer rate for heat going to abyss 1/y"]
     @variables HDO(t) [description = "Heat to deep ocean ZJ/y"]
     @variables EHS(t) = inits[:EHS] [description = "Extra heat in surface ZJ"]
 
-  
+
     eqs = []
 
-    add_equation!(eqs, KN2OEKF ~ KN2OKF1980 * exp(- (RDN2OKF) * (t - 1980)) * IfElse.ifelse(t > 2022, exp(-(ERDN2OKF2022) * (t - 2022)), 1))
+    add_equation!(eqs, KN2OEKF ~ KN2OKF1980 * exp(-(RDN2OKF) * (t - 1980)) * IfElse.ifelse(t > 2022, exp(-(ERDN2OKF2022) * (t - 2022)), 1))
     add_equation!(eqs, MMN2OE ~ FEUS * KN2OEKF / 1000)
-    add_equation!(eqs, NN2OE ~ interpolate1(t,[(1980.,0.009),(2020.,0.009),(2099.27,0.)]))
+    add_equation!(eqs, NN2OE ~ interpolate1(t, [(1980.0, 0.009), (2020.0, 0.009), (2099.27, 0.0)]))
     add_equation!(eqs, N2OE ~ NN2OE + MMN2OE)
     add_equation!(eqs, N2OC1980 ~ N2OA1980 / MAT)
-    add_equation!(eqs, D(N2OA) ~ N2OE - N2OBD) 
+    add_equation!(eqs, D(N2OA) ~ N2OE - N2OBD)
     add_equation!(eqs, N2OBD ~ N2OA / LN2OA)
     add_equation!(eqs, N2OCA ~ N2OA / GN2OPP)
-    add_equation!(eqs, N2OFPP ~ interpolate1(t, [(1980.,0.43),(2000.,0.64),(2010.,0.73),(2020.,0.8),(2100.,1.)]))
+    add_equation!(eqs, N2OFPP ~ interpolate1(t, [(1980.0, 0.43), (2000.0, 0.64), (2010.0, 0.73), (2020.0, 0.8), (2100.0, 1.0)]))
     add_equation!(eqs, FN2O ~ N2OCA * N2OFPP)
-    add_equation!(eqs, KCH4EKC ~ KCH4KC1980 * exp(- (RDCH4KC) * (t - 1980)) * IfElse.ifelse(t > 2022, exp(-(ERDCH4KC2022) * (t - 2022)), 1))
+    add_equation!(eqs, KCH4EKC ~ KCH4KC1980 * exp(-(RDCH4KC) * (t - 1980)) * IfElse.ifelse(t > 2022, exp(-(ERDCH4KC2022) * (t - 2022)), 1))
     add_equation!(eqs, MMCH4E ~ CRSU * KCH4EKC / 1000)
-    add_equation!(eqs, NCH4E ~ interpolate1(t, [(1980.,0.19),(2020.,0.19),(2100.,0.19)]))
+    add_equation!(eqs, NCH4E ~ interpolate1(t, [(1980.0, 0.19), (2020.0, 0.19), (2100.0, 0.19)]))
     add_equation!(eqs, CH4E ~ NCH4E + MMCH4E)
     add_equation!(eqs, CH4C1980 ~ CH4A1980 / MAT)
     add_equation!(eqs, D(CH4A) ~ CH4E - CH4BD)
     add_equation!(eqs, CH4BD ~ CH4A / LCH4A)
     add_equation!(eqs, CH4CA ~ CH4A / GCH4PP)
-    add_equation!(eqs, CH4FPP ~ interpolate1(t, [(1980.,0.82),(2000.,0.94),(2020.,1.01),(2100.,1.1)]))
+    add_equation!(eqs, CH4FPP ~ interpolate1(t, [(1980.0, 0.82), (2000.0, 0.94), (2020.0, 1.01), (2100.0, 1.1)]))
     add_equation!(eqs, FCH4 ~ CH4CA * CH4FPP)
-    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OBWA / OBWA2022 - 1), 1)) 
+    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OBWA / OBWA2022 - 1), 1))
     add_equation!(eqs, LECO2A ~ LECO2A1980 * OWLCO2)
     add_equation!(eqs, CO2FCH4 ~ CH4BD * TCO2PTCH4)
-    add_equation!(eqs, CO2AB ~ (CO2A - CO2A1850) / LECO2A) 
+    add_equation!(eqs, CO2AB ~ (CO2A - CO2A1850) / LECO2A)
     add_equation!(eqs, CO2E ~ CO2EI + CO2ELULUC - DACCO2)
     add_equation!(eqs, CO2GDP ~ (CO2E / GDP) * 1000)
     add_equation!(eqs, CAC ~ DACCO2 * CCCSt)
     add_equation!(eqs, DACCO2 ~ IfElse.ifelse(t > 2022, ramp(t, (DACCO22100) / IPP, 2022, 2022 + IPP), 0))
     add_equation!(eqs, D(CO2A) ~ CO2E - CO2AB + 2 * CO2FCH4) #STRANGE EQUATION!
     add_equation!(eqs, CO2CA ~ CO2A / GCO2PP)
-    add_equation!(eqs, CO2FPP ~ interpolate1(t, [(1980., 0.0032),(1990., 0.0041),(2000., 0.0046),(2020., 0.0051),(2100.,0.006)]))
+    add_equation!(eqs, CO2FPP ~ interpolate1(t, [(1980.0, 0.0032), (1990.0, 0.0041), (2000.0, 0.0046), (2020.0, 0.0051), (2100.0, 0.006)]))
     add_equation!(eqs, FCO2 ~ CO2CA * CO2FPP)
-    add_equation!(eqs, FOG ~ interpolate1(t, [(1980.,0.18),(2000.,0.36),(2020.,0.39),(2050.,0.37),(2100.,0.)]))
+    add_equation!(eqs, FOG ~ interpolate1(t, [(1980.0, 0.18), (2000.0, 0.36), (2020.0, 0.39), (2050.0, 0.37), (2100.0, 0.0)]))
     add_equation!(eqs, MMF ~ FCO2 + FOG + FCH4 + FN2O)
     add_equation!(eqs, GHGE ~ CO2E * TCO2ETCO2 + CH4E * TCO2ETCH4 + N2OE * TCO2ETN2O)
     add_equation!(eqs, AL1980 ~ (ISCEGA1980 * ALIS + (GLSU - ISCEGA1980) * ALGAV) / GLSU)
-    add_equation!(eqs, AL ~ (ISCEGA * ALIS + (GLSU - ISCEGA) * ALGAV) / GLSU ) 
-    add_equation!(eqs, TRHGS ~ (TRSS1980 * ((OBWA + 297 ) /297)) * (AL / AL1980))
+    add_equation!(eqs, AL ~ (ISCEGA * ALIS + (GLSU - ISCEGA) * ALGAV) / GLSU)
+    add_equation!(eqs, TRHGS ~ (TRSS1980 * ((OBWA + 297) / 297)) * (AL / AL1980))
     add_equation!(eqs, HTS ~ EHS * TRHGS) # EHS
     add_equation!(eqs, MRS ~ MRS1980 * (OBWA / WA1980))
     add_equation!(eqs, MRDI ~ MRS / SVDR)
     add_equation!(eqs, ECIM ~ MRDI * AI1980 * TPM3I * HRMI)
     add_equation!(eqs, MEL ~ ISCEGA * MRS)
-    add_equation!(eqs, D(ISCEGA) ~ - MEL)
+    add_equation!(eqs, D(ISCEGA) ~ -MEL)
     add_equation!(eqs, ISC ~ ISCEGA * 100)
     add_equation!(eqs, WVC ~ WVC1980 * (1 + OWWV * (OBWA / WA1980 - 1)))
     add_equation!(eqs, WVF ~ WVF1980 * (1 + WVWVF * (WVC / WVC1980 - 1)))
     add_equation!(eqs, TMMF ~ MMF + WVF)
     add_equation!(eqs, EWFF ~ (TMMF * GLSU) * 31.5 / 1000)
     add_equation!(eqs, OBWA ~ WA1980 + (EHS - EH1980) * WFEH)
-    add_equation!(eqs, REHE ~ interpolate1(OBWA , [(0.,1.),(1.2,4.8),(2.,8.6),(2.9,14.),(5.2,40.)]))
+    add_equation!(eqs, REHE ~ interpolate1(OBWA, [(0.0, 1.0), (1.2, 4.8), (2.0, 8.6), (2.9, 14.0), (5.2, 40.0)]))
     add_equation!(eqs, TRHGA ~ TRSA1980 * ((OBWA + 287) / 287))
     add_equation!(eqs, HDO ~ EHS * TRHGA)
     add_equation!(eqs, D(EHS) ~ EWFF - ECIM - HDO - HTS)
@@ -176,14 +176,14 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 end
 
 function climate_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDP(t) [description = "GDP GDollar/y"]
-    @variables IPP(t) [description = "Introduction period for policy y"] 
-    @variables FEUS(t) [description = "Fertilizer use Mt/y"]
-    @variables CRSU(t) [description = "Crop supply (after 20% waste) Mt-crop/y"]
-    @variables CO2EI(t) [description = "CO2 from energy and industry GtCO2/y"]
-    @variables CCCSt(t) [description = "Cost of CCS Dollar/tCO2"]
-    @variables CO2ELULUC(t) [description = "CO2 emissions from LULUC GtCO2/y"]
-    
+    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    @variables FEUS(t) [description = "Food and land.Fertilizer use Mt/y"]
+    @variables CRSU(t) [description = "Food and land.Crop supply (after 20% waste) Mt-crop/y"]
+    @variables CO2EI(t) [description = "Energy.CO2 from energy and industry GtCO2/y"]
+    @variables CCCSt(t) [description = "Energy.Cost of CCS Dollar/tCO2"]
+    @variables CO2ELULUC(t) [description = "Food and land.CO2 emissions from LULUC GtCO2/y"]
+
     eqs = []
 
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))

@@ -68,7 +68,7 @@ interpolate(x, x₁, xₙ, y₁, yₙ) = y₁ + (x - x₁) * ((yₙ - y₁) / (x
 
 Returns the value of a function with input `x`, by linearly interpolating the function itself through the table `yvalues` and the range `xrange`. If `x` is out of the range, the value at the corresponding extremity is returned. This function corresponds to the `TABHL` function in the `DYNAMO` language. This latter function receives a table (that is, `yvalues`), a value (that is, `x`), a left and a right extreme of an interval (that is, `xrange`), and an increment value.
 """
-function interpolate(x, yvalues::Tuple{Vararg{Float64}}, xrange::Tuple{Float64, Float64})
+function interpolate(x, yvalues::Tuple{Vararg{Float64}}, xrange::Tuple{Float64,Float64})
    interpolate(x, collect(yvalues), collect(LinRange(xrange[1], xrange[2], length(yvalues))))
 end
 
@@ -79,12 +79,47 @@ function interpolate(x, yvalues::Vector{Float64}, xvalues::Vector{Float64})
 
    # in case x is inside the range, y gets the interpolated value
    for i ∈ 1:length(yvalues)-1
-       y += (x ≥ xvalues[i]) * (x < xvalues[i+1]) * interpolate(x, xvalues[i], xvalues[i+1], yvalues[i], yvalues[i+1])
+      y += (x ≥ xvalues[i]) * (x < xvalues[i+1]) * interpolate(x, xvalues[i], xvalues[i+1], yvalues[i], yvalues[i+1])
    end
 
    return y
 end
 
-function interpolate1(x, pairs::Vector{Tuple{Float64, Float64}})
+function interpolate1(x, pairs::Vector{Tuple{Float64,Float64}})
    interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
+end
+
+function print_endo_vars(sys)
+   println("| Stella name | Name | Initial value |")
+   println("| --- | --- | --- |")
+   for s in ModelingToolkit.get_states(sys)
+      if (ModelingToolkit.getdescription(s) != "")
+         try
+            v = round(ModelingToolkit.getdefault(s), digits=4)
+            println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` | ", v, " |")
+         catch err
+            println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` |  |")
+         end
+      end
+   end
+end
+
+function print_ps(sys)
+   println("| Stella name | Name | Value |")
+   println("| --- | --- | --- |")
+   for s in ModelingToolkit.get_ps(sys)
+      println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` | ", round(ModelingToolkit.getdefault(s), digits=4), " |")
+   end
+end
+
+function print_exo_vars(sys)
+   println("| Stella name | Name | Initial value |")
+   println("| --- | --- | --- |")
+   for s in ModelingToolkit.get_states(sys)
+      desc = ModelingToolkit.getdescription(s)
+      if (desc != "")
+         desc_split = split(desc, ".")
+         println("| ", desc_split[2], " | `", string(s), "` | ", desc_split[1], " |")
+      end
+   end
 end
