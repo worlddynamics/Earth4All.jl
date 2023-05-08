@@ -11,7 +11,7 @@ function wb_run(; kwargs...)
         wb.INEQ ~ wb_sup.INEQ
         wb.LPR ~ wb_sup.LPR
         wb.PSP ~ wb_sup.PSP
-        wb.PW ~ wb_sup.PW
+        wb.PWA ~ wb_sup.PWA
         wb.WDI ~ wb_sup.WDI
     ]
 
