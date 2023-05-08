@@ -8,7 +8,6 @@ function demand_run(; kwargs...)
     ]
 
     connection_eqs = [
-        dem.GDPP ~ dem_sup.GDPP
         dem.POP ~ dem_sup.POP
         dem.IPP ~ dem_sup.IPP
         dem.WSO ~ dem_sup.WSO

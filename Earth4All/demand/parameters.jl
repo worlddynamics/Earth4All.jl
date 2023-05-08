@@ -30,6 +30,7 @@ _params = Dict{Symbol,Float64}(
     :FGDC2022 => 0.1,   
     :TAB => 1,
     :GCF => 0.75,
+    :GDPP1980 => 6.4,
 
 
 )

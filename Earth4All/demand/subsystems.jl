@@ -7,7 +7,6 @@ include("../functions.jl")
 D = Differential(t)
 
 function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDPP(t)
     @variables POP(t)
     @variables IPP(t)
     @variables WSO(t)
@@ -50,6 +49,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters FGDC2022 = params[:FGDC2022] [description = "Fraction of government debt cancelled in 2022 1/y"]
     @parameters TAB = params[:TAB] [description = "Time to adjust budget y"]
     @parameters GCF = params[:GCF] [description = "Government consumption fraction"]
+    @parameters GDPP1980 = params[:GDPP1980] [description = "GDP per person in 1980 kDollar/p/y"]
 
 
     @variables BITRO(t) [description = "Basic income tax rate owners"]
@@ -156,10 +156,10 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, INEQI ~ INEQ / INEQ1980)
     add_equation!(eqs, OCIN ~ OOIAT)
     smooth!(eqs, POCI, OCIN, TAOC)
-    add_equation!(eqs, OSF ~ OSF1980 + (1 + GDPOSR * (EGDPP / GDPP -1)))
+    add_equation!(eqs, OSF ~ OSF1980 * (1 + GDPOSR * (EGDPP / GDPP1980 - 1)))
     add_equation!(eqs, OCF ~ 1 - OSF)
     add_equation!(eqs, OC ~ POCI * OCF)
-    add_equation!(eqs, OS ~ POCI * OC)
+    add_equation!(eqs, OS ~ POCI - OC)
     add_equation!(eqs, TS ~ OS + WS) 
     add_equation!(eqs, MWD ~ WI * MWDB)
     add_equation!(eqs, WD1980 ~ 18992 * MATWF)
@@ -207,7 +207,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 end
 
 function demand_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDPP(t) [description = "GDP per person kDollar/p/y"] 
+
     @variables POP(t) [description = "Population Mp"]
     @variables IPP(t) [description = "Introduction period for policy y"]
     @variables WSO(t) [description = "Worker share output "]
@@ -221,7 +221,7 @@ function demand_support(; name, params=_params, inits=_inits, tables=_tables, ra
     
     eqs = []
 
-    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, WSO ~ WorldDynamics.interpolate(t, tables[:WSO], ranges[:WSO]))
