@@ -63,7 +63,7 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
 
     add_equation!(eqs, AWBDI ~ exp(DRDI + log(WDI / TDI)))
     add_equation!(eqs, AWBIN ~ 1 + IEAWBIF * (INEQ / TI - 1))
-    add_equation!(eqs, AWBGW ~ max(MWBGW, min(1, 1 + GWEAWBGWF * (PW / TW - 1))))
+    add_equation!(eqs, AWBGW ~ max(MWBGW, min(1, 1 + GWEAWBGWF * (PWA / TW - 1))))
     add_equation!(eqs, AWBI ~ (0.5 * AWBDI + 0.5 * AWBPS) * AWBIN * AWBGW * AWBP)
     add_equation!(eqs, AWBP ~ (1 + PREAWBF * (ORP - TPR)) * WBEP)
     add_equation!(eqs, AWBPS ~ exp(DRPS + log(PSP / TPS)))
