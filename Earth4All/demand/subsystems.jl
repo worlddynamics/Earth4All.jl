@@ -83,7 +83,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables OCF(t) [description = "Owner consumption fraction"]
     @variables OC(t) [description = "Owner consumption GDollar/y"]
     @variables OS(t) [description = "Owner savings GDollar/y"]
-    @variables TS(t) [description = "Total savings GDollar/y"]
+    @variables TOSA(t) [description = "TOtal SAvings GDollar/y"]
     @variables MWD(t) [description = "Max workers debt GDollar"]
     @variables WD1980(t) [description = "Workers debt in 1980 GDollar"]
     @variables WND(t) [description = "Workers new debt GDollar/y"]
@@ -102,11 +102,11 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables STO(t) [description = "Sales tax owners GDollar/y"]
     @variables ST(t) [description = "Sales tax GDollar/y"]
     @variables CD(t) [description = "Consumption demand GDollar/y"]
-    @variables CSGDP(t) [description = "Consumption as share of GDP"] 
+    @variables CSGDP(t) [description = "Consumption as share of GDP"]
     @variables CPP(t) [description = "Consumption per person GDollar/y"]
     @variables MGD(t) [description = "Max government debt GDollar"]
     @variables GND(t) [description = "Government new debt GDollar/y"]
-    @variables GD(t) = inits[:GD] [description = "Government debt GDollar"] 
+    @variables GD(t) = inits[:GD] [description = "Government debt GDollar"]
     @variables GP(t) [description = "Government payback GDollar/y"]
     @variables CANCD(t) [description = "Cancellation of debt GDollar/y"]
     @variables GIC(t) [description = "Government interest cost GDollar/y"]
@@ -124,15 +124,13 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GSGDP(t) [description = "Government share of GDP"]
     @variables SSGDP(t) [description = "Savings share of GDP"]
     @variables CONTR(t) [description = "Control variable (C+G+S)/NI = 1"]
-    
 
-    
     eqs = []
 
     add_equation!(eqs, BITRO ~ min(1, ITRO1980) + ramp(t, (ITRO2022 - ITRO1980) / 42, 1980, 2022) + ramp(t, (GITRO - ITRO2022) / 78, 2022, 2100))
     add_equation!(eqs, ITO ~ BITRO * NI * (1 - WSO))
     add_equation!(eqs, ITW ~ BITRW * NI * WSO)
-    add_equation!(eqs, ETTAF2022 ~ IfElse.ifelse(t > 2022, ECTAF2022  * FETACPET, 0))
+    add_equation!(eqs, ETTAF2022 ~ IfElse.ifelse(t > 2022, ECTAF2022 * FETACPET, 0))
     add_equation!(eqs, EGTF2022 ~ IfElse.ifelse(t > 2022, EGTRF2022 + EETF2022 + EPTF2022, 0) * NI)
     add_equation!(eqs, GETF2022 ~ EGTF2022 + ETTAF2022)
     smooth!(eqs, ETF2022, GETF2022, TINT)
@@ -141,7 +139,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, WTR ~ WT / WI)
     add_equation!(eqs, GFGBW ~ FT1980 + IfElse.ifelse(t > 2022, ETGBW, 0))
     smooth!(eqs, FGBW, GFGBW, TINT)
-    add_equation!(eqs, IC2022 ~ NI * IfElse.ifelse(t > 2022, ramp(t, GEIC / IPP, 2022, 2020 + IPP),0))
+    add_equation!(eqs, IC2022 ~ NI * IfElse.ifelse(t > 2022, ramp(t, GEIC / IPP, 2022, 2020 + IPP), 0))
     add_equation!(eqs, OT ~ ITO + ETF2022 * FETPO)
     add_equation!(eqs, OI ~ NI * (1 - WSO))
     add_equation!(eqs, OTR ~ OT / OI)
@@ -151,7 +149,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, WIAT ~ WI - WT + TP)
     add_equation!(eqs, GNI ~ GGI - TP + ST)
     add_equation!(eqs, GNISNI ~ GNI / NI)
-    add_equation!(eqs, OOIAT ~ OI - OT) 
+    add_equation!(eqs, OOIAT ~ OI - OT)
     add_equation!(eqs, INEQ ~ OOIAT / WIAT)
     add_equation!(eqs, INEQI ~ INEQ / INEQ1980)
     add_equation!(eqs, OCIN ~ OOIAT)
@@ -160,7 +158,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, OCF ~ 1 - OSF)
     add_equation!(eqs, OC ~ POCI * OCF)
     add_equation!(eqs, OS ~ POCI - OC)
-    add_equation!(eqs, TS ~ OS + WS) 
+    add_equation!(eqs, TOSA ~ OS + WS)
     add_equation!(eqs, MWD ~ WI * MWDB)
     add_equation!(eqs, WD1980 ~ 18992 * MATWF)
     add_equation!(eqs, WND ~ max(0, (MWD - WD) / WDP))
@@ -185,7 +183,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GND ~ max(0, (MGD - GD) / GDDP) + step(t, GSF2022, 2022) * NI)
     add_equation!(eqs, D(GD) ~ GND - CANCD - GP)
     add_equation!(eqs, GP ~ GD / GPP)
-    add_equation!(eqs, CANCD ~ pulse(t, 2022.,1.) * GD * FGDC2022 )
+    add_equation!(eqs, CANCD ~ pulse(t, 2022.0, 1.0) * GD * FGDC2022)
     add_equation!(eqs, GIC ~ GD * GBC)
     add_equation!(eqs, CFGB ~ GIC + GP - GND)
     add_equation!(eqs, BCIL ~ CFWB + CFGB)
@@ -199,10 +197,10 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, GIPC ~ PGCIN - GPU)
     add_equation!(eqs, GS ~ GPU + GIPC)
     add_equation!(eqs, GSGDP ~ GS / NI)
-    add_equation!(eqs, SSGDP ~ TS / NI)
+    add_equation!(eqs, SSGDP ~ TOSA / NI)
     add_equation!(eqs, CONTR ~ CSGDP + GSGDP + SSGDP)
 
-    
+
     return ODESystem(eqs; name=name)
 end
 
@@ -218,7 +216,7 @@ function demand_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables WF(t) [description = "Work force Mp"]
     @variables EGDPP(t) [description = "Effective GDP per person kDollar/p/y"]
 
-    
+
     eqs = []
 
 
@@ -231,7 +229,7 @@ function demand_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, WBC ~ WorldDynamics.interpolate(t, tables[:WBC], ranges[:WBC]))
     add_equation!(eqs, WF ~ WorldDynamics.interpolate(t, tables[:WF], ranges[:WF]))
     add_equation!(eqs, EGDPP ~ WorldDynamics.interpolate(t, tables[:EGDPP], ranges[:EGDPP]))
-    
+
     return ODESystem(eqs; name=name)
 end
 
