@@ -84,7 +84,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GIPC(t)
     @variables ITFP(t)
     @variables LAUS(t)
-    @variables OW(t)
+    @variables OBWA(t)
     @variables TOSA(t)
     @variables TPP(t)
     @variables WASH(t)
@@ -125,8 +125,8 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     smooth!(eqs, OLY, ORO, 1)
     add_equation!(eqs, OOV ~ ORO * PRUN)
     add_equation!(eqs, ORO ~ OO1980 * ((CPIS + CPUS) / (CAPPIS1980 + CAPPUS1980))^KAPPA * (LAUS / LAUS1980)^LAMBDA * (ETFP))
-    add_equation!(eqs, OWECC ~ IfElse.ifelse(t > 2022, 1 + OWECCM * (OW / OBWA2022 - 1), 1))
-    add_equation!(eqs, OWELC ~ IfElse.ifelse(t > 2022, 1 + OWELCM * (OW / OBWA2022 - 1), 1))
+    add_equation!(eqs, OWECC ~ IfElse.ifelse(t > 2022, 1 + OWECCM * (OBWA / OBWA2022 - 1), 1))
+    add_equation!(eqs, OWELC ~ IfElse.ifelse(t > 2022, 1 + OWELCM * (OBWA / OBWA2022 - 1), 1))
     smooth!(eqs, PEDE, EDE, TOED)
     add_equation!(eqs, WSOEFCA ~ 1 + WSOEFRA * (WASH / inits[:WSO] - 1))
 
@@ -141,7 +141,7 @@ function output_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables GIPC(t) [description = "Demand.Govmnt Investment in Public Capacity Gdollar/y"]
     @variables ITFP(t) [description = "Public.Indicated TFP"]
     @variables LAUS(t) [description = "Labour and market.LAbour USe Gph/y"]
-    @variables OW(t) [description = "Climate.Observed warming deg C"]
+    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
     @variables TOSA(t) [description = "Demand.TOtal SAvings Gdollar/y"]
     @variables TPP(t) [description = "Demand.Total Purchasing Power Gdollar/y"]
     @variables WASH(t) [description = "Labour and market.WAge SHare"]
@@ -155,7 +155,7 @@ function output_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, GIPC ~ WorldDynamics.interpolate(t, tables[:GIPC], ranges[:GIPC]))
     add_equation!(eqs, ITFP ~ WorldDynamics.interpolate(t, tables[:ITFP], ranges[:ITFP]))
     add_equation!(eqs, LAUS ~ WorldDynamics.interpolate(t, tables[:LAUS], ranges[:LAUS]))
-    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
+    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
     add_equation!(eqs, TOSA ~ WorldDynamics.interpolate(t, tables[:TOSA], ranges[:TOSA]))
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
     add_equation!(eqs, WASH ~ WorldDynamics.interpolate(t, tables[:WASH], ranges[:WASH]))

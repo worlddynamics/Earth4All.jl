@@ -135,7 +135,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables GDP(t)
     @variables GDPP(t)
     @variables IPP(t)
-    @variables OW(t)
+    @variables OBWA(t)
     @variables POP(t)
 
     eqs = []
@@ -193,7 +193,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, FSPI ~ exp(ROCFSP * (t - 1980)) * IfElse.ifelse(t > 2022, exp(EROCFSP * (t - 2022)), 1))
     add_equation!(eqs, FUCA ~ TFUCA / FPI)
     add_equation!(eqs, FUP ~ (FEUS / POP) * 1000)
-    add_equation!(eqs, GLY ~ GLY80 + 0 * CO2CA - 0 * OW)
+    add_equation!(eqs, GLY ~ GLY80 + 0 * CO2CA - 0 * OBWA)
     add_equation!(eqs, GLY80 ~ 14 * CO2ELY * WELY)
     add_equation!(eqs, D(GRLA) ~ NGL)
     add_equation!(eqs, IUL ~ POP * ULP)
@@ -226,7 +226,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, TURMP ~ interpolate1(GDPP, [(0.0, 0.0), (6.1, 6.0), (8.8, 8.5), (14.0, 13.0), (30.0, 27.0), (40.0, 32.0), (50.0, 33.0), (100.0, 25.0)]))
     add_equation!(eqs, UREX ~ max(0, (IUL - URLA) / UDT))
     add_equation!(eqs, D(URLA) ~ UREX)
-    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OW / OW2022 - 1), 1))
+    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OBWA / OW2022 - 1), 1))
 
     return ODESystem(eqs; name=name)
 end
@@ -236,7 +236,7 @@ function foodland_support(; name, params=_params, inits=_inits, tables=_tables, 
     @variables GDP(t) [description = "Inventory.GDP"]
     @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
-    @variables OW(t) [description = "Climate.Observed warming deg C"]
+    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
     @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
@@ -245,7 +245,7 @@ function foodland_support(; name, params=_params, inits=_inits, tables=_tables, 
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
+    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)

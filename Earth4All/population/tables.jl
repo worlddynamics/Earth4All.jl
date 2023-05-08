@@ -15365,7 +15365,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         27.4287,
         27.4283
     ),
-    :OW => (
+    :OBWA => (
         0.4,
         0.400335,
         0.400671,
@@ -23052,7 +23052,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
 _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :GDP => (1980, 2100),
     :IPP => (1980, 2100),
-    :OW => (1980, 2100),
+    :OBWA => (1980, 2100),
 )
 gettables() = copy(_tables)
 getranges() = copy(_ranges)

@@ -71,7 +71,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
 
     @variables GDP(t)
     @variables IPP(t)
-    @variables OW(t)
+    @variables OBWA(t)
 
     eqs = []
 
@@ -104,7 +104,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, PGR ~ BIRTHR - DEATHR)
     add_equation!(eqs, POP ~ A0020 + A2040 + A4060 + A60PL)
     add_equation!(eqs, PW ~ OP / A20PA)
-    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1))
+    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OBWA / OW2022 - 1)), 1))
 
     delay_n!(eqs, BIRTHS, RT_PASS20, LV_PASS20, 20, ORDER)
     delay_n!(eqs, PASS20, RT_PASS40, LV_PASS40, 20, ORDER)
@@ -117,13 +117,13 @@ end
 function population_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
-    @variables OW(t) [description = "Climate.Observed warming deg C"]
+    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
 
     eqs = []
 
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
+    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
 
     return ODESystem(eqs; name=name)
 end

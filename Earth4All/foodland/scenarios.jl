@@ -12,7 +12,7 @@ function foodland_run(; kwargs...)
         fl.GDP ~ fl_sup.GDP
         fl.GDPP ~ fl_sup.GDPP
         fl.IPP ~ fl_sup.IPP
-        fl.OW ~ fl_sup.OW
+        fl.OBWA ~ fl_sup.OBWA
         fl.POP ~ fl_sup.POP
     ]
 
