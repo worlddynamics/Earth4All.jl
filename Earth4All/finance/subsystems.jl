@@ -36,7 +36,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 
     @variables IR(t)
     @variables OGR(t)
-    @variables UR(t)
+    @variables UNRA(t)
 
     eqs = []
 
@@ -50,7 +50,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
     add_equation!(eqs, NCCR ~ 0.02 * (1 + GRCR * (OGR / 0.03 - 1)))
     smooth!(eqs, PI, IR, IPT)
-    smooth!(eqs, PU, UR, UPTCB)
+    smooth!(eqs, PU, UNRA, UPTCB)
     add_equation!(eqs, TGIR ~ GBC + ELTI)
     add_equation!(eqs, TIR ~ CBSR + NBBM)
     add_equation!(eqs, WBC ~ CCSD)
@@ -61,13 +61,13 @@ end
 function finance_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
     @variables OGR(t) [description = "Output.Output Growth Rate 1/y"]
-    @variables UR(t) [description = "Labour market.Unemployment Rate"]
+    @variables UNRA(t) [description = "Labour market.UNemployment RAte"]
 
     eqs = []
 
     add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
-    add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
+    add_equation!(eqs, UNRA ~ WorldDynamics.interpolate(t, tables[:UNRA], ranges[:UNRA]))
 
     return ODESystem(eqs; name=name)
 end

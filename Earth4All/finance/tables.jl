@@ -15365,7 +15365,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         0.0288594,
         0.0289916,
     ),
-    :UR => (
+    :UNRA => (
         0.0326951,
         0.0326004,
         0.0325091,
@@ -23053,7 +23053,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
 _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :OGR => (1980, 2100),
     :IR => (1980, 2100),
-    :UR => (1980, 2100),
+    :UNRA => (1980, 2100),
 )
 gettables() = copy(_tables)
 getranges() = copy(_ranges)
