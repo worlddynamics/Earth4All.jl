@@ -49,7 +49,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @variables GDPP(t) [description = "GDP per Person kDollar/p/y"]
     @variables LE(t) = inits[:LE] [description = "Life Expectancy y"]
     @variables LE60(t) [description = "LE at 60 y"]
-    @variables LEM(t) [description = "Life Expectancy Multiplier"]
+    @variables LIEXM(t) [description = "LIfe EXpectancy Multiplier"]
     @variables (LV_DEATHS(t))[1:ORDER] = fill(inits[:DEATHS] * (inits[:LE] - 60) / ORDER, ORDER) [description = "LV functions for deaths Mp/y"]
     @variables (LV_PASS20(t))[1:ORDER] = fill(inits[:PASS20] * 20 / ORDER, ORDER) [description = "LV functions for passing 20 Mp/y"]
     @variables (LV_PASS40(t))[1:ORDER] = fill(inits[:PASS40] * 20 / ORDER, ORDER) [description = "LV functions for passing 40 Mp/y"]
@@ -92,9 +92,9 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, D(EGDPP) ~ (GDPP - EGDPP) / TAHI)
     add_equation!(eqs, FM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MFM - 1) / 78, 2022, 2100), 1), 1))
     add_equation!(eqs, GDPP ~ GDP / POP)
-    add_equation!(eqs, LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LEM)
+    add_equation!(eqs, LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LIEXM)
     add_equation!(eqs, LE60 ~ LE - 60)
-    add_equation!(eqs, LEM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1))
+    add_equation!(eqs, LIEXM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1))
     add_equation!(eqs, OF ~ DNC * FADFS)
     add_equation!(eqs, OP ~ A60PL * (LE - PA) / (LE - 60))
     add_equation!(eqs, PA ~ IfElse.ifelse(LE < inits[:LE], inits[:PA], inits[:PA] + LEEPA * (LE + EPA - inits[:LE])))
