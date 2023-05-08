@@ -8,7 +8,7 @@ function other_run(; kwargs...)
 
     connection_eqs = [
         oth.CE ~ oth_sup.CE,
-        oth.CF ~ oth_sup.CF,
+        oth.COFO ~ oth_sup.COFO,
         oth.GDPP ~ oth_sup.GDPP,
         oth.INEQ ~ oth_sup.INEQ,
         oth.POP ~ oth_sup.POP,
