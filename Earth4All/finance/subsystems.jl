@@ -28,7 +28,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables ELTI(t) = inits[:ELTI] [description = "Expected Long Term Inflation 1/y"]
     @variables ISR(t) [description = "Indicated Signal Rate 1/y"]
     @variables NCCR(t) [description = "Normal Corporate Credit Risk 1/y"]
-    @variables PI(t) = inits[:PI] [description = "Perceived Inflation CB 1/y"]
+    @variables PEIN(t) = inits[:PEIN] [description = "PErceived INflation CB 1/y"]
     @variables PU(t) = inits[:PU] [description = "Perceived Unemployment CB"]
     @variables TGIR(t) [description = "10-year Government Interest Rate 1/y"]
     @variables TIR(t) [description = "3m Interest Rate 1/y"]
@@ -36,7 +36,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 
     @variables IR(t)
     @variables OGR(t)
-    @variables UR(t)
+    @variables UNRA(t)
 
     eqs = []
 
@@ -45,12 +45,12 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     smooth!(eqs, CCSD, TIR + NBOM, FSRT)
     add_equation!(eqs, D(CBSR) ~ CSR)
     add_equation!(eqs, CSR ~ (ISR - CBSR) / SRAT)
-    smooth!(eqs, ELTI, PI, IEFT)
+    smooth!(eqs, ELTI, PEIN, IEFT)
     add_equation!(eqs, GBC ~ TIR)
-    add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
+    add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PEIN / IT - 1) + UNSR * (PU / UT - 1)))
     add_equation!(eqs, NCCR ~ 0.02 * (1 + GRCR * (OGR / 0.03 - 1)))
-    smooth!(eqs, PI, IR, IPT)
-    smooth!(eqs, PU, UR, UPTCB)
+    smooth!(eqs, PEIN, IR, IPT)
+    smooth!(eqs, PU, UNRA, UPTCB)
     add_equation!(eqs, TGIR ~ GBC + ELTI)
     add_equation!(eqs, TIR ~ CBSR + NBBM)
     add_equation!(eqs, WBC ~ CCSD)
@@ -61,13 +61,13 @@ end
 function finance_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
     @variables OGR(t) [description = "Output.Output Growth Rate 1/y"]
-    @variables UR(t) [description = "Labour market.Unemployment Rate"]
+    @variables UNRA(t) [description = "Labour market.UNemployment RAte"]
 
     eqs = []
 
     add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
-    add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
+    add_equation!(eqs, UNRA ~ WorldDynamics.interpolate(t, tables[:UNRA], ranges[:UNRA]))
 
     return ODESystem(eqs; name=name)
 end

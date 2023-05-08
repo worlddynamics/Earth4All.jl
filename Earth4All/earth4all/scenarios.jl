@@ -1,17 +1,19 @@
 function e4a_run(; kwargs...)
+    @named cli = Climate.climate(; kwargs...)
+    @named dem = Demand.demand(; kwargs...)
+    @named ene = Energy.energy(; kwargs...)
     @named fin = Finance.finance(; kwargs...)
-    @named fin_sup = Finance.finance_support(; kwargs...)
+    @named fl = FoodLand.foodland(; kwargs...)
+    @named inv = Inventory.inventory(; kwargs...)
+    @named lm = LabourMarket.labour_market(; kwargs...)
+    @named oth = Other.other(; kwargs...)
+    @named out = Output.output(; kwargs...)
     @named pop = Population.population(; kwargs...)
-    @named pop_sup = Population.population_support(; kwargs...)
     @named pub = Public.public(; kwargs...)
-    @named pub_sup = Public.public_support(; kwargs...)
-    @named pub_GDP = Public.public_GDP(; kwargs...)
-    @named pub_GDP_sup = Public.public_GDP_support(; kwargs...)
     @named wb = Wellbeing.wellbeing(; kwargs...)
-    @named wb_sup = Wellbeing.wellbeing_support(; kwargs...)
 
     systems = [
-        fin, fin_sup, pop, pop_sup, pub, pub_sup, pub_GDP, pub_GDP_sup, wb, wb_sup,
+        cli, dem, ene, fin, fl, inv, lm, oth, out, pop, pub, wb,
     ]
     # systems = [
     #     pop, pop_sup, wb, wb_sup,

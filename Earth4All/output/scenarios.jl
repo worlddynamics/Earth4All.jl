@@ -14,7 +14,7 @@ function output_run(; kwargs...)
         out.GIPC ~ out_sup.GIPC
         out.ITFP ~ out_sup.ITFP
         out.LAUS ~ out_sup.LAUS
-        out.OW ~ out_sup.OW
+        out.OBWA ~ out_sup.OBWA
         out.TOSA ~ out_sup.TOSA
         out.TPP ~ out_sup.TPP
         out.WASH ~ out_sup.WASH

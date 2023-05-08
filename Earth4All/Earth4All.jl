@@ -4,6 +4,7 @@ using ModelingToolkit
 using WorldDynamics
 
 include("functions.jl")
+include("solvesystems.jl")
 
 include("Climate.jl")
 include("Demand.jl")

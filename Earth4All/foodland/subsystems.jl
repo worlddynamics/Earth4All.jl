@@ -32,7 +32,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @parameters LER80 = params[:LER80] [description = "Land Erosion Rate in 1980 1/y"]
     @parameters MFAM = params[:MFAM] [description = "Max Forest Absorption Multiplier"]
     @parameters OGRR80 = params[:OGRR80] [description = "OGRR in 1980 1/y"]
-    @parameters OW2022 = params[:OW2022] [description = "Climate.Observed Warming in 2022 deg C"]
+    @parameters OBWA2022 = params[:OBWA2022] [description = "Climate.OBserved WArming in 2022 deg C"]
     @parameters OWEACY = params[:OWEACY] [description = "sOWeoACY<0: Observed Warming Effect on Average Crop Yeld"]
     @parameters ROCFP = params[:ROCFP] [description = "ROC in Fertilizer Productivity 1/y"]
     @parameters ROCFSP = params[:ROCFSP] [description = "ROC in Food Sector Productivity 1/y"]
@@ -70,7 +70,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables CRUSP(t) [description = "CRop USe per Person t-crop/p/y"]
     @variables CSQCA(t) [description = "Change in Soil Quality in Conv Ag t-crop/ha/y/y"]
     @variables CSRA(t) [description = "Crop Supply Reg Ag Mt-crop/y"]
-    @variables CWR(t) [description = "Crop Waste Reduction"]
+    @variables CRWR(t) [description = "CRop Waste Reduction"]
     @variables DCS(t) [description = "Desired Crop Supply Mt-crop/y"]
     @variables DCSCA(t) [description = "Desired Crop Supply Conv Ag Mt-crop/y"]
     @variables DCYCA(t) [description = "Desired Crop Yield in Conv Ag t-crop/ha/y"]
@@ -100,7 +100,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables GLY80(t) [description = "Grazing Land Yied in 1980 kg-red-meat/ha/y"]
     @variables GRLA(t) = inits[:GRLA] [description = "GRazing LAnd Mha"]
     @variables IUL(t) [description = "Indicated Urban Land Mha"]
-    @variables LEM(t) [description = "Land Erosion Multiplier"]
+    @variables LAERM(t) [description = "LAnd ERosion Multiplier"]
     @variables LER(t) [description = "Land Erosion Rate 1/y"]
     @variables LFL(t) [description = "Loss of Forest Land Mha/y"]
     @variables LOCR(t) [description = "LOss of CRopland Mha/y"]
@@ -108,7 +108,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables NFL(t) [description = "New Forestry Land Mha/y"]
     @variables NGL(t) [description = "New Grazing Land Mha/y"]
     @variables OGFA(t) = inits[:OGFA] [description = "Old Growth Forest Area Mha"]
-    @variables OGR(t) [description = "Old Growth Removal Mha/y"]
+    @variables OGRE(t) [description = "Old Growth REmoval Mha/y"]
     @variables OGRR(t) [description = "Old Growth Removal Rate 1/y"]
     @variables OGRRM(t) [description = "Old Growth Removal Rate Multiplier"]
     @variables PCB(t) [description = "Perceived Crop Balance"]
@@ -135,7 +135,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables GDP(t)
     @variables GDPP(t)
     @variables IPP(t)
-    @variables OW(t)
+    @variables OBWA(t)
     @variables POP(t)
 
     eqs = []
@@ -151,7 +151,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, CO2AFLH ~ 1.6 * FAM)
     add_equation!(eqs, CO2ELULUC ~ CO2RFC - CO2AFL - ECO2ARA)
     add_equation!(eqs, CO2ELY ~ IfElse.ifelse(t > 2022, 1 + CO2CEACY * (CO2CA / CO2C2022 - 1), 1))
-    add_equation!(eqs, CO2RFC ~ ((OGR + CREX) * CO2RHFC) / 1000)
+    add_equation!(eqs, CO2RFC ~ ((OGRE + CREX) * CO2RHFC) / 1000)
     add_equation!(eqs, COFE ~ FEUS * CTF / 1000)
     add_equation!(eqs, COFO ~ AFGDP * GDP + CRA + COFE)
     add_equation!(eqs, CRA ~ (ECRA * RAA) / 1000)
@@ -163,11 +163,11 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, D(CRLA) ~ CREX - CRLO - UREX)
     add_equation!(eqs, CRLO ~ CRLA * LER)
     add_equation!(eqs, CRSU ~ ACY * CRLA)
-    add_equation!(eqs, CRUS ~ CRSU * (1 + CWR))
+    add_equation!(eqs, CRUS ~ CRSU * (1 + CRWR))
     add_equation!(eqs, CRUSP ~ CRUS / POP)
     add_equation!(eqs, CSQCA ~ ROCSQCA * SQICA)
     add_equation!(eqs, CSRA ~ CYRA * CRLA * FRA)
-    add_equation!(eqs, CWR ~ ramp(t, GCWR / IPP, 2022, 2022 + IPP))
+    add_equation!(eqs, CRWR ~ ramp(t, GCWR / IPP, 2022, 2022 + IPP))
     add_equation!(eqs, DCS ~ CRDE)
     add_equation!(eqs, DCSCA ~ DCS - CSRA)
     add_equation!(eqs, DCYCA ~ DCSCA / (CRLA * (1 - FRA)))
@@ -193,19 +193,19 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, FSPI ~ exp(ROCFSP * (t - 1980)) * IfElse.ifelse(t > 2022, exp(EROCFSP * (t - 2022)), 1))
     add_equation!(eqs, FUCA ~ TFUCA / FPI)
     add_equation!(eqs, FUP ~ (FEUS / POP) * 1000)
-    add_equation!(eqs, GLY ~ GLY80 + 0 * CO2CA - 0 * OW)
+    add_equation!(eqs, GLY ~ GLY80 + 0 * CO2CA - 0 * OBWA)
     add_equation!(eqs, GLY80 ~ 14 * CO2ELY * WELY)
     add_equation!(eqs, D(GRLA) ~ NGL)
     add_equation!(eqs, IUL ~ POP * ULP)
-    add_equation!(eqs, LEM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
-    add_equation!(eqs, LER ~ LER80 * FEER * LEM)
-    add_equation!(eqs, LFL ~ OGR + CREX)
+    add_equation!(eqs, LAERM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
+    add_equation!(eqs, LER ~ LER80 * FEER * LAERM)
+    add_equation!(eqs, LFL ~ OGRE + CREX)
     add_equation!(eqs, LOCR ~ CRLO + UREX)
     add_equation!(eqs, NDRA ~ log((RAA + EGB22) / EGB22) / 0.693)
-    add_equation!(eqs, NFL ~ OGR * (1 - FCG))
-    add_equation!(eqs, NGL ~ OGR * FCG)
+    add_equation!(eqs, NFL ~ OGRE * (1 - FCG))
+    add_equation!(eqs, NGL ~ OGRE * FCG)
     add_equation!(eqs, D(OGFA) ~ -NFL - NGL)
-    add_equation!(eqs, OGR ~ OGFA * OGRR * OGRRM)
+    add_equation!(eqs, OGRE ~ OGFA * OGRR * OGRRM)
     add_equation!(eqs, OGRR ~ OGRR80 * FFLREOGRR)
     add_equation!(eqs, OGRRM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
     add_equation!(eqs, PCB ~ CRBA / (1 + DRC))
@@ -226,7 +226,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, TURMP ~ interpolate1(GDPP, [(0.0, 0.0), (6.1, 6.0), (8.8, 8.5), (14.0, 13.0), (30.0, 27.0), (40.0, 32.0), (50.0, 33.0), (100.0, 25.0)]))
     add_equation!(eqs, UREX ~ max(0, (IUL - URLA) / UDT))
     add_equation!(eqs, D(URLA) ~ UREX)
-    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OW / OW2022 - 1), 1))
+    add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OBWA / OBWA2022 - 1), 1))
 
     return ODESystem(eqs; name=name)
 end
@@ -236,7 +236,7 @@ function foodland_support(; name, params=_params, inits=_inits, tables=_tables, 
     @variables GDP(t) [description = "Inventory.GDP"]
     @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
-    @variables OW(t) [description = "Climate.Observed warming deg C"]
+    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
     @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
@@ -245,7 +245,7 @@ function foodland_support(; name, params=_params, inits=_inits, tables=_tables, 
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
+    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)

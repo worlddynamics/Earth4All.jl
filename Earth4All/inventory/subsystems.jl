@@ -26,7 +26,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables DELDI(t) = inits[:DELDI] [description = "DELiveries Delay - Index"]
     @variables EPP(t) = inits[:EPP] [description = "Effective Purchasing Power G/y"]
     @variables INV(t) = inits[:INV] [description = "INVentory Gu"]
-    @variables PI(t) = inits[:PI] [description = "Price Index in 1980 (=1)"]
+    @variables PRIN(t) = inits[:PRIN] [description = "PRice INdex in 1980 (=1)"]
     @variables PRI(t) = inits[:PRI] [description = "Perceived Relative Inventory"]
     @variables RS(t) = inits[:RS] [description = "Recent Sales Gu/y"]
     @variables SSWI(t) = inits[:SSWI] [description = "ShiftS Worked - Index"]
@@ -39,7 +39,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables IC(t) [description = "Inventory Coverage y"]
     @variables IR(t) [description = "Inflation Rate 1/y"]
     @variables NI(t) [description = "National Income G/y"]
-    @variables OG(t) [description = "Output Gu/y"]
+    @variables OUTP(t) [description = "OUTPut Gu/y"]
     @variables PNIS(t) [description = "Pink Noise In Sales"]
     @variables ROC(t) [description = "ROC in DDI 1/y"]
     @variables SA(t) [description = "SAles G/y"]
@@ -49,18 +49,18 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 
     eqs = []
 
-    add_equation!(eqs, GDP ~ OG * PPU)
+    add_equation!(eqs, GDP ~ OUTP * PPU)
     add_equation!(eqs, D(DELDI) ~ CDDI)
     add_equation!(eqs, CDDI ~ ROC * DELDI)
     add_equation!(eqs, DSWI ~ 1 + INVEOSWI * (PRI / DRI - 1))
     add_equation!(eqs, IC ~ INV / RS)
     add_equation!(eqs, IR ~ INVEOIN * (PRI / MRIWI - 1))
-    add_equation!(eqs, D(INV) ~ OG - DEL)
+    add_equation!(eqs, D(INV) ~ OUTP - DEL)
     add_equation!(eqs, NI ~ SA)
     add_equation!(eqs, PNIS ~ 1)
-    add_equation!(eqs, OG ~ ORO * SSWI / SWI)
-    add_equation!(eqs, D(PI) ~ CPI)
-    add_equation!(eqs, CPI ~ PI * IR)
+    add_equation!(eqs, OUTP ~ ORO * SSWI / SWI)
+    add_equation!(eqs, D(PRIN) ~ CPI)
+    add_equation!(eqs, CPI ~ PRIN * IR)
     add_equation!(eqs, ROC ~ 0 + INVEODDI * (PRI / SRI - 1))
     add_equation!(eqs, SA ~ DEL * PPU)
     add_equation!(eqs, DEL ~ ((EPP / PPU) / (DELDI / DDI)) * IfElse.ifelse(t > 1984, PNIS, 1))

@@ -30,7 +30,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     @variables AVWO(t) [description = "AVailable WOrkforce Mp"]
     @variables CECLR(t) [description = "Change in Embedded CLR kcu/ftj/y"]
     @variables CHWO(t) [description = "CHange in WOrkforce Mp"]
-    @variables CWR(t) [description = "Change in wage rate dollar/ph/y"]
+    @variables CHWR(t) [description = "CHange in wage rate dollar/ph/y"]
     @variables CWSO(t) [description = "Change in WSO 1/y"]
     @variables ECLR(t) = inits[:ECLR] [description = "Embedded Capital Labour Ratio kcu/ftj"]
     @variables ENLPR2022(t) [description = "Extra Normal Labour Participation Rate from 2022"]
@@ -77,7 +77,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, CECLR ~ ROCECLR * ECLR)
     add_equation!(eqs, CHWO ~ (OPWO - WF) / HFD)
     add_equation!(eqs, CWSO ~ WSO * ROCWSO)
-    add_equation!(eqs, CWR ~ WARA * ROCWSO)
+    add_equation!(eqs, CHWR ~ WARA * ROCWSO)
     add_equation!(eqs, D(ECLR) ~ CECLR)
     add_equation!(eqs, GDPPEROCCLR ~ max(0, 1 + GDPPEROCCLRM * (GDPP / inits[:GDPP] - 1)))
     add_equation!(eqs, ENLPR2022 ~ ramp(t, GENLPR / IPP, 2022, 2022 + IPP))
@@ -100,7 +100,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, UNEM ~ max(0, AVWO - WF))
     add_equation!(eqs, UNRA ~ UNEM / AVWO)
     add_equation!(eqs, WAP ~ A20PA)
-    add_equation!(eqs, D(WARA) ~ CWR - WRE)
+    add_equation!(eqs, D(WARA) ~ CHWR - WRE)
     add_equation!(eqs, WASH ~ WARA / LAPR)
     smooth!(eqs, WEOCLR, IWEOCLR, TCT)
     add_equation!(eqs, D(WF) ~ CHWO)
@@ -112,12 +112,12 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
 end
 
 function labour_market_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables A20PA(t) [description = "Aged 20-Pension Age Mp"]
-    @variables CAPA(t) [description = "Capacity Gcu"]
-    @variables GDPP(t) [description = "GDP per Person kDollar/p/y"]
-    @variables IR(t) [description = "Inflation Rate 1/y"]
-    @variables IPP(t) [description = "Introduction Period for Policy y"]
-    @variables OUTP(t) [description = "OUTput Gu/y"]
+    @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
+    @variables CAPA(t) [description = "Output.CAPAcity Gcu"]
+    @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables OUTP(t) [description = "Inventory.OUTPut Gu/y"]
 
     eqs = []
 

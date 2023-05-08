@@ -13,7 +13,7 @@ function _variables_inv()
         (inv.PRI, 0, 1.5, "PRI"),
         (inv.DELDI, 0.9, 1.1, "DELDI"),
         (inv.IR, -0.1, 0.1, "IR"),
-        (inv.PI, 0, 4, "PI")]
+        (inv.PRIN, 0, 4, "PRIN")]
     return variables
 end
 
