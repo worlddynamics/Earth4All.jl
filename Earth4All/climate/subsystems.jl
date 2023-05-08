@@ -98,7 +98,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables NN2OE(t) [description = "Natural N2O emissions GtN2O/y"]
     @variables OBWA(t) [description = "OBserved WArming deg C"]
     @variables OWLCO2(t) [description = "OWeoLoCO2"]
-    @variables PWA(t) = inits[:PWA] [description = "Perceived warming deg C"]
+    @variables PWA(t) = inits[:PWA] [description = "Perceived WArming deg C"]
     @variables REHE(t) [description = "Risk of extreme heat event"]
     @variables TMMF(t) [description = "Total man-made forcing W/m2"]
     @variables TRHGA(t) [description = "Transfer rate for heat going to abyss 1/y"]

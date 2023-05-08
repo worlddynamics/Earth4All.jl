@@ -56,7 +56,7 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables INEQ(t)
     @variables LPR(t)
     @variables PSP(t)
-    @variables PW(t)
+    @variables PWA(t)
     @variables WDI(t)
 
     eqs = []
@@ -86,12 +86,12 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
 end
 
 function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDPP(t)
-    @variables INEQ(t)
-    @variables LPR(t)
-    @variables PSP(t) [description = "Public Spending per person kdollar/p/y"]
-    @variables PW(t)
-    @variables WDI(t)
+    @variables GDPP(t) [description = "Population.GDP per person kDollar/p/y"]
+    @variables INEQ(t) [description = "Demand.Inequality"]
+    @variables LPR(t) [description = "Labour and market.Labour Participation Rate"]
+    @variables PSP(t) [description = "Public.Public Spending per person kdollar/p/y"]
+    @variables PWA(t) [description = "Climate.Perceived WArming deg C"]
+    @variables WDI(t) [description = "Demand.Worker disposable income kDollar/p/y"]
 
     eqs = []
 
@@ -99,7 +99,7 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
     add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
     add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
-    add_equation!(eqs, PW ~ WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
+    add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
     add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)

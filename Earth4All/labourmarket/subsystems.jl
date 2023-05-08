@@ -112,12 +112,12 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
 end
 
 function labour_market_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables A20PA(t) [description = "Aged 20-Pension Age Mp"]
+    @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
     @variables CAPA(t) [description = "Output.CAPAcity Gcu"]
     @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
-    @variables IR(t) [description = "Inflation Rate 1/y"]
-    @variables IPP(t) [description = "Introduction Period for Policy y"]
-    @variables OUTP(t) [description = "OUTput Gu/y"]
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables OUTP(t) [description = "Inventory.OUTPut Gu/y"]
 
     eqs = []
 
