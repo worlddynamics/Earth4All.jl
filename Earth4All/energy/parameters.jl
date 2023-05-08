@@ -2,7 +2,7 @@ _params = Dict{Symbol,Float64}(
     :MNFCO2PP => 0.5,
     :FCO2SCCS2022 => 0,
     :GFCO2SCCS => 0.9,
-    :CCCSt => 95,
+    :CCCS => 95,
     :ROCTCO2PT => -0.003,
     :EROCEPA2022 => 0.004,
     :NIEE => 0.01,
@@ -39,8 +39,6 @@ _params = Dict{Symbol,Float64}(
     :TCE => 0.03,
     :AFMCM => 1.35,
     :TCFFFNEU => 240,
-    :TC => 0.02,
-
-)
+    :TC => 0.02,)
 
 getparameters() = copy(_params)

@@ -13,7 +13,6 @@ function climate_run(; kwargs...)
         cli.FEUS ~ cli_sup.FEUS
         cli.CRSU ~ cli_sup.CRSU
         cli.CO2EI ~ cli_sup.CO2EI
-        cli.CCCSt ~ cli_sup.CCCSt
         cli.CO2ELULUC ~ cli_sup.CO2ELULUC]
 
     return WorldDynamics.compose(systems, connection_eqs)

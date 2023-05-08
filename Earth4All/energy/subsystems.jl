@@ -15,7 +15,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters MNFCO2PP = params[:MNFCO2PP] [description = "Max non-fossil CO2 per person tCO2/p/y"]
     @parameters FCO2SCCS2022 = params[:FCO2SCCS2022] [description = "Fraction of CO2-sources with CCS in 2022"]
     @parameters GFCO2SCCS = params[:GFCO2SCCS] [description = "Goal fraction of CO2-sources with CCS"]
-    @parameters CCCSt = params[:CCCSt] [description = "Cost of CCS Dollar/tCO2"]
+    @parameters CCCS = params[:CCCS] [description = "Cost of CCS Dollar/tCO2"]
     @parameters ROCTCO2PT = params[:ROCTCO2PT] [description = "ROC in tCO2 per toe 1/y"]
     @parameters EROCEPA2022 = params[:EROCEPA2022] [description = "Extra ROC in energy productivity after 2022 1/y"]
     @parameters NIEE = params[:NIEE] [description = "Normal increase in energy efficiency 1/y"]
@@ -144,7 +144,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CO2EI ~ CO2EP + CO2NFIP)
     add_equation!(eqs, CO2EP ~ UFF * (TCO2PT / 1000) * (1 - FCO2SCCS))
     add_equation!(eqs, CO2EMPP ~ (CO2EI / POP) * 1000)
-    add_equation!(eqs, CCCSG ~ CCCSt * ICCSC)
+    add_equation!(eqs, CCCSG ~ CCCS * ICCSC)
     add_equation!(eqs, ICCSC ~ FCO2SCCS * (CO2NFIP + CO2EP) / (1 - FCO2SCCS))
     add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * (t - 1980)))
     add_equation!(eqs, D(EEPI2022) ~ IEEPI)
