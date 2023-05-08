@@ -52,7 +52,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GDPP(t)
     @variables GP(t)
     @variables GS(t)
-    @variables II(t)
+    @variables INEQI(t)
     @variables OBWA(t)
     @variables POP(t)
 
@@ -72,7 +72,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, PSEP ~ VPSS / POP)
     add_equation!(eqs, PSP ~ GS / POP)
     add_equation!(eqs, D(TFPEE5TA) ~ CTFP)
-    add_equation!(eqs, RROTAI ~ min(1, 1 + IIEEROTA * (II / 1 - 1)))
+    add_equation!(eqs, RROTAI ~ min(1, 1 + IIEEROTA * (INEQI / 1 - 1)))
     add_equation!(eqs, RTA ~ DRTA * RROTAI + IROTA)
     smooth!(eqs, RTFPUA, PLUA, IPT + CTPIS)
     add_equation!(eqs, SC ~ VPSS / GDP)
@@ -90,8 +90,8 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
     @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
     @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
-    @variables II(t) [description = "Demand.Inequality index"]
-    @variables OBWA(t) [description = "Climate.Observed warming deg C"]
+    @variables INEQI(t) [description = "Demand.INEQuality Index (1980 = 1)"]
+    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
     @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
@@ -102,7 +102,8 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
     add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
-    add_equation!(eqs, II ~ WorldDynamics.interpolate(t, tables[:II], ranges[:II]))
+    add_equation!(eqs, INEQI ~ WorldDynamics.interpolate(t, tables[:INEQI], ranges[:INEQI]))
+    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)

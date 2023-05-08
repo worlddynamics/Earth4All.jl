@@ -76,7 +76,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GNISNI(t) [description = "Governament net income as share of NI"]
     @variables OOIAT(t) [description = "Owner operating income after taxes GDollar/y"]
     @variables INEQ(t) [description = "Inequality"]
-    @variables INEQI(t) [description = "Inequality index (1980 = 1)"]
+    @variables INEQI(t) [description = "INEQuality Index (1980 = 1)"]
     @variables OCIN(t) [description = "Owner cash inflow GDollar/y"]
     @variables POCI(t) = inits[:POCI] [description = "Permanent owner cash inflow GDollar/y"]
     @variables OSF(t) [description = "Owner savings fraction"]
