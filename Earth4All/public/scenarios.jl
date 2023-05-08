@@ -15,7 +15,6 @@ function public_run(; kwargs...)
         pub.GS ~ pub_sup.GS
         pub.II ~ pub_sup.II
         pub.OBWA ~ pub_sup.OBWA
-        pub.OW2022 ~ pub_sup.OW2022
         pub.POP ~ pub_sup.POP
     ]
 

@@ -22,6 +22,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 
     @parameters CTPIS = params[:CTPIS] [description = "Construction Time PIS y"]
     @parameters IPT = params[:IPT] [description = "Investment Planning Time y"]
+    @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
 
     @variables CTFP(t) [description = "Change in TFP 1/y"]
     @variables DRTA(t) [description = "Domestic Rate of Technological Advance 1/y"]
@@ -53,7 +54,6 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GS(t)
     @variables II(t)
     @variables OBWA(t)
-    @variables OW2022(t)
     @variables POP(t)
 
     eqs = []
@@ -66,7 +66,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, IPR ~ CPUS / GP)
     add_equation!(eqs, IROTA ~ IfElse.ifelse(t > 2022, max(0, MIROTA2022 * (1 - 1 * (GDPP / GDPTL - 1))), 0))
     add_equation!(eqs, ITFP ~ TFPEE5TA * OWTFP)
-    add_equation!(eqs, OWTFP ~ IfElse.ifelse(t > 2022, 1 + OWETFP * (OBWA / OW2022 - 1), 1))
+    add_equation!(eqs, OWTFP ~ IfElse.ifelse(t > 2022, 1 + OWETFP * (OBWA / OBWA2022 - 1), 1))
     add_equation!(eqs, PLUA ~ ECTAGDP * FUATA)
     add_equation!(eqs, PPP ~ max(0, 1 + IPRVPSS * log(IPR / IPR1980)))
     add_equation!(eqs, PSEP ~ VPSS / POP)
@@ -92,7 +92,6 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
     @variables II(t) [description = "Demand.Inequality index"]
     @variables OBWA(t) [description = "Climate.Observed warming deg C"]
-    @variables OW2022(t) [description = "Climate.Observed warming in 2022 deg C"]
     @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
@@ -104,8 +103,6 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
     add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
     add_equation!(eqs, II ~ WorldDynamics.interpolate(t, tables[:II], ranges[:II]))
-    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
-    add_equation!(eqs, OW2022 ~ WorldDynamics.interpolate(t, tables[:OW2022], ranges[:OW2022]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)
