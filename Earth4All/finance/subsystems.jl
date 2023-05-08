@@ -28,7 +28,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables ELTI(t) = inits[:ELTI] [description = "Expected Long Term Inflation 1/y"]
     @variables ISR(t) [description = "Indicated Signal Rate 1/y"]
     @variables NCCR(t) [description = "Normal Corporate Credit Risk 1/y"]
-    @variables PEIN(t) = inits[:PEIN] [description = "Perceived Inflation CB 1/y"]
+    @variables PEIN(t) = inits[:PEIN] [description = "PErceived INflation CB 1/y"]
     @variables PU(t) = inits[:PU] [description = "Perceived Unemployment CB"]
     @variables TGIR(t) [description = "10-year Government Interest Rate 1/y"]
     @variables TIR(t) [description = "3m Interest Rate 1/y"]
