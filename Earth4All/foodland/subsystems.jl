@@ -100,7 +100,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables GLY80(t) [description = "Grazing Land Yied in 1980 kg-red-meat/ha/y"]
     @variables GRLA(t) = inits[:GRLA] [description = "GRazing LAnd Mha"]
     @variables IUL(t) [description = "Indicated Urban Land Mha"]
-    @variables LEM(t) [description = "Land Erosion Multiplier"]
+    @variables LAERM(t) [description = "LAnd ERosion Multiplier"]
     @variables LER(t) [description = "Land Erosion Rate 1/y"]
     @variables LFL(t) [description = "Loss of Forest Land Mha/y"]
     @variables LOCR(t) [description = "LOss of CRopland Mha/y"]
@@ -197,8 +197,8 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, GLY80 ~ 14 * CO2ELY * WELY)
     add_equation!(eqs, D(GRLA) ~ NGL)
     add_equation!(eqs, IUL ~ POP * ULP)
-    add_equation!(eqs, LEM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
-    add_equation!(eqs, LER ~ LER80 * FEER * LEM)
+    add_equation!(eqs, LAERM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
+    add_equation!(eqs, LER ~ LER80 * FEER * LAERM)
     add_equation!(eqs, LFL ~ OGR + CREX)
     add_equation!(eqs, LOCR ~ CRLO + UREX)
     add_equation!(eqs, NDRA ~ log((RAA + EGB22) / EGB22) / 0.693)
