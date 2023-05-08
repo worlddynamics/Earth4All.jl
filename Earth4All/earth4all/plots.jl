@@ -9,10 +9,12 @@ end
 
 @variables t
 
-fig_fin(; kwargs...) = plotvariables(e4a_run_solution(), (t, 2010, 2030), Finance._variables_fin(); title="Finance sector plots", showaxis=true, showlegend=true, kwargs...)
+function _variables_pop()
+    @named pop = Population.population()
+    variables = [
+        (pop.POP, 3000, 11000, "Population Mp"),
+    ]
+    return variables
+end
 
-fig_pop(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Population._variables_pop(); title="Population sector plots", showaxis=false, showlegend=true, kwargs...)
-
-fig_pub(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Public._variables_pub(); title="Public sector plots", showaxis=false, showlegend=true, kwargs...)
-
-fig_wb(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Wellbeing._variables_wb(); title="Wellbeing sector plots", showaxis=false, showlegend=true, kwargs...)
+fig_pop(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), _variables_pop(); title="Population plot", showaxis=false, showlegend=true, kwargs...)
