@@ -108,7 +108,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables NFL(t) [description = "New Forestry Land Mha/y"]
     @variables NGL(t) [description = "New Grazing Land Mha/y"]
     @variables OGFA(t) = inits[:OGFA] [description = "Old Growth Forest Area Mha"]
-    @variables OGR(t) [description = "Old Growth Removal Mha/y"]
+    @variables OGRE(t) [description = "Old Growth REmoval Mha/y"]
     @variables OGRR(t) [description = "Old Growth Removal Rate 1/y"]
     @variables OGRRM(t) [description = "Old Growth Removal Rate Multiplier"]
     @variables PCB(t) [description = "Perceived Crop Balance"]
@@ -151,7 +151,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, CO2AFLH ~ 1.6 * FAM)
     add_equation!(eqs, CO2ELULUC ~ CO2RFC - CO2AFL - ECO2ARA)
     add_equation!(eqs, CO2ELY ~ IfElse.ifelse(t > 2022, 1 + CO2CEACY * (CO2CA / CO2C2022 - 1), 1))
-    add_equation!(eqs, CO2RFC ~ ((OGR + CREX) * CO2RHFC) / 1000)
+    add_equation!(eqs, CO2RFC ~ ((OGRE + CREX) * CO2RHFC) / 1000)
     add_equation!(eqs, COFE ~ FEUS * CTF / 1000)
     add_equation!(eqs, COFO ~ AFGDP * GDP + CRA + COFE)
     add_equation!(eqs, CRA ~ (ECRA * RAA) / 1000)
@@ -199,13 +199,13 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, IUL ~ POP * ULP)
     add_equation!(eqs, LAERM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
     add_equation!(eqs, LER ~ LER80 * FEER * LAERM)
-    add_equation!(eqs, LFL ~ OGR + CREX)
+    add_equation!(eqs, LFL ~ OGRE + CREX)
     add_equation!(eqs, LOCR ~ CRLO + UREX)
     add_equation!(eqs, NDRA ~ log((RAA + EGB22) / EGB22) / 0.693)
-    add_equation!(eqs, NFL ~ OGR * (1 - FCG))
-    add_equation!(eqs, NGL ~ OGR * FCG)
+    add_equation!(eqs, NFL ~ OGRE * (1 - FCG))
+    add_equation!(eqs, NGL ~ OGRE * FCG)
     add_equation!(eqs, D(OGFA) ~ -NFL - NGL)
-    add_equation!(eqs, OGR ~ OGFA * OGRR * OGRRM)
+    add_equation!(eqs, OGRE ~ OGFA * OGRR * OGRRM)
     add_equation!(eqs, OGRR ~ OGRR80 * FFLREOGRR)
     add_equation!(eqs, OGRRM ~ IfElse.ifelse(t > 2022, 1 - SSP2LMA * ramp(t, (1 - 0) / 78, 2022, 2100), 1))
     add_equation!(eqs, PCB ~ CRBA / (1 + DRC))
