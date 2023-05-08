@@ -20,6 +20,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters XETAC2022 = params[:XETAC2022] [description = "XExtra TA Cost in 2022 (share of GDP)"]
     @parameters XETAC2100 = params[:XETAC2100] [description = "XExtra TA Cost in 2100 (share of GDP)"]
 
+    @parameters CTPIS = params[:CTPIS] [description = "Construction Time PIS y"]
     @parameters IPT = params[:IPT] [description = "Investment Planning Time y"]
 
     @variables CTFP(t) [description = "Change in TFP 1/y"]
@@ -46,7 +47,6 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
 
     @variables CPUS(t)
     @variables CTA(t)
-    @variables CTPIS(t)
     @variables GDP(t)
     @variables GDPP(t)
     @variables GP(t)
@@ -86,7 +86,6 @@ end
 function public_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables CPUS(t) [description = "Output.Capacity PUS Geu"]
     @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
-    @variables CTPIS(t) [description = "Output.Construction time PIS y"]
     @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
     @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
     @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
@@ -100,7 +99,6 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
 
     add_equation!(eqs, CPUS ~ WorldDynamics.interpolate(t, tables[:CPUS], ranges[:CPUS]))
     add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
-    add_equation!(eqs, CTPIS ~ WorldDynamics.interpolate(t, tables[:CTPIS], ranges[:CTPIS]))
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))

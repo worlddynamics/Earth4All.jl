@@ -1,5 +1,6 @@
 _params = Dict{Symbol,Float64}(
     :CTA2022 => 9145,
+    :CTPIS => 1.5, # Taken from Ouput sector
     :EDROTA2022 => 0.003,
     :DROTA1980 => 0.01,
     :FUATA => 0.3,

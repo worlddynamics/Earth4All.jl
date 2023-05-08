@@ -9,7 +9,6 @@ function public_run(; kwargs...)
     connection_eqs = [
         pub.CPUS ~ pub_sup.CPUS
         pub.CTA ~ pub_sup.CTA
-        pub.CTPIS ~ pub_sup.CTPIS
         pub.GDP ~ pub_sup.GDP
         pub.GDPP ~ pub_sup.GDPP
         pub.GP ~ pub_sup.GP
