@@ -70,7 +70,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     @variables CRUSP(t) [description = "CRop USe per Person t-crop/p/y"]
     @variables CSQCA(t) [description = "Change in Soil Quality in Conv Ag t-crop/ha/y/y"]
     @variables CSRA(t) [description = "Crop Supply Reg Ag Mt-crop/y"]
-    @variables CWR(t) [description = "Crop Waste Reduction"]
+    @variables CRWR(t) [description = "CRop Waste Reduction"]
     @variables DCS(t) [description = "Desired Crop Supply Mt-crop/y"]
     @variables DCSCA(t) [description = "Desired Crop Supply Conv Ag Mt-crop/y"]
     @variables DCYCA(t) [description = "Desired Crop Yield in Conv Ag t-crop/ha/y"]
@@ -163,11 +163,11 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, D(CRLA) ~ CREX - CRLO - UREX)
     add_equation!(eqs, CRLO ~ CRLA * LER)
     add_equation!(eqs, CRSU ~ ACY * CRLA)
-    add_equation!(eqs, CRUS ~ CRSU * (1 + CWR))
+    add_equation!(eqs, CRUS ~ CRSU * (1 + CRWR))
     add_equation!(eqs, CRUSP ~ CRUS / POP)
     add_equation!(eqs, CSQCA ~ ROCSQCA * SQICA)
     add_equation!(eqs, CSRA ~ CYRA * CRLA * FRA)
-    add_equation!(eqs, CWR ~ ramp(t, GCWR / IPP, 2022, 2022 + IPP))
+    add_equation!(eqs, CRWR ~ ramp(t, GCWR / IPP, 2022, 2022 + IPP))
     add_equation!(eqs, DCS ~ CRDE)
     add_equation!(eqs, DCSCA ~ DCS - CSRA)
     add_equation!(eqs, DCYCA ~ DCSCA / (CRLA * (1 - FRA)))
