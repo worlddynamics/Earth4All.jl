@@ -5,8 +5,6 @@ include("../functions.jl")
 D = Differential(t)
 
 function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @parameters CCCS = params[:CCCS] [description = "Cost of CCS dollar/tCO2"]
-
     @parameters AI1980 = params[:AI1980] [description = "Amount of ice in 1980 MKm3"]
     @parameters ALGAV = params[:ALGAV] [description = "ALbedo global average"]
     @parameters ALIS = params[:ALIS] [description = "ALbedo Ice and snow"]
@@ -49,6 +47,8 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters WVC1980 = params[:WVC1980] [description = "Water Vapour Concentration in 1980 g/kg"]
     @parameters WVF1980 = params[:WVF1980] [description = "Water Vapour Feedback in 1980 W/m2"]
     @parameters WVWVF = params[:WVWVF] [description = "sWVeoWVF>0"]
+
+    @parameters CCCS = params[:CCCS] [description = "Cost of CCS dollar/tCO2"]
 
     @variables AL(t) [description = "ALbedo"]
     @variables AL1980(t) [description = "ALbedo in 1980"]

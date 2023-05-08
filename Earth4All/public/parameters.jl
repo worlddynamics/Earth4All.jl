@@ -7,6 +7,7 @@ _params = Dict{Symbol,Float64}(
     :IIEEROTA => -0.1,
     :IPR1980 => 1.2,
     :IPRVPSS => 1,
+    :IPT => 1, # Taken from Output sector
     :MIROTA2022 => 0.005,
     :OWETFP => -0.1,
     :SC1980 => 0.3,
