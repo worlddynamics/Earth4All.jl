@@ -26,7 +26,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables DELDI(t) = inits[:DELDI] [description = "DELiveries Delay - Index"]
     @variables EPP(t) = inits[:EPP] [description = "Effective Purchasing Power G/y"]
     @variables INV(t) = inits[:INV] [description = "INVentory Gu"]
-    @variables PI(t) = inits[:PI] [description = "Price Index in 1980 (=1)"]
+    @variables PI1980(t) = inits[:PI1980] [description = "Price Index in 1980 (=1)"]
     @variables PRI(t) = inits[:PRI] [description = "Perceived Relative Inventory"]
     @variables RS(t) = inits[:RS] [description = "Recent Sales Gu/y"]
     @variables SSWI(t) = inits[:SSWI] [description = "ShiftS Worked - Index"]
@@ -59,8 +59,8 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     add_equation!(eqs, NI ~ SA)
     add_equation!(eqs, PNIS ~ 1)
     add_equation!(eqs, OG ~ ORO * SSWI / SWI)
-    add_equation!(eqs, D(PI) ~ CPI)
-    add_equation!(eqs, CPI ~ PI * IR)
+    add_equation!(eqs, D(PI1980) ~ CPI)
+    add_equation!(eqs, CPI ~ PI1980 * IR)
     add_equation!(eqs, ROC ~ 0 + INVEODDI * (PRI / SRI - 1))
     add_equation!(eqs, SA ~ DEL * PPU)
     add_equation!(eqs, DEL ~ ((EPP / PPU) / (DELDI / DDI)) * IfElse.ifelse(t > 1984, PNIS, 1))
