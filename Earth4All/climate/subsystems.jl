@@ -176,8 +176,8 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 end
 
 function climate_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
-    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    # @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
+    # @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
     @variables FEUS(t) [description = "Food and land.Fertilizer use Mt/y"]
     @variables CRSU(t) [description = "Food and land.Crop supply (after 20% waste) Mt-crop/y"]
     @variables CO2EI(t) [description = "Energy.CO2 from energy and industry GtCO2/y"]
@@ -186,8 +186,8 @@ function climate_support(; name, params=_params, inits=_inits, tables=_tables, r
 
     eqs = []
 
-    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, FEUS ~ WorldDynamics.interpolate(t, tables[:FEUS], ranges[:FEUS]))
     add_equation!(eqs, CRSU ~ WorldDynamics.interpolate(t, tables[:CRSU], ranges[:CRSU]))
     add_equation!(eqs, CO2EI ~ WorldDynamics.interpolate(t, tables[:CO2EI], ranges[:CO2EI]))

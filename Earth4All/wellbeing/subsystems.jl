@@ -56,14 +56,14 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables INEQ(t)
     @variables LPR(t)
     @variables PSP(t)
-    @variables PW(t)
+    @variables PWA(t)
     @variables WDI(t)
 
     eqs = []
 
     add_equation!(eqs, AWBDI ~ exp(DRDI + log(WDI / TDI)))
     add_equation!(eqs, AWBIN ~ 1 + IEAWBIF * (INEQ / TI - 1))
-    add_equation!(eqs, AWBGW ~ max(MWBGW, min(1, 1 + GWEAWBGWF * (PW / TW - 1))))
+    add_equation!(eqs, AWBGW ~ max(MWBGW, min(1, 1 + GWEAWBGWF * (PWA / TW - 1))))
     add_equation!(eqs, AWBI ~ (0.5 * AWBDI + 0.5 * AWBPS) * AWBIN * AWBGW * AWBP)
     add_equation!(eqs, AWBP ~ (1 + PREAWBF * (ORP - TPR)) * WBEP)
     add_equation!(eqs, AWBPS ~ exp(DRPS + log(PSP / TPS)))
@@ -90,7 +90,7 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
     @variables INEQ(t)
     @variables LPR(t)
     @variables PSP(t) [description = "Public Spending per person kdollar/p/y"]
-    @variables PW(t)
+    # @variables PWA(t)
     @variables WDI(t)
 
     eqs = []
@@ -99,7 +99,7 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
     add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
     add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
-    add_equation!(eqs, PW ~ WorldDynamics.interpolate(t, tables[:PW], ranges[:PW]))
+    # add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
     add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)

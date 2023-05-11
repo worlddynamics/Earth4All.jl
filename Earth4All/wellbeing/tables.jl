@@ -30740,7 +30740,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         9.2498,
         9.25971,
     ),
-    :PW => (
+    :PWA => (
         0.4,
         0.4,
         0.400001,
@@ -46114,7 +46114,7 @@ _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :LPR => (1980, 2100),
     :PSESTR => (0, 1),
     :PSP => (1980, 2100),
-    :PW => (1980, 2100),
+    :PWA => (1980, 2100),
     :WDI => (1980, 2100),
 )
 

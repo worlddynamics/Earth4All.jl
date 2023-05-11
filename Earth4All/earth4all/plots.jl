@@ -13,7 +13,7 @@ function _variables_test()
     @named inv = Inventory.inventory()
     @named pop = Population.population()
     @named wb = Wellbeing.wellbeing()
-    # @named cli  =  Climate.climate()
+    @named cli  =  Climate.climate()
     # @named fl = FoodLand.foodland()
     # @named pub = Public.public()
     # @named fin = Finance.finance()
@@ -23,7 +23,7 @@ function _variables_test()
         (wb.AWBI, 0, 2.4, "Awerage WellBeing Index" ),
         (pop.GDPP, 0 , 60, "GDP per person"),
         (inv.PRI, 0 , 1.5, "Perceived relative inventory"),
-        # (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
+        (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
         # (fl.CRUSP, 0, 1.2, "CRUSP"),
         # (pub.PSP, 0, 10, "Public Spending per person"),
         # (fin.CBSR, 0, 0.1, "Central bank signal rate"),
