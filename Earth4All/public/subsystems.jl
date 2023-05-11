@@ -50,7 +50,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables GDPP(t)
     @variables GP(t)
     @variables GS(t)
-    @variables II(t)
+    @variables INEQI(t)
     @variables IPT(t)
     @variables OW(t)
     @variables POP(t)
@@ -71,7 +71,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, PSEP ~ VPSS / POP)
     add_equation!(eqs, PSP ~ GS / POP)
     add_equation!(eqs, D(TFPEE5TA) ~ CTFP)
-    add_equation!(eqs, RROTAI ~ min(1, 1 + IIEEROTA * (II / 1 - 1)))
+    add_equation!(eqs, RROTAI ~ min(1, 1 + IIEEROTA * (INEQI / 1 - 1)))
     add_equation!(eqs, RTA ~ DRTA * RROTAI + IROTA)
     smooth!(eqs, RTFPUA, PLUA, IPT + CTPIS)
     add_equation!(eqs, SC ~ VPSS / GDP)
@@ -88,9 +88,9 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables CTPIS(t) [description = "Output.Construction time PIS y"]
     # @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
     # @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
-    @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
-    @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
-    @variables II(t) [description = "Demand.Inequality index"]
+    # @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
+    # @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
+    # @variables INEQI(t) [description = "Demand.Inequality index"]
     @variables IPT(t) [description = "Output.Investment planning time y"]
     # @variables OW(t) [description = "Climate.Observed warming deg C"]
     # @variables OW2022(t) [description = "Climate.Observed warming in 2022 deg C"]
@@ -103,9 +103,9 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, CTPIS ~ WorldDynamics.interpolate(t, tables[:CTPIS], ranges[:CTPIS]))
     #add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     #add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
-    add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
-    add_equation!(eqs, II ~ WorldDynamics.interpolate(t, tables[:II], ranges[:II]))
+    # add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
+    # add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
+    # add_equation!(eqs, INEQI ~ WorldDynamics.interpolate(t, tables[:INEQI], ranges[:INEQI]))
     add_equation!(eqs, IPT ~ WorldDynamics.interpolate(t, tables[:IPT], ranges[:IPT]))
     # add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
     # add_equation!(eqs, OW2022 ~ WorldDynamics.interpolate(t, tables[:OW2022], ranges[:OW2022]))
