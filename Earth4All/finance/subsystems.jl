@@ -59,13 +59,13 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 end
 
 function finance_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    # @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
     @variables OGR(t) [description = "Output.Output Growth Rate 1/y"]
     @variables UR(t) [description = "Labour market.Unemployment Rate"]
 
     eqs = []
 
-    add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
+    # add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
     add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
 

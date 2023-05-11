@@ -16,7 +16,7 @@ function _variables_test()
     @named cli  =  Climate.climate()
     @named fl = FoodLand.foodland()
     @named pub = Public.public()
-    # @named fin = Finance.finance()
+    @named fin = Finance.finance()
     # @named dem = Demand.demand()
     variables = [
         (pop.POP, 0, 10000, "Population Mp"),
@@ -26,7 +26,7 @@ function _variables_test()
         (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
         (fl.CRUSP, 0, 1.2, "CRUSP"),
         (pub.PSP, 0, 10, "Public Spending per person"),
-        # (fin.CBSR, 0, 0.1, "Central bank signal rate"),
+        (fin.CBSR, 0, 0.1, "Central bank signal rate"),
         # (dem.GSGDP, 0, 1, "Government share of GDP"),
     ]
     return variables
