@@ -1,6 +1,6 @@
 function e4a_run(; kwargs...)
     @named cli = Climate.climate(; kwargs...)
-    @named dem = Demand.demand(; kwargs...)
+    # @named dem = Demand.demand(; kwargs...)
     @named ene = Energy.energy(; kwargs...)
     @named fin = Finance.finance(; kwargs...)
     @named fl = FoodLand.foodland(; kwargs...)
@@ -18,11 +18,10 @@ function e4a_run(; kwargs...)
     @named cli_sup = Climate.climate_support(; kwargs...)
     @named pub_sup = Public.public_support(; kwargs...)
     @named fin_sup = Finance.finance_support(; kwargs...)
-    @named dem_sup = Demand.demand_support(; kwargs...)
   
 
     systems = [
-        pop, wb, wb_sup, inv, inv_sup, cli, fl, ene, pub, pub_sup, fin, fin_sup, dem, dem_sup,
+        pop, wb, wb_sup, inv, inv_sup, cli, fl, ene, pub, pub_sup, fin, fin_sup
     ]
    
     connection_eqs = variable_connections(systems)

@@ -7,7 +7,7 @@ include("functions.jl")
 include("solvesystems.jl")
 
 include("Climate.jl")
-include("Demand.jl")
+# include("Demand.jl")
 include("Energy.jl")
 include("Finance.jl")
 include("FoodLand.jl")
