@@ -16,7 +16,7 @@ include("Inventory.jl")
 # include("Other.jl")
 # include("Output.jl")
 include("Population.jl")
-# include("Public.jl")
+include("Public.jl")
 include("Wellbeing.jl")
 
 include("earth4all/scenarios.jl")

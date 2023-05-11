@@ -5,6 +5,7 @@ include("../functions.jl")
 D = Differential(t)
 
 function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+    @parameters OW2022 = params[:OW2022] [description = "Climate.Observed Warming in 2022 deg C"]
     @parameters CTA2022 = params[:CTA2022] [description = "Cost of TAs in 2022 GDollar/y"]
     @parameters DROTA1980 = params[:DROTA1980] [description = "Domestic ROTA in 1980 1/y"]
     @parameters EDROTA2022 = params[:EDROTA2022] [description = "Extra Domestic ROTA in 2022 1/y"]
@@ -52,7 +53,6 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables II(t)
     @variables IPT(t)
     @variables OW(t)
-    @variables OW2022(t)
     @variables POP(t)
 
     eqs = []
@@ -86,30 +86,30 @@ function public_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables CPUS(t) [description = "Output.Capacity PUS Geu"]
     @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
     @variables CTPIS(t) [description = "Output.Construction time PIS y"]
-    @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
-    @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
+    # @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
+    # @variables GDPP(t) [description = "Population.GDP per person kDollar/p/k"]
     @variables GP(t) [description = "Demand.Government purchases Gdollar/y"]
     @variables GS(t) [description = "Demand.Government spending Gdollar/y"]
     @variables II(t) [description = "Demand.Inequality index"]
     @variables IPT(t) [description = "Output.Investment planning time y"]
-    @variables OW(t) [description = "Climate.Observed warming deg C"]
-    @variables OW2022(t) [description = "Climate.Observed warming in 2022 deg C"]
-    @variables POP(t) [description = "Population.Population Mp"]
+    # @variables OW(t) [description = "Climate.Observed warming deg C"]
+    # @variables OW2022(t) [description = "Climate.Observed warming in 2022 deg C"]
+    # @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
 
     add_equation!(eqs, CPUS ~ WorldDynamics.interpolate(t, tables[:CPUS], ranges[:CPUS]))
     add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
     add_equation!(eqs, CTPIS ~ WorldDynamics.interpolate(t, tables[:CTPIS], ranges[:CTPIS]))
-    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    #add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    #add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
     add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
     add_equation!(eqs, II ~ WorldDynamics.interpolate(t, tables[:II], ranges[:II]))
     add_equation!(eqs, IPT ~ WorldDynamics.interpolate(t, tables[:IPT], ranges[:IPT]))
-    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
-    add_equation!(eqs, OW2022 ~ WorldDynamics.interpolate(t, tables[:OW2022], ranges[:OW2022]))
-    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
+    # add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
+    # add_equation!(eqs, OW2022 ~ WorldDynamics.interpolate(t, tables[:OW2022], ranges[:OW2022]))
+    # add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)
 end

@@ -9,17 +9,18 @@ function e4a_run(; kwargs...)
     # @named oth = Other.other(; kwargs...)
     # @named out = Output.output(; kwargs...)
     @named pop = Population.population(; kwargs...)
-    # @named pub = Public.public(; kwargs...)
+    @named pub = Public.public(; kwargs...)
     @named wb = Wellbeing.wellbeing(; kwargs...)
 
    
     @named wb_sup = Wellbeing.wellbeing_support(; kwargs...)
     @named inv_sup = Inventory.inventory_support(; kwargs...)
     @named cli_sup = Climate.climate_support(; kwargs...)
+    @named pub_sup = Public.public_support(; kwargs...)
   
 
     systems = [
-        pop, wb, wb_sup, inv, inv_sup, cli, fl, ene
+        pop, wb, wb_sup, inv, inv_sup, cli, fl, ene, pub, pub_sup
     ]
    
     connection_eqs = variable_connections(systems)

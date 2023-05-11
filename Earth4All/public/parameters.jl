@@ -13,6 +13,7 @@ _params = Dict{Symbol,Float64}(
     :SCROTA => 0.5,
     :XETAC2022 => 0,
     :XETAC2100 => 0,
+    :OW2022 => 1.35,
 )
 
 getparameters() = copy(_params)
