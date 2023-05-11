@@ -86,7 +86,7 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
 end
 
 function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDPP(t)
+    # @variables GDPP(t)
     @variables INEQ(t)
     @variables LPR(t)
     @variables PSP(t) [description = "Public Spending per person kdollar/p/y"]
@@ -95,7 +95,7 @@ function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables,
 
     eqs = []
 
-    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
     add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))

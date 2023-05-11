@@ -3,24 +3,6 @@ using DifferentialEquations
 
 function e4a_run_solution()
     isdefined(@__MODULE__, :_solution_e4a_run) && return _solution_e4a_run
-    global _solution_e4a_run = WorldDynamics.solve(e4a_run(), (1980, 2100), dt=0.015625, dtmax=0.015625)
-    return _solution_e4a_run
-end
-
-@variables t
-
-fig_fin(; kwargs...) = plotvariables(e4a_run_solution(), (t, 2010, 2030), Finance._variables_fin(); title="Finance sector plots", showaxis=true, showlegend=true, kwargs...)
-
-fig_pop(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Population._variables_pop(); title="Population sector plots", showaxis=false, showlegend=true, kwargs...)
-
-fig_pub(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Public._variables_pub(); title="Public sector plots", showaxis=false, showlegend=true, kwargs...)
-
-fig_wb(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), Wellbeing._variables_wb(); title="Wellbeing sector plots", showaxis=false, showlegend=true, kwargs...)
-using ModelingToolkit
-using DifferentialEquations
-
-function e4a_run_solution()
-    isdefined(@__MODULE__, :_solution_e4a_run) && return _solution_e4a_run
     global _solution_e4a_run = WorldDynamics.solve(e4a_run(), (1980, 2100), solver = Euler(), dt=0.015625, dtmax=0.015625)
     return _solution_e4a_run
 end
@@ -31,21 +13,21 @@ function _variables_test()
     @named inv = Inventory.inventory()
     @named pop = Population.population()
     @named wb = Wellbeing.wellbeing()
-    @named cli  =  Climate.climate()
-    @named fl = FoodLand.foodland()
-    @named pub = Public.public()
-    @named fin = Finance.finance()
-    @named dem = Demand.demand()
+    # @named cli  =  Climate.climate()
+    # @named fl = FoodLand.foodland()
+    # @named pub = Public.public()
+    # @named fin = Finance.finance()
+    # @named dem = Demand.demand()
     variables = [
         (pop.POP, 0, 10000, "Population Mp"),
         (wb.AWBI, 0, 2.4, "Awerage WellBeing Index" ),
         (pop.GDPP, 0 , 60, "GDP per person"),
         (inv.PRI, 0 , 1.5, "Perceived relative inventory"),
-        (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
-        (fl.CRUSP, 0, 1.2, "CRUSP"),
-        (pub.PSP, 0, 10, "Public Spending per person"),
-        (fin.CBSR, 0, 0.1, "Central bank signal rate"),
-        (dem.GSGDP, 0, 1, "Government share of GDP"),
+        # (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
+        # (fl.CRUSP, 0, 1.2, "CRUSP"),
+        # (pub.PSP, 0, 10, "Public Spending per person"),
+        # (fin.CBSR, 0, 0.1, "Central bank signal rate"),
+        # (dem.GSGDP, 0, 1, "Government share of GDP"),
     ]
     return variables
 end
@@ -87,7 +69,7 @@ function _variables_inv()
         (inv.PRI, 0 , 1.5, "Perceived relative inventory"),
         (inv.DELDI, 0.9, 1.1, "Delivery delay"),
         (inv.IR, -0.1, 0.1, "Inflation rate"),
-        (inv.PRIN, 0, 4, "PRIN"),
+        (inv.PI, 0, 4, "Price index"),
     ]
     return variables
 end

@@ -115,14 +115,14 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
 end
 
 function population_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
-    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    # @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
+    # @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
 
     eqs = []
 
-    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
 
     return ODESystem(eqs; name=name)
