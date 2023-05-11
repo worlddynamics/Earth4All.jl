@@ -41,6 +41,7 @@ _params = Dict{Symbol,Float64}(
     :EH1980 => 0,
     :PD => 5,
     :TRSA1980 => 0.01,
+    :CCCSt => 95,
 
 )
 

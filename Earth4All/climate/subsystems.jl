@@ -10,9 +10,9 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables FEUS(t)
     @variables CRSU(t)
     @variables CO2EI(t)
-    @variables CCCSt(t)
     @variables CO2ELULUC(t)
 
+    @parameters CCCSt = params[:CCCSt] [description = "Cost of CCS Dollar/tCO2"]
     @parameters ERDN2OKF2022 = params[:ERDN2OKF2022] [description = "Extra rate of decline in N2O per kg fertilizer from 2022"]
     @parameters RDN2OKF = params[:RDN2OKF] [description = "Rate of decline in N2O per kg fertilizer 1/y"]
     @parameters KN2OKF1980 = params[:KN2OKF1980] [description = "kg N2O per kg fertilizer in 1980 "]
