@@ -9,7 +9,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters GRCR = params[:GRCR] [description = "sGReoCR<0: Growth Rate effect on Credit Risk"]
     @parameters IEFT = params[:IEFT] [description = "Inflation Expectation Formation Time y"]
     @parameters INSR = params[:INSR] [description = "sINeoSR>0: INflation effect on Signal Rate"]
-    @parameters IPT = params[:IPT] [description = "Inflation Perception Time CB y"]
+    @parameters IPTCB = params[:IPTCB] [description = "Inflation Perception Time CB y"]
     @parameters IT = params[:IT] [description = "Inflation Target 1/y"]
     @parameters NBOM = params[:NBOM] [description = "Normal Bank Operating Margin 1/y"]
     @parameters NBBM = params[:NBBM] [description = "Normal Basic Bank Margin 1/y"]
@@ -49,7 +49,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, GBC ~ TIR)
     add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
     add_equation!(eqs, NCCR ~ 0.02 * (1 + GRCR * (OGR / 0.03 - 1)))
-    smooth!(eqs, PI, IR, IPT)
+    smooth!(eqs, PI, IR, IPTCB)
     smooth!(eqs, PU, UR, UPTCB)
     add_equation!(eqs, TGIR ~ GBC + ELTI)
     add_equation!(eqs, TIR ~ CBSR + NBBM)

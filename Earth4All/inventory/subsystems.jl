@@ -39,7 +39,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables IC(t) [description = "Inventory Coverage y"]
     @variables IR(t) [description = "Inflation Rate 1/y"]
     @variables NI(t) [description = "National Income Gdollar/y"]
-    @variables OG(t) [description = "Output Gu/y"]
+    @variables OUTP(t) [description = "OUTPut Gu/y"]
     @variables PNIS(t) [description = "Pink Noise In Sales (1)"]
     @variables ROC(t) [description = "ROC in DDI 1/y"]
     @variables SA(t) [description = "SAles Gdollar/y"]
@@ -49,16 +49,16 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
 
     eqs = []
 
-    add_equation!(eqs, GDP ~ OG * PPU)
+    add_equation!(eqs, GDP ~ OUTP * PPU)
     add_equation!(eqs, D(DELDI) ~ CDDI)
     add_equation!(eqs, CDDI ~ ROC * DELDI)
     add_equation!(eqs, DSWI ~ 1 + INVEOSWI * (PRI / DRI - 1))
     add_equation!(eqs, IC ~ INV / RS)
     add_equation!(eqs, IR ~ INVEOIN * (PRI / MRIWI - 1))
-    add_equation!(eqs, D(INV) ~ OG - DEL)
+    add_equation!(eqs, D(INV) ~ OUTP - DEL)
     add_equation!(eqs, NI ~ SA)
     add_equation!(eqs, PNIS ~ 1)
-    add_equation!(eqs, OG ~ ORO * SSWI / SWI)
+    add_equation!(eqs, OUTP ~ ORO * SSWI / SWI)
     add_equation!(eqs, D(PI1980) ~ CPI)
     add_equation!(eqs, CPI ~ PI1980 * IR)
     add_equation!(eqs, ROC ~ 0 + INVEODDI * (PRI / SRI - 1))

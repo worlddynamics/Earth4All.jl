@@ -7682,7 +7682,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
         4156.66,
         4155.8,
     ),
-    :CAPA => (
+    :CAP => (
         64600,
         64647.1,
         64694.5,
@@ -46107,7 +46107,7 @@ _tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
 )
 _ranges = Dict{Symbol,Tuple{Float64,Float64}}(
     :A20PA => (1980, 2100),
-    :CAPA => (1980, 2100),
+    :CAP => (1980, 2100),
     :GDPP => (1980, 2100),
     :IR => (1980, 2100),
     :IPP => (1980, 2100),

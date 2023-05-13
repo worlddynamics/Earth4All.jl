@@ -28,7 +28,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     @variables AVWO(t) [description = "AVailable WOrkforce Mp"]
     @variables CECLR(t) [description = "Change in Embedded CLR kcu/ftj/y"]
     @variables CHWO(t) [description = "CHange in WOrkforce Mp/y"]
-    @variables CWR(t) [description = "Change in wage rate dollar/ph/y"]
+    @variables CWRA(t) [description = "Change in Wage RAte dollar/ph/y"]
     @variables CWSO(t) [description = "Change in WSO 1/y"]
     @variables ECLR(t) = inits[:ECLR] [description = "Embedded CLR kcu/ftj"]
     @variables ENLPR2022(t) [description = "Extra Normal LPR from 2022 (1)"]
@@ -63,7 +63,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     @variables WSO(t) = inits[:WSO] [description = "Worker Share of Output (1)"]
 
     @variables A20PA(t)
-    @variables CAPA(t)
+    @variables CAP(t)
     @variables GDPP(t)
     @variables IR(t)
     @variables IPP(t)
@@ -77,7 +77,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, CECLR ~ ROCECLR * ECLR)
     add_equation!(eqs, CHWO ~ (OPWO - WF) / HFD)
     add_equation!(eqs, CWSO ~ WSO * ROCWSO)
-    add_equation!(eqs, CWR ~ WARA * ROCWSO)
+    add_equation!(eqs, CWRA ~ WARA * ROCWSO)
     add_equation!(eqs, D(ECLR) ~ CECLR)
     add_equation!(eqs, GDPPEROCCLR ~ max(0, 1 + GDPPEROCCLRM * (GDPP / inits[:GDPP] - 1)))
     add_equation!(eqs, ENLPR2022 ~ ramp(t, GENLPR / IPP, 2022, 2022 + IPP))
@@ -92,7 +92,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     smooth!(eqs, NHW, inits[:NHW] * HWMGDPP, TAHW)
     add_equation!(eqs, NLPR ~ inits[:NLPR] * (1 + WSOELPR * (WSO / inits[:WSO] - 1)) + ENLPR2022)
     add_equation!(eqs, OCLR ~ ECLR * WEOCLR)
-    add_equation!(eqs, OPWO ~ (CAPA / OCLR) * PFTJ)
+    add_equation!(eqs, OPWO ~ (CAP / OCLR) * PFTJ)
     add_equation!(eqs, PART ~ LPR * (1 - PURA))
     add_equation!(eqs, PSW ~ AUR * (1 + PUELPR * (PURA / AUR - 1)))
     smooth!(eqs, PURA, UR, UPT)
@@ -102,7 +102,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, UNEM ~ max(0, AVWO - WF))
     add_equation!(eqs, UR ~ UNEM / AVWO)
     add_equation!(eqs, WAP ~ A20PA)
-    add_equation!(eqs, D(WARA) ~ CWR - WRE)
+    add_equation!(eqs, D(WARA) ~ CWRA - WRE)
     add_equation!(eqs, WASH ~ WARA / LAPR)
     smooth!(eqs, WEOCLR, IWEOCLR, TCT)
     add_equation!(eqs, D(WF) ~ CHWO)
@@ -115,16 +115,16 @@ end
 
 function labour_market_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
-    @variables CAPA(t) [description = "Output.Capacity Gcu"]
+    @variables CAP(t) [description = "Output.CAPacity Gcu"]
     @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
     @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
-    @variables OUTP(t) [description = "Demand.OUTput Gu/y"]
+    @variables OUTP(t) [description = "Inventory.OUTput Gu/y"]
 
     eqs = []
 
     add_equation!(eqs, A20PA ~ WorldDynamics.interpolate(t, tables[:A20PA], ranges[:A20PA]))
-    add_equation!(eqs, CAPA ~ WorldDynamics.interpolate(t, tables[:CAPA], ranges[:CAPA]))
+    add_equation!(eqs, CAP ~ WorldDynamics.interpolate(t, tables[:CAP], ranges[:CAP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
