@@ -123,3 +123,103 @@ function print_exo_vars(sys)
       end
    end
 end
+
+function read_vensim_dataset(fn)
+   f::IOStream = open(fn, "r")
+   ds = Dict{String,Array{Float64}}()
+   for line in eachline(f)
+      split_line::Vector{String} = split(line, "\t")
+      s = replace(split_line[1], "\"" => "")
+      s = replace(s, " : E4A-220501 GL" => "")
+      s = replace(s, " (Year)" => "")
+      s = replace(s, "\$" => "dollar")
+      v::Array{Float64} = Array{Float64}(undef, length(split_line) - 1)
+      for i in 2:lastindex(split_line)
+         v[i-1] = parse(Float64, split_line[i])
+      end
+      ds[lowercase(s)] = v
+   end
+   close(f)
+   return ds
+end
+
+function check_descriptions(vs_ds, sys)
+   nsv = ModelingToolkit.namespace_variables(sys)
+   for v in nsv
+      d = ModelingToolkit.getdescription(v)
+      if (d != "" && !startswith(d, "LV functions") && !startswith(d, "RT functions"))
+         if (get(vs_ds, lowercase(ModelingToolkit.getdescription(v)), "") == "")
+            println(ModelingToolkit.getdescription(v))
+         end
+      end
+   end
+end
+
+function compare(a, b, pepsi)
+   max_re = 0
+   for i in 1:lastindex(a)
+      re = abs((a[i] - b[i]) / (b[i] + pepsi))
+      max_re = max(max_re, re)
+   end
+   return max_re
+end
+
+function mre_sys(sol, sys, vs_ds, pepsi, verbose)
+   nsv = ModelingToolkit.namespace_variables(sys)
+   max_re = 0.0
+   for v in nsv
+      d = ModelingToolkit.getdescription(v)
+      if (d != "" && d != "Time instants" && !startswith(d, "LV functions") && !startswith(d, "RT functions"))
+         re = Earth4All.compare(sol[v][1:7681], vs_ds[lowercase(d)], pepsi)
+         max_re = max(max_re, re)
+         if (verbose)
+            println(d, " ", re, " (", max_re, ")")
+         end
+      end
+   end
+   return max_re
+end
+
+function check_model()
+   println("=========COMPUTING SOLUTION=======")
+   e4a_sol = Earth4All.e4a_run_solution()
+   println("=========SOLUTION COMPUTED=======")
+   vs_ds_cli = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/climate.txt")
+   @named cli = Earth4All.Climate.climate()
+   println("=========CLIMATE=======")
+   Earth4All.check_descriptions(vs_ds_cli, cli)
+   max_re = Earth4All.mre_sys(e4a_sol, cli, vs_ds_cli, 0.1, true)
+   println("Maximum relative error: ", max_re)
+   vs_ds_ene = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/energy.txt")
+   @named ene = Earth4All.Energy.energy()
+   println("=========ENERGY=======")
+   Earth4All.check_descriptions(vs_ds_ene, ene)
+   vs_ds_fin = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/finance.txt")
+   @named fin = Earth4All.Finance.finance()
+   println("=========FINANCE=======")
+   Earth4All.check_descriptions(vs_ds_fin, fin)
+   vs_ds_fl = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/foodland.txt")
+   @named fl = Earth4All.FoodLand.foodland()
+   println("=========FOOD AND LAND=======")
+   Earth4All.check_descriptions(vs_ds_fl, fl)
+   vs_ds_inv = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/inventory.txt")
+   @named inv = Earth4All.Inventory.inventory()
+   println("=========INVENTORY=======")
+   Earth4All.check_descriptions(vs_ds_inv, inv)
+   vs_ds_oth = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/other.txt")
+   @named oth = Earth4All.Other.other()
+   println("=========OTHER=======")
+   Earth4All.check_descriptions(vs_ds_oth, oth)
+   vs_ds_pop = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/population.txt")
+   @named pop = Earth4All.Population.population()
+   println("=========POPULATION=======")
+   Earth4All.check_descriptions(vs_ds_pop, pop)
+   vs_ds_pub = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/public.txt")
+   @named pub = Earth4All.Public.public()
+   println("=========PUBLIC=======")
+   Earth4All.check_descriptions(vs_ds_pub, pub)
+   vs_ds_wb = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/wellbeing.txt")
+   @named wb = Earth4All.Wellbeing.wellbeing()
+   println("=========WELLBEING=======")
+   Earth4All.check_descriptions(vs_ds_wb, wb)
+end

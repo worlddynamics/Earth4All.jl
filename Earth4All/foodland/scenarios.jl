@@ -1,19 +1,19 @@
 function foodland_run(; kwargs...)
-    @named fl = foodland(; kwargs...)
-    @named fl_sup = foodland_support(; kwargs...)
+    @named foo = foodland(; kwargs...)
+    @named foo_sup = foodland_support(; kwargs...)
 
 
     systems = [
-        fl, fl_sup
+        foo, foo_sup
     ]
 
     connection_eqs = [
-        fl.CO2CA ~ fl_sup.CO2CA
-        fl.GDP ~ fl_sup.GDP
-        fl.GDPP ~ fl_sup.GDPP
-        fl.IPP ~ fl_sup.IPP
-        fl.OW ~ fl_sup.OW
-        fl.POP ~ fl_sup.POP
+        foo.CO2CA ~ foo_sup.CO2CA
+        foo.GDP ~ foo_sup.GDP
+        foo.GDPP ~ foo_sup.GDPP
+        foo.IPP ~ foo_sup.IPP
+        foo.OW ~ foo_sup.OW
+        foo.POP ~ foo_sup.POP
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)

@@ -1,11 +1,13 @@
 _params = Dict{Symbol,Float64}(
     :CTA2022 => 9145,
+    :CTPIS => 1.5, # Taken from Output sector
     :EDROTA2022 => 0.003,
     :DROTA1980 => 0.01,
     :FUATA => 0.3,
     :GDPTL => 15,
     :IIEEROTA => -0.1,
     :IPR1980 => 1.2,
+    :IPT => 1, # Taken from Output sector
     :IPRVPSS => 1,
     :MIROTA2022 => 0.005,
     :OWETFP => -0.1,

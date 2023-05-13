@@ -11,14 +11,12 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     @parameters GDPPEROCCLRM = params[:GDPPEROCCLRM] [description = "sGDPppeoROCCLR<0: GDPP Effect on ROC in CLR"]
     # @parameters GDPP80 = params[:GDPP80] [description = "GDP per Person in 1980"]
     @parameters GENLPR = params[:GENLPR] [description = "Goal for Extra Normal Labour Participation Rate"]
-    @parameters HFD = params[:TYLD] / 3 [description = "Hiring/Firing Delay y"]
     @parameters PFTJ = params[:PFTJ] [description = "Persons per Full-Time Job p/ftj"]
     @parameters PFTJ80 = params[:PFTJ80] [description = "Persons per Full-Time Job in 1980 p/ftj"]
     @parameters PRUN = params[:PRUN] [description = "PRice per UNit dollar/u"]
     @parameters PUELPR = params[:PUELPR] [description = "sPUNeoLPR>0: Perceived Unemployment Effect on LPR"]
     @parameters RWER = params[:RWER] [description = "Real Wage Erosion Rate 1/y"]
     @parameters TAHW = params[:TAHW] [description = "Time to Adjust Hours Worked y"]
-    @parameters TCT = params[:TYLD] / 3 [description = "Time to Change Tooling y"]
     @parameters TELLM = params[:TELLM] [description = "Time to Enter/Leave Labor Market y"]
     @parameters TYLD = params[:TYLD] [description = "Ten-Yr Loop Delay y"]
     @parameters UPT = params[:TYLD] / 3 [description = "Unemployment Perception Time y"]
@@ -29,38 +27,40 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     @variables AHW(t) [description = "Average Hours Worked kh/y"]
     @variables AVWO(t) [description = "AVailable WOrkforce Mp"]
     @variables CECLR(t) [description = "Change in Embedded CLR kcu/ftj/y"]
-    @variables CHWO(t) [description = "CHange in WOrkforce Mp"]
+    @variables CHWO(t) [description = "CHange in WOrkforce Mp/y"]
     @variables CWR(t) [description = "Change in wage rate dollar/ph/y"]
     @variables CWSO(t) [description = "Change in WSO 1/y"]
-    @variables ECLR(t) = inits[:ECLR] [description = "Embedded Capital Labour Ratio kcu/ftj"]
-    @variables ENLPR2022(t) [description = "Extra Normal Labour Participation Rate from 2022"]
-    @variables GDPPEROCCLR(t) [description = "GDPppeoROCCLR: GDPP Effect on ROC in CLR"]
-    @variables HWMGDPP(t) [description = "Hours Worked Mult from GDPpP"]
-    @variables IWEOCLR(t) [description = "Indicated Wage Effect on Optimal CLR"]
-    @variables ILPR(t) [description = "Indicated Labour Participation Rate"]
+    @variables ECLR(t) = inits[:ECLR] [description = "Embedded CLR kcu/ftj"]
+    @variables ENLPR2022(t) [description = "Extra Normal LPR from 2022 (1)"]
+    @variables GDPPEROCCLR(t) [description = "GDPppeoROCCLR"]
+    @variables HFD(t) [description = "Hiring/Firing Delay y"]
+    @variables HWMGDPP(t) [description = "Hours Worked Mult from GDPpP (1)"]
+    @variables IWEOCLR(t) [description = "Indicated Wage Effect on Optimal CLR (1)"]
+    @variables ILPR(t) [description = "Indicated Labour Participation Rate (1)"]
     @variables LAPR(t) = inits[:LAPR] [description = "LAbour PRoductivity dollar/ph"]
     @variables LAUS(t) = inits[:LAUS] [description = "LAbour USe Gph/y"]
-    @variables LPR(t) = inits[:ILPR] [description = "Labour Participation Rate"]
+    @variables LPR(t) = inits[:ILPR] [description = "Labour Participation Rate (1)"]
     @variables LTEWSO(t) [description = "Long-Term Erosion of WSO 1/y"]
     @variables NHW(t) = inits[:NHW] [description = "Normal Hours Worked kh/ftj/y"]
-    @variables NLPR(t) = inits[:NLPR] [description = "Normal LPR"]
+    @variables NLPR(t) = inits[:NLPR] [description = "Normal LPR (1)"]
     @variables OCLR(t) [description = "Optimal Capital Labour Ratio kcu/ftj"]
     @variables OPWO(t) [description = "OPtimal WOrkforce Mp"]
-    @variables PART(t) [description = "Participation"]
-    @variables PSW(t) [description = "Perceived Surplus Workforce"]
-    @variables PURA(t) = inits[:UNRA] [description = "Perceived Unemployment RAte"]
-    @variables ROCECLR(t) = inits[:ROCECLR] [description = "Rate Of Change in ECLR 1/y"]
+    @variables PART(t) [description = "Participation (1)"]
+    @variables PSW(t) [description = "Perceived Surplus Workforce (1)"]
+    @variables PURA(t) = inits[:UR] [description = "Perceived Unemployment RAte (1)"]
+    @variables ROCECLR(t) = inits[:ROCECLR] [description = "ROC in ECLR 1/y"]
     @variables ROCWSO(t) [description = "ROC in WSO - Table 1/y"]
+    @variables TCT(t) [description = "Time to Change Tooling y"]
     @variables UNEM(t) [description = "UNEMployed Mp"]
-    @variables UNRA(t) [description = "UNemployment RAte"]
+    @variables UR(t) [description = "UNemployment RAte (1)"]
     @variables WAP(t) [description = "Working Age Population Mp"]
     @variables WARA(t) = inits[:WARA] [description = "WAge RAte dollar/ph"]
-    @variables WASH(t) [description = "WAge Share"]
-    @variables WEOCLR(t) = inits[:WEOCLR] [description = "Wage Effect on Optimal CLR"]
+    @variables WASH(t) [description = "WAge Share (1)"]
+    @variables WEOCLR(t) = inits[:WEOCLR] [description = "Wage Effect on Optimal CLR (1)"]
     @variables WF(t) = inits[:WF] [description = "WorkForce Mp"]
     @variables WRER(t) [description = "Wage Rate Erosion Rate 1/y"]
     @variables WRE(t) [description = "Wage Rate Erosion dollar/ph/y"]
-    @variables WSO(t) = inits[:WSO] [description = "Worker Share of Output"]
+    @variables WSO(t) = inits[:WSO] [description = "Worker Share of Output (1)"]
 
     @variables A20PA(t)
     @variables CAPA(t)
@@ -81,6 +81,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, D(ECLR) ~ CECLR)
     add_equation!(eqs, GDPPEROCCLR ~ max(0, 1 + GDPPEROCCLRM * (GDPP / inits[:GDPP] - 1)))
     add_equation!(eqs, ENLPR2022 ~ ramp(t, GENLPR / IPP, 2022, 2022 + IPP))
+    add_equation!(eqs, HFD ~ TYLD / 3)
     add_equation!(eqs, HWMGDPP ~ 1 + GDPENHW * (GDPP / inits[:GDPP] - 1))
     add_equation!(eqs, IWEOCLR ~ 1 + WSOECLR * (WSO / inits[:WSO] - 1))
     add_equation!(eqs, ILPR ~ NLPR - PSW)
@@ -94,11 +95,12 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, OPWO ~ (CAPA / OCLR) * PFTJ)
     add_equation!(eqs, PART ~ LPR * (1 - PURA))
     add_equation!(eqs, PSW ~ AUR * (1 + PUELPR * (PURA / AUR - 1)))
-    smooth!(eqs, PURA, UNRA, UPT)
+    smooth!(eqs, PURA, UR, UPT)
     add_equation!(eqs, ROCECLR ~ inits[:ROCECLR] * GDPPEROCCLR)
     add_equation!(eqs, ROCWSO ~ interpolate1(PURA / AUR, [(0.0, 0.06), (0.5, 0.02), (1.0, 0.0), (1.5, -0.007), (2.0, -0.01)]))
+    add_equation!(eqs, TCT ~ TYLD / 3)
     add_equation!(eqs, UNEM ~ max(0, AVWO - WF))
-    add_equation!(eqs, UNRA ~ UNEM / AVWO)
+    add_equation!(eqs, UR ~ UNEM / AVWO)
     add_equation!(eqs, WAP ~ A20PA)
     add_equation!(eqs, D(WARA) ~ CWR - WRE)
     add_equation!(eqs, WASH ~ WARA / LAPR)
@@ -112,12 +114,12 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
 end
 
 function labour_market_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables A20PA(t) [description = "Aged 20-Pension Age Mp"]
-    @variables CAPA(t) [description = "Capacity Gcu"]
-    @variables GDPP(t) [description = "GDP per Person kDollar/p/y"]
-    @variables IR(t) [description = "Inflation Rate 1/y"]
-    @variables IPP(t) [description = "Introduction Period for Policy y"]
-    @variables OUTP(t) [description = "OUTput Gu/y"]
+    @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
+    @variables CAPA(t) [description = "Output.Capacity Gcu"]
+    @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables OUTP(t) [description = "Demand.OUTput Gu/y"]
 
     eqs = []
 

@@ -22,17 +22,17 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CBC(t) [description = "Corporate Borrowing Cost 1/y"]
     @variables CBSR(t) = inits[:CBSR] [description = "Central Bank Signal Rate 1/y"]
     @variables CCSD(t) = inits[:CCSD] [description = "Cost of Capital for Secured Debt 1/y"]
-    @variables CSR(t) [description = "Change in Signal Rate 1/y"]
-    @variables GBC(t) [description = "Government Borrowing Cost 1/y"]
+    @variables CSR(t) [description = "Change in Signal Rate 1/yy"]
+    @variables GBC(t) [description = "Govmnt Borrowing Cost 1/y"]
     @variables CBC1980(t) [description = "Corporate Borrowing Cost in 1980 1/y"]
     @variables ELTI(t) = inits[:ELTI] [description = "Expected Long Term Inflation 1/y"]
     @variables ISR(t) [description = "Indicated Signal Rate 1/y"]
     @variables NCCR(t) [description = "Normal Corporate Credit Risk 1/y"]
     @variables PI(t) = inits[:PI] [description = "Perceived Inflation CB 1/y"]
-    @variables PU(t) = inits[:PU] [description = "Perceived Unemployment CB"]
-    @variables TGIR(t) [description = "10-year Government Interest Rate 1/y"]
+    @variables PU(t) = inits[:PU] [description = "Perceived Unemployment CB (1)"]
+    @variables TGIR(t) [description = "10-yr Govmnt Interest Rate 1/y"]
     @variables TIR(t) [description = "3m Interest Rate 1/y"]
-    @variables WBC(t) [description = "Working Borrowing Cost 1/y"]
+    @variables WBC(t) [description = "Worker Borrowing Cost 1/y"]
 
     @variables IR(t)
     @variables OGR(t)
@@ -59,13 +59,13 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 end
 
 function finance_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    # @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
     @variables OGR(t) [description = "Output.Output Growth Rate 1/y"]
-    @variables UR(t) [description = "Labour market.Unemployment Rate"]
+    @variables UR(t) [description = "Labour market.Unemployment Rate (1)"]
 
     eqs = []
 
-    # add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
+    add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
     add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
 

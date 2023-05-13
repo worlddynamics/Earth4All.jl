@@ -56,7 +56,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters TRSA1980 = params[:TRSA1980] [description = "Transfer rate surface-abyss in 1980 1/y"]
     @parameters PD = params[:PD] [description = "Perception delay y"]
 
-    @variables KN2OEKF(t) [description = "kg N2O emission per kg fertilizer"]
+    @variables KN2OEKF(t) [description = "kg N2O emission per kg fertiliser"]
     @variables MMN2OE(t) [description = "Man-made N2O emissions GtN2O/y"]
     @variables NN2OE(t) [description = "Natural N2O emissions GtN2O/y"]
     @variables N2OE(t) [description = "N2O emissions GtN2O/y"]
@@ -65,7 +65,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables N2OBD(t) [description = "N2O BreakDown GtN2O/y"]
     @variables N2OCA(t) [description = "N2O concentration in atm ppm"]
     @variables N2OFPP(t) [description = "N2O forcing per ppm W/m2/ppm"]
-    @variables FN2O(t) [description = "Forcing from N2O  W/m2"]
+    @variables FN2O(t) [description = "Forcing from N2O W/m2"]
     @variables KCH4EKC(t) [description = "kg CH4 emission per kg crop"]
     @variables MMCH4E(t) [description = "Man-made CH4 emissions GtCH4/y"]
     @variables NCH4E(t) [description = "Natural CH4 emissions GtCH4/y"]
@@ -75,9 +75,9 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CH4BD(t) [description = "CH4 BreakDown GtCH4/y"]
     @variables CH4CA(t) [description = "CH4 concentration in atm ppm"]
     @variables CH4FPP(t) [description = "CH4 forcing per ppm W/m2/ppm"]
-    @variables FCH4(t) [description = "Forcing from CH4  W/m2"]
+    @variables FCH4(t) [description = "Forcing from CH4 W/m2"]
     @variables OWLCO2(t) [description = "OWeoLoCO2"]
-    @variables LECO2A(t) [description = "Life of extra CO2 in atmosphere y"]
+    @variables LECO2A(t) [description = "Life of extra CO2 in atm y"]
     @variables CO2FCH4(t) [description = "CO2 from CH4 GtCO2/y"]
     @variables CO2AB(t) [description = "CO2 absorption GtCO2/y"]
     @variables CO2E(t) [description = "CO2 emissions GtCO2/y"]
@@ -87,27 +87,27 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CO2A(t) = inits[:CO2A] [description = "CO2 in Atmosphere GtCO2"]
     @variables CO2CA(t) [description = "CO2 concentration in atm ppm"]
     @variables CO2FPP(t) [description = "CO2 forcing per ppm W/m2/ppm"]
-    @variables FCO2(t) [description = "Forcing from CO2  W/m2"]
-    @variables FOG(t) [description = "Forcing from other gases  W/m2"]
-    @variables MMF(t) [description = "Man-made Forcing  W/m2"]
+    @variables FCO2(t) [description = "Forcing from CO2 W/m2"]
+    @variables FOG(t) [description = "Forcing from other gases W/m2"]
+    @variables MMF(t) [description = "Man-made Forcing W/m2"]
     @variables GHGE(t) [description = "GHG emissions GtCO2e/y"]
-    @variables AL1980(t) [description = "ALbedo in 1980"]
-    @variables AL(t) [description = "ALbedo"]
+    @variables AL1980(t) [description = "ALbedo in 1980 (1)"]
+    @variables AL(t) [description = "ALbedo (1)"]
     @variables TRHGS(t) [description = "Transfer rate for heat going to space 1/y"]
     @variables HTS(t) [description = "Heat to space ZJ/y"]
     @variables MRS(t) [description = "Melting rate surface 1/y"]
     @variables MRDI(t) [description = "Melting rate deep ice 1/y"]
     @variables ECIM(t) [description = "Extra cooling from ice melt ZJ/y"]
     @variables MEL(t) [description = "Melting Mha/y"]
-    @variables ISCEGA(t) = inits[:ISCEGA] [description = "Ice and snow cover excluding Greenland and Antarctica Mkm2"]
+    @variables ISCEGA(t) = inits[:ISCEGA] [description = "Ice and snow cover excl G&A Mkm2"]
     @variables ISC(t) [description = "Ice and snow cover Mha"]
-    @variables WVC(t) [description = "Water Vapour Concentration g/kg"]
+    @variables WVC(t) [description = "Water Vapor Concentration g/kg"]
     @variables WVF(t) [description = "Water Vapour Feedback W/m2"]
     @variables TMMF(t) [description = "Total man-made forcing W/m2"]
     @variables EWFF(t) [description = "Extra Warming from forcing ZJ/y"]
     @variables OW(t) [description = "OBserved WArming deg C"]
-    @variables REHE(t) [description = "Risk of extreme heat event"]
-    @variables PWA(t) = inits[:PWA] [description = "Perceived warming deg C"]
+    @variables REHE(t) [description = "Risk of extreme heat event (1)"]
+    @variables PWA(t) = inits[:PWA] [description = "Perceived WArming deg C"]
     @variables TRHGA(t) [description = "Transfer rate for heat going to abyss 1/y"]
     @variables HDO(t) [description = "Heat to deep ocean ZJ/y"]
     @variables EHS(t) = inits[:EHS] [description = "Extra heat in surface ZJ"]
@@ -135,7 +135,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, CH4CA ~ CH4A / GCH4PP)
     add_equation!(eqs, CH4FPP ~ interpolate1(t, [(1980.0, 0.82), (2000.0, 0.94), (2020.0, 1.01), (2100.0, 1.1)]))
     add_equation!(eqs, FCH4 ~ CH4CA * CH4FPP)
-    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OW/ OBWA2022 - 1), 1))
+    add_equation!(eqs, OWLCO2 ~ IfElse.ifelse(t > 2022, 1 + SOWLCO2 * (OW / OBWA2022 - 1), 1))
     add_equation!(eqs, LECO2A ~ LECO2A1980 * OWLCO2)
     add_equation!(eqs, CO2FCH4 ~ CH4BD * TCO2PTCH4)
     add_equation!(eqs, CO2AB ~ (CO2A - CO2A1850) / LECO2A)
@@ -152,47 +152,45 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, GHGE ~ CO2E * TCO2ETCO2 + CH4E * TCO2ETCH4 + N2OE * TCO2ETN2O)
     add_equation!(eqs, AL1980 ~ (ISCEGA1980 * ALIS + (GLSU - ISCEGA1980) * ALGAV) / GLSU)
     add_equation!(eqs, AL ~ (ISCEGA * ALIS + (GLSU - ISCEGA) * ALGAV) / GLSU)
-    add_equation!(eqs, TRHGS ~ (TRSS1980 * ((OW+ 297) / 297)) * (AL / AL1980))
+    add_equation!(eqs, TRHGS ~ (TRSS1980 * ((OW + 297) / 297)) * (AL / AL1980))
     add_equation!(eqs, HTS ~ EHS * TRHGS) # EHS
-    add_equation!(eqs, MRS ~ MRS1980 * (OW/ WA1980))
+    add_equation!(eqs, MRS ~ MRS1980 * (OW / WA1980))
     add_equation!(eqs, MRDI ~ MRS / SVDR)
     add_equation!(eqs, ECIM ~ MRDI * AI1980 * TPM3I * HRMI)
     add_equation!(eqs, MEL ~ ISCEGA * MRS)
     add_equation!(eqs, D(ISCEGA) ~ -MEL)
     add_equation!(eqs, ISC ~ ISCEGA * 100)
-    add_equation!(eqs, WVC ~ WVC1980 * (1 + OWWV * (OW/ WA1980 - 1)))
+    add_equation!(eqs, WVC ~ WVC1980 * (1 + OWWV * (OW / WA1980 - 1)))
     add_equation!(eqs, WVF ~ WVF1980 * (1 + WVWVF * (WVC / WVC1980 - 1)))
     add_equation!(eqs, TMMF ~ MMF + WVF)
     add_equation!(eqs, EWFF ~ (TMMF * GLSU) * 31.5 / 1000)
-    add_equation!(eqs, OW~ WA1980 + (EHS - EH1980) * WFEH)
+    add_equation!(eqs, OW ~ WA1980 + (EHS - EH1980) * WFEH)
     add_equation!(eqs, REHE ~ interpolate1(OW, [(0.0, 1.0), (1.2, 4.8), (2.0, 8.6), (2.9, 14.0), (5.2, 40.0)]))
-    add_equation!(eqs, TRHGA ~ TRSA1980 * ((OW+ 287) / 287))
+    add_equation!(eqs, TRHGA ~ TRSA1980 * ((OW + 287) / 287))
     add_equation!(eqs, HDO ~ EHS * TRHGA)
     add_equation!(eqs, D(EHS) ~ EWFF - ECIM - HDO - HTS)
 
-    smooth!(eqs, PWA, OW , PD)
+    smooth!(eqs, PWA, OW, PD)
 
     return ODESystem(eqs; name=name)
 end
 
 function climate_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    # @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
-    # @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
-    # @variables FEUS(t) [description = "Food and land.Fertilizer use Mt/y"]
-    # @variables CRSU(t) [description = "Food and land.Crop supply (after 20% waste) Mt-crop/y"]
+    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
+    @variables FEUS(t) [description = "Food and land.Fertilizer use Mt/y"]
+    @variables CRSU(t) [description = "Food and land.Crop supply (after 20% waste) Mt-crop/y"]
     @variables CO2EI(t) [description = "Energy.CO2 from energy and industry GtCO2/y"]
-    @variables CCCSt(t) [description = "Energy.Cost of CCS Dollar/tCO2"]
-    # @variables CO2ELULUC(t) [description = "Food and land.CO2 emissions from LULUC GtCO2/y"]
+    @variables CO2ELULUC(t) [description = "Food and land.CO2 emissions from LULUC GtCO2/y"]
 
     eqs = []
 
-    # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    # add_equation!(eqs, FEUS ~ WorldDynamics.interpolate(t, tables[:FEUS], ranges[:FEUS]))
-    # add_equation!(eqs, CRSU ~ WorldDynamics.interpolate(t, tables[:CRSU], ranges[:CRSU]))
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, FEUS ~ WorldDynamics.interpolate(t, tables[:FEUS], ranges[:FEUS]))
+    add_equation!(eqs, CRSU ~ WorldDynamics.interpolate(t, tables[:CRSU], ranges[:CRSU]))
     add_equation!(eqs, CO2EI ~ WorldDynamics.interpolate(t, tables[:CO2EI], ranges[:CO2EI]))
-    add_equation!(eqs, CCCSt ~ WorldDynamics.interpolate(t, tables[:CCCSt], ranges[:CCCSt]))
-    #add_equation!(eqs, CO2ELULUC ~ WorldDynamics.interpolate(t, tables[:CO2ELULUC], ranges[:CO2ELULUC]))
+    add_equation!(eqs, CO2ELULUC ~ WorldDynamics.interpolate(t, tables[:CO2ELULUC], ranges[:CO2ELULUC]))
 
     return ODESystem(eqs; name=name)
 end
