@@ -85,13 +85,13 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables ITFP(t)
     @variables LAUS(t)
     @variables OW(t)
-    @variables TOSA(t)
+    @variables TS(t)
     @variables TPP(t)
     @variables WASH(t)
 
     eqs = []
 
-    add_equation!(eqs, AVCA ~ TOSA + FCI)
+    add_equation!(eqs, AVCA ~ TS + FCI)
     add_equation!(eqs, CAP ~ CPIS + CPUS)
     add_equation!(eqs, CAPIS ~ CUCPIS / CTPIS)
     add_equation!(eqs, CAPUS ~ CUCPUS / CTPUS)
@@ -142,7 +142,7 @@ function output_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables ITFP(t) [description = "Public.Indicated TFP"]
     @variables LAUS(t) [description = "Labour and market.LAbour USe Gph/y"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
-    @variables TOSA(t) [description = "Demand.TOtal SAvings Gdollar/y"]
+    @variables TS(t) [description = "Demand.TOtal SAvings Gdollar/y"]
     @variables TPP(t) [description = "Demand.Total Purchasing Power Gdollar/y"]
     @variables WASH(t) [description = "Labour and market.WAge SHare"]
 
@@ -156,7 +156,7 @@ function output_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, ITFP ~ WorldDynamics.interpolate(t, tables[:ITFP], ranges[:ITFP]))
     add_equation!(eqs, LAUS ~ WorldDynamics.interpolate(t, tables[:LAUS], ranges[:LAUS]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
-    add_equation!(eqs, TOSA ~ WorldDynamics.interpolate(t, tables[:TOSA], ranges[:TOSA]))
+    add_equation!(eqs, TS ~ WorldDynamics.interpolate(t, tables[:TS], ranges[:TS]))
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
     add_equation!(eqs, WASH ~ WorldDynamics.interpolate(t, tables[:WASH], ranges[:WASH]))
 

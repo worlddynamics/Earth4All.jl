@@ -13,7 +13,7 @@ function public_run(; kwargs...)
         pub.GDPP ~ pub_sup.GDPP
         pub.GP ~ pub_sup.GP
         pub.GS ~ pub_sup.GS
-        pub.II ~ pub_sup.II
+        pub.INEQI ~ pub_sup.INEQI
         pub.OW ~ pub_sup.OW
         pub.POP ~ pub_sup.POP
     ]
