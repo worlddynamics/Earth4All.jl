@@ -59,7 +59,7 @@ step(inputvalue, returnifgte, threshold) = clip(returnifgte, zero(returnifgte), 
 
 Returns 1.0, starting at time start, and lasting for interval width; 0.0 is returned at all other times. If width is passed as 0 it will be treated as though it were the current value of TIME STEP. This function corresponds to the `PULSE` function in the `VENSIM` language.
 """
-pulse(inputvalue, start, width) = IfElse.ifelse(inputvalue > start && inputvalue < (start + width), one(inputvalue), zero(inputvalue))
+pulse(inputvalue, start, width) = IfElse.ifelse(inputvalue >= start, 1, 0) * IfElse.ifelse(inputvalue < (start + width), 1, 0)
 
 interpolate(x, x₁, xₙ, y₁, yₙ) = y₁ + (x - x₁) * ((yₙ - y₁) / (xₙ - x₁))
 
@@ -157,20 +157,28 @@ end
 
 function compare(a, b, pepsi)
    max_re = 0
+   max_re_a = 0
+   max_re_b = 0
+   max_re_i = 0
    for i in 1:lastindex(a)
       re = abs((a[i] - b[i]) / (b[i] + pepsi))
-      max_re = max(max_re, re)
+      if (re > max_re)
+         max_re = max(max_re, re)
+         max_re_a = a[i]
+         max_re_b = b[i]
+         max_re_i = i
+      end
    end
-   return max_re
+   return max_re, max_re_a, max_re_b, max_re_i
 end
 
-function mre_sys(sol, sys, vs_ds, pepsi, verbose)
+function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose)
    nsv = ModelingToolkit.namespace_variables(sys)
    max_re = 0.0
    for v in nsv
       d = ModelingToolkit.getdescription(v)
       if (d != "" && d != "Time instants" && !startswith(d, "LV functions") && !startswith(d, "RT functions"))
-         re = Earth4All.compare(sol[v][1:7681], vs_ds[lowercase(d)], pepsi)
+         re, _, _, _ = Earth4All.compare(sol[v][1:nt], vs_ds[lowercase(d)], pepsi)
          max_re = max(max_re, re)
          if (verbose)
             println(d, " ", re, " (", max_re, ")")
