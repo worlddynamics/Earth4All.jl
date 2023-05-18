@@ -89,6 +89,10 @@ function interpolate1(x, pairs::Vector{Tuple{Float64,Float64}})
    interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
 end
 
+function withlookup(x, pairs::Vector{Tuple{Float64,Float64}})
+   interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
+end
+
 function print_endo_vars(sys)
    println("| Stella name | Name | Initial value |")
    println("| --- | --- | --- |")
@@ -161,7 +165,7 @@ function compare(a, b, pepsi)
    max_re_b = 0
    max_re_i = 0
    for i in 1:lastindex(a)
-      re = abs((a[i] - b[i]) / (b[i] + pepsi))
+      re = abs(a[i] - b[i]) / (abs(b[i]) + pepsi)
       if (re > max_re)
          max_re = max(max_re, re)
          max_re_a = a[i]
