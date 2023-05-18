@@ -17,7 +17,6 @@ function e4a_run(; kwargs...)
     ]
 
     connection_eqs = variable_connections(systems)
-    println.(connection_eqs)
 
     return WorldDynamics.compose(systems, connection_eqs)
 end

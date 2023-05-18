@@ -113,7 +113,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, D(ETFP) ~ ECR)
     smooth!(eqs, FACNC, FRA1980 * FRACAMGDPPL * (WSOEFCA + CBCEFCA + EDEFCA) / 3, IPT)
     add_equation!(eqs, FRACAMGDPPL ~ max(FRACAM, 1 + GDPPEFRACA * (GDPP / GDPP1980 - 1)))
-    add_equation!(eqs, FRACAMGDPPT ~ interpolate1(GDPP / GDPP1980, [(0.0, 1.0), (1.0, 1.0), (2.0, 0.85), (2.1, 0.84), (4.0, 0.65), (8.0, 0.55), (16.0, 0.5)]))
+    add_equation!(eqs, FRACAMGDPPT ~ withlookup(GDPP / GDPP1980, [(0.0, 1.0), (1.0, 1.0), (2.0, 0.85), (2.1, 0.84), (4.0, 0.65), (8.0, 0.55), (16.0, 0.5)]))
     add_equation!(eqs, INCPIS ~ AVCA * FACNC)
     add_equation!(eqs, ISGDP ~ (INCPIS + GIPC) / GDP)
     add_equation!(eqs, LCPIS ~ (LCPIS1980 * OWELC) / EDELC)

@@ -202,7 +202,7 @@ end
 
 function demand_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
 
-    @variables ECTAF2022(t) [description = "Public.Extra Cost of TAs from 2022"]
+    @variables ECTAF2022(t) [description = "Public.Extra Cost of TAs from 2022 Gdollar/y"]
     @variables EGDPP(t) [description = "Population.Effective GDP per person kDollar/p/y"]
     @variables GBC(t) [description = "Finance.Govmnt borrowing cost 1/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]

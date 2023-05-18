@@ -1,4 +1,5 @@
 using IfElse
+using PlotlyJS
 
 """
    `add_equation(eqs, equation)`
@@ -234,4 +235,112 @@ function check_model()
    @named wb = Earth4All.Wellbeing.wellbeing()
    println("=========WELLBEING=======")
    Earth4All.check_descriptions(vs_ds_wb, wb)
+end
+
+function compare_and_plot(sol, desc, fy, ly, nt, pepsi)
+   println("=========CLIMATE=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/climate.txt")
+   @named cli = Earth4All.Climate.climate()
+   isv, v = is_system_var(desc, cli)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========DEMAND=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/demand.txt")
+   @named dem = Earth4All.Demand.demand()
+   isv, v = is_system_var(desc, dem)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========ENERGY=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/energy.txt")
+   @named ene = Earth4All.Energy.energy()
+   isv, v = is_system_var(desc, ene)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========FINANCE=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/finance.txt")
+   @named fin = Earth4All.Finance.finance()
+   isv, v = is_system_var(desc, fin)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========FOOD AND LAND=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/foodland.txt")
+   @named foo = Earth4All.FoodLand.foodland()
+   isv, v = is_system_var(desc, foo)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========INVENTORY=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/inventory.txt")
+   @named inv = Earth4All.Inventory.inventory()
+   isv, v = is_system_var(desc, inv)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========LABOUR MARKET=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/labourmarket.txt")
+   @named lab = Earth4All.LabourMarket.labour_market()
+   isv, v = is_system_var(desc, lab)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========OTHER=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/other.txt")
+   @named oth = Earth4All.Other.other()
+   isv, v = is_system_var(desc, oth)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========OUTPUT=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/output.txt")
+   @named lab = Earth4All.Output.output()
+   isv, v = is_system_var(desc, lab)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========POPULATION=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/population.txt")
+   @named pop = Earth4All.Population.population()
+   isv, v = is_system_var(desc, pop)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========PUBLIC=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/public.txt")
+   @named pub = Earth4All.Public.public()
+   isv, v = is_system_var(desc, pub)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+   println("=========WELLBEING=======")
+   vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/wellbeing.txt")
+   @named wel = Earth4All.Wellbeing.wellbeing()
+   isv, v = is_system_var(desc, wel)
+   if (isv)
+      return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   end
+end
+
+function is_system_var(desc, sys)
+   nsv = ModelingToolkit.namespace_variables(sys)
+   for v in nsv
+      d = ModelingToolkit.getdescription(v)
+      if (d != "" && d != "Time instants" && !startswith(d, "LV functions") && !startswith(d, "RT functions"))
+         if (lowercase(d) == lowercase(desc))
+            return true, v
+         end
+      end
+   end
+   return false, nothing
+end
+
+function compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+   println(compare(sol[v][1:nt], vs_ds[lowercase(desc)], pepsi))
+   x = range(fy, ly, length=nt)
+   trace1 = scatter(x=x, y=sol[v], mode="lines", name="WorldDynamics")
+   trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], mode="lines", name="Vensim")
+   return plot([trace1, trace2], Layout(title=desc))
 end
