@@ -205,7 +205,6 @@ function demand_support(; name, params=_params, inits=_inits, tables=_tables, ra
     @variables ECTAF2022(t) [description = "Public.Extra Cost of TAs from 2022 Gdollar/y"]
     @variables EGDPP(t) [description = "Population.Effective GDP per person kDollar/p/y"]
     @variables GBC(t) [description = "Finance.Govmnt borrowing cost 1/y"]
-    @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
     @variables POP(t) [description = "Population.Population Mp"]
     @variables WBC(t) [description = "Finance.Worker borrowing cost 1/y"]
     @variables WF(t) [description = "Labour and market.Work force Mp"]
@@ -218,7 +217,6 @@ function demand_support(; name, params=_params, inits=_inits, tables=_tables, ra
     add_equation!(eqs, ECTAF2022 ~ WorldDynamics.interpolate(t, tables[:ECTAF2022], ranges[:ECTAF2022]))
     add_equation!(eqs, EGDPP ~ WorldDynamics.interpolate(t, tables[:EGDPP], ranges[:EGDPP]))
     add_equation!(eqs, GBC ~ WorldDynamics.interpolate(t, tables[:GBC], ranges[:GBC]))
-    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
     add_equation!(eqs, WBC ~ WorldDynamics.interpolate(t, tables[:WBC], ranges[:WBC]))
     add_equation!(eqs, WF ~ WorldDynamics.interpolate(t, tables[:WF], ranges[:WF]))

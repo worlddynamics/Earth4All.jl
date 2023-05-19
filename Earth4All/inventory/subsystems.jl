@@ -72,16 +72,4 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     return ODESystem(eqs; name=name)
 end
 
-function inventory_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables ORO(t) [description = "Output.Optimal Real Output Gu/y"]
-    @variables TPP(t) [description = "Demand.Total Purchasing Power G/y"]
-
-    eqs = []
-
-    add_equation!(eqs, ORO ~ WorldDynamics.interpolate(t, tables[:ORO], ranges[:ORO]))
-    add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
-
-    return ODESystem(eqs; name=name)
-end
-
 

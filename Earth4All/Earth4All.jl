@@ -9,6 +9,7 @@ include("solvesystems.jl")
 include("Demand.jl")
 include("Inventory.jl")
 include("Output.jl")
+include("Wellbeing.jl")
 
 include("earth4all/scenarios.jl")
 include("earth4all/plots.jl")

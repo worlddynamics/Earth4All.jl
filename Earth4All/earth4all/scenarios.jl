@@ -12,14 +12,14 @@ function e4a_run(; kwargs...)
     @named out_sup = Output.output_support(; kwargs...)
     # @named pop = Population.population(; kwargs...)
     # @named pub = Public.public(; kwargs...)
-    # @named wel = Wellbeing.wellbeing(; kwargs...)
+    @named wel = Wellbeing.wellbeing(; kwargs...)
+    @named wel_sup = Wellbeing.wellbeing_support(; kwargs...)
 
     systems = [
-        dem, dem_sup, inv, out, out_sup,
+        dem, dem_sup, inv, out, out_sup, wel, wel_sup,
     ]
 
     connection_eqs = variable_connections(systems)
-    println.(connection_eqs)
 
     return WorldDynamics.compose(systems, connection_eqs)
 end
