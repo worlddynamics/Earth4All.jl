@@ -95,7 +95,7 @@ function withlookup(x, pairs::Vector{Tuple{Float64,Float64}})
 end
 
 function print_endo_vars(sys)
-   println("| Stella name | Name | Initial value |")
+   println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
    for s in ModelingToolkit.get_states(sys)
       if (ModelingToolkit.getdescription(s) != "")
@@ -110,7 +110,7 @@ function print_endo_vars(sys)
 end
 
 function print_ps(sys)
-   println("| Stella name | Name | Value |")
+   println("| Vensim name | Name | Value |")
    println("| --- | --- | --- |")
    for s in ModelingToolkit.get_ps(sys)
       println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` | ", round(ModelingToolkit.getdefault(s), digits=4), " |")
@@ -118,7 +118,7 @@ function print_ps(sys)
 end
 
 function print_exo_vars(sys)
-   println("| Stella name | Name | Initial value |")
+   println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
    for s in ModelingToolkit.get_states(sys)
       desc = ModelingToolkit.getdescription(s)
@@ -161,12 +161,16 @@ function check_descriptions(vs_ds, sys)
 end
 
 function compare(a, b, pepsi)
-   max_re = 0
+   max_re = -1
    max_re_a = 0
    max_re_b = 0
    max_re_i = 0
    for i in 1:lastindex(a)
-      re = abs(a[i] - b[i]) / (abs(b[i]) + pepsi)
+      # re = abs(a[i] - b[i]) / (abs(b[i]) + pepsi)
+      re = 0
+      if (a[i] != 0 || b[i] != 0)
+         re = (2 * abs(a[i] - b[i])) / (abs(a[i]) + abs(b[i]))
+      end
       if (re > max_re)
          max_re = max(max_re, re)
          max_re_a = a[i]
@@ -193,48 +197,20 @@ function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose)
    return max_re
 end
 
-function check_model()
-   println("=========COMPUTING SOLUTION=======")
-   e4a_sol = Earth4All.e4a_run_solution()
-   println("=========SOLUTION COMPUTED=======")
-   vs_ds_cli = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/climate.txt")
-   @named cli = Earth4All.Climate.climate()
-   println("=========CLIMATE=======")
-   Earth4All.check_descriptions(vs_ds_cli, cli)
-   max_re = Earth4All.mre_sys(e4a_sol, cli, vs_ds_cli, 0.1, true)
-   println("Maximum relative error: ", max_re)
-   vs_ds_ene = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/energy.txt")
-   @named ene = Earth4All.Energy.energy()
-   println("=========ENERGY=======")
-   Earth4All.check_descriptions(vs_ds_ene, ene)
-   vs_ds_fin = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/finance.txt")
-   @named fin = Earth4All.Finance.finance()
-   println("=========FINANCE=======")
-   Earth4All.check_descriptions(vs_ds_fin, fin)
-   vs_ds_fl = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/foodland.txt")
-   @named fl = Earth4All.FoodLand.foodland()
-   println("=========FOOD AND LAND=======")
-   Earth4All.check_descriptions(vs_ds_fl, fl)
-   vs_ds_inv = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/inventory.txt")
-   @named inv = Earth4All.Inventory.inventory()
-   println("=========INVENTORY=======")
-   Earth4All.check_descriptions(vs_ds_inv, inv)
-   vs_ds_oth = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/other.txt")
-   @named oth = Earth4All.Other.other()
-   println("=========OTHER=======")
-   Earth4All.check_descriptions(vs_ds_oth, oth)
-   vs_ds_pop = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/population.txt")
-   @named pop = Earth4All.Population.population()
-   println("=========POPULATION=======")
-   Earth4All.check_descriptions(vs_ds_pop, pop)
-   vs_ds_pub = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/public.txt")
-   @named pub = Earth4All.Public.public()
-   println("=========PUBLIC=======")
-   Earth4All.check_descriptions(vs_ds_pub, pub)
-   vs_ds_wb = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/wellbeing.txt")
-   @named wb = Earth4All.Wellbeing.wellbeing()
-   println("=========WELLBEING=======")
-   Earth4All.check_descriptions(vs_ds_wb, wb)
+function check_solution(sol, pepsi, nt, verbose)
+   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
+   sector_system = system_array()
+   max_re = 0.0
+   for s in 1:lastindex(sector_name)
+      println("=========" * uppercase(sector_name[s]) * "=======")
+      vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/" * sector_name[s] * ".txt")
+      re = Earth4All.mre_sys(sol, sector_system[s], vs_ds, pepsi, nt, verbose)
+      println(re)
+      max_re = max(max_re, re)
+   end
+   println("=========MAXIMUM RE=======")
+   println(max_re)
+   return max_re
 end
 
 function system_array()
@@ -282,7 +258,8 @@ function is_system_var(desc, sys)
 end
 
 function compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
-   println(compare(sol[v][1:nt], vs_ds[lowercase(desc)], pepsi))
+   r = compare(sol[v][1:nt], vs_ds[lowercase(desc)], pepsi)
+   println(r, " at t=", sol.t[r[4]])
    x = range(fy, ly, length=nt)
    trace1 = scatter(x=x, y=sol[v], mode="lines", name="WorldDynamics")
    trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], mode="lines", name="Vensim")
