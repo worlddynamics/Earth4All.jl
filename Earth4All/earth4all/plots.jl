@@ -3,7 +3,7 @@ using DifferentialEquations
 
 function e4a_run_solution()
     isdefined(@__MODULE__, :_solution_e4a_run) && return _solution_e4a_run
-    global _solution_e4a_run = WorldDynamics.solve(e4a_run(), (1980, 2100), solver = Euler(), dt=0.015625, dtmax=0.015625)
+    global _solution_e4a_run = WorldDynamics.solve(e4a_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
     return _solution_e4a_run
 end
 
@@ -13,17 +13,17 @@ function _variables_test()
     @named inv = Inventory.inventory()
     @named pop = Population.population()
     @named wb = Wellbeing.wellbeing()
-    @named cli  =  Climate.climate()
+    @named cli = Climate.climate()
     @named fl = FoodLand.foodland()
     @named pub = Public.public()
     @named fin = Finance.finance()
     # @named dem = Demand.demand()
     variables = [
         (pop.POP, 0, 10000, "Population Mp"),
-        (wb.AWBI, 0, 2.4, "Awerage WellBeing Index" ),
-        (pop.GDPP, 0 , 60, "GDP per person"),
-        (inv.PRI, 0 , 1.5, "Perceived relative inventory"),
-        (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
+        (wb.AWBI, 0, 2.4, "Awerage WellBeing Index"),
+        (pop.GDPP, 0, 60, "GDP per person"),
+        (inv.PRI, 0, 1.5, "Perceived relative inventory"),
+        (cli.ISCEGA, 0, 20, "Ice and snow cover excl G&A Mkm"),
         (fl.CRUSP, 0, 1.2, "CRUSP"),
         (pub.PSP, 0, 10, "Public Spending per person"),
         (fin.CBSR, 0, 0.1, "Central bank signal rate"),
@@ -39,8 +39,8 @@ function _variables_pop()
     @named pop = Population.population()
     variables = [
         (pop.DR, 0, 6, "Dependency ratio p/p"),
-        (pop.LE, 0 , 100, "Life expectancy y"),
-        (pop.OF, 0, 6, "Observed fertility" )
+        (pop.LE, 0, 100, "Life expectancy y"),
+        (pop.OF, 0, 6, "Observed fertility")
     ]
     return variables
 end
@@ -51,11 +51,11 @@ function _variables_wb()
     @named wb = Wellbeing.wellbeing()
     variables = [
         (wb.AWBDI, 0, 8, "Average WellBeing from Disposable Income"),
-        (wb.AWBPS, 0 , 8, "Average WellBeing from Public Spending"),
-        (wb.AWBI, 0, 2.4, "Awerage WellBeing Index" ),
-        (wb.AWBIN, 0, 1.2, "Average WellBeing from INequality" ),
-        (wb.AWBGW, 0, 1.2, "Average WellBeing from Global Warming" ),
-        (wb.AWBP, 0, 1.2, "Average WellBeing from Progress" ),
+        (wb.AWBPS, 0, 8, "Average WellBeing from Public Spending"),
+        (wb.AWBI, 0, 2.4, "Awerage WellBeing Index"),
+        (wb.AWBIN, 0, 1.2, "Average WellBeing from INequality"),
+        (wb.AWBGW, 0, 1.2, "Average WellBeing from Global Warming"),
+        (wb.AWBP, 0, 1.2, "Average WellBeing from Progress"),
     ]
     return variables
 end
@@ -66,7 +66,7 @@ function _variables_inv()
     @named inv = Inventory.inventory()
     variables = [
         (inv.PNIS, 0, 2, "Pink Noise in sale"),
-        (inv.PRI, 0 , 1.5, "Perceived relative inventory"),
+        (inv.PRI, 0, 1.5, "Perceived relative inventory"),
         (inv.DELDI, 0.9, 1.1, "Delivery delay"),
         (inv.IR, -0.1, 0.1, "Inflation rate"),
         (inv.PI, 0, 4, "Price index"),
@@ -77,14 +77,14 @@ end
 fig_inv(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2040), _variables_inv(); title="Inventory", showaxis=true, showlegend=true, kwargs...)
 
 function _variables_cli()
-    @named cli  =  Climate.climate()
+    @named cli = Climate.climate()
 
     variables = [
-        (cli.OBWA, 0, 4,"Observed warming deg C"),
+        (cli.OBWA, 0, 4, "Observed warming deg C"),
         (cli.CO2E, 0, 44, "CO2 emissions GtCO2/y"),
         (cli.CO2CA, 0, 600, "CO2 concentration in atm ppm"),
         (cli.MMF, 0, 8, "Man-made forcing W/m2"),
-        (cli.ISCEGA, 0 , 20, "Ice and snow cover excl G&A Mkm"),
+        (cli.ISCEGA, 0, 20, "Ice and snow cover excl G&A Mkm"),
         (cli.WVF, 0, 8, "Water vapour feedback W/m2"),
     ]
     return variables
@@ -144,9 +144,7 @@ function _variables_dem()
         (dem.GSGDP, 0, 1, "Government share of GDP"),
         (dem.NI, 0, 400000, "National income"),
         (dem.GDB, 0, 2, "Governament debt burden"),
-        (dem.WDB, 0 ,2 , "Worker debt burden"),
-      
-    ]
+        (dem.WDB, 0, 2, "Worker debt burden"),]
     return variables
 end
 
@@ -156,9 +154,9 @@ fig_dem(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), _varia
 
 function _variables_do()
     @named out = Output.output()
-  
+
     variables = [
-       (out.GIPC, 0, 16000, "FACNC"),
+        (out.GIPC, 0, 16000, "FACNC"),
     ]
     return variables
 end

@@ -136,28 +136,20 @@ end
 function output_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables CBC(t) [description = "Finance.Corporate Borrowing Cost 1/y"]
     @variables CBC1980(t) [description = "Finance.Corporate Borrowing Cost in 1980 1/y"]
-    @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
     @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
-    @variables GIPC(t) [description = "Demand.Govmnt Investment in Public Capacity Gdollar/y"]
     @variables ITFP(t) [description = "Public.Indicated TFP"]
     @variables LAUS(t) [description = "Labour and market.LAbour USe Gph/y"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
-    @variables TS(t) [description = "Demand.TOtal SAvings Gdollar/y"]
-    @variables TPP(t) [description = "Demand.Total Purchasing Power Gdollar/y"]
     @variables WASH(t) [description = "Labour and market.WAge SHare"]
 
     eqs = []
 
     add_equation!(eqs, CBC ~ WorldDynamics.interpolate(t, tables[:CBC], ranges[:CBC]))
     add_equation!(eqs, CBC1980 ~ WorldDynamics.interpolate(t, tables[:CBC1980], ranges[:CBC1980]))
-    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, GIPC ~ WorldDynamics.interpolate(t, tables[:GIPC], ranges[:GIPC]))
     add_equation!(eqs, ITFP ~ WorldDynamics.interpolate(t, tables[:ITFP], ranges[:ITFP]))
     add_equation!(eqs, LAUS ~ WorldDynamics.interpolate(t, tables[:LAUS], ranges[:LAUS]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
-    add_equation!(eqs, TS ~ WorldDynamics.interpolate(t, tables[:TS], ranges[:TS]))
-    add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
     add_equation!(eqs, WASH ~ WorldDynamics.interpolate(t, tables[:WASH], ranges[:WASH]))
 
     return ODESystem(eqs; name=name)
