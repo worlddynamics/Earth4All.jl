@@ -1,6 +1,6 @@
 function output_run(; kwargs...)
     @named out = output(; kwargs...)
-    @named out_sup = output_support(; kwargs...)
+    @named out_sup = output_full_support(; kwargs...)
 
     systems = [
         out, out_sup,

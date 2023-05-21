@@ -1,6 +1,6 @@
 function wellbeing_run(; kwargs...)
     @named wel = wellbeing(; kwargs...)
-    @named wel_sup = wellbeing_support(; kwargs...)
+    @named wel_sup = wellbeing_full_support(; kwargs...)
 
     systems = [
         wel, wel_sup,

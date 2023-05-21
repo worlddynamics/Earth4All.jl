@@ -181,7 +181,7 @@ function compare(a, b, pepsi)
    return max_re, max_re_a, max_re_b, max_re_i
 end
 
-function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose)
+function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
    nsv = ModelingToolkit.namespace_variables(sys)
    max_re = 0.0
    for v in nsv
@@ -192,19 +192,23 @@ function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose)
          if (verbose)
             println(d, " ", re, " (", max_re, ")")
          end
+         if (do_plot)
+            savefig(compare_and_plot(sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "/Users/piluc/Desktop/E4AStella/figures/" * string(v) * ".png")
+         end
       end
    end
    return max_re
 end
 
-function check_solution(sol, pepsi, nt, verbose)
-   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
+function check_solution(sol, pepsi, nt, verbose, do_plot)
+   # sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
    sector_system = system_array()
+   sector_name = ["demand", "inventory", "output", "wellbeing"]
    max_re = 0.0
    for s in 1:lastindex(sector_name)
       println("=========" * uppercase(sector_name[s]) * "=======")
       vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/" * sector_name[s] * ".txt")
-      re = Earth4All.mre_sys(sol, sector_system[s], vs_ds, pepsi, nt, verbose)
+      re = Earth4All.mre_sys(sol, sector_system[s], vs_ds, pepsi, nt, verbose, do_plot)
       println(re)
       max_re = max(max_re, re)
    end
@@ -215,31 +219,33 @@ end
 
 function system_array()
    r = []
-   @named cli = Earth4All.Climate.climate()
+   # @named cli = Earth4All.Climate.climate()
    @named dem = Earth4All.Demand.demand()
-   @named ene = Earth4All.Energy.energy()
-   @named fin = Earth4All.Finance.finance()
-   @named foo = Earth4All.FoodLand.foodland()
+   # @named ene = Earth4All.Energy.energy()
+   # @named fin = Earth4All.Finance.finance()
+   # @named foo = Earth4All.FoodLand.foodland()
    @named inv = Earth4All.Inventory.inventory()
-   @named lab = Earth4All.LabourMarket.labour_market()
-   @named oth = Earth4All.Other.other()
+   # @named lab = Earth4All.LabourMarket.labour_market()
+   # @named oth = Earth4All.Other.other()
    @named out = Earth4All.Output.output()
-   @named pop = Earth4All.Population.population()
-   @named pub = Earth4All.Public.public()
+   # @named pop = Earth4All.Population.population()
+   # @named pub = Earth4All.Public.public()
    @named wel = Earth4All.Wellbeing.wellbeing()
-   append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
+   # append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
+   append!(r, [dem, inv, out, wel])
    return r
 end
 
 function compare_and_plot(sol, desc, fy, ly, nt, pepsi)
-   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
+   # sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
    sector_system = system_array()
+   sector_name = ["demand", "inventory", "output", "wellbeing"]
    for s in 1:lastindex(sector_name)
       println("=========" * uppercase(sector_name[s]) * "=======")
       vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/" * sector_name[s] * ".txt")
       isv, v = is_system_var(desc, sector_system[s])
       if (isv)
-         return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+         return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)
       end
    end
 end
@@ -257,11 +263,13 @@ function is_system_var(desc, sys)
    return false, nothing
 end
 
-function compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi)
+function compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi, do_plot)
    r = compare(sol[v][1:nt], vs_ds[lowercase(desc)], pepsi)
    println(r, " at t=", sol.t[r[4]])
-   x = range(fy, ly, length=nt)
-   trace1 = scatter(x=x, y=sol[v], mode="lines", name="WorldDynamics")
-   trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], mode="lines", name="Vensim")
-   return plot([trace1, trace2], Layout(title=desc))
+   if (do_plot)
+      x = range(fy, ly, length=nt)
+      trace1 = scatter(x=x, y=sol[v], name="WorldDynamics", line=attr(color="royalblue", dash="dash"))
+      trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], name="Vensim", line=attr(color="firebrick", dash="dot"))
+      return plot([trace1, trace2], Layout(title=desc))
+   end
 end

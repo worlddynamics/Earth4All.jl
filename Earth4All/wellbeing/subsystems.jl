@@ -1,3 +1,4 @@
+include("../tables.jl")
 include("../functions.jl")
 @register ramp(x, slope, startx, endx)
 
@@ -85,18 +86,42 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     return ODESystem(eqs; name=name)
 end
 
-function wellbeing_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+function wellbeing_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
+    @variables INEQ(t) [description = "Demand.INEQuality"]
     @variables LPR(t) [description = "Labour and market.Labour Participation Rate (1)"]
     @variables PSP(t) [description = "Public.Public Spending per Person kDollar/p/y"]
     @variables PWA(t) [description = "Climate.Perceived warming deg C"]
+    @variables WDI(t) [description = "Demand.Worker disposable income kDollar/p/y"]
 
     eqs = []
 
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
     add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
     add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
+    add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
+
+    return ODESystem(eqs; name=name)
+end
+
+function wellbeing_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+    @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
+    # @variables INEQ(t) [description = "Demand.INEQuality"]
+    @variables LPR(t) [description = "Labour and market.Labour Participation Rate (1)"]
+    # @variables PSP(t) [description = "Public.Public Spending per Person kDollar/p/y"]
+    @variables PWA(t) [description = "Climate.Perceived warming deg C"]
+    # @variables WDI(t) [description = "Demand.Worker disposable income kDollar/p/y"]
+
+    eqs = []
+
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    # add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
+    add_equation!(eqs, LPR ~ WorldDynamics.interpolate(t, tables[:LPR], ranges[:LPR]))
+    # add_equation!(eqs, PSP ~ WorldDynamics.interpolate(t, tables[:PSP], ranges[:PSP]))
+    add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
+    # add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
     return ODESystem(eqs; name=name)
 end

@@ -1,6 +1,6 @@
 function demand_run(; kwargs...)
     @named dem = demand(; kwargs...)
-    @named dem_sup = demand_support(; kwargs...)
+    @named dem_sup = demand_full_support(; kwargs...)
 
 
     systems = [
