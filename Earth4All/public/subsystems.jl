@@ -50,7 +50,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables CTA(t)
     @variables GDP(t)
     @variables GDPP(t)
-    @variables GP(t)
+    @variables GPU(t)
     @variables GS(t)
     @variables INEQI(t)
     @variables OW(t)
@@ -63,7 +63,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, ECTAF2022 ~ max(0, CTA - CTA2022))
     add_equation!(eqs, ECTAGDP ~ ECTAF2022 / GDP)
     add_equation!(eqs, GSSGDP ~ GS / GDP)
-    add_equation!(eqs, IPR ~ CPUS / GP)
+    add_equation!(eqs, IPR ~ CPUS / GPU)
     add_equation!(eqs, IROTA ~ IfElse.ifelse(t > 2022, max(0, MIROTA2022 * (1 - 1 * (GDPP / GDPTL - 1))), 0))
     add_equation!(eqs, ITFP ~ TFPEE5TA * OWTFP)
     add_equation!(eqs, OWTFP ~ IfElse.ifelse(t > 2022, 1 + OWETFP * (OW / OW2022 - 1), 1))
@@ -77,7 +77,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     smooth!(eqs, RTFPUA, PLUA, IPT + CTPIS)
     add_equation!(eqs, SC ~ VPSS / GDP)
     add_equation!(eqs, TFPIE5TA ~ TFPEE5TA * (1 - RTFPUA))
-    add_equation!(eqs, VPSS ~ GP * PPP)
+    add_equation!(eqs, VPSS ~ GPU * PPP)
     add_equation!(eqs, XECTAGDP ~ XETAC2022 + ramp(t, (XETAC2100 - XETAC2022) / 78, 2022, 2022 + 78))
 
     return ODESystem(eqs; name=name)
@@ -88,7 +88,7 @@ function public_full_support(; name, params=_params, inits=_inits, tables=_table
     @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
     @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
     @variables GDPP(t) [description = "Population.GDP per person kDollar/p/y"]
-    @variables GP(t) [description = "Demand.Govmnt purchases Gdollar/y"]
+    @variables GPU(t) [description = "Demand.Govmnt purchases Gdollar/y"]
     @variables GS(t) [description = "Demand.Govmnt spending Gdollar/y"]
     @variables INEQI(t) [description = "Demand.Inequality index (1980=1)"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
@@ -100,7 +100,7 @@ function public_full_support(; name, params=_params, inits=_inits, tables=_table
     add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
+    add_equation!(eqs, GPU ~ WorldDynamics.interpolate(t, tables[:GPU], ranges[:GPU]))
     add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
     add_equation!(eqs, INEQI ~ WorldDynamics.interpolate(t, tables[:INEQI], ranges[:INEQI]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
@@ -113,24 +113,24 @@ function public_partial_support(; name, params=_params, inits=_inits, tables=_ta
     # @variables CPUS(t) [description = "Output.Capacity PUS Gcu"]
     @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
     # @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
-    @variables GDPP(t) [description = "Population.GDP per person kDollar/p/y"]
-    # @variables GP(t) [description = "Demand.Govmnt purchases Gdollar/y"]
+    # @variables GDPP(t) [description = "Population.GDP per person kDollar/p/y"]
+    # @variables GPU(t) [description = "Demand.Govmnt purchases Gdollar/y"]
     # @variables GS(t) [description = "Demand.Govmnt spending Gdollar/y"]
     # @variables INEQI(t) [description = "Demand.Inequality index (1980=1)"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
-    @variables POP(t) [description = "Population.Population Mp"]
+    # @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
 
     # add_equation!(eqs, CPUS ~ WorldDynamics.interpolate(t, tables[:CPUS], ranges[:CPUS]))
     add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
     # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    # add_equation!(eqs, GP ~ WorldDynamics.interpolate(t, tables[:GP], ranges[:GP]))
+    # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    # add_equation!(eqs, GPU ~ WorldDynamics.interpolate(t, tables[:GPU], ranges[:GPU]))
     # add_equation!(eqs, GS ~ WorldDynamics.interpolate(t, tables[:GS], ranges[:GS]))
     # add_equation!(eqs, INEQI ~ WorldDynamics.interpolate(t, tables[:INEQI], ranges[:INEQI]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
-    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
+    # add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)
 end

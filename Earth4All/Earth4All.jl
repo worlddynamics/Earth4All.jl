@@ -11,7 +11,9 @@ println("=== All tables included ===")
 
 include("Demand.jl")
 include("Inventory.jl")
+include("LabourMarket.jl")
 include("Output.jl")
+include("Population.jl")
 include("Public.jl")
 include("Wellbeing.jl")
 
