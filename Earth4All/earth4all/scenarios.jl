@@ -5,7 +5,8 @@ function e4a_run(; kwargs...)
     # @named ene = Energy.energy(; kwargs...)
     @named fin = Finance.finance(; kwargs...)
     # @named fin_sup = Finance.finance_partial_support(; kwargs...)
-    # @named foo = FoodLand.foodland(; kwargs...)
+    @named foo = FoodLand.foodland(; kwargs...)
+    @named foo_sup = FoodLand.foodland_partial_support(; kwargs...)
     @named inv = Inventory.inventory(; kwargs...)
     # @named inv_sup = Inventory.inventory_partial_support(; kwargs...)
     @named lab = LabourMarket.labour_market(; kwargs...)
@@ -22,7 +23,7 @@ function e4a_run(; kwargs...)
     @named wel_sup = Wellbeing.wellbeing_partial_support(; kwargs...)
 
     systems = [
-        fin, dem, inv, lab, oth, oth_sup, out, out_sup, pop, pop_sup, pub, pub_sup, wel, wel_sup,
+        dem, fin, foo, foo_sup, inv, lab, oth, oth_sup, out, out_sup, pop, pop_sup, pub, pub_sup, wel, wel_sup,
     ]
 
     connection_eqs = variable_connections(systems)
