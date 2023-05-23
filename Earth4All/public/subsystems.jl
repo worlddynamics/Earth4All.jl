@@ -111,7 +111,7 @@ end
 
 function public_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     # @variables CPUS(t) [description = "Output.Capacity PUS Gcu"]
-    @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
+    # @variables CTA(t) [description = "Other performance indicators.Cost of TAs Gdollar/y"]
     # @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
     # @variables GDPP(t) [description = "Population.GDP per person kDollar/p/y"]
     # @variables GPU(t) [description = "Demand.Govmnt purchases Gdollar/y"]
@@ -123,7 +123,7 @@ function public_partial_support(; name, params=_params, inits=_inits, tables=_ta
     eqs = []
 
     # add_equation!(eqs, CPUS ~ WorldDynamics.interpolate(t, tables[:CPUS], ranges[:CPUS]))
-    add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
+    # add_equation!(eqs, CTA ~ WorldDynamics.interpolate(t, tables[:CTA], ranges[:CTA]))
     # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     # add_equation!(eqs, GPU ~ WorldDynamics.interpolate(t, tables[:GPU], ranges[:GPU]))

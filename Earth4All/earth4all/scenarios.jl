@@ -1,15 +1,17 @@
 function e4a_run(; kwargs...)
     # @named cli = Climate.climate(; kwargs...)
     @named dem = Demand.demand(; kwargs...)
-    @named dem_sup = Demand.demand_partial_support(; kwargs...)
+    # @named dem_sup = Demand.demand_partial_support(; kwargs...)
     # @named ene = Energy.energy(; kwargs...)
-    # @named fin = Finance.finance(; kwargs...)
+    @named fin = Finance.finance(; kwargs...)
+    # @named fin_sup = Finance.finance_partial_support(; kwargs...)
     # @named foo = FoodLand.foodland(; kwargs...)
     @named inv = Inventory.inventory(; kwargs...)
     # @named inv_sup = Inventory.inventory_partial_support(; kwargs...)
     @named lab = LabourMarket.labour_market(; kwargs...)
     # @named lab_sup = LabourMarket.labour_market_partial_support(; kwargs...)
-    # @named oth = Other.other(; kwargs...)
+    @named oth = Other.other(; kwargs...)
+    @named oth_sup = Other.other_partial_support(; kwargs...)
     @named out = Output.output(; kwargs...)
     @named out_sup = Output.output_partial_support(; kwargs...)
     @named pop = Population.population(; kwargs...)
@@ -20,7 +22,7 @@ function e4a_run(; kwargs...)
     @named wel_sup = Wellbeing.wellbeing_partial_support(; kwargs...)
 
     systems = [
-        dem, dem_sup, inv, lab, out, out_sup, pop, pop_sup, pub, pub_sup, wel, wel_sup,
+        fin, dem, inv, lab, oth, oth_sup, out, out_sup, pop, pop_sup, pub, pub_sup, wel, wel_sup,
     ]
 
     connection_eqs = variable_connections(systems)
