@@ -3,7 +3,7 @@ module LabourMarket
 using WorldDynamics
 using ModelingToolkit
 
-# include("labourmarket/tables.jl")
+include("labourmarket/tables.jl")
 include("labourmarket/parameters.jl")
 include("labourmarket/initialisations.jl")
 include("labourmarket/subsystems.jl")

@@ -5,9 +5,6 @@ using WorldDynamics
 
 include("functions.jl")
 include("solvesystems.jl")
-println("=== Including all tables ===")
-@time include("tables.jl")
-println("=== All tables included ===")
 
 include("Climate.jl")
 include("Demand.jl")

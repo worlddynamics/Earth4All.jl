@@ -1,4 +1,3 @@
-include("../tables.jl")
 include("../functions.jl")
 @register ramp(x, slope, startx, endx)
 
@@ -17,7 +16,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters IPR1980 = params[:IPR1980] [description = "Infrastructure Purchases Ratio in 1980 y"]
     @parameters IPRVPSS = params[:IPRVPSS] [description = "sIPReoVPSS>0: Infrastructure Purchase Ratio effect on Value of Pubblic Services Supplied"]
     @parameters IPT = params[:IPT] [description = "Investment planning time y"]
-    @parameters MIROTA2022 = params[:MIROTA2022] [description = "Maximum Imported ROTA from 2022 1/y"]
+    @parameters MIROTA2022 = params[:MIROTA2022] [description = "Max Imported ROTA from 2022 1/y"]
     @parameters OWETFP = params[:OWETFP] [description = "sOWeoTFP<0: Observed Warming Effect on Total Factor Productivity"]
     @parameters SC1980 = params[:SC1980] [description = "State Capacity in 1980 (fraction of GDP)"]
     @parameters SCROTA = params[:SCROTA] [description = "sSCeoROTA>0: State Capacity effect on Rate Of Technological Advance"]

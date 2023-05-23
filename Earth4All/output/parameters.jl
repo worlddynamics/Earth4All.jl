@@ -11,8 +11,8 @@ _params = Dict{Symbol,Float64}(
     :OW2022 => 1.35, # Taken from Climate sector
     :OWECCM => 0.2,
     :OWELCM => -0.1,
-    :USPIS2022 => 0.01,
-    :USPUS2022 => 0.01,
+    :USPIS2022 => 0,
+    :USPUS2022 => 0,
     # UNDOCUMENTED PARAMETERS
     :CBCEFRA => -0.8,
     :CU1980 => 0.8,

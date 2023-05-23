@@ -27,7 +27,7 @@ function _variables_test()
         (fl.CRUSP, 0, 1.2, "CRUSP"),
         (pub.PSP, 0, 10, "Public Spending per person"),
         (fin.CBSR, 0, 0.1, "Central bank signal rate"),
-        # (dem.GSGDP, 0, 1, "Government share of GDP"),
+        (dem.GSGDP, 0, 1, "Government share of GDP"),
     ]
     return variables
 end

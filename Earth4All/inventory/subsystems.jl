@@ -1,4 +1,3 @@
-include("../tables.jl")
 include("../functions.jl")
 @register ramp(x, slope, startx, endx)
 @register pulse(x, start, width)
