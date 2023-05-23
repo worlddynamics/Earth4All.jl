@@ -9,6 +9,7 @@ println("=== Including all tables ===")
 @time include("tables.jl")
 println("=== All tables included ===")
 
+include("Climate.jl")
 include("Demand.jl")
 include("Energy.jl")
 include("Finance.jl")
