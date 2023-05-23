@@ -10,6 +10,7 @@ println("=== Including all tables ===")
 println("=== All tables included ===")
 
 include("Demand.jl")
+include("Energy.jl")
 include("Finance.jl")
 include("FoodLand.jl")
 include("Inventory.jl")

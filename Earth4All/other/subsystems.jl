@@ -58,7 +58,7 @@ function other_full_support(; name, params=_params, inits=_inits, tables=_tables
 end
 
 function other_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    @variables CE(t) [description = "Energy.Cost of Energy GDollar/y"]
+    # @variables CE(t) [description = "Energy.Cost of Energy GDollar/y"]
     # @variables COFO(t) [description = "Food and land.Cost of Food GDollar/y"]
     # @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
     # @variables INEQ(t) [description = "Demand.Inequality"]
@@ -66,7 +66,7 @@ function other_partial_support(; name, params=_params, inits=_inits, tables=_tab
 
     eqs = []
 
-    add_equation!(eqs, CE ~ WorldDynamics.interpolate(t, tables[:CE], ranges[:CE]))
+    # add_equation!(eqs, CE ~ WorldDynamics.interpolate(t, tables[:CE], ranges[:CE]))
     # add_equation!(eqs, COFO ~ WorldDynamics.interpolate(t, tables[:COFO], ranges[:COFO]))
     # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
     # add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
