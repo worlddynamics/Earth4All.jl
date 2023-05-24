@@ -1,4 +1,4 @@
-# The Climate sector
+# Climate 
 ## Summary
 We describe the Climate sector of the Earth4All model, by referring to the Climate view of the Vensim model implementation.
 

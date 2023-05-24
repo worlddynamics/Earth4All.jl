@@ -1,4 +1,4 @@
-# The Finance sector
+# Finance 
 ## Summary
 We describe the Finance sector of the Earth4All model, by referring to the Finance view of the Vensim model implementation.
 

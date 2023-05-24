@@ -1,4 +1,4 @@
-# The Inventory sector
+# Inventory 
 ## Summary
 We describe the Inventory sector of the Earth4All model, by referring to the Inventory view of the Vensim model implementation.
 

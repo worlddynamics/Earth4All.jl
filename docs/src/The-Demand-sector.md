@@ -1,4 +1,4 @@
-# The Demand sector
+# Demand 
 ## Summary
 We describe the Demand sector of the Earth4All model, by referring to the Demand view of the Vensim model implementation.
 

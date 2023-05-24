@@ -1,4 +1,4 @@
-# The Energy sector
+# Energy
 ## Summary
 We describe the Energy sector of the Earth4All model, by referring to the Energy view of the Vensim model implementation.
 

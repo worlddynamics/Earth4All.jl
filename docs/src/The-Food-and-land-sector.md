@@ -1,4 +1,4 @@
-# The Food and land sector
+# Food and land 
 ## Summary
 We describe the Food and land sector of the Earth4All model, by referring to the Food and land view of the Vensim model implementation.
 

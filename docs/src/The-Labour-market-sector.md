@@ -1,4 +1,4 @@
-# The Labour market sector
+# Labour market 
 ## Summary
 In this memorandum, we will describe the Labour market sector of the Earth4All model, by referring to the Labour market view of the Vensim model implementation.
 

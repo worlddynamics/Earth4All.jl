@@ -1,4 +1,4 @@
-# The Wellbeing sector
+#  Wellbeing 
 ## Summary
 We describe the Wellbeing sector of the Earth4All model, by referring to the Wellbeing view of the Vensim model implementation.
 

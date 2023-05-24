@@ -1,4 +1,4 @@
-# The Other performance indicators sector
+# Other performance indicators
 ## Summary
 We describe the Other performance indicators sector of the Earth4All model, by referring to the Other performance indicators view of the Vensim model implementation.
 

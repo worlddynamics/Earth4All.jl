@@ -1,4 +1,4 @@
-# The Public sector
+# Public 
 ## Summary
 We describe the Public sector of the Earth4All model, by referring to the Public sector view of the Vensim model implementation.
 

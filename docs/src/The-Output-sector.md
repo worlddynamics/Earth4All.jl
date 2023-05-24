@@ -1,4 +1,4 @@
-# The Output sector
+# Output 
 
 ## Summary
 We describe the Output sector of the Earth4All model, by referring to the Output view of the Vensim model implementation.

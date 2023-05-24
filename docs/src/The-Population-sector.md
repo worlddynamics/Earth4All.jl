@@ -1,4 +1,4 @@
-# The Population sector
+# Population 
 
 ##  Summary
 We describe the Population sector of the Earth4All model, by referring to the Population view of the Vensim model implementation.
