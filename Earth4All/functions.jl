@@ -110,10 +110,10 @@ function print_endo_vars(sys)
 end
 
 function print_ps(sys)
-   println("| Vensim name | Name | Value |")
-   println("| --- | --- | --- |")
+   println("| Vensim name | Name | Value | Sector |")
+   println("| --- | --- | --- | --- |")
    for s in ModelingToolkit.get_ps(sys)
-      println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` | ", round(ModelingToolkit.getdefault(s), digits=4), " |")
+      println("| ", ModelingToolkit.getdescription(s), " | `", string(s), "` | ", round(ModelingToolkit.getdefault(s), digits=4), " | ", nameof(sys), " |")
    end
 end
 
@@ -129,13 +129,13 @@ function print_exo_vars(sys)
    end
 end
 
-function read_vensim_dataset(fn)
+function read_vensim_dataset(fn, to_be_removed)
    f::IOStream = open(fn, "r")
    ds = Dict{String,Array{Float64}}()
    for line in eachline(f)
       split_line::Vector{String} = split(line, "\t")
       s = replace(split_line[1], "\"" => "")
-      s = replace(s, " : E4A-220501 GL" => "")
+      s = replace(s, to_be_removed => "")
       s = replace(s, " (Year)" => "")
       s = replace(s, "\$" => "dollar")
       v::Array{Float64} = Array{Float64}(undef, length(split_line) - 1)
@@ -148,13 +148,25 @@ function read_vensim_dataset(fn)
    return ds
 end
 
-function check_descriptions(vs_ds, sys)
+function check_descriptions_vars(vs_ds, sys)
    nsv = ModelingToolkit.namespace_variables(sys)
    for v in nsv
       d = ModelingToolkit.getdescription(v)
       if (d != "" && !startswith(d, "LV functions") && !startswith(d, "RT functions"))
          if (get(vs_ds, lowercase(ModelingToolkit.getdescription(v)), "") == "")
             println(ModelingToolkit.getdescription(v))
+         end
+      end
+   end
+end
+
+function check_descriptions_ps(vs_ds, sys)
+   nsp = ModelingToolkit.namespace_parameters(sys)
+   for p in nsp
+      d = ModelingToolkit.getdescription(p)
+      if (d != "")
+         if (get(vs_ds, lowercase(d), "") == "")
+            println(d)
          end
       end
    end
@@ -193,7 +205,7 @@ function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
             println(d, " ", re, " (", max_re, ")")
          end
          if (do_plot)
-            savefig(compare_and_plot(sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "/Users/piluc/Desktop/E4AStella/figures/" * string(v) * ".png")
+            savefig(compare_and_plot(sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "../figures/" * string(v) * ".png")
          end
       end
    end
@@ -201,13 +213,12 @@ function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
 end
 
 function check_solution(sol, pepsi, nt, verbose, do_plot)
-   # sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
+   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
    sector_system = system_array()
-   sector_name = ["demand", "inventory", "output", "wellbeing"]
    max_re = 0.0
    for s in 1:lastindex(sector_name)
       println("=========" * uppercase(sector_name[s]) * "=======")
-      vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/" * sector_name[s] * ".txt")
+      vs_ds = Earth4All.read_vensim_dataset("../VensimOutput/tltl/" * sector_name[s] * ".txt")
       re = Earth4All.mre_sys(sol, sector_system[s], vs_ds, pepsi, nt, verbose, do_plot)
       println(re)
       max_re = max(max_re, re)
@@ -219,30 +230,28 @@ end
 
 function system_array()
    r = []
-   # @named cli = Earth4All.Climate.climate()
+   @named cli = Earth4All.Climate.climate()
    @named dem = Earth4All.Demand.demand()
-   # @named ene = Earth4All.Energy.energy()
-   # @named fin = Earth4All.Finance.finance()
-   # @named foo = Earth4All.FoodLand.foodland()
+   @named ene = Earth4All.Energy.energy()
+   @named fin = Earth4All.Finance.finance()
+   @named foo = Earth4All.FoodLand.foodland()
    @named inv = Earth4All.Inventory.inventory()
-   # @named lab = Earth4All.LabourMarket.labour_market()
-   # @named oth = Earth4All.Other.other()
+   @named lab = Earth4All.LabourMarket.labour_market()
+   @named oth = Earth4All.Other.other()
    @named out = Earth4All.Output.output()
-   # @named pop = Earth4All.Population.population()
-   # @named pub = Earth4All.Public.public()
+   @named pop = Earth4All.Population.population()
+   @named pub = Earth4All.Public.public()
    @named wel = Earth4All.Wellbeing.wellbeing()
-   # append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
-   append!(r, [dem, inv, out, wel])
+   append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
    return r
 end
 
 function compare_and_plot(sol, desc, fy, ly, nt, pepsi)
-   # sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
+   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
    sector_system = system_array()
-   sector_name = ["demand", "inventory", "output", "wellbeing"]
    for s in 1:lastindex(sector_name)
       println("=========" * uppercase(sector_name[s]) * "=======")
-      vs_ds = Earth4All.read_vensim_dataset("/Users/piluc/Desktop/E4AStella/vensim_output/" * sector_name[s] * ".txt")
+      vs_ds = Earth4All.read_vensim_dataset("../VensimOutput/tltl/" * sector_name[s] * ".txt")
       isv, v = is_system_var(desc, sector_system[s])
       if (isv)
          return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)

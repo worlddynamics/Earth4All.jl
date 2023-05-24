@@ -8,7 +8,7 @@ D = Differential(t)
 function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @parameters MNFCO2PP = params[:MNFCO2PP] [description = "Max non-fossil CO2 per person tCO2/p/y"]
     @parameters FCO2SCCS2022 = params[:FCO2SCCS2022] [description = "Fraction of CO2-sources with CCS in 2022"]
-    @parameters GFCO2SCCS = params[:GFCO2SCCS] [description = "Goal fraction of CO2-sources with CCS"]
+    @parameters GFCO2SCCS = params[:GFCO2SCCS] [description = "Goal for fraction of CO2-sources with CCS"]
     @parameters CCCSt = params[:CCCSt] [description = "Cost of CCS Dollar/tCO2"]
     @parameters ROCTCO2PT = params[:ROCTCO2PT] [description = "ROC in tCO2 per toe 1/y"]
     @parameters EROCEPA2022 = params[:EROCEPA2022] [description = "Extra ROC in energy productivity after 2022 1/y"]
