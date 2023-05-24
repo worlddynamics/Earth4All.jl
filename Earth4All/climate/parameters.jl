@@ -1,12 +1,12 @@
 _params = Dict{Symbol,Float64}(
-    :ERDN2OKF2022 => 0.01,
+    :ERDN2OKF2022 => 0,
     :RDN2OKF => 0.01,
     :KN2OKF1980 => 0.11,
     :N2OA1980 => 1.052,
     :MAT => 5,
     :LN2OA => 95,
     :GN2OPP => 5,
-    :ERDCH4KC2022 => 0.01,
+    :ERDCH4KC2022 => 0,
     :RDCH4KC => 0.01,
     :KCH4KC1980 => 0.05,
     :CH4A1980 => 2.5,
@@ -17,7 +17,7 @@ _params = Dict{Symbol,Float64}(
     :LECO2A1980 => 60,
     :CO2A1850 => 2200,
     :TCO2PTCH4 => 2.75,
-    :DACCO22100 => 8,
+    :DACCO22100 => 0,
     :GCO2PP => 7.9,
     :TCO2ETN2O => 7,
     :TCO2ETCH4 => 23,
@@ -37,12 +37,10 @@ _params = Dict{Symbol,Float64}(
     :WVC1980 => 2,
     :WVF1980 => 0.9,
     :WVWVF => 3,
-    :WFEH =>0.0006,
+    :WFEH => 0.0006,
     :EH1980 => 0,
     :PD => 5,
     :TRSA1980 => 0.01,
-    :CCCSt => 95,
-
-)
+    :CCCSt => 95,)
 
 getparameters() = copy(_params)
