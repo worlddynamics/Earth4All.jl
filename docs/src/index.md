@@ -17,3 +17,8 @@ This is the documentation of the [WorldDynamics Project](https://github.com/worl
   * [The Public sector](The-Public-sector.md)
   * [The Wellbeing sector](The-Wellbeing-sector.md)
 * [Technical notes](Technical-notes.md)
+  * [DELAY N comments](DELAY-N-comments.md)
+    * [Implementing DELAY N](Implementing-DELAY-N.md)
+  * [Computing variable connections](Computing-variable-connections.md)
+  * [Implementing a new model](Implementing-a-new-model.md)
+
