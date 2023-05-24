@@ -1,4 +1,5 @@
 Manifest.toml
 *.json
 
+figures/
 .DS_Store
