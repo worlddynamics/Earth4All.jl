@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>- · Earth4all Documentation</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">Earth4all Documentation</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../Computing-variable-connections/">-</a></li><li><a class="tocitem" href="../DELAY-N-comments/">Summary</a></li><li><a class="tocitem" href="../Implementing-DELAY-N/">-</a></li><li class="is-active"><a class="tocitem" href>-</a><ul class="internal"><li><a class="tocitem" href="#Summary"><span>Summary</span></a></li><li><a class="tocitem" href="#Model,-sectors,-and-scenarios"><span>Model, sectors, and scenarios</span></a></li><li><a class="tocitem" href="#The-limits-to-growth-model"><span>The limits to growth model</span></a></li><li><a class="tocitem" href="#Running-the-model-and-generating-the-plots"><span>Running the model and generating the plots</span></a></li></ul></li><li><a class="tocitem" href="../Technical-notes/">-</a></li><li><a class="tocitem" href="../The-Climate-sector/">-</a></li><li><a class="tocitem" href="../The-Demand-sector/">-</a></li><li><a class="tocitem" href="../The-Earth4All-model/">-</a></li><li><a class="tocitem" href="../The-Energy-sector/">-</a></li><li><a class="tocitem" href="../The-Finance-sector/">-</a></li><li><a class="tocitem" href="../The-Food-and-land-sector/">-</a></li><li><a class="tocitem" href="../The-Inventory-sector/">-</a></li><li><a class="tocitem" href="../The-Labour-market-sector/">-</a></li><li><a class="tocitem" href="../The-Other-performance-indicators-sector/">-</a></li><li><a class="tocitem" href="../The-Output-sector/">-</a></li><li><a class="tocitem" href="../The-Population-sector/">-</a></li><li><a class="tocitem" href="../The-Public-sector/">-</a></li><li><a class="tocitem" href="../The-Wellbeing-sector/">-</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>-</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>-</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/worlddynamics/Earth4All/blob/master/docs/src/Implementing-a-new-model.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h2 id="Summary"><a class="docs-heading-anchor" href="#Summary">Summary</a><a id="Summary-1"></a><a class="docs-heading-anchor-permalink" href="#Summary" title="Permalink"></a></h2><p>In this memorandum, we will describe how a new model can be implemented by using WorldDynamics. To this aim we refer to the third chapter of [Duggan2016]. In this chapter, whose title is \textit{Modeling Limits to Growth}, the author introduces the reader to system dynamics models of limits to growth through three models of increasing complexity. Here, we will implement the third model, in which a growing stock consumes its carrying capacity (this dynamic leads to growth followed by rapid decline).</p><h2 id="Model,-sectors,-and-scenarios"><a class="docs-heading-anchor" href="#Model,-sectors,-and-scenarios">Model, sectors, and scenarios</a><a id="Model,-sectors,-and-scenarios-1"></a><a class="docs-heading-anchor-permalink" href="#Model,-sectors,-and-scenarios" title="Permalink"></a></h2><p>Each model consists of sectors. Each sector is a collection of ODE systems, along with Julia support files specifying the initial values of the variables, the values of the parameters, and the tables and the ranges used to interpolate non-linear functions through linear segments. A scenario is the concatenation of several ODE systems defined in the sectors of the model, along with the connections between the variables defined or used in different ODE systems.</p><h2 id="The-limits-to-growth-model"><a class="docs-heading-anchor" href="#The-limits-to-growth-model">The limits to growth model</a><a id="The-limits-to-growth-model-1"></a><a class="docs-heading-anchor-permalink" href="#The-limits-to-growth-model" title="Permalink"></a></h2><p>The model (called <code>NonRenewableStock</code>) we are going to implement has two sectors, one (called <code>Capital</code>) corresponding to the growing stock and one (called <code>Resource</code>) corresponding to the non-renewable resource. This is specified in the following code file (which we assume is contained in the directory <code>Duggan</code>): this file also include two code files used to define one scenario and to plot some variables of its solution.</p><pre><code class="language-jl hljs">module NonRenewableStock
+using ModelingToolkit
+using WorldDynamics
+include(&quot;Capital.jl&quot;)
+include(&quot;Resource.jl&quot;)
+
+include(&quot;scenarios.jl&quot;)
+include(&quot;plots.jl&quot;)
+end</code></pre><h3 id="The-two-sectors"><a class="docs-heading-anchor" href="#The-two-sectors">The two sectors</a><a id="The-two-sectors-1"></a><a class="docs-heading-anchor-permalink" href="#The-two-sectors" title="Permalink"></a></h3><p>The file <code>Capital.jl</code> (which we assume is contained in the directory <code>Duggan</code>) includes the code files specifying the ODE system of the sector <code>Capital</code>, the initial values of the variables, the values of the parameters, and the tables and the ranges used to interpolate non-linear functions through linear segments (all these files are contained in the directory <code>capital</code> within the directory <code>Duggan</code>).</p><pre><code class="language-jl hljs">module Capital
+include(&quot;capital/tables.jl&quot;)
+include(&quot;capital/parameters.jl&quot;)
+include(&quot;capital/initialisations.jl&quot;)
+include(&quot;capital/subsystems.jl&quot;)
+end</code></pre><p>Analogously, the file <code>Resource.jl</code> (also contained in the directory <code>Duggan</code>) includes the code files corresponding to the sector <code>Resource</code> (all these files are contained in the directory <code>resource</code> within the directory <code>Duggan</code>).</p><pre><code class="language-jl hljs">module Resource
+include(&quot;resource/tables.jl&quot;)
+include(&quot;resource/parameters.jl&quot;)
+include(&quot;resource/initialisations.jl&quot;)
+include(&quot;resource/subsystems.jl&quot;)
+end</code></pre><p>\paragraph{The sector <code>Capital</code>} This sector contains one ODE system which is related to the capital stock. The file <code>parameters.jl</code> (which is contained in the directory <code>capital</code>) specifies the parameters used by this ODE system (see Equations (3-36), (3-24), (3-26), and (3-34)).</p><pre><code class="language-jl hljs">_params = Dict{Symbol,Float64}(
+    :cost_per_investment =&gt; 2,
+    :depreciation_rate =&gt; 0.05,
+    :desired_growth_fraction =&gt; 0.07,
+    :fraction_profits_reinvested =&gt; 0.12,
+)
+getparameters() = copy(_params)</code></pre><p>In order to well define the ODE system, the file <code>initialisations.jl</code> (which is contained in the directory <code>capital</code>) specifies the initial variable of the only variable which is involved in a differential equation (see Equation (3-22)).</p><pre><code class="language-jl hljs">_inits = Dict{Symbol,Float64}(
+    :capital =&gt; 5,
+)
+getinitialisations() = copy(_inits)</code></pre><p>Finally, the ODE system of the sector <code>Capital</code> does not interpolate any non-linear function. Hence, the following code file contains only two empty dictionaries.</p><pre><code class="language-jl hljs">_tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
+)
+_ranges = Dict{Symbol,Tuple{Float64,Float64}}(
+)
+gettables() = copy(_tables)
+getranges() = copy(_ranges)</code></pre><p>The file <code>subsystems.jl</code> contains the code specifying the ODE system. The file starts with the declaration of the variable <code>t</code>  with respect to which the derivatives have to be computed and continues by declaring one function (corresponding to the only ODE system of the sector <code>Capital</code>) in which all variables and parameters are declared and the ODE system is defined (see Equations (3-22), (3-23), (3-25), (3-32), (3-33), (3-35), (3-37), and (3-38)).</p><pre><code class="language-jl hljs">@variables t
+D = Differential(t)
+function capital_system(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+    @parameters cost_per_investment = params[:cost_per_investment]
+    @parameters depreciation_rate = params[:depreciation_rate]
+    @parameters fraction_profits_reinvested = params[:fraction_profits_reinvested]
+    @parameters desired_growth_fraction = params[:desired_growth_fraction]
+
+    @variables capital(t) = inits[:capital]
+    @variables depreciation(t)
+    @variables desired_investment(t)
+    @variables capital_costs(t)
+    @variables profit(t)
+    @variables capital_funds(t)
+    @variables maximum_investment(t)
+    @variables investment(t)
+
+    @variables total_revenue(t)
+
+    eqs = [
+        D(capital) ~ investment - depreciation
+        depreciation ~ capital * depreciation_rate
+        desired_investment ~ desired_growth_fraction * capital
+        capital_costs ~ capital * 0.10
+        profit ~ total_revenue - capital_costs
+        capital_funds ~ profit * fraction_profits_reinvested
+        maximum_investment ~ capital_funds / cost_per_investment
+        investment ~ min(desired_investment, maximum_investment)
+    ]
+    ODESystem(eqs; name)
+end</code></pre><h3 id="The-sector-Resource"><a class="docs-heading-anchor" href="#The-sector-Resource">The sector <code>Resource</code></a><a id="The-sector-Resource-1"></a><a class="docs-heading-anchor-permalink" href="#The-sector-Resource" title="Permalink"></a></h3><p>This sector also contains one ODE system which is related to the resource. The file <code>parameters.jl</code> (which is contained in the directory <code>resource</code>) specifies the parameters used by this ODE system (see Equation~(3-31)).</p><pre><code class="language-jl hljs">_params = Dict{Symbol,Float64}(
+    :revenue_per_unit_extracted =&gt; 3,
+)
+getparameters() = copy(_params)</code></pre><p>In order to well define the ODE system, the file <code>initialisations.jl</code> (which is contained in the directory <code>capital</code>) specifies the initial variable of the only variable which is involved in a differential equation (see Equation~(3-27)).</p><pre><code class="language-jl hljs">_inits = Dict{Symbol,Float64}(
+    :resource =&gt; 1000,
+)
+getinitialisations() = copy(_inits)</code></pre><p>Finally, the ODE system of the sector <code>Capital</code> interpolates one non-linear function. Hence, the following code file defines two dictionaries whose values are the table and the range corresponding to this function, respectively (see Equation (3-29)).</p><pre><code class="language-jl hljs">_tables = Dict{Symbol,Tuple{Vararg{Float64}}}(
+    :eepuc =&gt; (0.0, 0.25, 0.45, 0.63, 0.75, 0.85, 0.92, 0.96, 0.98, 0.99, 1.0),
+)
+_ranges = Dict{Symbol,Tuple{Float64,Float64}}(
+    :eepuc =&gt; (0.0, 1000.0),
+)
+gettables() = copy(_tables)
+getranges() = copy(_ranges)</code></pre><p>The file <code>subsystems.jl</code> contains the code specifying the ODE system. Once again, the file starts with the declaration of the variable <code>t</code>  with respect to which the derivatives have to be computed and continues by declaring one function (corresponding to the only ODE system of the sector <code>Resource</code>) in which all variables and parameters are declared and the ODE system is defined (see Equations (3-27), (3-28), (3-29), and (3-30)).</p><pre><code class="language-jl hljs">@variables t
+D = Differential(t)
+function resource_system(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
+    @parameters revenue_per_unit_extracted = params[:revenue_per_unit_extracted]
+
+    @variables resource(t) = inits[:resource]
+    @variables extraction(t)
+    @variables extraction_efficiency_per_unit_capital(t)
+    @variables total_revenue(t)
+
+    @variables capital(t)
+
+    eqs = [
+        D(resource) ~ -extraction
+        extraction ~ capital * extraction_efficiency_per_unit_capital
+        extraction_efficiency_per_unit_capital ~ interpolate(resource, tables[:eepuc], ranges[:eepuc])
+        total_revenue ~ revenue_per_unit_extracted * extraction
+    ]
+    ODESystem(eqs; name)
+end</code></pre><h3 id="The-scenario"><a class="docs-heading-anchor" href="#The-scenario">The scenario</a><a id="The-scenario-1"></a><a class="docs-heading-anchor-permalink" href="#The-scenario" title="Permalink"></a></h3><p>As we already said, a scenario is the composition of the two ODE systems defined in the two sectors, along with the specification of the connections between the variable defined or used in the ODE systems. The following code defines a function which return such a composition.</p><pre><code class="language-jl hljs">function nrs_scenario(;
+    capital_params = Capital._params,
+    resource_params = Resource._params,
+    capital_inits = Capital._inits,
+    resource_inits = Resource._inits,
+    capital_tables = Capital._tables,
+    resource_tables = Resource._tables,
+    capital_ranges = Capital._ranges,
+    resource_ranges = Resource._ranges,
+)
+    @named cs = Capital.capital_system(; params=capital_params, inits=capital_inits, tables=capital_tables, ranges=capital_ranges)
+    @named rs = Resource.resource_system(; params=resource_params, inits=resource_inits, tables=resource_tables, ranges=resource_ranges)
+
+    systems = [
+        cs, rs,
+    ]
+
+
+    connection_eqs = [
+        rs.capital ~ cs.capital
+        cs.total_revenue ~ rs.total_revenue
+    ]
+
+    return WorldDynamics.compose(systems, connection_eqs)
+end</code></pre><p>Note that the connection equations could be computed automatically by using the function <code>variable_connections</code> described in a [[Computing variable connections]].</p><h2 id="Running-the-model-and-generating-the-plots"><a class="docs-heading-anchor" href="#Running-the-model-and-generating-the-plots">Running the model and generating the plots</a><a id="Running-the-model-and-generating-the-plots-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-model-and-generating-the-plots" title="Permalink"></a></h2><p>In the following code, we solve the ODE system defined in the above scenario and, after specifying which variables we want to plot, we generate the picture with these plots.</p><pre><code class="language-jl hljs">using DifferentialEquations
+
+function solve_nrs_scenario()
+    return WorldDynamics.solve(nrs_scenario(), (0, 200), solver=Tsit5(), dt=0.015625, dtmax=0.015625)
+end
+
+function _variables_nrs()
+    @named cs = Capital.capital_system()
+    @named rs = Resource.resource_system()
+
+    variables = [
+        (cs.capital, 0, 30, &quot;Capital&quot;),
+        (rs.extraction, 0, 15, &quot;Extraction&quot;),
+        (cs.investment, 0, 2, &quot;Investment&quot;),
+        (cs.depreciation, 0, 2, &quot;Investment&quot;),
+        (rs.resource, 0, 1000, &quot;Resource&quot;),
+    ]
+    return variables
+end
+
+@variables t
+
+fig_3_9(; kwargs...) = plotvariables(solve_nrs_scenario(), (t, 0, 200), _variables_nrs(); title=&quot;Simulation output showing stocks and flows&quot;, showaxis=false, showlegend=true, kwargs...)</code></pre><p>The above code can be executed as follows (we assume the Julia REPL has been started within the directory <code>Duggan</code>).</p><pre><code class="language-jl hljs">include(&quot;NonRenewableStock.jl&quot;)
+NonRenewableStock.fig_3_9()</code></pre><p>If everything works correctly, the following picture should be produced (see Figure 3.9 of the chapter).</p><p><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/figure_3_9.png" alt="Figure 3-9"/></p><p>[Duggan2016]: https://link.springer.com/book/10.1007/978-3-319-34043-2</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Implementing-DELAY-N/">« -</a><a class="docs-footer-nextpage" href="../Technical-notes/">- »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Wednesday 24 May 2023 21:31">Wednesday 24 May 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
