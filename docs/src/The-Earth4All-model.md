@@ -1,8 +1,8 @@
 # The Earth4All model
-###  Summary
+##  Summary
 We describe the sectors of the Earth4All model, as they can be derived by the Vensim implementation, which is slightly different from the appendix of [Dixson2022].
 
-###  The sectors of the model
+## The sectors of the model
 
 The model consists of the following sectors (the description are taken from [Dixson2022]).
 
@@ -32,11 +32,26 @@ The model consists of the following sectors (the description are taken from [Dix
 
 A figure representing the causal relationships between the sectors of the model is given in [Randers2022]: these relationships are summarized in the following figures, where the labels of the edges denote variable acronyms as specified in the next tables.
 
-<div align="center"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/climate.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/demand.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/energy.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/finance.png" alt="Relationships among sectors in E4A" width="300" height="300"></div>
-<div align="center"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/foodland.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/inventory.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/labourmarket.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/other.png" alt="Relationships among sectors in E4A" width="300" height="300"></div>
-<div align="center"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/output.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/population.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/public.png" alt="Relationships among sectors in E4A" width="300" height="300"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/dependencies/wellbeing.png" alt="Relationships among sectors in E4A" width="300" height="300"></div>
+```@raw html
+<div align="center"><img src="/imgs/dependencies/climate.png" width="300" height="300">
+<img src="/imgs/dependencies/demand.png"\ width="300" height="300">
+<img src="/imgs/dependencies/energy.png"\ width="300" height="300">
+<img src="/imgs/dependencies/finance.png"\ width="300" height="300"></div>
 
-### The variables of the Earth4All model
+<div align="center"><img src="/imgs/dependencies/foodland.png" width="300" height="300">
+<img src="/imgs/dependencies/inventory.png" width="300" height="300">
+<img src="/imgs/dependencies/labourmarket.png" width="300" height="300">
+<img src="/imgs/dependencies/other.png" width="300" height="300"></div>
+
+<div align="center"><img src="/imgs/dependencies/output.png" width="300" height="300">
+<img src="/imgs/dependencies/population.png" width="300" height="300">
+<img src="/imgs/dependencies/public.png" width="300" height="300">
+<img src="/imgs/dependencies/wellbeing.png" width="300" height="300">
+</div>
+```
+
+
+## The variables of the Earth4All model
 
 The Earth4All model contains $564$ variables. In the following table, for each of them, we specify the name used in the Vensim implementation, the acronym used in the WorldDynamics implementation, and the initial value (when this value is necessary for correctly defining a differential equation).
 
@@ -527,7 +542,7 @@ The Earth4All model contains $564$ variables. In the following table, for each o
 | WSO Effect on Flow to Capacity Addition (1) | `WSOEFCA(t)` |  |
 | XExtra Cost of TAs as share of GDP (1) | `XECTAGDP(t)` |  |
 
-### The parameters of the Earth4All model
+## The parameters of the Earth4All model
 
 The Earth4All model contains $288$ constatnts (called parameters in WorldDynamics). In the following table, for each of them, we specify the name used in the Vensim implementation, the acronym used in the WorldDynamics implementation, and the value.
 
