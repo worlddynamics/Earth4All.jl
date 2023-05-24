@@ -1,10 +1,10 @@
 # The Earth4All model
 ##  Summary
-We describe the sectors of the Earth4All model, as they can be derived by the Vensim implementation, which is slightly different from the appendix of [Dixson2022].
+We describe the sectors of the Earth4All model, as they can be derived by the Vensim implementation, which is slightly different from the appendix of [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/).
 
 ## The sectors of the model
 
-The model consists of the following sectors (the description are taken from [Dixson2022]).
+The model consists of the following sectors (the description are taken from [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/)).
 
 - **Population**. This sector generates total population from fertility and mortality processes, potential workforce size, and the number of pensioners.
 
@@ -24,13 +24,13 @@ The model consists of the following sectors (the description are taken from [Dix
 
 - **Food and land use**. This sector generates crop production, environmental impacts of agriculture, and the cost of food.
 
-- **Well-being trust and tension**. This sector generates the societal ability to react to a challenge (like climate change) as a function of social trust and social tension, and it generates global indicators measuring both environmental and societal sustainability (including the Average Well-being Index). This sector corresponds to two distinct sectors in [Dixson2022].
+- **Well-being trust and tension**. This sector generates the societal ability to react to a challenge (like climate change) as a function of social trust and social tension, and it generates global indicators measuring both environmental and societal sustainability (including the Average Well-being Index). This sector corresponds to two distinct sectors in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/).
 
-- **Climate**. This sector is not explicitly mentioned in [Dixson2022].
+- **Climate**. This sector is not explicitly mentioned in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/).
 
-- **Other performance indicators**. This sector is not explicitly mentioned in [Dixson2022].
+- **Other performance indicators**. This sector is not explicitly mentioned in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/).
 
-A figure representing the causal relationships between the sectors of the model is given in [Randers2022]: these relationships are summarized in the following figures, where the labels of the edges denote variable acronyms as specified in the next tables.
+A figure representing the causal relationships between the sectors of the model is given in [Randers2022](https://www.clubofrome.org/wp-content/uploads/2022/09/220916_E4A_technical-note.pdf): these relationships are summarized in the following figures, where the labels of the edges denote variable acronyms as specified in the next tables.
 
 ```@raw html
 <div align="center"><img src="/imgs/dependencies/climate.png" width="300" height="300">
@@ -836,6 +836,3 @@ The Earth4All model contains $288$ constatnts (called parameters in WorldDynamic
 | Worker Payback Period y | `WPP` | 20.0 |
 | XExtra TA Cost in 2022 (share of GDP) | `XETAC2022` | 0.0 |
 | XExtra TA Cost in 2100 (share of GDP) | `XETAC2100` | 0.0 |
-
-[Randers2022]: https://www.clubofrome.org/wp-content/uploads/2022/09/220916_E4A_technical-note.pdf
-[Dixson2022]: https://www.clubofrome.org/publication/earth4all-book/
