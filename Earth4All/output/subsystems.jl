@@ -77,7 +77,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables ISGDP(t) [description = "Investment Share of GDP (1)"]
     @variables LCPIS(t) [description = "Life of Capacity PIS y"]
     @variables OGR(t) = params[:OG1980] [description = "Output Growth Rate 1/y"]
-    @variables OLY(t) = (params[:CAPPIS1980] / params[:PCORPIS] + params[:CAPPUS1980] / params[:PCORPUS]) / (1 + params[:OG1980]) [description = "Output Last Year Gdollar/y"]
+    @variables OLY(t) = inits[:OLY] [description = "Output Last Year Gdollar/y"]
     @variables OOV(t) [description = "Optimal Ouput - Value Gdollar/y"]
     @variables ORO(t) [description = "Optimal Real Output Gu/y"]
     @variables PEDE(t) = 1 [description = "Perceived Excess DEmand (1)"]
