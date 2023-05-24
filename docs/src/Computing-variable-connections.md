@@ -1,12 +1,12 @@
-
-### Summary
+# Computing variable connections
+## Summary
 In this memorandum, we will explain how we can compute automatically the variable connections of a scenario (that is, a collection of ODE systems). This method is currently implemented in the function `variable_connections`, which is now included in the file `solvesystems.jl`.
 
-### Prerequisites
+## Prerequisites
 
 We assume that each variable is defined in exactly one ODE system: that is, each variable appears in exactly one Left-Hand Side (in short, LHS) of an equation of an ODE system. Moreover, if a variable appears in the Right-Hand Side (in short, RHS) of an equation of an ODE system, then it has the same name as the one used in the ODE system in which the variable is defined.
 
-### Functions of `ModelingToolkit`
+## Functions of `ModelingToolkit`
 
 We will make use of the following two functions, which are available in the package `ModelingToolkit`.
 
@@ -14,7 +14,7 @@ We will make use of the following two functions, which are available in the pack
 - `equation_dependencies`. This function calculates, for each equation in the input system, the variables it depends on. The function returns a vector of vectors of variables.
 \end{itemize}
 
-### Computing the variable connections
+## Computing the variable connections
 
 Given a vector `systems` of ODE systems, the function `variable_connections` first compose all the systems into a single ODE system.
 
@@ -67,11 +67,11 @@ Finally, we return the collection of all the variable connection equations.
 return collect(connection_eqs)
 ```
 
-### Tests
+## Tests
 
 The function has been tested in the case of the scenario `historicalrun` of the `World3` model and in the case of the scenario `natural_resource_depletion` of the `World2` model. In both cases, we have tested that the vector of variable connection equations was the same as the one in the current distribution of `WorldDynamics`. We also included a test on some small and simple ODE systems.
 
-### Side effects
+## Side effects
 
 While testing the function in the case of the `World3` model, we realized that one variable connection equation, that is, `ppgf22 ~ 1.0`, is indeed an algebraic equation to be put in an ODE subsystem of the pollution system. To this aim, we added a subsystem to the pollution system, called `persistent_pollution_dummy`, which contains only this equation.
 

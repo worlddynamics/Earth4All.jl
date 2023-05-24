@@ -1,7 +1,8 @@
-### Summary
+# The Food and land sector
+## Summary
 We describe the Food and land sector of the Earth4All model, by referring to the Food and land view of the Vensim model implementation.
 
-### The Food and land endogenous variables
+## The Food and land endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -95,7 +96,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | URban LAnd Mha | `URLA` | 215.0 |
 | Warming Effect on Land Yield | `WELY` |  |
 
-### The Food and land parameters
+## The Food and land parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -135,7 +136,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Urban Development Time y | `UDT` | 10.0 |
 | Urban Land per Population ha/p | `ULP` | 0.05 |
 
-### The Food and land exogenous variables
+## The Food and land exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

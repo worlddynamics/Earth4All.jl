@@ -1,9 +1,10 @@
-### Summary
+# The Public sector
+## Summary
 We describe the Public sector of the Earth4All model, by referring to the Public sector view of the Vensim model implementation.
 
-### The Public sector equations
+## The Public sector equations
 
-#### The rate of technological advance equations
+### The rate of technological advance equations
 
 The government spending can be expressed as a share of the GDP.
 
@@ -37,7 +38,7 @@ The imported rate of technological advance is equal, from 2022, to the maximum i
 $$\mathtt{IROTA}(t) = I_{t\geq2022}(t)\cdot\left(\mathtt{MIROTA2022}\cdot\left(1-1\cdot\left(\frac{\mathtt{GDPP}(t)}{\mathtt{GDPTL}}-1\right)\right)\right),$$
 where $\mathtt{MIROTA2022}=0.005$ and $\mathtt{GDPTL}=15$.
 
-#### The total factor productivity equations
+### The total factor productivity equations
 
 The extra cost of the turnarounds from 2022 is equal to the cost of the turnarounds minus the cost of the turnarounds in 2022.
 
@@ -55,7 +56,7 @@ where where $\mathtt{IPT}=1$ and $\mathtt{CTPIS}=1.5$. This differential equatio
 
 
 
-### The Public sector endogenous variables
+## The Public sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -83,7 +84,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Value of Public Services Supplied GDollar/y | `VPSS` |  |
 | XExtra Cost of TAs as share of GDP | `XECTAGDP` |  |
 
-### The Public sector parameters
+## The Public sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -102,7 +103,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | XExtra TA Cost in 2022 (share of GDP) | `XETAC2022` | 0.0 |
 | XExtra TA Cost in 2100 (share of GDP) | `XETAC2100` | 0.0 |
 
-### The Public sector exogenous variables
+## The Public sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

@@ -1,9 +1,10 @@
-### Summary
+# The Demand sector
+## Summary
 We describe the Demand sector of the Earth4All model, by referring to the Demand view of the Vensim model implementation.
 
-### The Demand equations
+## The Demand equations
 
-#### The extra taxes equations
+### The extra taxes equations
 
 The extra general taxes from 2022 are the sum of three fractions of the national income: a general, an empowerment, and a pension fraction.
 
@@ -20,7 +21,7 @@ This goal is reached gradually, depending on the the time necessary to implement
 $$\frac{\mathrm{d}}{\mathrm{d}t}\mathtt{ETF2022}(t) = \frac{\mathtt{GETF2022}(t)-\mathtt{ETF2022}(t)}{\mathtt{TINT}},$$
 where $\mathtt{TINT}=5$. The above differential equation is accompanied by the following initialization value: $\mathtt{ETF2022}(1980) = 0$ (indeed, no extra taxes will be created before 2022).
 
-#### The government gross income and budget fraction to workers equations
+### The government gross income and budget fraction to workers equations
 
 The taxes on the income of workers is proportional to the national income multiplied by the worker share of the output.
 
@@ -48,7 +49,7 @@ As share of the national income, the government gross income has just to be divi
 
 $$\mathtt{GGIS}(t) = \frac{\mathtt{GGI}(t)}{\mathtt{NI}(t)}.$$
 
-#### The government cash inflow equations
+### The government cash inflow equations
 
 The transfer payments are equal to the government gross income times the fraction of the government budget devoted to workers.
 
@@ -99,7 +100,7 @@ The cash inflow value is reached by the permanent government cash inflow during 
 $$\frac{\mathrm{d}}{\mathrm{d}t}\mathtt{PGCIN}(t) = \frac{\mathtt{GCIN}(t)-\mathtt{PGCIN}(t)}{\mathtt{TAB}},$$
 where $\mathtt{TAB}=1$.
 
-#### The government spending and share of GDP equations
+### The government spending and share of GDP equations
 
 The government purchases are equal to a specific fraction of the permanent government cash inflow.
 
@@ -113,7 +114,7 @@ $$\mathtt{GS}(t) = \mathtt{GPU}(t)+\mathtt{GIPC}(t).$$
 As a share of the national income, this is the government share of GDP.
 
 $$\mathtt{GSGDP}(t) = \frac{\mathtt{GS}(t)}{\mathtt{NI}(t)}.$$
-#### The owner and worker taxes equations
+### The owner and worker taxes equations
 
 The basic rate of the taxes on the income of owners (as a share of the national income) is equal to the rate in 1980 plus the desired rate in 2022 (which is reached linearly starting from 1980) plus the desired final rate (which is reached linearly starting from 2022).
 
@@ -139,7 +140,7 @@ Hence, the owner tax rate is just the ratio between the owner taxes and the owne
 
 $$\mathtt{OTR}(t) = \frac{\mathtt{OT}(t)}{\mathtt{OI}(t)}.$$
 
-#### The owner consumption and saving equations
+### The owner consumption and saving equations
 
 The owner saving fraction is equal to its value in 1980 times a factor that depends on the effective GDP per person. In particular, the equation specifying the owner saving fraction is the following one.
 
@@ -169,7 +170,7 @@ The owner savings are just equal to the permanent owner cash inflow minus the ow
 
 $$\mathtt{OS}(t) = \mathtt{POCI}(t)-\mathtt{OC}(t).$$
 
-#### The worker consumption and saving equations
+### The worker consumption and saving equations
 
 The worker income after taxes is simply the worker income minus the worker taxes plus the transfer payments.
 
@@ -219,7 +220,7 @@ where $\mathtt{WCD}=0.9$. The workers savings is, hence, the permanent worker ca
 
 $$\mathtt{WS}(t) = \mathtt{PWCIN}(t)-\mathtt{WCD}.$$
 
-#### The sales taxes equations
+### The sales taxes equations
 
 The sales taxes from workers is a specific fraction of the workers consumption demand.
 
@@ -231,7 +232,7 @@ The total sales taxes are then equal to the sum of the worker and the owner sale
 
 $$\mathtt{ST}(t) = \mathtt{STW}(t)+\mathtt{STO}(t).$$
 
-#### The total consumption, purchasing, and savings equation
+### The total consumption, purchasing, and savings equation
 
 The total purchasing power is equal to the sum of the worker cash inflow, the government cash inflow, and the owner cash inflow minus the total sales taxes.
 
@@ -257,7 +258,7 @@ The system also includes a control variable which is the sum of the consumption 
 
 $$\mathtt{CONTR}(t) = \mathtt{CSGDP}(t)+\mathtt{GSGDP}(t))+\mathtt{GSGDP}(t)+\mathtt{SSGDP}(t).$$
 
-#### The bank cash inflow equations
+### The bank cash inflow equations
 
 The bank cash inflow from lending is equal to the sum of the cash flow from workers to banks and the cash flow from government to banks.
 
@@ -266,7 +267,7 @@ This value can be espressed as a share of the national income.
 
 $$\mathtt{BICISNI}(t) = \frac{\mathtt{BCIL}(t)}{\mathtt{NI}(t)}.$$
 
-#### The inequality index equations
+### The inequality index equations
 
 The demand inequality is equal to the ratio between the owner operating income after taxes and the worker income after taxes.
 
@@ -276,7 +277,7 @@ The demand inequality index is equal to the ratio betwwen the inequality and its
 $$\mathtt{INEQI}(t) = \frac{\mathtt{INEQ}(t)}{\mathtt{INEQ1980}(t)},$$
 where $\mathtt{INEQ1980}=0.61$.
 
-### The Demand sector endogenous variables
+## The Demand sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -355,7 +356,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Workers new debt GDollar/y | `WND` |  |
 | Workers payback GDollar/y | `WP` |  |
 
-### The Demand sector parameters
+## The Demand sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -391,7 +392,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Worker drawdown period y | `WDP` | 10.0 |
 | Worker payback period y | `WPP` | 20.0 |
 
-### The Demand sector exogenous variables
+## The Demand sector exogenous variables
 
 | Vensim name | Name | Initial value |
 | --- | --- | --- |

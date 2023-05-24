@@ -1,7 +1,8 @@
-### Summary
+# The Other performance indicators sector
+## Summary
 We describe the Other performance indicators sector of the Earth4All model, by referring to the Other performance indicators view of the Vensim model implementation.
 
-### The Other performance indicators sector endogenous variables
+## The Other performance indicators sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -16,7 +17,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Population Below 15 kDollar/p/y Mp | `PB15` |  |
 | Rate of Growth in GDP per Person 1/y | `RGGDPP` |  |
 
-### The Other performance indicators sector parameters
+## The Other performance indicators sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -24,7 +25,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | sINEeoLOK<0: INequity Effect on LOgistic K | `INELOK` | -0.5 |
 | Time to Establish Growth Rate y | `TEGR` | 4.0 |
 
-### The Other performance indicators sector exogenous variables
+## The Other performance indicators sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

@@ -1,7 +1,8 @@
-### Summary
+# The Wellbeing sector
+## Summary
 We describe the Wellbeing sector of the Earth4All model, by referring to the Wellbeing view of the Vensim model implementation.
 
-### The Wellbeing sector endogenous variables
+## The Wellbeing sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -28,7 +29,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Social TRust Effect on Reform Delay | `STRERD` |  |
 | WellBeing Effect of Participation | `WBEP` |  |
 
-### The Wellbeing parameters
+## The Wellbeing parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -58,7 +59,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Time to Change Reform Delay y | `TCRD` | 10.0 |
 | Time to Establish Social Trust y | `TEST` | 10.0 |
 
-### The Wellbeing exogenous variables
+## The Wellbeing exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

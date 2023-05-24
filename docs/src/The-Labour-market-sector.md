@@ -1,9 +1,10 @@
-### Summary
+# The Labour market sector
+## Summary
 In this memorandum, we will describe the Labour market sector of the Earth4All model, by referring to the Labour market view of the Vensim model implementation.
 
-### The Labour market equations
+## The Labour market equations
 
-#### The wage rate equations
+### The wage rate equations
 
 Nominal wage is the amount of 'money received either in cash or in-kind in a day for standard daily working hours' or 'earnings of a low-paid labour who works on an hourly basis.' The erosion rate of the wage rate depends on the inflation rate according to the fraction if inflation compensated. The bigger is this fraction the smaller is the erosion rate.
 
@@ -29,7 +30,7 @@ where $\mathtt{PRUN}=1$ (this value is indeed computed as the cost per unit in 1
 
 $$\mathtt{WASH}(t) = \frac{\mathtt{WARA}(t)}{\mathtt{LAPR}(t)}.$$
 
-#### The hours worked equations
+### The hours worked equations
 
 The normal number of hours worked depends on the GDP per person by a multiplier factor.
 
@@ -47,7 +48,7 @@ where $\mathtt{PFTJ80}=1$. Moreover, the average gross income per worker is equa
 
 $$\mathtt{AGIW}(t) = \mathtt{WARA}(t)\cdot\mathtt{AHW}(t).$$
 
-#### The worker share of output equations
+### The worker share of output equations
 
 The variation of the worker share of output is equal to its change minus the long-term erosion of the worker share of output.
 
@@ -59,7 +60,7 @@ where $\mathtt{RWER}=0.015$. On the other hand, the change of the worker share o
 
 $$\mathtt{CWSO}(t) = \mathtt{WSO}(t)\cdot\mathtt{ROCWSO}(t).$$
 
-#### The capital labour ratio equations
+### The capital labour ratio equations
 
 The effect of the GDP per person on the rate of change of the capital labour ratio is determined by a constant factor.
 
@@ -75,7 +76,7 @@ where
 $$\mathtt{CECLR}(t) = \mathtt{ROCECLR}\cdot\mathtt{ECLR}(t).$$
 The above differential equation is accompanied by the following initialization equation: $\mathtt{ECLR}(1980)=41$ (which is equal to the capacity divided by the available work seekers  in 1980 and it was changed from $44.7$ to get suitable amplitude for new lower savings slope).
 
-#### The labour participation equations
+### The labour participation equations
 
 The extra normal labour participation rate starting from 2022 linearly reaches a goal value during the period for introducing a policy.
 
@@ -105,7 +106,7 @@ Hence, the available workforce is equal to the above value multiplied by the lab
 
 $$\mathtt{AVWO}(t) = \mathtt{WAP}(t)\cdot\mathtt{LPR}(t).$$
 
-#### The wage effect equations
+### The wage effect equations
 
 The indicated wage effect on the optimal capital labour ratio depends on how much the worker share of output changes with respect to its value in 1980.
 
@@ -118,7 +119,7 @@ where
 $$\mathtt{TCT}(t)=\frac{\mathtt{TYLD}}{3}$$
 and $\mathtt{TYLD}=2.3$. This differential equation is accompanied by the following initialization equation: $\mathtt{WEOCLR}(1980)=1$ (which is the value indicated wage effect on the optimal capital labour ratio in 1980).
 
-#### The workforce equations
+### The workforce equations
 
 The optimal capital labour ratio is equal to the embedded capital labour ratio multiplied by the wage effect on the optimal capital labour ratio.
 
@@ -137,7 +138,7 @@ where
 
 $$\mathtt{HFD}(t)=\frac{\mathtt{TYLD}}{3}.$$
 
-#### The labour use equations
+### The labour use equations
 
 The labour use is the workforce multiplied by the average number of hours worked.
 
@@ -146,7 +147,7 @@ The labour use in 1980 is simply the above formula evaluated at time 1980.
 
 $$\mathtt{LAUS80}(t) = \frac{\mathtt{WF}(1980)}{\mathtt{AHW1980}(t)}.$$
 
-#### The unemployment equations
+### The unemployment equations
 
 The number of unemployed is equal to the available workforce minus the workforce.
 
@@ -165,7 +166,7 @@ The participation is equal to the labour participation rate multiplied by comple
 
 $$\mathtt{PART}(t) = \mathtt{LPR}(t)(1-\mathtt{PURA}(t)).$$
 
-### The Labour market endogenous variables
+## The Labour market endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -208,7 +209,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | WorkForce Mp | `WF` | 1530.0 |
 | Working Age Population Mp | `WAP` |  |
 
-### The Labour market parameters
+## The Labour market parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -229,7 +230,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Time to Enter/Leave Labor Market y | `TELLM` | 5.0 |
 | Unemployment Perception Time y | `UPT` | 0.7667 |
 
-### The Labour market exogenous variables
+## The Labour market exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

@@ -1,8 +1,9 @@
+# The Population sector
 
-###  Summary
+##  Summary
 We describe the Population sector of the Earth4All model, by referring to the Population view of the Vensim model implementation.
 
-###  Four-level population model
+##  Four-level population model
 The population is decomposed into four age groups: ages 0-20, ages 20-40, ages 40-60, and ages greater than 60. The total population is the sum of these four age levels.
 
 $$\mathtt{POP}(t) = \mathtt{A0020}(t)+\mathtt{A2040}(t)+\mathtt{A4060}(t)+\mathtt{A60PL}(t)$$
@@ -22,7 +23,7 @@ The initial value of the four population levels is set at $2170$, $1100$, $768$,
 
 Note that the number of deaths in the three groups of ages 0-20, 20-40, and 40-60 are not explicitly included in the model. According to the authors of the model itself, the deaths before 60 have been dropped, because they are small relative to all the other inaccuracies in the model and, hence, insignificant relative to what is the message of the model. There is a 100-age group 10-region version of the E4A model (developed by Ulrich Goluke) which includes them, so that it should be possible to know what difference it makes. 
 
-####  Passing and deaths equations
+###  Passing and deaths equations
 
 The number of passing and of deaths per year is expressed as a delay function of the total number of persons in the previous  population level (where the previous population level of the group of ages 0-20 is the births, and the previous population level of the deaths is the group of ages greater than 60). The delay for the passing functions is equal to 20 (since there is a gap of 20 years between one group and the next one), while the delay for the deaths function is the average life expectancy at age 60 (which varies over time). In all cases, the order of the delay is set equal to 10 (that is, there is a gap of at least two years between one sub-group and the next one). In other words, we have that, for example, $\mathtt{PASS20} = \mathrm{DELAY\ N}(\mathtt{BIRTHS}, 20, 2170, 10)$. By referring to the technical note [[Implementing DELAY N]], we then have the following set of equations.
 
@@ -81,7 +82,7 @@ From the number of deaths and the population size, we can derive the death rate 
 
 $$\mathtt{DEATHR}(t) = \frac{\mathtt{DEATHS}(t)}{\mathtt{POP}(t)}$$
 
-####  Births equations
+###  Births equations
 
 The number of births depends on the number of women in the group of ages 20-40, by the observed fertility, and by the length of the fertility period of each woman. In the model, the authors assume that half of the population are women, and that the fertile period is 20 years. Hence, we have the following equation.
 
@@ -91,7 +92,7 @@ In the equation, $\mathtt{FW}$ is a parameter equal to $0.5$ and $\mathtt{FP}$ i
 $$\mathtt{OF}(t) = \mathtt{FADFS}\cdot\mathtt{DNC}(t)$$
 The parameter $\mathtt{FADFS}$, which is equal to $0.8$, denotes the fraction of women achieving the desired family size (determined by the value of the function $\mathtt{DNC}$.
 
-### The Population sector endogenous variables
+## The Population sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim). Note that this is the only sector in which the `DELAY N` function is used: for this, reason, the following list also includes the `LV` and `RT` functions corresponding to the four usages of the `DELAY N` function (see the technical note on [[Implementing DELAY N]]).
 
@@ -136,7 +137,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | RT functions for passing 60 Mp/y | `(RT_PASS60)`[10] | 76.0 |
 | Warming Effect on Life Expectancy | `WELE` |  |
 
-### The Population sector parameters
+## The Population sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -161,7 +162,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | SSP2 Family Action from 2022 Flag | `SSP2FA2022F` | 1.0 |
 | Time to adapt to higher income y | `TAHI` | 10.0 |
 
-### The Population sector exogenous variables
+## The Population sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

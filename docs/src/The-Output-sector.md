@@ -1,9 +1,11 @@
-### Summary
+# The Output sector
+
+## Summary
 We describe the Output sector of the Earth4All model, by referring to the Output view of the Vensim model implementation.
 
-### The Output sector equations
+## The Output sector equations
 
-#### The public sector equations
+### The public sector equations
 
 The off-balance-sheet government investment in the public sector (as a share of GDP) is a specific constant until 2022, and then is increased by another specific constant.
 
@@ -49,7 +51,7 @@ where the capacity discard is equal to the ratio between the capacity of the pub
 $$\mathtt{CDPUS}(t)=\frac{\mathtt{CPUS}(t)}{\mathtt{LCPUS}(t)}.$$
 The above differential equation is accompanied by the following initialization equation: $\mathtt{CPUS}(1980)=\mathtt{CAPPUS1980}$.
 
-#### The private sector equations
+### The private sector equations
 
 The available capital is equal to the total savings plus the foreign capital inflow.
 
@@ -84,7 +86,7 @@ where the capacity discard is equal to the ratio between the capacity of the pri
 $$\mathtt{CDPIS}(t)=\frac{\mathtt{CPIS}(t)}{\mathtt{LCPIS}(t)}.$$
 The above differential equation is accompanied by the following initialization equation: $\mathtt{CPIS}(1980)=\mathtt{CAPPIS1980}$.
 
-#### The embedded total factor productivity equations
+### The embedded total factor productivity equations
 
 The capacity renewal rate (of the private sector) is equal to the capacity addition of the private sector divided by the capacity of the private sector.
 
@@ -98,7 +100,7 @@ where the effect of the capacity renewal is equal to the difference between the 
 $$\mathtt{ECR}(t)=(\mathtt{ITFP}(t)-\mathtt{ETFP}(t))\cdot\mathtt{CRR}(t)$$
 (in other words, the embedded total factor productivity gradually reaches the indicated total factor productivity according to the capacity renewal rate). The above differential equation is accompanied by the following initialization equation: $\mathtt{ETFP}(1980)=1$.
 
-### The Output sector endogenous variables
+## The Output sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -143,7 +145,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Perceived Excess DEmand | `PEDE` | 1.0 |
 | WSO Effect on Flow to Capacity Addition | `WSOEFCA` |  |
 
-### The Output sector parameters
+## The Output sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -176,7 +178,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Unconventional Stimulus in PIS from 2022 (share of GDP) | `USPIS2022` | 0.01 |
 | Unconventional Stimulus in PUS from 2022 (share of GDP) | `USPUS2022` | 0.01 |
 
-### The Output sector exogenous variables
+## The Output sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

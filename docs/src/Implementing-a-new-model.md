@@ -1,4 +1,4 @@
-
+# Implementing a new model
 ## Summary
 In this memorandum, we will describe how a new model can be implemented by using WorldDynamics. To this aim we refer to the third chapter of [Duggan2016]. In this chapter, whose title is \textit{Modeling Limits to Growth}, the author introduces the reader to system dynamics models of limits to growth through three models of increasing complexity. Here, we will implement the third model, in which a growing stock consumes its carrying capacity (this dynamic leads to growth followed by rapid decline).
 

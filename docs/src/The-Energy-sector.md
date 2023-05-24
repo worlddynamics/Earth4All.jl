@@ -1,7 +1,8 @@
-### Summary
+# The Energy sector
+## Summary
 We describe the Energy sector of the Earth4All model, by referring to the Energy view of the Vensim model implementation.
 
-### The Energy sector endogenous variables
+## The Energy sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -87,7 +88,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | TWh-el per EJ - engineering equivalent | `TWEPEJEE` |  |
 | Use of fossil fuels Mtoe/y | `UFF` |  |
 
-### The Energy sector parameters
+## The Energy sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -133,7 +134,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Transmission cost Dollar/kWh | `TC` | 0.02 |
 | TWh-heat per EJ - calorific equivalent | `TWHPEJCE` | 278.0 |
 
-### The Energy sector exogenous variables
+## The Energy sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

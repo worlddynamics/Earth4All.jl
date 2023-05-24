@@ -1,15 +1,16 @@
-### Summary
+# The Inventory sector
+## Summary
 We describe the Inventory sector of the Earth4All model, by referring to the Inventory view of the Vensim model implementation.
 
-### The Inventory equations
+## The Inventory equations
 
-#### The pink noise in sales equation
+### The pink noise in sales equation
 
 The pink noise in sales is defined as a normal distribution with mean equal to $1$ and standard deviation equal to $0$.
 
 $$\mathtt{PNIS}(t)=1.$$
 
-#### The effective purchasing power equations
+### The effective purchasing power equations
 
 The effective purchasing power gradually reaches the total purchasing power during the period to adjust the demand.
 
@@ -19,7 +20,7 @@ where $\mathtt{DAT}=1.2$. The above differential equation is accompanied by the 
 $$\mathtt{DEPU}(t)=I_{t\geq2020}(t)\cdot I_{t<2025}(t)\cdot\mathtt{PH}$$
 and $\mathtt{PH}=0$. Since $\mathtt{PH}=0$, the two formulations are equivalent. However, it is interesting to see how the Vensim formulation can be, in general, written in the `WorldDynamics.jl` framework.
 
-#### The inventory and GDP equations
+### The inventory and GDP equations
 
 The variation of the inventory is equal to the output minus the delivery.
 
@@ -32,7 +33,7 @@ where $\mathtt{SWI1980}=1$. The GDP is equal to the above value multiplied by th
 $$\mathtt{GDP}(t)=\mathtt{OUTP}(t)\cdot\mathtt{PPU},$$
 where $\mathtt{PPU}=1$.
 
-#### The delivery and national income equations
+### The delivery and national income equations
 
 The deliveries are equal to the ratio between the effective purchasing power and the price per unit divided by the ratio between the delay delivery index and its value in 1980 and multiplied by the pink noise in sales from 1984.
 
@@ -51,7 +52,7 @@ This differential equation is accompanied by the following initialization equati
 
 $$\mathtt{CDDI}(t)=\mathtt{ROCDDI}(t)\cdot\mathtt{DELDI}.$$
 
-#### The price and shifts worked index equations
+### The price and shifts worked index equations
 
 The recent sales gradually reach the deliveries during the sales averaging time.
 
@@ -87,7 +88,7 @@ This differential equation is accompanied by the following initialization equati
 
 $$\mathtt{CPI}(t)=\mathtt{PRIN}(t)\cdot\mathtt{IR}(t).$$
 
-### The Inventory sector endogenous variables
+## The Inventory sector endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim). Note that the `PNIS` variable is set equal to 1, since in the original model the standard deviation of the noise is 0.
 
@@ -113,7 +114,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | SAles G/y | `SA` |  |
 | ShiftS Worked - Index | `SSWI` | 1.0 |
 
-### The Inventory sector parameters
+## The Inventory sector parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -132,7 +133,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | SWI in 1980 | `SWI` | 1.0 |
 | Time to Adjust Shifts y | `TAS` | 0.24 |
 
-### The Inventory sector exogenous variables
+## The Inventory sector exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |
