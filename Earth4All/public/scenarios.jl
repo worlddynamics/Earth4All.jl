@@ -1,6 +1,6 @@
 function public_run(; kwargs...)
     @named pub = public(; kwargs...)
-    @named pub_sup = public_support(; kwargs...)
+    @named pub_sup = public_full_support(; kwargs...)
 
     systems = [
         pub, pub_sup
@@ -14,7 +14,7 @@ function public_run(; kwargs...)
         pub.GP ~ pub_sup.GP
         pub.GS ~ pub_sup.GS
         pub.INEQI ~ pub_sup.INEQI
-        pub.OBWA ~ pub_sup.OBWA
+        pub.OW ~ pub_sup.OW
         pub.POP ~ pub_sup.POP
     ]
 

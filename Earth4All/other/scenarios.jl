@@ -1,6 +1,6 @@
 function other_run(; kwargs...)
     @named oth = other(; kwargs...)
-    @named oth_sup = other_support(; kwargs...)
+    @named oth_sup = other_full_support(; kwargs...)
 
     systems = [
         oth, oth_sup,

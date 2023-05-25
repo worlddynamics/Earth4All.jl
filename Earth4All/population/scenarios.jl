@@ -1,6 +1,6 @@
 function pop_run(; kwargs...)
     @named pop = population(; kwargs...)
-    @named pop_sup = population_support(; kwargs...)
+    @named pop_sup = population_full_support(; kwargs...)
 
     systems = [
         pop, pop_sup

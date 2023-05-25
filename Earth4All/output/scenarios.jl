@@ -1,6 +1,6 @@
 function output_run(; kwargs...)
     @named out = output(; kwargs...)
-    @named out_sup = output_support(; kwargs...)
+    @named out_sup = output_full_support(; kwargs...)
 
     systems = [
         out, out_sup,
@@ -14,8 +14,8 @@ function output_run(; kwargs...)
         out.GIPC ~ out_sup.GIPC
         out.ITFP ~ out_sup.ITFP
         out.LAUS ~ out_sup.LAUS
-        out.OBWA ~ out_sup.OBWA
-        out.TOSA ~ out_sup.TOSA
+        out.OW ~ out_sup.OW
+        out.TS ~ out_sup.TS
         out.TPP ~ out_sup.TPP
         out.WASH ~ out_sup.WASH
     ]

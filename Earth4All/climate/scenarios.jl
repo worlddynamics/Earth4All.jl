@@ -1,6 +1,6 @@
 function climate_run(; kwargs...)
     @named cli = climate(; kwargs...)
-    @named cli_sup = climate_support(; kwargs...)
+    @named cli_sup = climate_full_support(; kwargs...)
 
 
     systems = [

@@ -1,6 +1,6 @@
 function inv_run(; kwargs...)
     @named inv = inventory(; kwargs...)
-    @named inv_sup = inventory_support(; kwargs...)
+    @named inv_sup = inventory_full_support(; kwargs...)
 
     systems = [
         inv, inv_sup

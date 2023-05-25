@@ -1,18 +1,18 @@
 function energy_run(; kwargs...)
-    @named en = energy(; kwargs...)
-    @named en_sup = energy_support(; kwargs...)
+    @named ene = energy(; kwargs...)
+    @named ene_sup = energy_full_support(; kwargs...)
 
 
     systems = [
-        en, en_sup
+        ene, ene_sup
     ]
 
     connection_eqs = [
-        en.GDPP ~ en_sup.GDPP
-        en.POP ~ en_sup.POP 
-        en.IPP ~ en_sup.IPP  
-        en.GDP ~ en_sup.GDP 
-        en.CAC ~ en_sup.CAC  
+        ene.GDPP ~ ene_sup.GDPP
+        ene.POP ~ ene_sup.POP
+        ene.IPP ~ ene_sup.IPP
+        ene.GDP ~ ene_sup.GDP
+        ene.CAC ~ ene_sup.CAC
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)

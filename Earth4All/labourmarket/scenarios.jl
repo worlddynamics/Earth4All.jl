@@ -1,6 +1,6 @@
 function lab_run(; kwargs...)
     @named lab = labour_market(; kwargs...)
-    @named lab_sup = labour_market_support(; kwargs...)
+    @named lab_sup = labour_market_full_support(; kwargs...)
 
     systems = [
         lab, lab_sup
@@ -8,7 +8,7 @@ function lab_run(; kwargs...)
 
     connection_eqs = [
         lab.A20PA ~ lab_sup.A20PA
-        lab.CAPA ~ lab_sup.CAPA
+        lab.CAP ~ lab_sup.CAP
         lab.GDPP ~ lab_sup.GDPP
         lab.IR ~ lab_sup.IR
         lab.IPP ~ lab_sup.IPP

@@ -1,16 +1,24 @@
 _params = Dict{Symbol,Float64}(
     :CAPPIS1980 => 59250,
     :CAPPUS1980 => 5350,
-    :CBCEFRA => -0.8,
     :CC1980 => 1,
     :CTPIS => 1.5,
     :CTPUS => 1.5,
+    :EMCUC => 1.7,
+    :FCI => 0,
+    :LAUS1980 => 3060, # Taken from Vensim table
+    :LCPIS1980 => 15,
+    :OW2022 => 1.35, # Taken from Climate sector
+    :OWECCM => 0.2,
+    :OWELCM => -0.1,
+    :USPIS2022 => 0, # It was 0.01,
+    :USPUS2022 => 0, # It was 0.01,
+    # UNDOCUMENTED PARAMETERS
+    :CBCEFRA => -0.8,
     :CU1980 => 0.8,
     :ED1980 => 1,
     :EDEFRA => 5,
     :EDELCM => 0.5,
-    :EMCUC => 1.7,
-    :FCI => 0,
     :FRA1980 => 0.9,
     :FRACAM => 0.65,
     :GDPP1980 => 6.4, # It should be the same as in the Labour and market sector
@@ -19,19 +27,12 @@ _params = Dict{Symbol,Float64}(
     :JOBS1980 => 1600,
     :KAPPA => 0.3,
     :LAMBDA => 0.7, # Calculated as 1-KAPPA
-    :LAUS1980 => 3060, # Taken from Vensim table
-    :LCPIS1980 => 15,
     :MA1980 => 0.25,
-    :OBWA2022 => 1.35, # Taken from Climate sector
     :OG1980 => 0.06,
     :OO1980 => 28087, # Taken from Vensim table
-    :OWECCM => 0.2,
-    :OWELCM => -0.1,
     :PCORPIS => 2.3,
     :PCORPUS => 2.3,
     :TOED => 1,
-    :USPIS2022 => 0.01,
-    :USPUS2022 => 0.01,
     :WSOEFRA => -2.5,
 )
 

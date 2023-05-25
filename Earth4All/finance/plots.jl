@@ -2,11 +2,12 @@ using ModelingToolkit
 using DifferentialEquations
 
 
-function finance_run_solution()
+function fin_run_solution()
     isdefined(@__MODULE__, :_solution_finance_run) && return _solution_finance_run
-    global _solution_finance_run = WorldDynamics.solve(finance_run(), (1980, 2100), dt=0.015625, dtmax=0.015625)
+    global _solution_finance_run = WorldDynamics.solve(finance_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
     return _solution_finance_run
 end
+
 function _variables_fin()
     @named fin = finance()
     variables = [
@@ -20,4 +21,4 @@ function _variables_fin()
     return variables
 end
 
-fig_fin(; kwargs...) = plotvariables(finance_run_solution(), (t, 2010, 2030), _variables_fin(); title="Finance sector plots", showaxis=true, showlegend=true, kwargs...)
+fig_fin(; kwargs...) = plotvariables(fin_run_solution(), (t, 2010, 2030), _variables_fin(); title="Finance sector plots", showaxis=true, showlegend=true, kwargs...)
