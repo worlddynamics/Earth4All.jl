@@ -2,9 +2,11 @@ using ModelingToolkit
 using DifferentialEquations
 
 function e4a_run_solution()
-    isdefined(@__MODULE__, :_solution_e4a_run) && return _solution_e4a_run
-    global _solution_e4a_run = WorldDynamics.solve(e4a_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
-    return _solution_e4a_run
+    return WorldDynamics.solve(e4a_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
+end
+
+function e4a_run_gl_solution()
+    return WorldDynamics.solve(e4a_run_gl(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
 end
 
 @variables t
@@ -149,8 +151,6 @@ function _variables_dem()
 end
 
 fig_dem(; kwargs...) = plotvariables(e4a_run_solution(), (t, 1980, 2100), _variables_dem(); title="Demand", showaxis=true, showlegend=true, kwargs...)
-
-
 
 function _variables_do()
     @named out = Output.output()
