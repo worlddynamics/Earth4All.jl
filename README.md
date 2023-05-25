@@ -10,7 +10,7 @@ This work can be provisionally cited as follows:
   title        = {Julia implementation of the Earth4All model using WorldDynamics.jl},
   month        = may,
   year         = 2023,
-  url          = {https://doi.org/10.5281/zenodo.7093581}
+  url          = {https://github.com/worlddynamics/Earth4All}
 }
 ```
 ### Acknowledgments 
