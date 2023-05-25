@@ -1,5 +1,5 @@
 # Home 
-This is the documentation of the Julia implementation of the Earth4All model.
+This is the documentation of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/).
 
 ## Index
 
