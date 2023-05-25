@@ -33,20 +33,20 @@ The model consists of the following sectors (the description are taken from [Dix
 A figure representing the causal relationships between the sectors of the model is given in [Randers2022](https://www.clubofrome.org/wp-content/uploads/2022/09/220916_E4A_technical-note.pdf): these relationships are summarized in the following figures, where the labels of the edges denote variable acronyms as specified in the next tables.
 
 ```@raw html
-<div align="center"><img src="/imgs/dependencies/climate.png" width="300" height="300">
-<img src="/imgs/dependencies/demand.png"\ width="300" height="300">
-<img src="/imgs/dependencies/energy.png"\ width="300" height="300">
-<img src="/imgs/dependencies/finance.png"\ width="300" height="300"></div>
+<div align="center"><img src="../imgs/dependencies/climate.png" width="300" height="300">
+<img src="../imgs/dependencies/demand.png"\ width="300" height="300">
+<img src="../imgs/dependencies/energy.png"\ width="300" height="300">
+<img src="../imgs/dependencies/finance.png"\ width="300" height="300"></div>
 
-<div align="center"><img src="/imgs/dependencies/foodland.png" width="300" height="300">
-<img src="/imgs/dependencies/inventory.png" width="300" height="300">
-<img src="/imgs/dependencies/labourmarket.png" width="300" height="300">
-<img src="/imgs/dependencies/other.png" width="300" height="300"></div>
+<div align="center"><img src="../imgs/dependencies/foodland.png" width="300" height="300">
+<img src="../imgs/dependencies/inventory.png" width="300" height="300">
+<img src="../imgs/dependencies/labourmarket.png" width="300" height="300">
+<img src="../imgs/dependencies/other.png" width="300" height="300"></div>
 
-<div align="center"><img src="/imgs/dependencies/output.png" width="300" height="300">
-<img src="/imgs/dependencies/population.png" width="300" height="300">
-<img src="/imgs/dependencies/public.png" width="300" height="300">
-<img src="/imgs/dependencies/wellbeing.png" width="300" height="300">
+<div align="center"><img src="../imgs/dependencies/output.png" width="300" height="300">
+<img src="../imgs/dependencies/population.png" width="300" height="300">
+<img src="../imgs/dependencies/public.png" width="300" height="300">
+<img src="../imgs/dependencies/wellbeing.png" width="300" height="300">
 </div>
 ```
 
