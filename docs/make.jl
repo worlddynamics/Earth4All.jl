@@ -19,19 +19,10 @@ Sectors = "Sectors" => [
         "The-Wellbeing-sector.md"
  ]
 
-technotes = "Technical  notes" => [
-    "DELAY-N-comments.md"
-    "Implementing-DELAY-N.md"
-    "Computing-variable-connections.md"
-    "Implementing-a-new-model.md"
-    ]
-
-
 PAGES = [
     Home,
     E4A,
-    Sectors,
-    technotes
+    Sectors
     ]
 
 makedocs(
@@ -41,6 +32,6 @@ makedocs(
 )
 
 
-deploydocs(
-    repo = "github.com/worlddynamics/Earth4All.git",
-)
+# deploydocs(
+#     repo = "github.com/worlddynamics/Earth4All.git",
+# )
