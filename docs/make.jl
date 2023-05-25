@@ -2,7 +2,7 @@ using Documenter
 
 Home = "Home" => "index.md"
 
-E4A = "The Earth4all model" => "The-Earth4All-model.md" 
+E4A = "The Earth4All model" => "The-Earth4All-model.md" 
 
 Sectors = "Sectors" => [
         "The-Climate-sector.md",
@@ -26,7 +26,7 @@ PAGES = [
     ]
 
 makedocs(
-    sitename = "Earth4all documentation",
+    sitename = "Earth4All documentation",
     authors = "Pierluigi Crescenzi, Emanuele Natale, Aurora Rossi",
     pages = PAGES
 )
