@@ -40,3 +40,7 @@ makedocs(
     pages = PAGES
 )
 
+
+deploydocs(
+    repo = "github.com/worlddynamics/Earth4All.git",
+)
