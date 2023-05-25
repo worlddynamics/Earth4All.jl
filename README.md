@@ -1,6 +1,18 @@
 # Earth4All
 Repository of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/) using the [WorldDynamics framework](https://github.com/worlddynamics/WorldDynamics.jl).
 
+### How to cite this work
+This work can be provisionally cited as follows:
+```
+@software{pierluigi_crescenzi_2023_e4a,
+  author       = {Pierluigi Crescenzi and
+                  Aurora Rossi and contributors},
+  title        = {Julia implementation of the Earth4All model using WorldDynamics.jl},
+  month        = may,
+  year         = 2023,
+  url          = {https://doi.org/10.5281/zenodo.7093581}
+}
+```
 ### Acknowledgments 
 
 This work has been supported by the French government, through the UCAJEDI and UCA DS4H Investments in the Future projects managed by the National Research Agency (ANR) with the reference number ANR-15-IDEX-0001 and ANR-17-EURE-0004.
