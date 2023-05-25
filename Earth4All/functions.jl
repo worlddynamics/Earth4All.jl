@@ -193,7 +193,7 @@ function compare(a, b, pepsi)
    return max_re, max_re_a, max_re_b, max_re_i
 end
 
-function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
+function mre_sys(scen, sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
    nsv = ModelingToolkit.namespace_variables(sys)
    max_re = 0.0
    for v in nsv
@@ -205,7 +205,7 @@ function mre_sys(sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
             println(d, " ", re, " (", max_re, ")")
          end
          if (do_plot)
-            savefig(compare_and_plot(sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "../figures/" * string(v) * ".png")
+            savefig(compare_and_plot(scen, sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "../figures/" * string(v) * ".png")
          end
       end
    end
@@ -246,7 +246,7 @@ function system_array()
    return r
 end
 
-function compare_and_plot(sol, desc, fy, ly, nt, pepsi)
+function compare_and_plot(scen, sol, desc, fy, ly, nt, pepsi)
    sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
    sector_system = system_array()
    for s in 1:lastindex(sector_name)
@@ -254,7 +254,7 @@ function compare_and_plot(sol, desc, fy, ly, nt, pepsi)
       vs_ds = Earth4All.read_vensim_dataset("../VensimOutput/tltl/" * sector_name[s] * ".txt")
       isv, v = is_system_var(desc, sector_system[s])
       if (isv)
-         return compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)
+         return compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)
       end
    end
 end
@@ -272,13 +272,13 @@ function is_system_var(desc, sys)
    return false, nothing
 end
 
-function compare_and_plot(sol, desc, v, vs_ds, fy, ly, nt, pepsi, do_plot)
+function compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, do_plot)
    r = compare(sol[v][1:nt], vs_ds[lowercase(desc)], pepsi)
    println(r, " at t=", sol.t[r[4]])
    if (do_plot)
       x = range(fy, ly, length=nt)
       trace1 = scatter(x=x, y=sol[v], name="WorldDynamics", line=attr(color="royalblue", dash="dash"))
       trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], name="Vensim", line=attr(color="firebrick", dash="dot"))
-      return plot([trace1, trace2], Layout(title=desc))
+      return plot([trace1, trace2], Layout(title=desc * " (" * scen * ")"))
    end
 end
