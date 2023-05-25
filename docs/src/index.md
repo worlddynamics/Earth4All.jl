@@ -1,5 +1,5 @@
 # Home 
-This is the documentation of the [WorldDynamics Project](https://github.com/worlddynamics).
+This is the documentation of the Julia implementation of the Earth4All model.
 
 ## Index
 

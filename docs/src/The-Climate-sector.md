@@ -2,7 +2,7 @@
 ## Summary
 We describe the Climate sector of the Earth4All model, by referring to the Climate view of the Vensim model implementation.
 
-## The Climate sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -64,7 +64,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Water Vapour Concentration g/kg | `WVC` |  |
 | Water Vapour Feedback W/m2 | `WVF` |  |
 
-## The Climate sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -111,7 +111,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Water Vapour Concentration in 1980 g/kg | `WVC1980` | 2.0 |
 | Water Vapour Feedback in 1980 W/m2 | `WVF1980` | 0.9 |
 
-## The Climate sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |
