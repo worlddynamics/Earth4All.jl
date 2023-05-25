@@ -2,7 +2,7 @@
 ## Summary
 In this memorandum, we will describe the Labour market sector of the Earth4All model, by referring to the Labour market view of the Vensim model implementation.
 
-## The Labour market equations
+## Equations
 
 ### The wage rate equations
 
@@ -166,7 +166,7 @@ The participation is equal to the labour participation rate multiplied by comple
 
 $$\mathtt{PART}(t) = \mathtt{LPR}(t)(1-\mathtt{PURA}(t)).$$
 
-## The Labour market endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -209,7 +209,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | WorkForce Mp | `WF` | 1530.0 |
 | Working Age Population Mp | `WAP` |  |
 
-## The Labour market parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -230,7 +230,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Time to Enter/Leave Labor Market y | `TELLM` | 5.0 |
 | Unemployment Perception Time y | `UPT` | 0.7667 |
 
-## The Labour market exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

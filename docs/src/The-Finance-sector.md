@@ -2,7 +2,7 @@
 ## Summary
 We describe the Finance sector of the Earth4All model, by referring to the Finance view of the Vensim model implementation.
 
-## The Finance sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -23,7 +23,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Perceived Unemployment CB | `PU` | 0.0327 |
 | Working Borrowing Cost 1/y | `WBC` |  |
 
-## The Finance sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Unemployment Perception Time CB y | `UPT` | 1.0 |
 | Unemployment Target | `UT` | 0.05 |
 
-## The Finance sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

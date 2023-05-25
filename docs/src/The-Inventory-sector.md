@@ -2,7 +2,7 @@
 ## Summary
 We describe the Inventory sector of the Earth4All model, by referring to the Inventory view of the Vensim model implementation.
 
-## The Inventory equations
+## Equations
 
 ### The pink noise in sales equation
 
@@ -88,7 +88,7 @@ This differential equation is accompanied by the following initialization equati
 
 $$\mathtt{CPI}(t)=\mathtt{PRIN}(t)\cdot\mathtt{IR}(t).$$
 
-## The Inventory sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim). Note that the `PNIS` variable is set equal to 1, since in the original model the standard deviation of the noise is 0.
 
@@ -114,7 +114,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | SAles G/y | `SA` |  |
 | ShiftS Worked - Index | `SSWI` | 1.0 |
 
-## The Inventory sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -133,7 +133,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | SWI in 1980 | `SWI` | 1.0 |
 | Time to Adjust Shifts y | `TAS` | 0.24 |
 
-## The Inventory sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

@@ -2,7 +2,7 @@
 ## Summary
 We describe the Public sector of the Earth4All model, by referring to the Public sector view of the Vensim model implementation.
 
-## The Public sector equations
+## Equations
 
 ### The rate of technological advance equations
 
@@ -56,7 +56,7 @@ where where $\mathtt{IPT}=1$ and $\mathtt{CTPIS}=1.5$. This differential equatio
 
 
 
-## The Public sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -84,7 +84,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Value of Public Services Supplied GDollar/y | `VPSS` |  |
 | XExtra Cost of TAs as share of GDP | `XECTAGDP` |  |
 
-## The Public sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -103,7 +103,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | XExtra TA Cost in 2022 (share of GDP) | `XETAC2022` | 0.0 |
 | XExtra TA Cost in 2100 (share of GDP) | `XETAC2100` | 0.0 |
 
-## The Public sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

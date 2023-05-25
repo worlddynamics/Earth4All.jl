@@ -3,7 +3,7 @@
 ## Summary
 We describe the Output sector of the Earth4All model, by referring to the Output view of the Vensim model implementation.
 
-## The Output sector equations
+## Equations
 
 ### The public sector equations
 
@@ -100,7 +100,7 @@ where the effect of the capacity renewal is equal to the difference between the 
 $$\mathtt{ECR}(t)=(\mathtt{ITFP}(t)-\mathtt{ETFP}(t))\cdot\mathtt{CRR}(t)$$
 (in other words, the embedded total factor productivity gradually reaches the indicated total factor productivity according to the capacity renewal rate). The above differential equation is accompanied by the following initialization equation: $\mathtt{ETFP}(1980)=1$.
 
-## The Output sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -145,7 +145,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Perceived Excess DEmand | `PEDE` | 1.0 |
 | WSO Effect on Flow to Capacity Addition | `WSOEFCA` |  |
 
-## The Output sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -178,7 +178,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Unconventional Stimulus in PIS from 2022 (share of GDP) | `USPIS2022` | 0.01 |
 | Unconventional Stimulus in PUS from 2022 (share of GDP) | `USPUS2022` | 0.01 |
 
-## The Output sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Original sector |
 | --- | --- | --- |

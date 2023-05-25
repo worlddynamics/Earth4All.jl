@@ -26,7 +26,7 @@ PAGES = [
     ]
 
 makedocs(
-    sitename = "Earth4all Documentation",
+    sitename = "Earth4all documentation",
     authors = "Pierluigi Crescenzi, Emanuele Natale, Aurora Rossi",
     pages = PAGES
 )

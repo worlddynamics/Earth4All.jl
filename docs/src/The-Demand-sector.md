@@ -2,7 +2,7 @@
 ## Summary
 We describe the Demand sector of the Earth4All model, by referring to the Demand view of the Vensim model implementation.
 
-## The Demand equations
+## Equations
 
 ### The extra taxes equations
 
@@ -199,7 +199,7 @@ The cash flow from the workers to the banks is equal to the workers interest cos
 
 $$\mathtt{CFWB}(t) = \mathtt{WIC}(t)+\mathtt{WP}(t)-\mathtt{WND}(t).$$
 
-This value can be espressed as a share of the workers income after taxes, which defines the workers finance cost.
+This value can be expressed as a share of the workers income after taxes, which defines the workers finance cost.
 
 $$\mathtt{WFCSI}(t) = \frac{\mathtt{CFWB}(t)}{\mathtt{WIAT}(t)}.$$
 
@@ -277,7 +277,7 @@ The demand inequality index is equal to the ratio betwwen the inequality and its
 $$\mathtt{INEQI}(t) = \frac{\mathtt{INEQ}(t)}{\mathtt{INEQ1980}(t)},$$
 where $\mathtt{INEQ1980}=0.61$.
 
-## The Demand sector endogenous variables
+## Endogenous variables
 
 In the following list, only the initial values that cannot be implicitly computed within the sector are indicated (these values are taken from either the functions or the tables of Vensim).
 
@@ -356,7 +356,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Workers new debt GDollar/y | `WND` |  |
 | Workers payback GDollar/y | `WP` |  |
 
-## The Demand sector parameters
+## Parameters
 
 | Vensim name | Name | Value |
 | --- | --- | --- |
@@ -392,7 +392,7 @@ In the following list, only the initial values that cannot be implicitly compute
 | Worker drawdown period y | `WDP` | 10.0 |
 | Worker payback period y | `WPP` | 20.0 |
 
-## The Demand sector exogenous variables
+## Exogenous variables
 
 | Vensim name | Name | Initial value |
 | --- | --- | --- |
