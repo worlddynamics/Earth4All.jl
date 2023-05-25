@@ -1,4 +1,4 @@
-function e4a_run(; kwargs...)
+function e4a_run_tltl(; kwargs...)
     @named cli = Climate.climate(; kwargs...)
     @named dem = Demand.demand(; kwargs...)
     @named ene = Energy.energy(; kwargs...)
