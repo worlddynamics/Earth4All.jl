@@ -5,6 +5,7 @@ _inits = Dict{Symbol,Float64}(
     # UNDOCUMENTED INITIALISATIONS
     :FACNC => 1.05149, # Taken from Vensim table
     :LAUS => 3060, # Taken from Labour and market sector
+    :OLY => 26497.1, # Taken from Vensim table
     :WSO => 0.5, # Taken from Labour and market sector
 )
 
