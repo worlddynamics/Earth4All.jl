@@ -22,13 +22,13 @@ function e4a_run_tltl(; kwargs...)
 end
 
 function e4a_run_gl(;
-    cli_ps=Climate._params,
-    dem_ps=Demand._params,
-    ene_ps=Energy._params,
-    foo_ps=FoodLand._params,
-    out_ps=Output._params,
-    pop_ps=Population._params,
-    pub_ps=Public._params,
+    cli_ps=Climate.getparameters(),
+    dem_ps=Demand.getparameters(),
+    ene_ps=Energy.getparameters(),
+    foo_ps=FoodLand.getparameters(),
+    out_ps=Output.getparameters(),
+    pop_ps=Population.getparameters(),
+    pub_ps=Public.getparameters(),
     kwargs...
 )
     cli_ps[:ERDN2OKF2022] = 0.01
