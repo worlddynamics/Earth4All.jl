@@ -23,10 +23,6 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters XETAC2022 = params[:XETAC2022] [description = "XExtra TA Cost in 2022 (share of GDP)"]
     @parameters XETAC2100 = params[:XETAC2100] [description = "XExtra TA Cost in 2100 (share of GDP)"]
 
-    @parameters CTPIS = params[:CTPIS] [description = "Construction Time PIS y"]
-    @parameters IPT = params[:IPT] [description = "Investment Planning Time y"]
-    @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
-
     @variables CTFP(t) [description = "Change in TFP 1/y"]
     @variables DRTA(t) [description = "Domestic Rate of Technological Advance 1/y"]
     @variables ECTAF2022(t) [description = "Extra Cost of TAs From 2022 GDollar/y"]
@@ -69,7 +65,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, IPR ~ CPUS / GPU)
     add_equation!(eqs, IROTA ~ IfElse.ifelse(t > 2022, max(0, MIROTA2022 * (1 - 1 * (GDPP / GDPTL - 1))), 0))
     add_equation!(eqs, ITFP ~ TFPEE5TA * OWTFP)
-    add_equation!(eqs, OWTFP ~ IfElse.ifelse(t > 2022, 1 + OWETFP * (OBWA / OBWA2022 - 1), 1))
+    add_equation!(eqs, OWTFP ~ IfElse.ifelse(t > 2022, 1 + OWETFP * (OW / OW2022 - 1), 1))
     add_equation!(eqs, PLUA ~ ECTAGDP * FUATA)
     add_equation!(eqs, PPP ~ max(0, 1 + IPRVPSS * log(IPR / IPR1980)))
     add_equation!(eqs, PSEP ~ VPSS / POP)

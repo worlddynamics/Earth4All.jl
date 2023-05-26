@@ -145,7 +145,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CO2EI ~ CO2EP + CO2NFIP)
     add_equation!(eqs, CO2EP ~ UFF * (TCO2PT / 1000) * (1 - FCO2SCCS))
     add_equation!(eqs, CO2EMPP ~ (CO2EI / POP) * 1000)
-    add_equation!(eqs, CCCSG ~ CCCS * ICCSC)
+    add_equation!(eqs, CCCSG ~ CCCSt * ICCSC)
     add_equation!(eqs, ICCSC ~ FCO2SCCS * (CO2NFIP + CO2EP) / (1 - FCO2SCCS))
     add_equation!(eqs, TCO2PT ~ 2.8 * exp(ROCTCO2PT * (t - 1980)))
     add_equation!(eqs, D(EEPI2022) ~ IEEPI)

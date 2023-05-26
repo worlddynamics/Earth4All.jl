@@ -9,7 +9,7 @@ function pop_run(; kwargs...)
     connection_eqs = [
         pop.GDP ~ pop_sup.GDP
         pop.IPP ~ pop_sup.IPP
-        pop.OBWA ~ pop_sup.OBWA
+        pop.OW ~ pop_sup.OW
     ]
 
     return WorldDynamics.compose(systems, connection_eqs)

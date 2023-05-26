@@ -36,7 +36,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 
     @variables IR(t)
     @variables OGR(t)
-    @variables UNRA(t)
+    @variables UR(t)
 
     eqs = []
 
@@ -45,9 +45,9 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     smooth!(eqs, CCSD, TIR + NBOM, FSRT)
     add_equation!(eqs, D(CBSR) ~ CSR)
     add_equation!(eqs, CSR ~ (ISR - CBSR) / SRAT)
-    smooth!(eqs, ELTI, PEIN, IEFT)
+    smooth!(eqs, ELTI, PI, IEFT)
     add_equation!(eqs, GBC ~ TIR)
-    add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PEIN / IT - 1) + UNSR * (PU / UT - 1)))
+    add_equation!(eqs, ISR ~ NSR * (1 + INSR * (PI / IT - 1) + UNSR * (PU / UT - 1)))
     add_equation!(eqs, NCCR ~ 0.02 * (1 + GRCR * (OGR / 0.03 - 1)))
     smooth!(eqs, PI, IR, IPTCB)
     smooth!(eqs, PU, UR, UPTCB)
@@ -67,7 +67,7 @@ function finance_full_support(; name, params=_params, inits=_inits, tables=_tabl
 
     add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
-    add_equation!(eqs, UNRA ~ WorldDynamics.interpolate(t, tables[:UNRA], ranges[:UNRA]))
+    add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
 
     return ODESystem(eqs; name=name)
 end

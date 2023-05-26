@@ -38,45 +38,23 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @parameters TCO2ETCO2 = params[:TCO2ETCO2] [description = "tCO2e/tCO2"]
     @parameters ALGAV = params[:ALGAV] [description = "ALbedo global average"]
     @parameters ALIS = params[:ALIS] [description = "ALbedo Ice and snow"]
-    @parameters CH4A1980 = params[:CH4A1980] [description = "CH4 in atm in 1980 GtCH4"]
-    @parameters CO2A1850 = params[:CO2A1850] [description = "CO2 in atmosphere in 1850 GtCO2"]
-    @parameters DACCO22100 = params[:DACCO22100] [description = "Direct Air Capture of CO2 in 2100 GtCO2/y"]
-    @parameters EH1980 = params[:EH1980] [description = "Extra Heat in 1980 ZJ"]
-    @parameters ERDCH4KC2022 = params[:ERDCH4KC2022] [description = "Extra rate of decline in CH4 per kg crop after 2022 1/y"]
-    @parameters ERDN2OKF2022 = params[:ERDN2OKF2022] [description = "Extra rate of decline in N2O per kg fertilizer from 2022"]
-    @parameters GCH4PP = params[:GCH4PP] [description = "GtCH4 per ppm"]
-    @parameters GCO2PP = params[:GCO2PP] [description = "GtCO2 per ppm"]
     @parameters GLSU = params[:GLSU] [description = "GLobal SUrface Mkm2"]
-    @parameters GN2OPP = params[:GN2OPP] [description = "GtN2O per ppm"]
-    @parameters HRMI = params[:HRMI] [description = "Heat required to melt ice kJ/kg"]
-    @parameters KCH4KC1980 = params[:KCH4KC1980] [description = "kg CH4 per kg crop in 1980"]
-    @parameters KN2OKF1980 = params[:KN2OKF1980] [description = "kg N2O per kg fertilizer in 1980 "]
     @parameters ISCEGA1980 = params[:ISCEGA1980] [description = "Ice and snow cover excluding Greenland and Antarctica in 1980 Mkm2"]
-    @parameters LCH4A = params[:LCH4A] [description = "Life of CH4 in atmosphere y"]
-    @parameters LECO2A1980 = params[:LECO2A1980] [description = "Life of extra CO2 in atmosphere in 1980 y"]
-    @parameters LN2OA = params[:LN2OA] [description = "Life of N2O in atmosphere y"]
-    @parameters MAT = params[:MAT] [description = "Mass of ATmosphere Zt"]
-    @parameters MRS1980 = params[:MRS1980] [description = "Melting rate surface in 1980 1/y"]
-    @parameters N2OA1980 = params[:N2OA1980] [description = "N2O in atm in 1980 GtN2O"]
-    @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
-    @parameters OWWV = params[:OWWV] [description = "sOWeoWV>0"]
-    @parameters PD = params[:PD] [description = "Perception delay y"]
-    @parameters RDCH4KC = params[:RDCH4KC] [description = "Rate of decline in CH4 per kg crop 1/y"]
-    @parameters RDN2OKF = params[:RDN2OKF] [description = "Rate of decline in N2O per kg fertilizer 1/y"]
-    @parameters SOWLCO2 = params[:SOWLCO2] [description = "sOWeoLoCO2>0"]
-    @parameters SVDR = params[:SVDR] [description = "Surface vs deep rate"]
-    @parameters TCO2ETCH4 = params[:TCO2ETCH4] [description = "tCO2e/tCH4"]
-    @parameters TCO2ETCO2 = params[:TCO2ETCO2] [description = "tCO2e/tCO2"]
-    @parameters TCO2ETN2O = params[:TCO2ETN2O] [description = "tCO2e/tN2O"]
-    @parameters TCO2PTCH4 = params[:TCO2PTCH4] [description = "tCO2 per tCH4"]
-    @parameters TPM3I = params[:TPM3I] [description = "Ton per m3 ice"]
-    @parameters TRSA1980 = params[:TRSA1980] [description = "Transfer rate surface-abyss in 1980 1/y"]
     @parameters TRSS1980 = params[:TRSS1980] [description = "Transfer rate surface-space in 1980 1/y"]
+    @parameters MRS1980 = params[:MRS1980] [description = "Melting rate surface in 1980 1/y"]
     @parameters WA1980 = params[:WA1980] [description = "Warming in 1980 deg C"]
-    @parameters WFEH = params[:WFEH] [description = "Warming from Extra Heat deg/ZJ"]
+    @parameters SVDR = params[:SVDR] [description = "Surface vs deep rate"]
+    @parameters AI1980 = params[:AI1980] [description = "Amount of ice in 1980 MKm3"]
+    @parameters TPM3I = params[:TPM3I] [description = "Ton per m3 ice"]
+    @parameters HRMI = params[:HRMI] [description = "Heat required to melt ice kJ/kg"]
+    @parameters OWWV = params[:OWWV] [description = "sOWeoWV>0"]
     @parameters WVC1980 = params[:WVC1980] [description = "Water Vapour Concentration in 1980 g/kg"]
     @parameters WVF1980 = params[:WVF1980] [description = "Water Vapour Feedback in 1980 W/m2"]
     @parameters WVWVF = params[:WVWVF] [description = "sWVeoWVF>0"]
+    @parameters WFEH = params[:WFEH] [description = "Warming from Extra Heat deg/ZJ"]
+    @parameters EH1980 = params[:EH1980] [description = "Extra Heat in 1980 ZJ"]
+    @parameters TRSA1980 = params[:TRSA1980] [description = "Transfer rate surface-abyss in 1980 1/y"]
+    @parameters PD = params[:PD] [description = "Perception delay y"]
 
     @variables KN2OEKF(t) [description = "kg N2O emission per kg fertiliser"]
     @variables MMN2OE(t) [description = "Man-made N2O emissions GtN2O/y"]
@@ -95,9 +73,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CH4C1980(t) [description = "CH4 conc in 1980 ppm"]
     @variables CH4A(t) = inits[:CH4A] [description = "CH4 in Atmosphere GtCH4"]
     @variables CH4BD(t) [description = "CH4 BreakDown GtCH4/y"]
-    @variables CH4C1980(t) [description = "CH4 conc in 1980 ppm"]
     @variables CH4CA(t) [description = "CH4 concentration in atm ppm"]
-    @variables CH4E(t) [description = "CH4 emissions GtCH4/y"]
     @variables CH4FPP(t) [description = "CH4 forcing per ppm W/m2/ppm"]
     @variables FCH4(t) [description = "Forcing from CH4 W/m2"]
     @variables OWLCO2(t) [description = "OWeoLoCO2"]
@@ -109,10 +85,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables CAC(t) [description = "Cost of air capture GDollar/y"]
     @variables DACCO2(t) [description = "Direct Air Capture of CO2 GtCO2/y"]
     @variables CO2A(t) = inits[:CO2A] [description = "CO2 in Atmosphere GtCO2"]
-    @variables CO2AB(t) [description = "CO2 absorption GtCO2/y"]
     @variables CO2CA(t) [description = "CO2 concentration in atm ppm"]
-    @variables CO2E(t) [description = "CO2 emissions GtCO2/y"]
-    @variables CO2FCH4(t) [description = "CO2 from CH4 GtCO2/y"]
     @variables CO2FPP(t) [description = "CO2 forcing per ppm W/m2/ppm"]
     @variables FCO2(t) [description = "Forcing from CO2 W/m2"]
     @variables FOG(t) [description = "Forcing from other gases W/m2"]
@@ -139,12 +112,6 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     @variables HDO(t) [description = "Heat to deep ocean ZJ/y"]
     @variables EHS(t) = inits[:EHS] [description = "Extra heat in surface ZJ"]
 
-    @variables CO2EI(t)
-    @variables CO2ELULUC(t)
-    @variables CRSU(t)
-    @variables FEUS(t)
-    @variables GDP(t)
-    @variables IPP(t)
 
     eqs = []
 
@@ -174,7 +141,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, CO2AB ~ (CO2A - CO2A1850) / LECO2A)
     add_equation!(eqs, CO2E ~ CO2EI + CO2ELULUC - DACCO2)
     add_equation!(eqs, CO2GDP ~ (CO2E / GDP) * 1000)
-    add_equation!(eqs, CAC ~ DACCO2 * CCCS)
+    add_equation!(eqs, CAC ~ DACCO2 * CCCSt)
     add_equation!(eqs, DACCO2 ~ IfElse.ifelse(t > 2022, ramp(t, (DACCO22100) / IPP, 2022, 2022 + IPP), 0))
     add_equation!(eqs, D(CO2A) ~ CO2E - CO2AB + 2 * CO2FCH4) #STRANGE EQUATION!
     add_equation!(eqs, CO2CA ~ CO2A / GCO2PP)

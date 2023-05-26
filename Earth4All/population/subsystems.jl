@@ -23,7 +23,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     @parameters LEMAX = params[:LEMAX] [description = "LEmax"]
     @parameters MFM = params[:MFM] [description = "Max Fertility Multiplier"]
     @parameters MLEM = params[:MLEM] [description = "Max Life Expectancy Multiplier"]
-    @parameters OBWA2022 = params[:OBWA2022] [description = "OBserved WArming in 2022 deg C"]
+    @parameters OW2022 = params[:OW2022] [description = "Observed Warming in 2022 deg C"]
     @parameters OWELE = params[:OWELE] [description = "sOWeoLE<0: Observed Warming Effect on Life Expectancy"]
     @parameters SSP2FA2022F = params[:SSP2FA2022F] [description = "SSP2 Family Action from 2022 Flag"]
     @parameters TAHI = params[:TAHI] [description = "Time to adapt to higher income y"]
@@ -71,7 +71,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
 
     @variables GDP(t)
     @variables IPP(t)
-    @variables OBWA(t)
+    @variables OW(t)
 
     eqs = []
 
@@ -93,9 +93,9 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, D(EGDPP) ~ (GDPP - EGDPP) / TAHI)
     add_equation!(eqs, FM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MFM - 1) / 78, 2022, 2100), 1), 1))
     add_equation!(eqs, GDPP ~ GDP / POP)
-    add_equation!(eqs, LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LIEXM)
+    add_equation!(eqs, LE ~ ((LEMAX - (LEMAX - inits[:LE]) * exp(-LEG * (EGDPP - inits[:EGDPP]))) * (1 + LEA * (EGDPP - inits[:EGDPP]))) * WELE * LEM)
     add_equation!(eqs, LE60 ~ LE - 60)
-    add_equation!(eqs, LIEXM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1))
+    add_equation!(eqs, LEM ~ IfElse.ifelse(SSP2FA2022F > 0, IfElse.ifelse(t > 2022, 1 + ramp(t, (MLEM - 1) / 78, 2022, 2100), 1), 1))
     add_equation!(eqs, OF ~ DNC * FADFS)
     add_equation!(eqs, OP ~ A60PL * (LE - PA) / (LE - 60))
     add_equation!(eqs, PA ~ IfElse.ifelse(LE < inits[:LE], inits[:PA], inits[:PA] + LEEPA * (LE + EPA - inits[:LE])))
@@ -108,7 +108,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, PGR ~ BIRTHR - DEATHR)
     add_equation!(eqs, POP ~ A0020 + A2040 + A4060 + A60PL)
     add_equation!(eqs, PW ~ OP / A20PA)
-    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OBWA / OBWA2022 - 1)), 1))
+    add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1))
 
     return ODESystem(eqs; name=name)
 end
@@ -116,13 +116,13 @@ end
 function population_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables GDP(t) [description = "Inventory.GDP GDollar/y"]
     @variables IPP(t) [description = "Wellbeing.Introduction period for policy y"]
-    @variables OBWA(t) [description = "Climate.OBserved WArming deg C"]
+    @variables OW(t) [description = "Climate.Observed warming deg C"]
 
     eqs = []
 
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    add_equation!(eqs, OBWA ~ WorldDynamics.interpolate(t, tables[:OBWA], ranges[:OBWA]))
+    add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
 
     return ODESystem(eqs; name=name)
 end
