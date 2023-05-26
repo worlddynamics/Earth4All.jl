@@ -1,4 +1,4 @@
-# The Earth4All model
+# The Earth4All model 
 ##  Summary
 We describe the sectors of the Earth4All model, as they can be derived by the Vensim implementation, which is slightly different from the appendix of [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/).
 

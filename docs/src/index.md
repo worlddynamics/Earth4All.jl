@@ -16,4 +16,5 @@ This is the documentation of the Julia implementation of the [Earth4All model](h
   * [The Population sector](The-Population-sector.md)
   * [The Public sector](The-Public-sector.md)
   * [The Wellbeing sector](The-Wellbeing-sector.md)
+* [Tutorial](tutorial.md)
 
