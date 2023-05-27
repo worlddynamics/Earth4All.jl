@@ -1,4 +1,4 @@
-function e4a_run_tltl(; kwargs...)
+function run_tltl(; kwargs...)
     @named cli = Climate.climate(; kwargs...)
     @named dem = Demand.demand(; kwargs...)
     @named ene = Energy.energy(; kwargs...)
@@ -21,7 +21,7 @@ function e4a_run_tltl(; kwargs...)
     return WorldDynamics.compose(systems, connection_eqs)
 end
 
-function e4a_run_gl(;
+function run_gl(;
     cli_ps=Climate.getparameters(),
     dem_ps=Demand.getparameters(),
     ene_ps=Energy.getparameters(),
