@@ -70,3 +70,30 @@ Moreover, a message similar to the following one should be printed.
 ```
 (0.0019946923672592228, 5984.450944034332, 5996.4, 7681) at t=2100.0
 ```
+
+## Comparing the two scenarios
+
+In order to compare the dynamics of the variable in tthe two scenariso, we can use the `plot_two_sols` functions. For example, if we want to see the evolution of the variable `POP` in the two scenarios, we can execute the following code.
+
+```
+using ModelingToolkit
+using PlotlyJS
+using WorldDynamics
+include("src/Earth4All.jl");
+tltl_sol = Earth4All.run_tltl_solution();
+gl_sol = Earth4All.run_gl_solution();
+@named pop = Earth4All.Population.population();
+Earth4All.plot_two_sols("TLTL", tltl_sol, "GL", gl_sol, pop, "Population Mp", 1980, 2100, 7681)
+```
+
+If everything worked fine, the following figure should be produced.
+
+```@raw html
+<div align="center"><img src="../imgs/tltl_vs_gl/POP_tltl_gl.png" width="500" height="500"></div>
+```
+
+By executing the analogue code for the average wellbeing index variable, instead, the following figure should be produced.
+
+```@raw html
+<div align="center"><img src="../imgs/tltl_vs_gl/AWBI_tltl_gl.png" width="500" height="500"></div>
+```
