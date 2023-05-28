@@ -310,7 +310,7 @@ function plot_two_sols(scen1, sol1, scen2, sol2, sys, desc, fy, ly, nt)
       x = range(fy, ly, length=nt)
       trace1 = scatter(x=x, y=sol1[v], name=scen1, line=attr(color="royalblue", dash="dash"))
       trace2 = scatter(x=x, y=sol2[v], name=scen2, line=attr(color="firebrick", dash="dot"))
-      return plot([trace1, trace2], Layout(title=desc * " (" * scen * ")"))
+      return plot([trace1, trace2], Layout(title=desc))
    else
       println("The variable ", desc, " does not exist in the system ", sys)
       return Nothing
