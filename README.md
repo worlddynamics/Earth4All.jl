@@ -7,7 +7,7 @@ Repository of the Julia implementation of the [Earth4All model](https://earth4al
 
 ### Prerequisites
 
-[Instal Julia](https://julialang.org/) and clone the repository: 
+[Install Julia](https://julialang.org/) and clone the repository: 
 ```sh
 git clone https://github.com/worlddynamics/Earth4All
 ```
