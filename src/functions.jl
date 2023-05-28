@@ -86,15 +86,21 @@ function interpolate(x, yvalues::Vector{Float64}, xvalues::Vector{Float64})
    return y
 end
 
-function interpolate1(x, pairs::Vector{Tuple{Float64,Float64}})
-   interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
-end
+"""
+   `withlookup(x, pairs::Vector{Tuple{Float64,Float64}})`
 
+This function corresponds to the `WITH LOOKUP` function in the Vensim software.
+"""
 function withlookup(x, pairs::Vector{Tuple{Float64,Float64}})
    interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
 end
 
-function print_endo_vars(sys)
+"""
+   `print_vars(sys)`
+
+Print the description, the name, and the initial value (when specified) of all the (endogenous) variables of the ODE system `sys`. If the description is empty, the variable is not printed (usually it is an exogenous variable).
+"""
+function print_vars(sys)
    println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
    for s in ModelingToolkit.get_states(sys)
@@ -109,6 +115,11 @@ function print_endo_vars(sys)
    end
 end
 
+"""
+   `print_ps(sys)`
+
+Print the description, the name, and the value of all the parameters of the ODE system `sys`.
+"""
 function print_ps(sys)
    println("| Vensim name | Name | Value | Sector |")
    println("| --- | --- | --- | --- |")
@@ -117,6 +128,11 @@ function print_ps(sys)
    end
 end
 
+"""
+   `print_exo_vars(sys)`
+
+For each exogenous variable, print the description, the name, and the name of the sector where the variable is endogenous. To this aim, the input ODE system `sys` should be the full support ODE system, where the description of each  variable starts with name of the sector where the variable is endogenous, followed by a point and the descripiton of the varaible.
+"""
 function print_exo_vars(sys)
    println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
@@ -129,6 +145,11 @@ function print_exo_vars(sys)
    end
 end
 
+"""
+   `read_vensim_dataset(fn, to_be_removed)`
+
+Read a variable value dataset exported from Vensim into the file `fn` by copying the rows of the table containing the variables in the dataset. The string `to_be_removed` is the one produced by Vensim when copying the rows of the table and concatenated with the name of the variable.
+"""
 function read_vensim_dataset(fn, to_be_removed)
    f::IOStream = open(fn, "r")
    ds = Dict{String,Array{Float64}}()
@@ -280,5 +301,18 @@ function compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, do_plot)
       trace1 = scatter(x=x, y=sol[v], name="WorldDynamics", line=attr(color="royalblue", dash="dash"))
       trace2 = scatter(x=x, y=vs_ds[lowercase(desc)], name="Vensim", line=attr(color="firebrick", dash="dot"))
       return plot([trace1, trace2], Layout(title=desc * " (" * scen * ")"))
+   end
+end
+
+function plot_two_sols(scen1, sol1, scen2, sol2, sys, desc, fy, ly, nt)
+   isv, v = is_system_var(desc, sys)
+   if (isv)
+      x = range(fy, ly, length=nt)
+      trace1 = scatter(x=x, y=sol1[v], name=scen1, line=attr(color="royalblue", dash="dash"))
+      trace2 = scatter(x=x, y=sol2[v], name=scen2, line=attr(color="firebrick", dash="dot"))
+      return plot([trace1, trace2], Layout(title=desc * " (" * scen * ")"))
+   else
+      println("The variable ", desc, " does not exist in the system ", sys)
+      return Nothing
    end
 end
