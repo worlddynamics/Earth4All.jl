@@ -1,4 +1,4 @@
-# Earth4All
+# Earth4All.jl
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://worlddynamics.github.io/Earth4All/)
 
 Repository of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/) using the [WorldDynamics framework](https://github.com/worlddynamics/WorldDynamics.jl).
