@@ -2,30 +2,30 @@ using Documenter
 
 Home = "Home" => "index.md"
 
-E4A = "The Earth4All model" => "The-Earth4All-model.md"
+E4A = "The Earth4All model" => "earth4all.md"
 
 Sectors = "Sectors" => [
-    "The-Climate-sector.md",
-    "The-Demand-sector.md",
-    "The-Energy-sector.md",
-    "The-Finance-sector.md",
-    "The-Food-and-land-sector.md",
-    "The-Inventory-sector.md",
-    "The-Labour-market-sector.md",
-    "The-Other-performance-indicators-sector.md",
-    "The-Output-sector.md",
-    "The-Population-sector.md",
-    "The-Public-sector.md",
-    "The-Wellbeing-sector.md"
+    "climate.md",
+    "demand.md",
+    "energy.md",
+    "finance.md",
+    "foodland.md",
+    "inventory.md",
+    "labourmarket.md",
+    "other.md",
+    "output.md",
+    "population.md",
+    "public.md",
+    "wellbeing.md"
 ]
 
 tut = "Tutorial" => "tutorial.md"
 
 PAGES = [
     Home,
+    tut,
     E4A,
     Sectors,
-    tut
 ]
 
 makedocs(

@@ -1,6 +1,6 @@
 # A tutorial of the Julia implementation of the Earth4All model
 
-The Julia implementation of the Earth4All model allows the user to *play* with the Earth4All model introduced in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/). This model is formed by twelve sectors (see the [The Earth4All model](The-Earth4All-model.md) page).
+The Julia implementation of the Earth4All model allows the user to *play* with the Earth4All model introduced in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/). This model is formed by twelve sectors (see the [The Earth4All model](earth4all.md) page).
 
 In the Julia implementation each sector is a Julia module containing a Julia function, which defines the ODE system corresponding to the sector itself. All the ODE systems corresponding to the sectors of the Earth4All model have to be composed. This will produce the entire ODE system of the Earth4All model, which can then be solved.
 
