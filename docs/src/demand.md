@@ -147,7 +147,7 @@ The owner saving fraction is equal to its value in 1980 times a factor that depe
 $$\mathtt{OSF}(t) = \mathtt{OSF1980}\cdot\left(1+\mathtt{GDPOSR}*\left(\frac{\mathtt{EGDPP}(t)}{\mathtt{GDPP1980}}-1\right)\right),$$
 where $\mathtt{OSF1980}=0.9$ and $\mathtt{GDPOSR}=-0.06$. Hence, the more the effective GDP per person increases with respect to the value of the GDP per person in 1980, the smaller is the owner saving fraction. This relationship is depicted in the following figure.
 
-<div align="center"><img src="https://github.com/natema/worlddynamicswiki/blob/main/imgs/graphics/OSFvsEGDPP.png" alt="Relationship between the owner saving fraction and the effective GDP per person" width="300" height="300"></div>
+<div align="center"><img src="https://github.com/worlddynamics/worlddynamicswiki/blob/main/imgs/graphics/OSFvsEGDPP.png" alt="Relationship between the owner saving fraction and the effective GDP per person" width="300" height="300"></div>
 
 The owner consumption fraction is just equal to $1$ minus the owner saving fraction.
 
