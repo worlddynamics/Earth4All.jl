@@ -199,10 +199,14 @@ function compare(a, b, pepsi)
    max_re_b = 0
    max_re_i = 0
    for i in 1:lastindex(a)
-      # re = abs(a[i] - b[i]) / (abs(b[i]) + pepsi)
-      re = 0
-      if (a[i] != 0 || b[i] != 0)
-         re = (2 * abs(a[i] - b[i])) / (abs(a[i]) + abs(b[i]))
+      if (pepsi >= 0)
+         re = abs(a[i] - b[i]) / (abs(b[i]) + pepsi)
+      else
+         re = 0
+         if (a[i] != 0 || b[i] != 0)
+            re = (2 * abs(a[i] - b[i])) / (abs(a[i]) + abs(b[i]))
+            # re = abs(a[i] - b[i]) / max(abs(a[i]), abs(b[i]))
+         end
       end
       if (re > max_re)
          max_re = max(max_re, re)
@@ -223,7 +227,7 @@ function mre_sys(scen, sol, sys, vs_ds, pepsi, nt, verbose, do_plot)
          re, _, _, _ = Earth4All.compare(sol[v][1:nt], vs_ds[lowercase(d)], pepsi)
          max_re = max(max_re, re)
          if (verbose)
-            println(d, " ", re, " (", max_re, ")")
+            println(d, "\t", re)
          end
          if (do_plot)
             savefig(compare_and_plot(scen, sol, d, v, vs_ds, 1980, 2100, nt, pepsi, true), "../figures/" * string(v) * ".png")
@@ -265,6 +269,10 @@ function system_array()
    @named wel = Earth4All.Wellbeing.wellbeing()
    append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
    return r
+end
+
+function sector_name()
+   return ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
 end
 
 function compare_and_plot(scen, sol, desc, fy, ly, nt, pepsi)
