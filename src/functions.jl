@@ -324,3 +324,16 @@ function plot_two_sols(scen1, sol1, scen2, sol2, sys, desc, fy, ly, nt)
       return Nothing
    end
 end
+
+function all_mre(scen, sol)
+   max_re = 0
+   sa = system_array()
+   sn = sector_name()
+   for s in 1:lastindex(sn)
+      println("====" * uppercase(sn[s]) * "====")
+      vs_ds = Earth4All.read_vensim_dataset("VensimOutput/" * lowercase(scen) * "/" * sn[s] * ".txt", " : E4A-220501 " * scen)
+      re = Earth4All.mre_sys(scen, sol, sa[s], vs_ds, 1, 7681, true, false)
+      max_re = max(max_re, re)
+   end
+   println("====MAXIMUM ERROR===" * string(max_re))
+end
