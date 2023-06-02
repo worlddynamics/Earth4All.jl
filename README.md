@@ -39,7 +39,7 @@ This work has been supported by the French government, through the UCAJEDI and U
 This work can be provisionally cited as follows:
 ```
 @software{pierluigi_crescenzi_2023_e4a,
-  author       = {Pierluigi Crescenzi and Aurora Rossi and contributors},
+  author       = {Pierluigi Crescenzi, Aurora Rossi, Emanuele Natale and contributors},
   title        = {Julia implementation of the Earth4All model using WorldDynamics.jl},
   month        = may,
   year         = 2023,
