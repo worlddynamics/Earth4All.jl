@@ -3,7 +3,6 @@ module Public
 using WorldDynamics
 using ModelingToolkit
 
-include("public/tables.jl")
 include("public/parameters.jl")
 include("public/initialisations.jl")
 include("public/subsystems.jl")

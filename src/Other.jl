@@ -3,7 +3,6 @@ module Other
 using WorldDynamics
 using ModelingToolkit
 
-include("other/tables.jl")
 include("other/parameters.jl")
 include("other/initialisations.jl")
 include("other/subsystems.jl")
