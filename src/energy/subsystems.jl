@@ -242,18 +242,18 @@ end
 
 function energy_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables CAC(t) [description = "Climate.Cost of Air Capture Gdollar/y"]
-    # @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
-    # @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
-    # @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
-    # @variables POP(t) [description = "POPulation.Population Mp"]
+    @variables GDP(t) [description = "Inventory.GDP Gdollar/y"]
+    @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables POP(t) [description = "POPulation.Population Mp"]
 
     eqs = []
 
     add_equation!(eqs, CAC ~ WorldDynamics.interpolate(t, tables[:CAC], ranges[:CAC]))
-    # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    # add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
-    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
 
     return ODESystem(eqs; name=name)
 end
