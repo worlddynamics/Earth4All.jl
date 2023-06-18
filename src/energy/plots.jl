@@ -15,4 +15,4 @@ function _variables_en()
     return variables
 end
 
-fig_en(; kwargs...) = plotvariables(energy_run_solution(), (t, 1980, 2100), _variables_en(); title="Energy sector plots", showaxis=true, showlegend=true, kwargs...)
+fig_en(; kwargs...) = plotvariables(ene_run_solution(), (t, 1980, 2100), _variables_en(); title="Energy sector plots", showaxis=true, showlegend=true, kwargs...)
