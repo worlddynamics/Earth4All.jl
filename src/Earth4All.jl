@@ -22,5 +22,4 @@ include("Wellbeing.jl")
 include("earth4all/scenarios.jl")
 include("earth4all/solutions.jl")
 
-
 end

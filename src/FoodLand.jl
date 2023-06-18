@@ -3,6 +3,7 @@ module FoodLand
 using WorldDynamics
 using ModelingToolkit
 
+include("foodland/tables.jl")
 include("foodland/parameters.jl")
 include("foodland/initialisations.jl")
 include("foodland/subsystems.jl")
