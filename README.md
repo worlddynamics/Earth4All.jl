@@ -27,6 +27,20 @@ julia> include("src/Earth4All.jl")
 julia> sol = Earth4All.run_tltl_solution()
 ```
 
+To obtain the plots of the main variables, we can run
+```jl
+julia> Earth4All.fig_baserun_tltl() # for the Too Little Too Late scenario
+julia> Earth4All.fig_baserun_gl() # for the Giant Leap scenario
+```
+
+The plots should look like the two of the first line, instead the ones of the second line are produced with Vensim:
+
+| ![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/59dc60bd-58f7-4b35-9baa-3c87104705b8) | ![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/c2384434-3cd7-4228-bfa3-62eef4793166) |
+|---|---|
+|![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/3de4ce87-f1c8-4c9a-ad83-fb8d3e903f04) | ![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/d9a3ca28-dcf7-462a-a07e-6d60dc985324) |
+
+
+
 ## Acknowledgments 
 
 This work has been supported by the French government, through the UCAJEDI and UCA DS4H Investments in the Future projects managed by the National Research Agency (ANR) with the reference number ANR-15-IDEX-0001 and ANR-17-EURE-0004.
