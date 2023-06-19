@@ -6,16 +6,16 @@ using DifferentialEquations
 
 function _variables()
     @named pop = Population.population()
-    @named wb = Wellbeing.wellbeing()
+    @named wel = Wellbeing.wellbeing()
     @named cli  =  Climate.climate()
     @named dem = Demand.demand()
     variables = [
         (pop.POP, 0, 10000, "Population"),
-        (wb.AWBI, 0, 2.4, "Average wellbeing" ),
+        (wel.AWBI, 0, 2.4, "Average wellbeing" ),
         (pop.GDPP, 0 , 60, "GDP per person"),
-        (wb.STE, 1, 2, "Social tension"),
-        (dem.INEQ, 0, 1, "Inequality"),
-        (cli.OW, 0, 2, "Global warming"),
+        (wel.STE, 0, 2, "Social tension"),
+        (dem.INEQ, 0, 1.6, "Inequality"),
+        (cli.OW, 0, 4, "Global warming"),
 
     ]
     return variables
