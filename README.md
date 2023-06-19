@@ -24,7 +24,7 @@ julia> Pkg.instantiate()
 We can then load the `Earth4All` module and run a scenario (e.g. "Too Little Too Late") with 
 ```jl
 julia> include("src/Earth4All.jl")
-julia> sol = Earth4All.run_gl_solution()
+julia> sol = Earth4All.run_tltl_solution()
 ```
 
 ## Acknowledgments 
