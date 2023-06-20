@@ -11,7 +11,7 @@ prob = ODEProblem(sys, [], (1980, 2100))
 ##
 # This is the function that will be called to generate a new initial condition. 
 # In this case, we are adding a small amount of normally distributed noise to the initial condition.
-function prob_func(prob)
+function prob_func(prob, i, repeat)
     remake(prob, u0 = prob.u0 .* (1 .+ 0.1*randn(length(prob.u0))))
 end
 ##
@@ -23,8 +23,8 @@ summ = EnsembleSummary(sol)
 ##
 # you can get the trajectory index with 
 # ```
-# v = sol[1]
-# println.(enumerate(v.prob.f.syms))
+# println.(enumerate(states(sys))," -> ",getdescription.(states(sys)))
 # ```
-plot(summ, fillalpha=.5, trajectories = 30)
+i = 26
+plot(summ, fillalpha=.5, trajectories = i, title=(getdescription.(states(sys)))[i])
 ##
