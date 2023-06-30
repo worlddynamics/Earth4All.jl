@@ -6,6 +6,8 @@ _inits = Dict{Symbol,Float64}(
     :PWA => 0.4,
     :EHS => 0,
 )
+#
+_inits[:AL] = (_inits[:ISCEGA] * _params[:ALIS] + (_params[:GLSU] - _inits[:ISCEGA]) * _params[:ALGAV]) / _params[:GLSU]
 
 
 getinitialisations() = copy(_inits)
