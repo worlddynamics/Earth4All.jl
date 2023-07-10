@@ -1,8 +1,11 @@
 using IfElse
 using Formatting
+using Graphs
 using Latexify
 using PlotlyJS
 using Printf
+
+using WorldDynamics
 
 """
    `add_equation(eqs, equation)`
@@ -98,7 +101,7 @@ function withlookup(x, pairs::Vector{Tuple{Float64,Float64}})
    interpolate(x, map(t -> t[end], pairs), map(t -> t[1], pairs))
 end
 
-# New functions supporting documentation and analysis of ODE systems and solutions
+# Functions supporting documentation and analysis of ODE systems and solutions
 function is_lhs_var(v, eq)
    l = replace(string(eq.lhs), "Differential(t)(" => "")
    l = replace(l, "))" => ")")
@@ -513,84 +516,6 @@ function check_solution(sol, pepsi, nt, verbose, do_plot)
    return max_re
 end
 
-"""
-   `systems()`
-
-Return the array of ODE systems corresponding to the sectors of the Earth4All model (that is, Climate, Demand, Energy, Finance, Food and land, Inventory, Labour market, Other, Output, Population, Public, and Wellbeing).
-"""
-function systems()
-   r = []
-   @named cli = Earth4All.Climate.climate()
-   @named dem = Earth4All.Demand.demand()
-   @named ene = Earth4All.Energy.energy()
-   @named fin = Earth4All.Finance.finance()
-   @named foo = Earth4All.FoodLand.foodland()
-   @named inv = Earth4All.Inventory.inventory()
-   @named lab = Earth4All.LabourMarket.labour_market()
-   @named oth = Earth4All.Other.other()
-   @named out = Earth4All.Output.output()
-   @named pop = Earth4All.Population.population()
-   @named pub = Earth4All.Public.public()
-   @named wel = Earth4All.Wellbeing.wellbeing()
-   append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
-   return r
-end
-
-function sector_names()
-   return ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
-end
-
-"""
-   `compare_and_plot(scen, sol, desc, fy, ly, nt, pepsi)`
-
-Compute the maximum relative error of the variable with description `desc` between the Vensim scenario `scen` and the WorldDynamics solution `sol`, in the interval between `fy` and `ly` with `nt` simulated points.
-"""
-function compare_and_plot(scen, sol, desc, fy, ly, nt, pepsi)
-   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
-   sector_system = system_array()
-   for s in 1:lastindex(sector_name)
-      vs_ds = Earth4All.read_vensim_dataset("VensimOutput/" * lowercase(scen) * "/" * sector_name[s] * ".txt", " : E4A-220501 " * scen)
-      isv, v = is_system_var(desc, sector_system[s])
-      if (isv)
-         println(desc * " is in the sector " * uppercase(sector_name[s]))
-         return compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)
-      end
-   end
-end
-
-"""
-   `compare_and_plot_two_scenarios(sol1, sol2, desc, fy, ly, nt, pepsi)`
-
-Compute the maximum relative error of the variable with description `desc` between the two Vensim scenarios and the two WorldDynamics solution `sol1` and `sol2`, in the interval between `fy` and `ly` with `nt` simulated points.
-"""
-function compare_and_plot_two_scenarios(sol1, sol2, desc, fy, ly, nt, pepsi)
-   sector_name = ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
-   sector_system = system_array()
-   for s in 1:lastindex(sector_name)
-      isv, v = is_system_var(desc, sector_system[s])
-      if (isv)
-         println(desc * " is in the sector " * uppercase(sector_name[s]))
-         vs_ds_tltl = Earth4All.read_vensim_dataset("VensimOutput/tltl/" * sector_name[s] * ".txt", " : E4A-220501 TLTL")
-         vs_ds_gl = Earth4All.read_vensim_dataset("VensimOutput/gl/" * sector_name[s] * ".txt", " : E4A-220501 GL")
-         r1 = compare(sol1[v][1:nt], vs_ds_tltl[lowercase(desc)], pepsi)
-         sr1 = @sprintf "MRE in TLTL scenario: %4.4f (%4.1f)" r1[1] sol1.t[r1[4]]
-         println(sr1)
-         r2 = compare(sol2[v][1:nt], vs_ds_gl[lowercase(desc)], pepsi)
-         sr2 = @sprintf "MRE in GL scenario: %4.4f (%4.1f)" r2[1] sol2.t[r2[4]]
-         println(sr2)
-         x = range(fy, ly, length=nt)
-         trace1 = scatter(x=x, y=vs_ds_tltl[lowercase(desc)], name="Vensim (TLTL)", line=attr(color="red"))
-         trace2 = scatter(x=x, y=sol1[v], name="WorldDynamics (TLTL)", line=attr(color="blue"))
-         trace3 = scatter(x=x, y=vs_ds_gl[lowercase(desc)], name="Vensim (GL)", line=attr(color="magenta"))
-         trace4 = scatter(x=x, y=sol2[v], name="WorldDynamics (GL)", line=attr(color="black"))
-         p = plot([trace1, trace2, trace3, trace4], Layout(title=desc * " (" * uppercase(sector_name[s]) * " sector)<br>" * sr1 * ". " * sr2))
-         mkpath("html")
-         savefig(p, "html/" * string(v) * ".html")
-         return p
-      end
-   end
-end
-
 function var_system(v, sa, sn)
    for s in 1:lastindex(sa)
       vars = states(sa[s])
@@ -627,43 +552,131 @@ function compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, do_plot)
    end
 end
 
-function compare_and_plot_vensim(scen, desc, vs1, vs2, fy, ly, nt1, nt2, pepsi, do_plot)
-   vs_ds1 = Earth4All.read_vensim_dataset(vs1, " : E4A-220501 " * scen)
-   vs_ds2 = Earth4All.read_vensim_dataset(vs2, " : E4A-220501 " * scen)
-   r = compare(vs_ds1[lowercase(desc)], vs_ds2[lowercase(desc)], pepsi)
-   println(r)
-   if (do_plot)
-      x1 = range(fy, ly, length=nt1)
-      x2 = range(fy, ly, length=nt2)
-      trace1 = scatter(x=x1, y=vs_ds1[lowercase(desc)], name=vs1, line=attr(color="royalblue", dash="dash"))
-      trace2 = scatter(x=x2, y=vs_ds2[lowercase(desc)], name=vs2, line=attr(color="firebrick", dash="dot"))
-      return plot([trace1, trace2], Layout(title=desc))
-   end
+"""
+   `systems()`
+
+Return the array of ODE systems corresponding to the sectors of the Earth4All model (that is, Climate, Demand, Energy, Finance, Food and land, Inventory, Labour market, Other, Output, Population, Public, and Wellbeing).
+"""
+function systems()
+   r = []
+   @named cli = Earth4All.Climate.climate()
+   @named dem = Earth4All.Demand.demand()
+   @named ene = Earth4All.Energy.energy()
+   @named fin = Earth4All.Finance.finance()
+   @named foo = Earth4All.FoodLand.foodland()
+   @named inv = Earth4All.Inventory.inventory()
+   @named lab = Earth4All.LabourMarket.labour_market()
+   @named oth = Earth4All.Other.other()
+   @named out = Earth4All.Output.output()
+   @named pop = Earth4All.Population.population()
+   @named pub = Earth4All.Public.public()
+   @named wel = Earth4All.Wellbeing.wellbeing()
+   append!(r, [cli, dem, ene, fin, foo, inv, lab, oth, out, pop, pub, wel])
+   return r
 end
 
-function compare_and_plot_worlddynamics(sol1, sol2, v, fy, ly, nt1, nt2, pepsi, do_plot)
-   r = compare(sol1[v], sol2[v], pepsi)
-   println(r)
-   if (do_plot)
-      x1 = range(fy, ly, length=nt1)
-      x2 = range(fy, ly, length=nt2)
-      trace1 = scatter(x=x1, y=sol1[v], name="sol1", line=attr(color="royalblue", dash="dash"))
-      trace2 = scatter(x=x2, y=sol2[v], name="sol2", line=attr(color="firebrick", dash="dot"))
-      return plot([trace1, trace2], Layout(title=""))
-   end
+"""
+   `sector_names()`
+
+Return the names of the sectors of the Earth4All model.
+"""
+function sector_names()
+   return ["climate", "demand", "energy", "finance", "foodland", "inventory", "labourmarket", "other", "output", "population", "public", "wellbeing"]
 end
 
-function plot_two_sols(scen1, sol1, scen2, sol2, sys, desc, fy, ly, nt)
-   isv, v = is_system_var(desc, sys)
-   if (isv)
-      x = range(fy, ly, length=nt)
-      trace1 = scatter(x=x, y=sol1[v], name=scen1, line=attr(color="royalblue", dash="dash"))
-      trace2 = scatter(x=x, y=sol2[v], name=scen2, line=attr(color="firebrick", dash="dot"))
-      return plot([trace1, trace2], Layout(title=desc))
-   else
-      println("The variable ", desc, " does not exist in the system ", sys)
-      return Nothing
+"""
+   `compare_and_plot_one_scenario(scen, sol, desc, fy, ly, nt, pepsi)`
+
+Compute the maximum relative error of the variable with description `desc` between the Vensim scenario `scen` and the WorldDynamics solution `sol`, in the interval between `fy` and `ly` with `nt` simulated points (`pepsi` is used in the computation of the relative error).
+"""
+function compare_and_plot_one_scenario(scen, sol, desc, fy, ly, nt, pepsi)
+   sector_name = sector_names()
+   sector_system = systems()
+   for s in 1:lastindex(sector_name)
+      isv, v = is_system_var(desc, sector_system[s])
+      if (isv)
+         println(desc * " is in the sector " * uppercase(sector_name[s]))
+         vs_ds = Earth4All.read_vensim_dataset("VensimOutput/" * lowercase(scen) * "/" * sector_name[s] * ".txt", " : E4A-220501 " * scen)
+         return compare_and_plot(scen, sol, desc, v, vs_ds, fy, ly, nt, pepsi, true)
+      end
    end
+   println("The variable ", desc, " does not exist in any system")
+end
+
+"""
+   `compare_and_plot_two_scenarios(sol1, sol2, desc, fy, ly, nt, pepsi)`
+
+Compute the maximum relative error of the variable with description `desc` between the two Vensim scenarios TLTL and GL and the two WorldDynamics solutions `sol1` and `sol2`, in the interval between `fy` and `ly` with `nt` simulated points (`pepsi` is used in the computation of the relative error).
+"""
+function compare_and_plot_two_scenarios(sol1, sol2, desc, fy, ly, nt, pepsi)
+   sector_name = sector_names()
+   sector_system = systems()
+   for s in 1:lastindex(sector_name)
+      isv, v = is_system_var(desc, sector_system[s])
+      if (isv)
+         println(desc * " is in the sector " * uppercase(sector_name[s]))
+         vs_ds_tltl = Earth4All.read_vensim_dataset("VensimOutput/tltl/" * sector_name[s] * ".txt", " : E4A-220501 TLTL")
+         vs_ds_gl = Earth4All.read_vensim_dataset("VensimOutput/gl/" * sector_name[s] * ".txt", " : E4A-220501 GL")
+         r1 = compare(sol1[v][1:nt], vs_ds_tltl[lowercase(desc)], pepsi)
+         sr1 = @sprintf "MRE in TLTL scenario: %4.4f (%4.1f)" r1[1] sol1.t[r1[4]]
+         println(sr1)
+         r2 = compare(sol2[v][1:nt], vs_ds_gl[lowercase(desc)], pepsi)
+         sr2 = @sprintf "MRE in GL scenario: %4.4f (%4.1f)" r2[1] sol2.t[r2[4]]
+         println(sr2)
+         x = range(fy, ly, length=nt)
+         trace1 = scatter(x=x, y=vs_ds_tltl[lowercase(desc)], name="Vensim (TLTL)", line=attr(color="red"))
+         trace2 = scatter(x=x, y=sol1[v], name="WorldDynamics (TLTL)", line=attr(color="blue"))
+         trace3 = scatter(x=x, y=vs_ds_gl[lowercase(desc)], name="Vensim (GL)", line=attr(color="magenta"))
+         trace4 = scatter(x=x, y=sol2[v], name="WorldDynamics (GL)", line=attr(color="black"))
+         p = plot([trace1, trace2, trace3, trace4], Layout(title=desc * " (" * uppercase(sector_name[s]) * " sector)<br>" * sr1 * ". " * sr2))
+         mkpath("html")
+         savefig(p, "html/" * string(v) * ".html")
+         return p
+      end
+   end
+   println("The variable ", desc, " does not exist in any system")
+end
+
+"""
+   `compare_and_plot(sol1, sol2, desc, fy, ly, nt1, nt2, pepsi, do_plot)`
+
+Compute the maximum relative error of the variable with description `desc` between the two WorldDynamics solutions `sol1` and `sol2` (whose names are `n1` and `n2`), in the interval between `fy` and `ly` with `nt1` and `nt2` simulated points, respectively (`pepsi` is used in the computation of the relative error).
+"""
+function compare_and_plot(sol1, n1, sol2, n2, desc, fy, ly, nt1, nt2, pepsi, do_plot)
+   sector_name = sector_names()
+   sector_system = systems()
+   for s in 1:lastindex(sector_name)
+      isv, v = is_system_var(desc, sector_system[s])
+      if (isv)
+         println(desc * " is in the sector " * uppercase(sector_name[s]))
+         r = compare(sol1[v], sol2[v], pepsi)
+         println(r)
+         if (do_plot)
+            x1 = range(fy, ly, length=nt1)
+            x2 = range(fy, ly, length=nt2)
+            trace1 = scatter(x=x1, y=sol1[v], name=n1, line=attr(color="royalblue", dash="dash"))
+            trace2 = scatter(x=x2, y=sol2[v], name=n2, line=attr(color="firebrick", dash="dot"))
+            return plot([trace1, trace2], Layout(title=desc))
+         end
+      end
+   end
+   println("The variable ", desc, " does not exist in any system")
+end
+
+function plot_two_sols(sol1, scen1, sol2, scen2, desc, fy, ly, nt)
+   sector_name = sector_names()
+   sector_system = systems()
+   for s in 1:lastindex(sector_name)
+      isv, v = is_system_var(desc, sector_system[s])
+      if (isv)
+         println(desc * " is in the sector " * uppercase(sector_name[s]))
+         x = range(fy, ly, length=nt)
+         trace1 = scatter(x=x, y=sol1[v], name=scen1, line=attr(color="royalblue", dash="dash"))
+         trace2 = scatter(x=x, y=sol2[v], name=scen2, line=attr(color="firebrick", dash="dot"))
+         return plot([trace1, trace2], Layout(title=desc))
+      end
+   end
+   println("The variable ", desc, " does not exist in any system")
 end
 
 """
@@ -684,4 +697,98 @@ function save_all_mre(scen, sol, pepsi, fn)
       end
    end
    @printf "Maximum total MRE: %4.9f\n" max_re
+end
+
+function write_dependency_graph(fn, ian)
+   sa = systems()
+   sn = sector_names()
+   ne = 0
+   acronym_id = Dict{String,Int64}()
+   for i in 1:lastindex(sa)
+      ne = ne + num_edges(sa, sn, i, acronym_id)
+   end
+   open("output/" * ian * ".txt", "w") do f
+      for k in sort(collect(keys(acronym_id)), by=x -> acronym_id[x])
+         write(f, string(acronym_id[k]), ":", k, "\n")
+      end
+   end
+   open("output/" * fn * ".txt", "w") do f
+      write(f, string(length(acronym_id)), ",", string(ne), ",d,graph\n")
+      for i in 1:lastindex(sa)
+         write_dependency_graph(sa, sn, i, acronym_id, f)
+      end
+   end
+end
+
+function num_edges(sa, si, ai)
+   nv = length(ai)
+   ne = 0
+   sys_vars = states(sa[si])
+   sys_eqs = equations(sa[si])
+   sys_eq_v_deps = equation_dependencies(sa[si])
+   for var in sort(sys_vars, by=x -> string(x))
+      desc = ModelingToolkit.getdescription(var)
+      if (desc != "" && !startswith(desc, "LV functions") && !startswith(desc, "RT functions"))
+         acronym = replace(string(var), "(t)" => "")
+         nv = nv + 1
+         ai[acronym] = nv
+         dep_on_v = []
+         for i in 1:lastindex(sys_eqs)
+            if (is_lhs_var(var, sys_eqs[i]))
+               dep_on_v = string.(sys_eq_v_deps[i])
+               break
+            end
+         end
+         for i in 1:lastindex(dep_on_v)
+            if (!startswith(dep_on_v[i], "(RT_"))
+               ne = ne + 1
+            end
+         end
+      end
+   end
+   return ne
+end
+
+function write_dependency_graph(sa, sn, si, ai, f)
+   sys_vars = states(sa[si])
+   sys_eqs = equations(sa[si])
+   sys_eq_v_deps = equation_dependencies(sa[si])
+   for var in sort(sys_vars, by=x -> string(x))
+      desc = ModelingToolkit.getdescription(var)
+      if (desc != "" && !startswith(desc, "LV functions") && !startswith(desc, "RT functions"))
+         dep_on_v = []
+         for i in 1:lastindex(sys_eqs)
+            if (is_lhs_var(var, sys_eqs[i]))
+               dep_on_v = string.(sys_eq_v_deps[i])
+               break
+            end
+         end
+         acronym = replace(string(var), "(t)" => "")
+         for i in 1:lastindex(dep_on_v)
+            if (!startswith(dep_on_v[i], "(RT_"))
+               va = replace(dep_on_v[i], "(t)" => "")
+               write(f, string(ai[acronym]), ",", string(ai[va]), "\n")
+            end
+         end
+      end
+   end
+end
+
+function fig_e4a(sol, tit; kwargs...)
+   @variables t
+   @named cli = Climate.climate()
+   @named pop = Population.population()
+   @named dem = Demand.demand()
+   @named wel = Wellbeing.wellbeing()
+
+   variables = [
+      (wel.AWBI, 0, 4, "Average WellBeing Index"),
+      (dem.INEQ, 0, 1, "Inequality"),
+      (cli.OW, 0, 4, "Observed warming"),
+      (pop.POP, 0, 10000, "Population"),
+      (pop.GDPP, 0, 60, "GDP per person"),
+      (wel.STE, 0, 4, "Social tension"),
+   ]
+
+   return WorldDynamics.plotvariables(sol, (t, 1980, 2100), variables; title=tit, kwargs...)
 end
