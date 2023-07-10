@@ -13,7 +13,8 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @parameters ICPT = params[:ICPT] [description = "Inventory Coverage Perception Time y"]
     @parameters MRIWI = params[:MRIWI] [description = "Minimum Relative Inventory Without Inflation"]
     @parameters OO = params[:OO] [description = "Optimal Output in 1980 Gu/y"]
-    @parameters PH = params[:PH] [description = "Pulse Height"]
+    # Commented because equal to 0 and not useful
+    # @parameters PH = params[:PH] [description = "Pulse Height"]
     @parameters PPU = params[:PPU] [description = "Price Per Unit /u"]
     @parameters SAT = params[:SAT] [description = "Sales Averaging Time y"]
     @parameters INVEODDI = params[:INVEODDI] [description = "sINVeoDDI < 0: INVentory Effect On Delivery Delay Index"]
@@ -34,7 +35,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     @variables CDDI(t) [description = "Change in DDI 1/y"]
     @variables CPI(t) [description = "Change in Price Index 1/y"]
     @variables DEL(t) [description = "DELiveries Gu/y"]
-    @variables DEPU(t) [description = "DEmand PUlse 2020-25 (1)"]
+    # @variables DEPU(t) [description = "DEmand PUlse 2020-25 (1)"]
     @variables DSWI(t) [description = "Desired Shifts Worked - Index (1)"]
     @variables GDP(t) [description = "GDP Gdollar/y"]
     @variables IC(t) [description = "Inventory Coverage y"]
@@ -54,7 +55,8 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     add_equation!(eqs, CPI ~ PRIN * IR)
     add_equation!(eqs, DEL ~ ((EPP / PPU) / (DELDI / DDI1980)) * IfElse.ifelse(t > 1984, PNIS, 1))
     add_equation!(eqs, D(DELDI) ~ CDDI)
-    add_equation!(eqs, DEPU ~ 0 + PH * pulse(t, 2020, 5))
+    # Commented because not used and depending on parameter equal to 0s
+    # add_equation!(eqs, DEPU ~ 0 + PH * pulse(t, 2020, 5))
     add_equation!(eqs, DSWI ~ 1 + INVEOSWI * (PRI / DRI - 1))
     smooth!(eqs, EPP, TPP, DAT)
     add_equation!(eqs, GDP ~ OUTP * PPU)

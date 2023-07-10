@@ -13,8 +13,8 @@ _params = Dict{Symbol,Float64}(
     :OWETFP => -0.1,
     :SC1980 => 0.3,
     :SCROTA => 0.5,
-    :XETAC2022 => 0,
-    :XETAC2100 => 0,
+    # :XETAC2022 => 0,
+    # :XETAC2100 => 0,
     :OW2022 => 1.35,
 )
 

@@ -21,7 +21,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters USPUS2022 = params[:USPUS2022] [description = "Unconventional Stimulus in PUS from 2022 (share of GDP)"]
     # UNDOCUMENTED PARAMETERS
     @parameters CBCEFRA = params[:CBCEFRA] [description = "sCBCeoFRA<0: Corporate Borrowing Cost Effect on FRA"]
-    @parameters CUCPIS1980 = (params[:CAPPIS1980] / params[:LCPIS1980]) * params[:CTPIS] * params[:EMCUC] [description = "CUC PIS in 1980 Gcu"]
+    # @parameters CUCPIS1980 = (params[:CAPPIS1980] / params[:LCPIS1980]) * params[:CTPIS] * params[:EMCUC] [description = "CUC PIS in 1980 Gcu"]
     @parameters ED1980 = params[:ED1980] [description = "Excess Demand in 1980"]
     @parameters EDEFRA = params[:EDEFRA] [description = "sEDeoFRA>0: Excess Demand Effect on FRA"]
     @parameters EDELCM = params[:EDELCM] [description = "sEDeoLOC>0: Excess Demand Effect on Life of Capacity"]
@@ -53,7 +53,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables CPUS(t) = params[:CAPPUS1980] [description = "Capacity PUS Gcu"]
     @variables CRR(t) [description = "Capacity Renewal Rate 1/y"]
     @variables CUCPIS(t) = inits[:CUCPIS] [description = "Capacity Under Construction PIS Gcu"]
-    @variables CUCPIS1980(t) [description = "CUC PIS in 1980 Gcu"]
+    # @variables CUCPIS1980(t) [description = "CUC PIS in 1980 Gcu"]
     @variables CUCPUS(t) = inits[:CUCPUS] [description = "Capacity Under Construction PUS Gcu"]
     @variables CUCPUS1980(t) [description = "CUC PUS in 1980 Gcu"]
     @variables ECR(t) [description = "Effect of Capacity Renewal 1/y"]
@@ -82,10 +82,6 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables ORO(t) [description = "Optimal Real Output Gu/y"]
     @variables PEDE(t) = 1 [description = "Perceived Excess DEmand (1)"]
     @variables WSOEFCA(t) [description = "WSO Effect on Flow to Capacity Addition (1)"]
-    # TO BE DELETED
-    # @variables FACNC(t) [description = "Fraction of Available Capital to New Capacity (1)"]
-    # @variables LCPIS(t) [description = "Life of Capacity PIS y"]
-
 
     @variables CBC(t)
     @variables CBC1980(t)
@@ -114,7 +110,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, D(CPUS) ~ CAPUS - CDPUS)
     add_equation!(eqs, CRR ~ CAPIS / CPIS)
     add_equation!(eqs, D(CUCPIS) ~ CIPIS - CAPIS)
-    add_equation!(eqs, CUCPIS1980 ~ (CAPPIS1980 / LCPIS1980) * CTPIS * EMCUC)
+    # add_equation!(eqs, CUCPIS1980 ~ (CAPPIS1980 / LCPIS1980) * CTPIS * EMCUC)
     add_equation!(eqs, D(CUCPUS) ~ CIPUS - CAPUS)
     add_equation!(eqs, CUCPUS1980 ~ (CAPPUS1980 / LCPUS1980) * CTPUS * EMCUC)
     add_equation!(eqs, ECR ~ (ITFP - ETFP) * CRR)

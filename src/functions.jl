@@ -699,13 +699,18 @@ function save_all_mre(scen, sol, pepsi, fn)
    @printf "Maximum total MRE: %4.9f\n" max_re
 end
 
+"""
+   `write_dependency_graph(fn, ian)`
+
+Compute the dependency graph of the Earth4All model, where an edge (u,v) indicates that variable u is used by variable v. The Graphs.jl format of the graph is saved in the file `fn`, while the map associating the node ids to the variable acronyms is saved in the file `ian`.
+"""
 function write_dependency_graph(fn, ian)
    sa = systems()
    sn = sector_names()
    ne = 0
    acronym_id = Dict{String,Int64}()
    for i in 1:lastindex(sa)
-      ne = ne + num_edges(sa, sn, i, acronym_id)
+      ne = ne + num_edges(sa, i, acronym_id)
    end
    open("output/" * ian * ".txt", "w") do f
       for k in sort(collect(keys(acronym_id)), by=x -> acronym_id[x])

@@ -20,8 +20,9 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @parameters OWETFP = params[:OWETFP] [description = "sOWeoTFP<0: Observed Warming Effect on Total Factor Productivity"]
     @parameters SC1980 = params[:SC1980] [description = "State Capacity in 1980 (fraction of GDP)"]
     @parameters SCROTA = params[:SCROTA] [description = "sSCeoROTA>0: State Capacity effect on Rate Of Technological Advance"]
-    @parameters XETAC2022 = params[:XETAC2022] [description = "XExtra TA Cost in 2022 (share of GDP)"]
-    @parameters XETAC2100 = params[:XETAC2100] [description = "XExtra TA Cost in 2100 (share of GDP)"]
+    # Commented because both equal to 0 and not useful
+    # @parameters XETAC2022 = params[:XETAC2022] [description = "XExtra TA Cost in 2022 (share of GDP)"]
+    # @parameters XETAC2100 = params[:XETAC2100] [description = "XExtra TA Cost in 2100 (share of GDP)"]
 
     @variables CTFP(t) [description = "Change in TFP 1/y"]
     @variables DRTA(t) [description = "Domestic Rate of Technological Advance 1/y"]
@@ -43,7 +44,8 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables TFPEE5TA(t) = inits[:TFPEE5TA] [description = "TFP Excluding Effect of 5TAs (1)"]
     @variables TFPIE5TA(t) [description = "TFP Including Effect of 5TAs (1)"]
     @variables VPSS(t) [description = "Value of Public Services Supplied GDollar/y"]
-    @variables XECTAGDP(t) [description = "XExtra Cost of TAs as share of GDP (1)"]
+    # Commented because not used and depending on parameters equal to 0
+    # @variables XECTAGDP(t) [description = "XExtra Cost of TAs as share of GDP (1)"]
 
     @variables CPUS(t)
     @variables CTA(t)
@@ -77,7 +79,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, SC ~ VPSS / GDP)
     add_equation!(eqs, TFPIE5TA ~ TFPEE5TA * (1 - RTFPUA))
     add_equation!(eqs, VPSS ~ GPU * PPP)
-    add_equation!(eqs, XECTAGDP ~ XETAC2022 + ramp(t, (XETAC2100 - XETAC2022) / 78, 2022, 2022 + 78))
+    # add_equation!(eqs, XECTAGDP ~ XETAC2022 + ramp(t, (XETAC2100 - XETAC2022) / 78, 2022, 2022 + 78))
 
     return ODESystem(eqs; name=name)
 end
