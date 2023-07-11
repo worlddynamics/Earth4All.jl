@@ -80,7 +80,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     @variables AREC(t) [description = "Addition of renewable el capacity GW/y"]
     @variables DIREC(t) [description = "Discard of renewable el capacity GW/y"]
     @variables ASWC(t) [description = "Addition of sun and wind capacity GW/y"]
-    @variables ACSWCF1980(t) = inits[:ACSWCF1980] [description = "ACcumulated sun and wind capacity from 1980 GW"]
+    @variables ACSWCF(t) = inits[:ACSWCF] [description = "ACcumulated Sun and Wind Capacity from 1980 GW"]
     @variables NDSWC(t) [description = "Number of doublings in sun and wind capacity (1)"]
     @variables CISWC(t) [description = "Cost index for sun and wind capacity (1)"]
     @variables CAPEXRED(t) [description = "CAPEX renewable el dollar/W"]
@@ -169,8 +169,8 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, AREC ~ max(0, (DRECC / RECT) + (DIREC)))
     add_equation!(eqs, DIREC ~ REC / LREC)
     add_equation!(eqs, ASWC ~ AREC)
-    add_equation!(eqs, D(ACSWCF1980) ~ ASWC)
-    add_equation!(eqs, NDSWC ~ log(2) + log(ACSWCF1980 / SWC1980))
+    add_equation!(eqs, D(ACSWCF) ~ ASWC)
+    add_equation!(eqs, NDSWC ~ log(2) + log(ACSWCF / SWC1980))
     add_equation!(eqs, CISWC ~ (1 - CRDSWC)^NDSWC)
     add_equation!(eqs, CAPEXRED ~ CAPEXRE1980 * CISWC)
     add_equation!(eqs, CAPEXREG ~ CAPEXRED * AREC)
