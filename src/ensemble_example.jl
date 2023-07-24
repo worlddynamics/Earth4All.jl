@@ -26,11 +26,12 @@ summ = EnsembleSummary(sol)
 # println.(enumerate(states(sys))," -> ",getdescription.(states(sys)))
 # ```
 i = 26
-plot(
-    summ, 
-    fillalpha=.5, 
-    trajectories = i, 
-    title=(getdescription.(states(sys)))[i],
-    titlefontsize=11
+fig = plot(
+        summ, 
+        fillalpha=.5, 
+        trajectories = i, 
+        title=(getdescription.(states(sys)))[i],
+        titlefontsize=11
     )
+savefig(fig, "ensemble_example.png")
 ##
