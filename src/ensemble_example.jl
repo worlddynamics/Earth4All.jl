@@ -17,7 +17,7 @@ end
 ##
 ensemble_prob = EnsembleProblem(prob, prob_func = prob_func)
 ##
-sol = solve(ensemble_prob, Euler(), EnsembleThreads(), trajectories=10; dt=0.015625, dtmax=0.015625)
+sol = solve(ensemble_prob, Euler(), EnsembleThreads(), trajectories=10; dt=0.01, dtmax=0.01)
 ##
 summ = EnsembleSummary(sol)
 ##
