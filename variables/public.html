@@ -1,0 +1,361 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The PUBLIC sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CTFP">
+		<td>Change in TFP 1/y</td>
+		<td><code>CTFP</code></td>
+		<td><a href=#RTA><code>RTA</code></a> <a href=#TFPEE5TA><code>TFPEE5TA</code></a> </td>
+		<td></td>
+		<td><a href=#TFPEE5TA><code>TFPEE5TA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CTFP}\left(t\right)=\mathtt{RTA}\left(t\right)\cdot\mathtt{TFPEE5TA}\left(t\right)\)</td>
+	</tr>
+	<tr id="DRTA">
+		<td>Domestic Rate of Technological Advance 1/y</td>
+		<td><code>DRTA</code></td>
+		<td><a href=#SC><code>SC</code></a> </td>
+		<td><a href=#SCROTA><code>SCROTA</code></a> <a href=#SC1980><code>SC1980</code></a> <a href=#DROTA1980><code>DROTA1980</code></a> <a href=#EDROTA2022><code>EDROTA2022</code></a> </td>
+		<td><a href=#RTA><code>RTA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DRTA}\left(t\right)=\mathtt{DROTA1980}+\left(1+\mathtt{SCROTA}\cdot\left(-1+\frac{\mathtt{SC}\left(t\right)}{\mathtt{SC1980}}\right)\right)\cdot\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{EDROTA2022},0\right)\)</td>
+	</tr>
+	<tr id="ECTAF2022">
+		<td>Extra Cost of TAs From 2022 GDollar/y</td>
+		<td><code>ECTAF2022</code></td>
+		<td><a href="other.html#CTA"><code>CTA</code></a> </td>
+		<td><a href=#CTA2022><code>CTA2022</code></a> </td>
+		<td><a href="demand.html#ETTAF2022"><code>ETTAF2022</code></a> <a href=#ECTAGDP><code>ECTAGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ECTAF2022}\left(t\right)=\mathtt{max}\left(0,-\mathtt{CTA2022}+\mathtt{CTA}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="ECTAGDP">
+		<td>Extra Cost of TAs as share of GDP (1)</td>
+		<td><code>ECTAGDP</code></td>
+		<td><a href=#ECTAF2022><code>ECTAF2022</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> </td>
+		<td></td>
+		<td><a href=#PLUA><code>PLUA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ECTAGDP}\left(t\right)=\frac{\mathtt{ECTAF2022}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="GSSGDP">
+		<td>Govmnt Spending as Share of GDP</td>
+		<td><code>GSSGDP</code></td>
+		<td><a href="inventory.html#GDP"><code>GDP</code></a> <a href="demand.html#GS"><code>GS</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GSSGDP}\left(t\right)=\frac{\mathtt{GS}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="IPR">
+		<td>Infrastructure Purchases Ratio y</td>
+		<td><code>IPR</code></td>
+		<td><a href="output.html#CPUS"><code>CPUS</code></a> <a href="demand.html#GPU"><code>GPU</code></a> </td>
+		<td></td>
+		<td><a href=#PPP><code>PPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IPR}\left(t\right)=\frac{\mathtt{CPUS}\left(t\right)}{\mathtt{GPU}\left(t\right)}\)</td>
+	</tr>
+	<tr id="IROTA">
+		<td>Imported ROTA 1/y</td>
+		<td><code>IROTA</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td><a href=#GDPTL><code>GDPTL</code></a> <a href=#MIROTA2022><code>MIROTA2022</code></a> </td>
+		<td><a href=#RTA><code>RTA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IROTA}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{max}\left(0,\mathtt{MIROTA2022}\cdot\left(2+\frac{-\mathtt{GDPP}\left(t\right)}{\mathtt{GDPTL}}\right)\right),0\right)\)</td>
+	</tr>
+	<tr id="ITFP">
+		<td>Indicated TFP (1)</td>
+		<td><code>ITFP</code></td>
+		<td><a href=#OWTFP><code>OWTFP</code></a> <a href=#TFPEE5TA><code>TFPEE5TA</code></a> </td>
+		<td></td>
+		<td><a href="output.html#ECR"><code>ECR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ITFP}\left(t\right)=\mathtt{OWTFP}\left(t\right)\cdot\mathtt{TFPEE5TA}\left(t\right)\)</td>
+	</tr>
+	<tr id="OWTFP">
+		<td>OWeoTFP</td>
+		<td><code>OWTFP</code></td>
+		<td><a href="climate.html#OW"><code>OW</code></a> </td>
+		<td><a href=#OWETFP><code>OWETFP</code></a> <a href=#OW2022><code>OW2022</code></a> </td>
+		<td><a href=#ITFP><code>ITFP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OWTFP}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{OWETFP}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{OW2022}}\right),1\right)\)</td>
+	</tr>
+	<tr id="PLUA">
+		<td>Productivity Loss from Unprofitable Activity (1)</td>
+		<td><code>PLUA</code></td>
+		<td><a href=#ECTAGDP><code>ECTAGDP</code></a> </td>
+		<td><a href=#FUATA><code>FUATA</code></a> </td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PLUA}\left(t\right)=\mathtt{FUATA}\cdot\mathtt{ECTAGDP}\left(t\right)\)</td>
+	</tr>
+	<tr id="PPP">
+		<td>Productivity of Public Purchases (1)</td>
+		<td><code>PPP</code></td>
+		<td><a href=#IPR><code>IPR</code></a> </td>
+		<td><a href=#IPRVPSS><code>IPRVPSS</code></a> <a href=#IPR1980><code>IPR1980</code></a> </td>
+		<td><a href=#VPSS><code>VPSS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PPP}\left(t\right)=\mathtt{max}\left(0,1+\mathtt{IPRVPSS}\cdot\log\left(\frac{\mathtt{IPR}\left(t\right)}{\mathtt{IPR1980}}\right)\right)\)</td>
+	</tr>
+	<tr id="PSEP">
+		<td>Public SErvices per Person kdollar/p/y</td>
+		<td><code>PSEP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#VPSS><code>VPSS</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{PSEP}\left(t\right)=\frac{\mathtt{VPSS}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="PSP">
+		<td>Public Spending per Person kDollar/p/y</td>
+		<td><code>PSP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href="demand.html#GS"><code>GS</code></a> </td>
+		<td></td>
+		<td><a href="wellbeing.html#AWBPS"><code>AWBPS</code></a> <a href="wellbeing.html#PSSGDP"><code>PSSGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PSP}\left(t\right)=\frac{\mathtt{GS}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="RROTAI">
+		<td>Reduction in ROTA from Inequality 1/y</td>
+		<td><code>RROTAI</code></td>
+		<td><a href="demand.html#INEQI"><code>INEQI</code></a> </td>
+		<td><a href=#IIEEROTA><code>IIEEROTA</code></a> </td>
+		<td><a href=#RTA><code>RTA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{RROTAI}\left(t\right)=\mathtt{min}\left(1,1+\mathtt{IIEEROTA}\cdot\left(-1+\mathtt{INEQI}\left(t\right)\right)\right)\)</td>
+	</tr>
+	<tr id="RTA">
+		<td>Rate of Technological Advance 1/y</td>
+		<td><code>RTA</code></td>
+		<td><a href=#DRTA><code>DRTA</code></a> <a href=#IROTA><code>IROTA</code></a> <a href=#RROTAI><code>RROTAI</code></a> </td>
+		<td></td>
+		<td><a href=#CTFP><code>CTFP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{RTA}\left(t\right)=\mathtt{DRTA}\left(t\right)\cdot\mathtt{RROTAI}\left(t\right)+\mathtt{IROTA}\left(t\right)\)</td>
+	</tr>
+	<tr id="RTFPUA">
+		<td>Reduction in TFP from Unprofitable Activity (1)</td>
+		<td><code>RTFPUA</code></td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> <a href=#PLUA><code>PLUA</code></a> </td>
+		<td><a href=#CTPIS><code>CTPIS</code></a> <a href=#IPT><code>IPT</code></a> </td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> <a href=#TFPIE5TA><code>TFPIE5TA</code></a> </td>
+		<td>0.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{RTFPUA}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{RTFPUA}\left(t\right)+\mathtt{PLUA}\left(t\right)}{\mathtt{CTPIS}+\mathtt{IPT}}\)</td>
+	</tr>
+	<tr id="SC">
+		<td>State Capacity (fraction of GDP)</td>
+		<td><code>SC</code></td>
+		<td><a href="inventory.html#GDP"><code>GDP</code></a> <a href=#VPSS><code>VPSS</code></a> </td>
+		<td></td>
+		<td><a href=#DRTA><code>DRTA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{SC}\left(t\right)=\frac{\mathtt{VPSS}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="TFPEE5TA">
+		<td>TFP Excluding Effect of 5TAs (1)</td>
+		<td><code>TFPEE5TA</code></td>
+		<td><a href=#CTFP><code>CTFP</code></a> </td>
+		<td></td>
+		<td><a href=#CTFP><code>CTFP</code></a> <a href=#ITFP><code>ITFP</code></a> <a href=#TFPIE5TA><code>TFPIE5TA</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{TFPEE5TA}\left(t\right)}{\mathrm{d}t}=\mathtt{CTFP}\left(t\right)\)</td>
+	</tr>
+	<tr id="TFPIE5TA">
+		<td>TFP Including Effect of 5TAs (1)</td>
+		<td><code>TFPIE5TA</code></td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> <a href=#TFPEE5TA><code>TFPEE5TA</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{TFPIE5TA}\left(t\right)=\left(1-\mathtt{RTFPUA}\left(t\right)\right)\cdot\mathtt{TFPEE5TA}\left(t\right)\)</td>
+	</tr>
+	<tr id="VPSS">
+		<td>Value of Public Services Supplied GDollar/y</td>
+		<td><code>VPSS</code></td>
+		<td><a href=#PPP><code>PPP</code></a> <a href="demand.html#GPU"><code>GPU</code></a> </td>
+		<td></td>
+		<td><a href=#PSEP><code>PSEP</code></a> <a href=#SC><code>SC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{VPSS}\left(t\right)=\mathtt{GPU}\left(t\right)\cdot\mathtt{PPP}\left(t\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CTA2022">
+		<td>Cost of TAs in 2022 GDollar/y</td>
+		<td><code>CTA2022</code></td>
+		<td><a href=#ECTAF2022><code>ECTAF2022</code></a> </td>
+		<td>9145.0</td>
+	</tr>
+	<tr id="CTPIS">
+		<td>Construction time PIS y</td>
+		<td><code>CTPIS</code></td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> </td>
+		<td>1.5</td>
+	</tr>
+	<tr id="DROTA1980">
+		<td>Domestic ROTA in 1980 1/y</td>
+		<td><code>DROTA1980</code></td>
+		<td><a href=#DRTA><code>DRTA</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="EDROTA2022">
+		<td>Extra Domestic ROTA in 2022 1/y</td>
+		<td><code>EDROTA2022</code></td>
+		<td><a href=#DRTA><code>DRTA</code></a> </td>
+		<td>0.003</td>
+	</tr>
+	<tr id="FUATA">
+		<td>Fraction Unprofitable Activity in TAs</td>
+		<td><code>FUATA</code></td>
+		<td><a href=#PLUA><code>PLUA</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="GDPTL">
+		<td>GDPpp of Technology Leader kDollar/p/k</td>
+		<td><code>GDPTL</code></td>
+		<td><a href=#IROTA><code>IROTA</code></a> </td>
+		<td>15.0</td>
+	</tr>
+	<tr id="IIEEROTA">
+		<td>sIIEeoROTA<0: Inequality Index Effect on ROTA</td>
+		<td><code>IIEEROTA</code></td>
+		<td><a href=#RROTAI><code>RROTAI</code></a> </td>
+		<td>-0.1</td>
+	</tr>
+	<tr id="IPR1980">
+		<td>Infrastructure Purchases Ratio in 1980 y</td>
+		<td><code>IPR1980</code></td>
+		<td><a href=#PPP><code>PPP</code></a> </td>
+		<td>1.2</td>
+	</tr>
+	<tr id="IPRVPSS">
+		<td>sIPReoVPSS>0: Infrastructure Purchase Ratio effect on Value of Pubblic Services Supplied</td>
+		<td><code>IPRVPSS</code></td>
+		<td><a href=#PPP><code>PPP</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="IPT">
+		<td>Investment planning time y</td>
+		<td><code>IPT</code></td>
+		<td><a href=#RTFPUA><code>RTFPUA</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="MIROTA2022">
+		<td>Max Imported ROTA from 2022 1/y</td>
+		<td><code>MIROTA2022</code></td>
+		<td><a href=#IROTA><code>IROTA</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="OW2022">
+		<td>Observed Warming in 2022 deg C</td>
+		<td><code>OW2022</code></td>
+		<td><a href=#OWTFP><code>OWTFP</code></a> </td>
+		<td>1.35</td>
+	</tr>
+	<tr id="OWETFP">
+		<td>sOWeoTFP<0: Observed Warming Effect on Total Factor Productivity</td>
+		<td><code>OWETFP</code></td>
+		<td><a href=#OWTFP><code>OWTFP</code></a> </td>
+		<td>-0.1</td>
+	</tr>
+	<tr id="SC1980">
+		<td>State Capacity in 1980 (fraction of GDP)</td>
+		<td><code>SC1980</code></td>
+		<td><a href=#DRTA><code>DRTA</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="SCROTA">
+		<td>sSCeoROTA>0: State Capacity effect on Rate Of Technological Advance</td>
+		<td><code>SCROTA</code></td>
+		<td><a href=#DRTA><code>DRTA</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

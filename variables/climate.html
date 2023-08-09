@@ -1,0 +1,793 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The CLIMATE sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AL">
+		<td>ALbedo (1)</td>
+		<td><code>AL</code></td>
+		<td><a href=#ISCEGA><code>ISCEGA</code></a> </td>
+		<td><a href=#ALIS><code>ALIS</code></a> <a href=#ALGAV><code>ALGAV</code></a> <a href=#GLSU><code>GLSU</code></a> </td>
+		<td><a href=#TRHGS><code>TRHGS</code></a> </td>
+		<td>0.3094</td>
+		<td>\(\mathtt{AL}\left(t\right)=\frac{\mathtt{ALGAV}\cdot\left(\mathtt{GLSU}-\mathtt{ISCEGA}\left(t\right)\right)+\mathtt{ALIS}\cdot\mathtt{ISCEGA}\left(t\right)}{\mathtt{GLSU}}\)</td>
+	</tr>
+	<tr id="CAC">
+		<td>Cost of air capture GDollar/y</td>
+		<td><code>CAC</code></td>
+		<td><a href=#DACCO2><code>DACCO2</code></a> </td>
+		<td><a href=#CCCSt><code>CCCSt</code></a> </td>
+		<td><a href="energy.html#CE"><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAC}\left(t\right)=\mathtt{CCCSt}\cdot\mathtt{DACCO2}\left(t\right)\)</td>
+	</tr>
+	<tr id="CH4A">
+		<td>CH4 in Atmosphere GtCH4</td>
+		<td><code>CH4A</code></td>
+		<td><a href=#CH4BD><code>CH4BD</code></a> <a href=#CH4E><code>CH4E</code></a> </td>
+		<td></td>
+		<td><a href=#CH4BD><code>CH4BD</code></a> <a href=#CH4CA><code>CH4CA</code></a> </td>
+		<td>2.5</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CH4A}\left(t\right)}{\mathrm{d}t}=-\mathtt{CH4BD}\left(t\right)+\mathtt{CH4E}\left(t\right)\)</td>
+	</tr>
+	<tr id="CH4BD">
+		<td>CH4 BreakDown GtCH4/y</td>
+		<td><code>CH4BD</code></td>
+		<td><a href=#CH4A><code>CH4A</code></a> </td>
+		<td><a href=#LCH4A><code>LCH4A</code></a> </td>
+		<td><a href=#CH4A><code>CH4A</code></a> <a href=#CO2FCH4><code>CO2FCH4</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CH4BD}\left(t\right)=\frac{\mathtt{CH4A}\left(t\right)}{\mathtt{LCH4A}}\)</td>
+	</tr>
+	<tr id="CH4CA">
+		<td>CH4 concentration in atm ppm</td>
+		<td><code>CH4CA</code></td>
+		<td><a href=#CH4A><code>CH4A</code></a> </td>
+		<td><a href=#GCH4PP><code>GCH4PP</code></a> </td>
+		<td><a href=#FCH4><code>FCH4</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CH4CA}\left(t\right)=\frac{\mathtt{CH4A}\left(t\right)}{\mathtt{GCH4PP}}\)</td>
+	</tr>
+	<tr id="CH4E">
+		<td>CH4 emissions GtCH4/y</td>
+		<td><code>CH4E</code></td>
+		<td><a href=#MMCH4E><code>MMCH4E</code></a> <a href=#NCH4E><code>NCH4E</code></a> </td>
+		<td></td>
+		<td><a href=#CH4A><code>CH4A</code></a> <a href=#GHGE><code>GHGE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CH4E}\left(t\right)=\mathtt{MMCH4E}\left(t\right)+\mathtt{NCH4E}\left(t\right)\)</td>
+	</tr>
+	<tr id="CH4FPP">
+		<td>CH4 forcing per ppm W/m2/ppm</td>
+		<td><code>CH4FPP</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#FCH4><code>FCH4</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.82), (2000.0, 0.94), (2020.0, 1.01), (2100.0, 1.1)])\)</td>
+	</tr>
+	<tr id="CO2A">
+		<td>CO2 in Atmosphere GtCO2</td>
+		<td><code>CO2A</code></td>
+		<td><a href=#CO2FCH4><code>CO2FCH4</code></a> <a href=#CO2AB><code>CO2AB</code></a> <a href=#CO2E><code>CO2E</code></a> </td>
+		<td></td>
+		<td><a href=#CO2AB><code>CO2AB</code></a> <a href=#CO2CA><code>CO2CA</code></a> </td>
+		<td>2600.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CO2A}\left(t\right)}{\mathrm{d}t}=-\mathtt{CO2AB}\left(t\right)+2\cdot\mathtt{CO2FCH4}\left(t\right)+\mathtt{CO2E}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2AB">
+		<td>CO2 absorption GtCO2/y</td>
+		<td><code>CO2AB</code></td>
+		<td><a href=#LECO2A><code>LECO2A</code></a> <a href=#CO2A><code>CO2A</code></a> </td>
+		<td><a href=#CO2A1850><code>CO2A1850</code></a> </td>
+		<td><a href=#CO2A><code>CO2A</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2AB}\left(t\right)=\frac{-\mathtt{CO2A1850}+\mathtt{CO2A}\left(t\right)}{\mathtt{LECO2A}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CO2CA">
+		<td>CO2 concentration in atm ppm</td>
+		<td><code>CO2CA</code></td>
+		<td><a href=#CO2A><code>CO2A</code></a> </td>
+		<td><a href=#GCO2PP><code>GCO2PP</code></a> </td>
+		<td><a href=#FCO2><code>FCO2</code></a> <a href="foodland.html#CO2ELY"><code>CO2ELY</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2CA}\left(t\right)=\frac{\mathtt{CO2A}\left(t\right)}{\mathtt{GCO2PP}}\)</td>
+	</tr>
+	<tr id="CO2E">
+		<td>CO2 emissions GtCO2/y</td>
+		<td><code>CO2E</code></td>
+		<td><a href="foodland.html#CO2ELULUC"><code>CO2ELULUC</code></a> <a href=#DACCO2><code>DACCO2</code></a> <a href="energy.html#CO2EI"><code>CO2EI</code></a> </td>
+		<td></td>
+		<td><a href=#CO2A><code>CO2A</code></a> <a href=#CO2GDP><code>CO2GDP</code></a> <a href=#GHGE><code>GHGE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2E}\left(t\right)=-\mathtt{DACCO2}\left(t\right)+\mathtt{CO2EI}\left(t\right)+\mathtt{CO2ELULUC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2FCH4">
+		<td>CO2 from CH4 GtCO2/y</td>
+		<td><code>CO2FCH4</code></td>
+		<td><a href=#CH4BD><code>CH4BD</code></a> </td>
+		<td><a href=#TCO2PTCH4><code>TCO2PTCH4</code></a> </td>
+		<td><a href=#CO2A><code>CO2A</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2FCH4}\left(t\right)=\mathtt{TCO2PTCH4}\cdot\mathtt{CH4BD}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2FPP">
+		<td>CO2 forcing per ppm W/m2/ppm</td>
+		<td><code>CO2FPP</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#FCO2><code>FCO2</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.0032), (1990.0, 0.0041), (2000.0, 0.0046), (2020.0, 0.0051), (2100.0, 0.006)])\)</td>
+	</tr>
+	<tr id="CO2GDP">
+		<td>CO2 per GDP (kgCO2/Dollar)</td>
+		<td><code>CO2GDP</code></td>
+		<td><a href="inventory.html#GDP"><code>GDP</code></a> <a href=#CO2E><code>CO2E</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CO2GDP}\left(t\right)=\frac{1000\cdot\mathtt{CO2E}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DACCO2">
+		<td>Direct Air Capture of CO2 GtCO2/y</td>
+		<td><code>DACCO2</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#DACCO22100><code>DACCO22100</code></a> </td>
+		<td><a href=#CO2E><code>CO2E</code></a> <a href=#CAC><code>CAC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DACCO2}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{ramp}\left(t,\frac{\mathtt{DACCO22100}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right),0\right)\)</td>
+	</tr>
+	<tr id="ECIM">
+		<td>Extra cooling from ice melt ZJ/y</td>
+		<td><code>ECIM</code></td>
+		<td><a href=#MRDI><code>MRDI</code></a> </td>
+		<td><a href=#HRMI><code>HRMI</code></a> <a href=#AI1980><code>AI1980</code></a> <a href=#TPM3I><code>TPM3I</code></a> </td>
+		<td><a href=#EHS><code>EHS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ECIM}\left(t\right)=\mathtt{AI1980}\cdot\mathtt{HRMI}\cdot\mathtt{TPM3I}\cdot\mathtt{MRDI}\left(t\right)\)</td>
+	</tr>
+	<tr id="EHS">
+		<td>Extra heat in surface ZJ</td>
+		<td><code>EHS</code></td>
+		<td><a href=#HDO><code>HDO</code></a> <a href=#ECIM><code>ECIM</code></a> <a href=#EWFF><code>EWFF</code></a> <a href=#HTS><code>HTS</code></a> </td>
+		<td></td>
+		<td><a href=#HTS><code>HTS</code></a> <a href=#OW><code>OW</code></a> <a href=#HDO><code>HDO</code></a> </td>
+		<td>0.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{EHS}\left(t\right)}{\mathrm{d}t}=-\mathtt{ECIM}\left(t\right)-\mathtt{HDO}\left(t\right)-\mathtt{HTS}\left(t\right)+\mathtt{EWFF}\left(t\right)\)</td>
+	</tr>
+	<tr id="EWFF">
+		<td>Extra Warming from forcing ZJ/y</td>
+		<td><code>EWFF</code></td>
+		<td><a href=#TMMF><code>TMMF</code></a> </td>
+		<td><a href=#GLSU><code>GLSU</code></a> </td>
+		<td><a href=#EHS><code>EHS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EWFF}\left(t\right)=0.032\cdot\mathtt{GLSU}\cdot\mathtt{TMMF}\left(t\right)\)</td>
+	</tr>
+	<tr id="FCH4">
+		<td>Forcing from CH4 W/m2</td>
+		<td><code>FCH4</code></td>
+		<td><a href=#CH4CA><code>CH4CA</code></a> <a href=#CH4FPP><code>CH4FPP</code></a> </td>
+		<td></td>
+		<td><a href=#MMF><code>MMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FCH4}\left(t\right)=\mathtt{CH4CA}\left(t\right)\cdot\mathtt{CH4FPP}\left(t\right)\)</td>
+	</tr>
+	<tr id="FCO2">
+		<td>Forcing from CO2 W/m2</td>
+		<td><code>FCO2</code></td>
+		<td><a href=#CO2CA><code>CO2CA</code></a> <a href=#CO2FPP><code>CO2FPP</code></a> </td>
+		<td></td>
+		<td><a href=#MMF><code>MMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FCO2}\left(t\right)=\mathtt{CO2CA}\left(t\right)\cdot\mathtt{CO2FPP}\left(t\right)\)</td>
+	</tr>
+	<tr id="FN2O">
+		<td>Forcing from N2O W/m2</td>
+		<td><code>FN2O</code></td>
+		<td><a href=#N2OFPP><code>N2OFPP</code></a> <a href=#N2OCA><code>N2OCA</code></a> </td>
+		<td></td>
+		<td><a href=#MMF><code>MMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FN2O}\left(t\right)=\mathtt{N2OCA}\left(t\right)\cdot\mathtt{N2OFPP}\left(t\right)\)</td>
+	</tr>
+	<tr id="FOG">
+		<td>Forcing from other gases W/m2</td>
+		<td><code>FOG</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#MMF><code>MMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.18), (2000.0, 0.36), (2020.0, 0.39), (2050.0, 0.37), (2100.0, 0.0)])\)</td>
+	</tr>
+	<tr id="GHGE">
+		<td>GHG emissions GtCO2e/y</td>
+		<td><code>GHGE</code></td>
+		<td><a href=#N2OE><code>N2OE</code></a> <a href=#CH4E><code>CH4E</code></a> <a href=#CO2E><code>CO2E</code></a> </td>
+		<td><a href=#TCO2ETN2O><code>TCO2ETN2O</code></a> <a href=#TCO2ETCH4><code>TCO2ETCH4</code></a> <a href=#TCO2ETCO2><code>TCO2ETCO2</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GHGE}\left(t\right)=\mathtt{TCO2ETCH4}\cdot\mathtt{CH4E}\left(t\right)+\mathtt{TCO2ETCO2}\cdot\mathtt{CO2E}\left(t\right)+\mathtt{TCO2ETN2O}\cdot\mathtt{N2OE}\left(t\right)\)</td>
+	</tr>
+	<tr id="HDO">
+		<td>Heat to deep ocean ZJ/y</td>
+		<td><code>HDO</code></td>
+		<td><a href=#EHS><code>EHS</code></a> <a href=#TRHGA><code>TRHGA</code></a> </td>
+		<td></td>
+		<td><a href=#EHS><code>EHS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{HDO}\left(t\right)=\mathtt{EHS}\left(t\right)\cdot\mathtt{TRHGA}\left(t\right)\)</td>
+	</tr>
+	<tr id="HTS">
+		<td>Heat to space ZJ/y</td>
+		<td><code>HTS</code></td>
+		<td><a href=#EHS><code>EHS</code></a> <a href=#TRHGS><code>TRHGS</code></a> </td>
+		<td></td>
+		<td><a href=#EHS><code>EHS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{HTS}\left(t\right)=\mathtt{EHS}\left(t\right)\cdot\mathtt{TRHGS}\left(t\right)\)</td>
+	</tr>
+	<tr id="ISC">
+		<td>Ice and snow cover Mha</td>
+		<td><code>ISC</code></td>
+		<td><a href=#ISCEGA><code>ISCEGA</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{ISC}\left(t\right)=100\cdot\mathtt{ISCEGA}\left(t\right)\)</td>
+	</tr>
+	<tr id="ISCEGA">
+		<td>Ice and snow cover excl G&A Mkm2</td>
+		<td><code>ISCEGA</code></td>
+		<td><a href=#MEL><code>MEL</code></a> </td>
+		<td></td>
+		<td><a href=#AL><code>AL</code></a> <a href=#MEL><code>MEL</code></a> <a href=#ISC><code>ISC</code></a> </td>
+		<td>12.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ISCEGA}\left(t\right)}{\mathrm{d}t}=-\mathtt{MEL}\left(t\right)\)</td>
+	</tr>
+	<tr id="KCH4EKC">
+		<td>kg CH4 emission per kg crop</td>
+		<td><code>KCH4EKC</code></td>
+		<td></td>
+		<td><a href=#ERDCH4KC2022><code>ERDCH4KC2022</code></a> <a href=#KCH4KC1980><code>KCH4KC1980</code></a> <a href=#RDCH4KC><code>RDCH4KC</code></a> </td>
+		<td><a href=#MMCH4E><code>MMCH4E</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{KCH4EKC}\left(t\right)=\mathtt{KCH4KC1980}\cdot e^{-\mathtt{RDCH4KC}\cdot\left(-2000+t\right)}\cdot\mathtt{ifelse}\left(\left(t>2000\right),e^{-\mathtt{E\mathtt{RDCH4KC}2022}\cdot\left(-2000+t\right)},1\right)\)</td>
+	</tr>
+	<tr id="KN2OEKF">
+		<td>kg N2O emission per kg fertiliser</td>
+		<td><code>KN2OEKF</code></td>
+		<td></td>
+		<td><a href=#RDN2OKF><code>RDN2OKF</code></a> <a href=#KN2OKF1980><code>KN2OKF1980</code></a> <a href=#ERDN2OKF2022><code>ERDN2OKF2022</code></a> </td>
+		<td><a href=#MMN2OE><code>MMN2OE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{KN2OEKF}\left(t\right)=\mathtt{KN2OKF1980}\cdot e^{-\mathtt{RDN2OKF}\cdot\left(-2000+t\right)}\cdot\mathtt{ifelse}\left(\left(t>2000\right),e^{-E\mathtt{RDN2OKF}2022\cdot\left(-2000+t\right)},1\right)\)</td>
+	</tr>
+	<tr id="LECO2A">
+		<td>Life of extra CO2 in atm y</td>
+		<td><code>LECO2A</code></td>
+		<td><a href=#OWLCO2><code>OWLCO2</code></a> </td>
+		<td><a href=#LECO2A1980><code>LECO2A1980</code></a> </td>
+		<td><a href=#CO2AB><code>CO2AB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LECO2A}\left(t\right)=\mathtt{LECO2A1980}\cdot\mathtt{OWLCO2}\left(t\right)\)</td>
+	</tr>
+	<tr id="MEL">
+		<td>Melting Mha/y</td>
+		<td><code>MEL</code></td>
+		<td><a href=#ISCEGA><code>ISCEGA</code></a> <a href=#MRS><code>MRS</code></a> </td>
+		<td></td>
+		<td><a href=#ISCEGA><code>ISCEGA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MEL}\left(t\right)=\mathtt{ISCEGA}\left(t\right)\cdot\mathtt{MRS}\left(t\right)\)</td>
+	</tr>
+	<tr id="MMCH4E">
+		<td>Man-made CH4 emissions GtCH4/y</td>
+		<td><code>MMCH4E</code></td>
+		<td><a href=#KCH4EKC><code>KCH4EKC</code></a> <a href="foodland.html#CRSU"><code>CRSU</code></a> </td>
+		<td></td>
+		<td><a href=#CH4E><code>CH4E</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MMCH4E}\left(t\right)=\frac{1}{1000}\cdot\mathtt{CRSU}\left(t\right)\cdot\mathtt{KCH4EKC}\left(t\right)\)</td>
+	</tr>
+	<tr id="MMF">
+		<td>Man-made Forcing W/m2</td>
+		<td><code>MMF</code></td>
+		<td><a href=#FN2O><code>FN2O</code></a> <a href=#FCO2><code>FCO2</code></a> <a href=#FCH4><code>FCH4</code></a> <a href=#FOG><code>FOG</code></a> </td>
+		<td></td>
+		<td><a href=#TMMF><code>TMMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MMF}\left(t\right)=\mathtt{FCH4}\left(t\right)+\mathtt{FCO2}\left(t\right)+\mathtt{FN2O}\left(t\right)+\mathtt{FOG}\left(t\right)\)</td>
+	</tr>
+	<tr id="MMN2OE">
+		<td>Man-made N2O emissions GtN2O/y</td>
+		<td><code>MMN2OE</code></td>
+		<td><a href=#KN2OEKF><code>KN2OEKF</code></a> <a href="foodland.html#FEUS"><code>FEUS</code></a> </td>
+		<td></td>
+		<td><a href=#N2OE><code>N2OE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MMN2OE}\left(t\right)=\frac{1}{1000}\cdot\mathtt{FEUS}\left(t\right)\cdot\mathtt{KN2OEKF}\left(t\right)\)</td>
+	</tr>
+	<tr id="MRDI">
+		<td>Melting rate deep ice 1/y</td>
+		<td><code>MRDI</code></td>
+		<td><a href=#MRS><code>MRS</code></a> </td>
+		<td><a href=#SVDR><code>SVDR</code></a> </td>
+		<td><a href=#ECIM><code>ECIM</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MRDI}\left(t\right)=\frac{\mathtt{MRS}\left(t\right)}{\mathtt{SVDR}}\)</td>
+	</tr>
+	<tr id="MRS">
+		<td>Melting rate surface 1/y</td>
+		<td><code>MRS</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td><a href=#MRS1980><code>MRS1980</code></a> <a href=#WA1980><code>WA1980</code></a> </td>
+		<td><a href=#MRDI><code>MRDI</code></a> <a href=#MEL><code>MEL</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MRS}\left(t\right)=\frac{\mathtt{MRS1980}\cdot\mathtt{OW}\left(t\right)}{\mathtt{WA1980}}\)</td>
+	</tr>
+	<tr id="N2OA">
+		<td>N2O in Atmosphere GtN2O</td>
+		<td><code>N2OA</code></td>
+		<td><a href=#N2OE><code>N2OE</code></a> <a href=#N2OBD><code>N2OBD</code></a> </td>
+		<td></td>
+		<td><a href=#N2OBD><code>N2OBD</code></a> <a href=#N2OCA><code>N2OCA</code></a> </td>
+		<td>1.052</td>
+		<td>\(\frac{\mathrm{d}\mathtt{N2OA}\left(t\right)}{\mathrm{d}t}=-\mathtt{N2OBD}\left(t\right)+\mathtt{N2OE}\left(t\right)\)</td>
+	</tr>
+	<tr id="N2OBD">
+		<td>N2O BreakDown GtN2O/y</td>
+		<td><code>N2OBD</code></td>
+		<td><a href=#N2OA><code>N2OA</code></a> </td>
+		<td><a href=#LN2OA><code>LN2OA</code></a> </td>
+		<td><a href=#N2OA><code>N2OA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{N2OBD}\left(t\right)=\frac{\mathtt{N2OA}\left(t\right)}{\mathtt{LN2OA}}\)</td>
+	</tr>
+	<tr id="N2OCA">
+		<td>N2O concentration in atm ppm</td>
+		<td><code>N2OCA</code></td>
+		<td><a href=#N2OA><code>N2OA</code></a> </td>
+		<td><a href=#GN2OPP><code>GN2OPP</code></a> </td>
+		<td><a href=#FN2O><code>FN2O</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{N2OCA}\left(t\right)=\frac{\mathtt{N2OA}\left(t\right)}{\mathtt{GN2OPP}}\)</td>
+	</tr>
+	<tr id="N2OE">
+		<td>N2O emissions GtN2O/y</td>
+		<td><code>N2OE</code></td>
+		<td><a href=#NN2OE><code>NN2OE</code></a> <a href=#MMN2OE><code>MMN2OE</code></a> </td>
+		<td></td>
+		<td><a href=#N2OA><code>N2OA</code></a> <a href=#GHGE><code>GHGE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{N2OE}\left(t\right)=\mathtt{MMN2OE}\left(t\right)+\mathtt{NN2OE}\left(t\right)\)</td>
+	</tr>
+	<tr id="N2OFPP">
+		<td>N2O forcing per ppm W/m2/ppm</td>
+		<td><code>N2OFPP</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#FN2O><code>FN2O</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.43), (2000.0, 0.64), (2010.0, 0.73), (2020.0, 0.8), (2100.0, 1.0)])\)</td>
+	</tr>
+	<tr id="NCH4E">
+		<td>Natural CH4 emissions GtCH4/y</td>
+		<td><code>NCH4E</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#CH4E><code>CH4E</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.19), (2020.0, 0.19), (2100.0, 0.19)])\)</td>
+	</tr>
+	<tr id="NN2OE">
+		<td>Natural N2O emissions GtN2O/y</td>
+		<td><code>NN2OE</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#N2OE><code>N2OE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 0.009), (2020.0, 0.009), (2099.27, 0.0)])\)</td>
+	</tr>
+	<tr id="OW">
+		<td>OBserved WArming deg C</td>
+		<td><code>OW</code></td>
+		<td><a href=#EHS><code>EHS</code></a> </td>
+		<td><a href=#WFEH><code>WFEH</code></a> <a href=#EH1980><code>EH1980</code></a> <a href=#WA1980><code>WA1980</code></a> </td>
+		<td><a href=#PWA><code>PWA</code></a> <a href=#OWLCO2><code>OWLCO2</code></a> <a href=#TRHGS><code>TRHGS</code></a> <a href=#MRS><code>MRS</code></a> <a href=#WVC><code>WVC</code></a> <a href=#REHE><code>REHE</code></a> <a href=#TRHGA><code>TRHGA</code></a> <a href="foodland.html#WELY"><code>WELY</code></a> <a href="output.html#OWECC"><code>OWECC</code></a> <a href="output.html#OWELC"><code>OWELC</code></a> <a href="population.html#WELE"><code>WELE</code></a> <a href="public.html#OWTFP"><code>OWTFP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OW}\left(t\right)=\mathtt{WA1980}+\mathtt{WFEH}\cdot\left(-\mathtt{EH1980}+\mathtt{EHS}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="OWLCO2">
+		<td>OWeoLoCO2</td>
+		<td><code>OWLCO2</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td><a href=#OBWA2022><code>OBWA2022</code></a> <a href=#SOWLCO2><code>SOWLCO2</code></a> </td>
+		<td><a href=#LECO2A><code>LECO2A</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OWLCO2}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{SOWLCO2}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{OBWA2022}}\right),1\right)\)</td>
+	</tr>
+	<tr id="PWA">
+		<td>Perceived WArming deg C</td>
+		<td><code>PWA</code></td>
+		<td><a href=#PWA><code>PWA</code></a> <a href=#OW><code>OW</code></a> </td>
+		<td><a href=#PD><code>PD</code></a> </td>
+		<td><a href=#PWA><code>PWA</code></a> <a href="wellbeing.html#AWBGW"><code>AWBGW</code></a> </td>
+		<td>0.4</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PWA}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PWA}\left(t\right)+\mathtt{OW}\left(t\right)}{\mathtt{PD}}\)</td>
+	</tr>
+	<tr id="REHE">
+		<td>Risk of extreme heat event (1)</td>
+		<td><code>REHE</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(\mathtt{OW}(t), [(0.0, 1.0), (1.2, 4.8), (2.0, 8.6), (2.9, 14.0), (5.2, 40.0)])\)</td>
+	</tr>
+	<tr id="TMMF">
+		<td>Total man-made forcing W/m2</td>
+		<td><code>TMMF</code></td>
+		<td><a href=#WVF><code>WVF</code></a> <a href=#MMF><code>MMF</code></a> </td>
+		<td></td>
+		<td><a href=#EWFF><code>EWFF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TMMF}\left(t\right)=\mathtt{MMF}\left(t\right)+\mathtt{WVF}\left(t\right)\)</td>
+	</tr>
+	<tr id="TRHGA">
+		<td>Transfer rate for heat going to abyss 1/y</td>
+		<td><code>TRHGA</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td><a href=#TRSA1980><code>TRSA1980</code></a> </td>
+		<td><a href=#HDO><code>HDO</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TRHGA}\left(t\right)=\frac{1}{290}\cdot\mathtt{TRSA1980}\cdot\left(290+\mathtt{OW}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="TRHGS">
+		<td>Transfer rate for heat going to space 1/y</td>
+		<td><code>TRHGS</code></td>
+		<td><a href=#OW><code>OW</code></a> <a href=#AL><code>AL</code></a> </td>
+		<td><a href=#TRSS1980><code>TRSS1980</code></a> </td>
+		<td><a href=#HTS><code>HTS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TRHGS}\left(t\right)=0.011\cdot\mathtt{TRSS1980}\cdot\left(300+\mathtt{OW}\left(t\right)\right)\cdot\mathtt{AL}\left(t\right)\)</td>
+	</tr>
+	<tr id="WVC">
+		<td>Water Vapor Concentration g/kg</td>
+		<td><code>WVC</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td><a href=#WVC1980><code>WVC1980</code></a> <a href=#WA1980><code>WA1980</code></a> <a href=#OWWV><code>OWWV</code></a> </td>
+		<td><a href=#WVF><code>WVF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WVC}\left(t\right)=\mathtt{WVC1980}\cdot\left(1+\mathtt{OWWV}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{WA1980}}\right)\right)\)</td>
+	</tr>
+	<tr id="WVF">
+		<td>Water Vapour Feedback W/m2</td>
+		<td><code>WVF</code></td>
+		<td><a href=#WVC><code>WVC</code></a> </td>
+		<td><a href=#WVC1980><code>WVC1980</code></a> <a href=#WVF1980><code>WVF1980</code></a> <a href=#WVWVF><code>WVWVF</code></a> </td>
+		<td><a href=#TMMF><code>TMMF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WVF}\left(t\right)=\mathtt{WVF1980}\cdot\left(1+\mathtt{WVWVF}\cdot\left(-1+\frac{\mathtt{WVC}\left(t\right)}{\mathtt{WVC1980}}\right)\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AI1980">
+		<td>Amount of ice in 1980 MKm3</td>
+		<td><code>AI1980</code></td>
+		<td><a href=#ECIM><code>ECIM</code></a> </td>
+		<td>55.0</td>
+	</tr>
+	<tr id="ALGAV">
+		<td>ALbedo global average</td>
+		<td><code>ALGAV</code></td>
+		<td><a href=#AL><code>AL</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="ALIS">
+		<td>ALbedo Ice and snow</td>
+		<td><code>ALIS</code></td>
+		<td><a href=#AL><code>AL</code></a> </td>
+		<td>0.7</td>
+	</tr>
+	<tr id="CCCSt">
+		<td>Cost of CCS Dollar/tCO2</td>
+		<td><code>CCCSt</code></td>
+		<td><a href=#CAC><code>CAC</code></a> </td>
+		<td>95.0</td>
+	</tr>
+	<tr id="CO2A1850">
+		<td>CO2 in atmosphere in 1850 GtCO2</td>
+		<td><code>CO2A1850</code></td>
+		<td><a href=#CO2AB><code>CO2AB</code></a> </td>
+		<td>2200.0</td>
+	</tr>
+	<tr id="DACCO22100">
+		<td>Direct Air Capture of CO2 in 2100 GtCO2/y</td>
+		<td><code>DACCO22100</code></td>
+		<td><a href=#DACCO2><code>DACCO2</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="EH1980">
+		<td>Extra Heat in 1980 ZJ</td>
+		<td><code>EH1980</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="ERDCH4KC2022">
+		<td>Extra rate of decline in CH4 per kg crop after 2022 1/y</td>
+		<td><code>ERDCH4KC2022</code></td>
+		<td><a href=#KCH4EKC><code>KCH4EKC</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="ERDN2OKF2022">
+		<td>Extra rate of decline in N2O per kg fertilizer from 2022</td>
+		<td><code>ERDN2OKF2022</code></td>
+		<td><a href=#KN2OEKF><code>KN2OEKF</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="GCH4PP">
+		<td>GtCH4 per ppm</td>
+		<td><code>GCH4PP</code></td>
+		<td><a href=#CH4CA><code>CH4CA</code></a> </td>
+		<td>5.0</td>
+	</tr>
+	<tr id="GCO2PP">
+		<td>GtCO2 per ppm</td>
+		<td><code>GCO2PP</code></td>
+		<td><a href=#CO2CA><code>CO2CA</code></a> </td>
+		<td>7.9</td>
+	</tr>
+	<tr id="GLSU">
+		<td>GLobal SUrface Mkm2</td>
+		<td><code>GLSU</code></td>
+		<td><a href=#AL><code>AL</code></a> <a href=#EWFF><code>EWFF</code></a> </td>
+		<td>510.0</td>
+	</tr>
+	<tr id="GN2OPP">
+		<td>GtN2O per ppm</td>
+		<td><code>GN2OPP</code></td>
+		<td><a href=#N2OCA><code>N2OCA</code></a> </td>
+		<td>5.0</td>
+	</tr>
+	<tr id="HRMI">
+		<td>Heat required to melt ice kJ/kg</td>
+		<td><code>HRMI</code></td>
+		<td><a href=#ECIM><code>ECIM</code></a> </td>
+		<td>333.0</td>
+	</tr>
+	<tr id="KCH4KC1980">
+		<td>kg CH4 per kg crop in 1980</td>
+		<td><code>KCH4KC1980</code></td>
+		<td><a href=#KCH4EKC><code>KCH4EKC</code></a> </td>
+		<td>0.05</td>
+	</tr>
+	<tr id="KN2OKF1980">
+		<td>kg N2O per kg fertilizer in 1980 </td>
+		<td><code>KN2OKF1980</code></td>
+		<td><a href=#KN2OEKF><code>KN2OEKF</code></a> </td>
+		<td>0.11</td>
+	</tr>
+	<tr id="LCH4A">
+		<td>Life of CH4 in atmosphere y</td>
+		<td><code>LCH4A</code></td>
+		<td><a href=#CH4BD><code>CH4BD</code></a> </td>
+		<td>7.5</td>
+	</tr>
+	<tr id="LECO2A1980">
+		<td>Life of extra CO2 in atmosphere in 1980 y</td>
+		<td><code>LECO2A1980</code></td>
+		<td><a href=#LECO2A><code>LECO2A</code></a> </td>
+		<td>60.0</td>
+	</tr>
+	<tr id="LN2OA">
+		<td>Life of N2O in atmosphere y</td>
+		<td><code>LN2OA</code></td>
+		<td><a href=#N2OBD><code>N2OBD</code></a> </td>
+		<td>95.0</td>
+	</tr>
+	<tr id="MRS1980">
+		<td>Melting rate surface in 1980 1/y</td>
+		<td><code>MRS1980</code></td>
+		<td><a href=#MRS><code>MRS</code></a> </td>
+		<td>0.0015</td>
+	</tr>
+	<tr id="OBWA2022">
+		<td>OBserved WArming in 2022 deg C</td>
+		<td><code>OBWA2022</code></td>
+		<td><a href=#OWLCO2><code>OWLCO2</code></a> </td>
+		<td>1.35</td>
+	</tr>
+	<tr id="OWWV">
+		<td>sOWeoWV>0</td>
+		<td><code>OWWV</code></td>
+		<td><a href=#WVC><code>WVC</code></a> </td>
+		<td>0.18</td>
+	</tr>
+	<tr id="PD">
+		<td>Perception delay y</td>
+		<td><code>PD</code></td>
+		<td><a href=#PWA><code>PWA</code></a> </td>
+		<td>5.0</td>
+	</tr>
+	<tr id="RDCH4KC">
+		<td>Rate of decline in CH4 per kg crop 1/y</td>
+		<td><code>RDCH4KC</code></td>
+		<td><a href=#KCH4EKC><code>KCH4EKC</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="RDN2OKF">
+		<td>Rate of decline in N2O per kg fertilizer 1/y</td>
+		<td><code>RDN2OKF</code></td>
+		<td><a href=#KN2OEKF><code>KN2OEKF</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="SOWLCO2">
+		<td>sOWeoLoCO2>0</td>
+		<td><code>SOWLCO2</code></td>
+		<td><a href=#OWLCO2><code>OWLCO2</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="SVDR">
+		<td>Surface vs deep rate</td>
+		<td><code>SVDR</code></td>
+		<td><a href=#MRDI><code>MRDI</code></a> </td>
+		<td>4.0</td>
+	</tr>
+	<tr id="TCO2ETCH4">
+		<td>tCO2e/tCH4</td>
+		<td><code>TCO2ETCH4</code></td>
+		<td><a href=#GHGE><code>GHGE</code></a> </td>
+		<td>23.0</td>
+	</tr>
+	<tr id="TCO2ETCO2">
+		<td>tCO2e/tCO2</td>
+		<td><code>TCO2ETCO2</code></td>
+		<td><a href=#GHGE><code>GHGE</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TCO2ETN2O">
+		<td>tCO2e/tN2O</td>
+		<td><code>TCO2ETN2O</code></td>
+		<td><a href=#GHGE><code>GHGE</code></a> </td>
+		<td>7.0</td>
+	</tr>
+	<tr id="TCO2PTCH4">
+		<td>tCO2 per tCH4</td>
+		<td><code>TCO2PTCH4</code></td>
+		<td><a href=#CO2FCH4><code>CO2FCH4</code></a> </td>
+		<td>2.75</td>
+	</tr>
+	<tr id="TPM3I">
+		<td>Ton per m3 ice</td>
+		<td><code>TPM3I</code></td>
+		<td><a href=#ECIM><code>ECIM</code></a> </td>
+		<td>0.95</td>
+	</tr>
+	<tr id="TRSA1980">
+		<td>Transfer rate surface-abyss in 1980 1/y</td>
+		<td><code>TRSA1980</code></td>
+		<td><a href=#TRHGA><code>TRHGA</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="TRSS1980">
+		<td>Transfer rate surface-space in 1980 1/y</td>
+		<td><code>TRSS1980</code></td>
+		<td><a href=#TRHGS><code>TRHGS</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="WA1980">
+		<td>Warming in 1980 deg C</td>
+		<td><code>WA1980</code></td>
+		<td><a href=#MRS><code>MRS</code></a> <a href=#WVC><code>WVC</code></a> <a href=#OW><code>OW</code></a> </td>
+		<td>0.4</td>
+	</tr>
+	<tr id="WFEH">
+		<td>Warming from Extra Heat deg/ZJ</td>
+		<td><code>WFEH</code></td>
+		<td><a href=#OW><code>OW</code></a> </td>
+		<td>0.0006</td>
+	</tr>
+	<tr id="WVC1980">
+		<td>Water Vapour Concentration in 1980 g/kg</td>
+		<td><code>WVC1980</code></td>
+		<td><a href=#WVC><code>WVC</code></a> <a href=#WVF><code>WVF</code></a> </td>
+		<td>2.0</td>
+	</tr>
+	<tr id="WVF1980">
+		<td>Water Vapour Feedback in 1980 W/m2</td>
+		<td><code>WVF1980</code></td>
+		<td><a href=#WVF><code>WVF</code></a> </td>
+		<td>0.9</td>
+	</tr>
+	<tr id="WVWVF">
+		<td>sWVeoWVF>0</td>
+		<td><code>WVWVF</code></td>
+		<td><a href=#WVF><code>WVF</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

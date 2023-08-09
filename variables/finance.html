@@ -1,0 +1,295 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The FINANCE sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CBC">
+		<td>Corporate Borrowing Cost 1/y</td>
+		<td><code>CBC</code></td>
+		<td><a href=#CCSD><code>CCSD</code></a> <a href=#NCCR><code>NCCR</code></a> </td>
+		<td></td>
+		<td><a href="output.html#CBCEFCA"><code>CBCEFCA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CBC}\left(t\right)=\mathtt{CCSD}\left(t\right)+\mathtt{NCCR}\left(t\right)\)</td>
+	</tr>
+	<tr id="CBC1980">
+		<td>Corporate Borrowing Cost in 1980 1/y</td>
+		<td><code>CBC1980</code></td>
+		<td><a href=#NCCR><code>NCCR</code></a> </td>
+		<td><a href=#NBOM><code>NBOM</code></a> <a href=#NBBM><code>NBBM</code></a> <a href=#NSR><code>NSR</code></a> </td>
+		<td><a href="output.html#CBCEFCA"><code>CBCEFCA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CBC1980}\left(t\right)=\mathtt{NBBM}+\mathtt{NBOM}+\mathtt{NSR}+\mathtt{NCCR}\left(t\right)\)</td>
+	</tr>
+	<tr id="CBSR">
+		<td>Central Bank Signal Rate 1/y</td>
+		<td><code>CBSR</code></td>
+		<td><a href=#CSR><code>CSR</code></a> </td>
+		<td></td>
+		<td><a href=#CSR><code>CSR</code></a> <a href=#TIR><code>TIR</code></a> </td>
+		<td>0.02</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CBSR}\left(t\right)}{\mathrm{d}t}=\mathtt{CSR}\left(t\right)\)</td>
+	</tr>
+	<tr id="CCSD">
+		<td>Cost of Capital for Secured Debt 1/y</td>
+		<td><code>CCSD</code></td>
+		<td><a href=#CCSD><code>CCSD</code></a> <a href=#TIR><code>TIR</code></a> </td>
+		<td><a href=#NBOM><code>NBOM</code></a> <a href=#FSRT><code>FSRT</code></a> </td>
+		<td><a href=#CCSD><code>CCSD</code></a> <a href=#CBC><code>CBC</code></a> <a href=#WBC><code>WBC</code></a> </td>
+		<td>0.04</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CCSD}\left(t\right)}{\mathrm{d}t}=\frac{\mathtt{NBOM}-\mathtt{CCSD}\left(t\right)+\mathtt{TIR}\left(t\right)}{\mathtt{FSRT}}\)</td>
+	</tr>
+	<tr id="CSR">
+		<td>Change in Signal Rate 1/yy</td>
+		<td><code>CSR</code></td>
+		<td><a href=#ISR><code>ISR</code></a> <a href=#CBSR><code>CBSR</code></a> </td>
+		<td><a href=#SRAT><code>SRAT</code></a> </td>
+		<td><a href=#CBSR><code>CBSR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CSR}\left(t\right)=\frac{-\mathtt{CBSR}\left(t\right)+\mathtt{ISR}\left(t\right)}{\mathtt{SRAT}}\)</td>
+	</tr>
+	<tr id="ELTI">
+		<td>Expected Long Term Inflation 1/y</td>
+		<td><code>ELTI</code></td>
+		<td><a href=#PI><code>PI</code></a> <a href=#ELTI><code>ELTI</code></a> </td>
+		<td><a href=#IEFT><code>IEFT</code></a> </td>
+		<td><a href=#ELTI><code>ELTI</code></a> <a href=#TGIR><code>TGIR</code></a> </td>
+		<td>0.02</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ELTI}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{ELTI}\left(t\right)+\mathtt{PI}\left(t\right)}{\mathtt{IEFT}}\)</td>
+	</tr>
+	<tr id="GBC">
+		<td>Govmnt Borrowing Cost 1/y</td>
+		<td><code>GBC</code></td>
+		<td><a href=#TIR><code>TIR</code></a> </td>
+		<td></td>
+		<td><a href="demand.html#GIC"><code>GIC</code></a> <a href=#TGIR><code>TGIR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GBC}\left(t\right)=\mathtt{TIR}\left(t\right)\)</td>
+	</tr>
+	<tr id="ISR">
+		<td>Indicated Signal Rate 1/y</td>
+		<td><code>ISR</code></td>
+		<td><a href=#PI><code>PI</code></a> <a href=#PU><code>PU</code></a> </td>
+		<td><a href=#NSR><code>NSR</code></a> <a href=#INSR><code>INSR</code></a> <a href=#UT><code>UT</code></a> <a href=#IT><code>IT</code></a> <a href=#UNSR><code>UNSR</code></a> </td>
+		<td><a href=#CSR><code>CSR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ISR}\left(t\right)=\mathtt{NSR}\cdot\left(1+\mathtt{INSR}\cdot\left(-1+\frac{\mathtt{PI}\left(t\right)}{\mathtt{IT}}\right)+\mathtt{UNSR}\cdot\left(-1+\frac{\mathtt{PU}\left(t\right)}{\mathtt{UT}}\right)\right)\)</td>
+	</tr>
+	<tr id="NCCR">
+		<td>Normal Corporate Credit Risk 1/y</td>
+		<td><code>NCCR</code></td>
+		<td><a href="output.html#OGR"><code>OGR</code></a> </td>
+		<td><a href=#GRCR><code>GRCR</code></a> </td>
+		<td><a href=#CBC><code>CBC</code></a> <a href=#CBC1980><code>CBC1980</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{NCCR}\left(t\right)=0.02\cdot\left(1+\mathtt{GRCR}\cdot\left(-1+33\cdot\mathtt{OGR}\left(t\right)\right)\right)\)</td>
+	</tr>
+	<tr id="PI">
+		<td>Perceived Inflation CB 1/y</td>
+		<td><code>PI</code></td>
+		<td><a href=#PI><code>PI</code></a> <a href="inventory.html#IR"><code>IR</code></a> </td>
+		<td><a href=#IPTCB><code>IPTCB</code></a> </td>
+		<td><a href=#ELTI><code>ELTI</code></a> <a href=#PI><code>PI</code></a> <a href=#ISR><code>ISR</code></a> </td>
+		<td>0.02</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PI}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PI}\left(t\right)+\mathtt{IR}\left(t\right)}{\mathtt{IPTCB}}\)</td>
+	</tr>
+	<tr id="PU">
+		<td>Perceived Unemployment CB (1)</td>
+		<td><code>PU</code></td>
+		<td><a href=#PU><code>PU</code></a> <a href="labourmarket.html#UR"><code>UR</code></a> </td>
+		<td><a href=#UPTCB><code>UPTCB</code></a> </td>
+		<td><a href=#PU><code>PU</code></a> <a href=#ISR><code>ISR</code></a> </td>
+		<td>0.0327</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PU}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PU}\left(t\right)+\mathtt{UR}\left(t\right)}{\mathtt{UPTCB}}\)</td>
+	</tr>
+	<tr id="TGIR">
+		<td>10-yr Govmnt Interest Rate 1/y</td>
+		<td><code>TGIR</code></td>
+		<td><a href=#ELTI><code>ELTI</code></a> <a href=#GBC><code>GBC</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{TGIR}\left(t\right)=\mathtt{ELTI}\left(t\right)+\mathtt{GBC}\left(t\right)\)</td>
+	</tr>
+	<tr id="TIR">
+		<td>3m Interest Rate 1/y</td>
+		<td><code>TIR</code></td>
+		<td><a href=#CBSR><code>CBSR</code></a> </td>
+		<td><a href=#NBBM><code>NBBM</code></a> </td>
+		<td><a href=#CCSD><code>CCSD</code></a> <a href=#GBC><code>GBC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TIR}\left(t\right)=\mathtt{NBBM}+\mathtt{CBSR}\left(t\right)\)</td>
+	</tr>
+	<tr id="WBC">
+		<td>Worker Borrowing Cost 1/y</td>
+		<td><code>WBC</code></td>
+		<td><a href=#CCSD><code>CCSD</code></a> </td>
+		<td></td>
+		<td><a href="demand.html#WIC"><code>WIC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WBC}\left(t\right)=\mathtt{CCSD}\left(t\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="FSRT">
+		<td>Financial Sector Response Time y</td>
+		<td><code>FSRT</code></td>
+		<td><a href=#CCSD><code>CCSD</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="GRCR">
+		<td>sGReoCR<0: Growth Rate effect on Credit Risk</td>
+		<td><code>GRCR</code></td>
+		<td><a href=#NCCR><code>NCCR</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="IEFT">
+		<td>Inflation Expectation Formation Time y</td>
+		<td><code>IEFT</code></td>
+		<td><a href=#ELTI><code>ELTI</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="INSR">
+		<td>sINeoSR>0: INflation effect on Signal Rate</td>
+		<td><code>INSR</code></td>
+		<td><a href=#ISR><code>ISR</code></a> </td>
+		<td>0.7</td>
+	</tr>
+	<tr id="IPTCB">
+		<td>Inflation Perception Time CB y</td>
+		<td><code>IPTCB</code></td>
+		<td><a href=#PI><code>PI</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="IT">
+		<td>Inflation Target 1/y</td>
+		<td><code>IT</code></td>
+		<td><a href=#ISR><code>ISR</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="NBBM">
+		<td>Normal Basic Bank Margin 1/y</td>
+		<td><code>NBBM</code></td>
+		<td><a href=#CBC1980><code>CBC1980</code></a> <a href=#TIR><code>TIR</code></a> </td>
+		<td>0.005</td>
+	</tr>
+	<tr id="NBOM">
+		<td>Normal Bank Operating Margin 1/y</td>
+		<td><code>NBOM</code></td>
+		<td><a href=#CCSD><code>CCSD</code></a> <a href=#CBC1980><code>CBC1980</code></a> </td>
+		<td>0.015</td>
+	</tr>
+	<tr id="NSR">
+		<td>Normal Signal Rate 1/y</td>
+		<td><code>NSR</code></td>
+		<td><a href=#CBC1980><code>CBC1980</code></a> <a href=#ISR><code>ISR</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="SRAT">
+		<td>Signal Rate Adjustment Time y</td>
+		<td><code>SRAT</code></td>
+		<td><a href=#CSR><code>CSR</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="UNSR">
+		<td>sUNeoSR<0: UNemployment effect on Signal Rate</td>
+		<td><code>UNSR</code></td>
+		<td><a href=#ISR><code>ISR</code></a> </td>
+		<td>-1.5</td>
+	</tr>
+	<tr id="UPTCB">
+		<td>Unemployment Perception Time CB y</td>
+		<td><code>UPTCB</code></td>
+		<td><a href=#PU><code>PU</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="UT">
+		<td>Unemployment Target</td>
+		<td><code>UT</code></td>
+		<td><a href=#ISR><code>ISR</code></a> </td>
+		<td>0.05</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>
