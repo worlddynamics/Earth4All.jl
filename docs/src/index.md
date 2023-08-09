@@ -17,5 +17,19 @@ This is the documentation of the Julia implementation of the [Earth4All model](h
   * [The Population sector](population.md)
   * [The Public sector](public.md)
   * [The Wellbeing sector](wellbeing.md)
-* [prova](variables/climate.html)
-* [prova](../../variables/demand.html)
+* The Earth4All interactive variable tables  
+  * [Climate variables](variables/climate.html)
+  * [Demand variables](variables/demand.html)
+  * [Energy variables](variables/energy.html)
+  * [Finance variables](variables/finance.html)
+  * [Food and land variables](variables/foodland.html)
+  * [Inventory variables](variables/inventory.html)
+  * [Labour market variables](variables/labourmarket.html)
+  * [Other performance indicators variables](variables/other.html)
+  * [Output variables](variables/output.html)
+  * [Population variables](variables/population.html)
+  * [Public variables](variables/public.html)
+  * [Wellbeing variables](variables/wellbeing.html)
+
+
+
