@@ -2,4 +2,6 @@ Manifest.toml
 *.json
 
 figures/
+html/
+txt/
 .DS_Store
