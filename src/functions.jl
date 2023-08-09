@@ -255,6 +255,48 @@ function write_html_head(f)
    write(f, "</head>\n\n")
 end
 
+function var_dependencies(sa, sn, si)
+   println(uppercase(sn[si]), " dependencies")
+   sys_vars = states(sa[si])
+   sys_eqs = equations(sa[si])
+   sys_eq_v_deps = equation_dependencies(sa[si])
+   sys_eq_p_deps = equation_dependencies(sa[si], variables=parameters(sa[si]))
+   sys_vd_graph = variable_dependencies(sa[si])
+   eq_exceps = eqs_exceptions()
+   de_exceps = dep_exceptions()
+   ub_exceps = used_by_exceptions()
+   var_system_name::Dict{String,String} = Dict{String,String}()
+   for var in sort(ModelingToolkit.get_states(sa[si]), by=x -> string(x))
+      desc = ModelingToolkit.getdescription(var)
+      if (desc != "" && !startswith(desc, "LV functions") && !startswith(desc, "RT functions"))
+         dep_on_v = []
+         for i in 1:lastindex(sys_eqs)
+            if (is_lhs_var(var, sys_eqs[i]))
+               if (get(de_exceps, string(var), "") == "")
+                  dep_on_v = string.(sys_eq_v_deps[i])
+               else
+                  dep_on_v = de_exceps[string(var)]
+               end
+               break
+            end
+         end
+         for i in 1:lastindex(dep_on_v)
+            vs = var_system(dep_on_v[i], sa, sn)
+            @assert (vs != "") "Variable " * dep_on_v[i] * " has no system"
+            va = replace(dep_on_v[i], "(t)" => "")
+            if (vs != sn[si])
+               if (get(var_system_name, va, "") == "")
+                  var_system_name[va] = uppercase(vs)
+               end
+            end
+         end
+      end
+   end
+   for k in keys(var_system_name)
+      println(k, " from ", var_system_name[k])
+   end
+end
+
 """
    `write_html()`
 
