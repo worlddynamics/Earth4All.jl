@@ -17,4 +17,5 @@ This is the documentation of the Julia implementation of the [Earth4All model](h
   * [The Population sector](population.md)
   * [The Public sector](public.md)
   * [The Wellbeing sector](wellbeing.md)
-
+* [prova](variables/climate.html)
+* [prova](../../variables/demand.html)
