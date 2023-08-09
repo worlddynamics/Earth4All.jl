@@ -1,5 +1,6 @@
 # Earth4All.jl
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://worlddynamics.github.io/Earth4All.jl/)
+[![DOI](https://zenodo.org/badge/629418296.svg)](https://zenodo.org/badge/latestdoi/629418296)
 
 Repository of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/) using the [WorldDynamics framework](https://github.com/worlddynamics/WorldDynamics.jl).
 
@@ -52,11 +53,17 @@ This work has been supported by the French government, through the UCAJEDI and U
 ### How to cite this work
 This work can be provisionally cited as follows:
 ```
-@software{pierluigi_crescenzi_2023_e4a,
-  author       = {Pierluigi Crescenzi, Aurora Rossi, Emanuele Natale and contributors},
-  title        = {Julia implementation of the Earth4All model using WorldDynamics.jl},
-  month        = may,
+@software{pierluigi_crescenzi_2023_8230404,
+  author       = {Pierluigi Crescenzi and
+                  Aurora Rossi and
+                  Emanuele Natale and
+                  contributors},
+  title        = {Earth4All.jl: an implementation of the Earth4All model in Julia},
+  month        = aug,
   year         = 2023,
-  url          = {https://github.com/worlddynamics/Earth4All}
+  publisher    = {Zenodo},
+  version      = {v0.1.0},
+  doi          = {10.5281/zenodo.8230404},
+  url          = {https://doi.org/10.5281/zenodo.8230404}
 }
 ```
