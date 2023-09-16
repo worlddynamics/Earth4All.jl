@@ -1,0 +1,346 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The INVENTORY sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CDDI">
+		<td>Change in DDI 1/y</td>
+		<td><code>CDDI</code></td>
+		<td><a href=#DELDI><code>DELDI</code></a> <a href=#ROCDDI><code>ROCDDI</code></a> </td>
+		<td></td>
+		<td><a href=#DELDI><code>DELDI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CDDI}\left(t\right)=\mathtt{DELDI}\left(t\right)\cdot\mathtt{ROCDDI}\left(t\right)\)</td>
+	</tr>
+	<tr id="CPI">
+		<td>Change in Price Index 1/y</td>
+		<td><code>CPI</code></td>
+		<td><a href=#IR><code>IR</code></a> <a href=#PRIN><code>PRIN</code></a> </td>
+		<td></td>
+		<td><a href=#PRIN><code>PRIN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CPI}\left(t\right)=\mathtt{IR}\left(t\right)\cdot\mathtt{PRIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="DEL">
+		<td>DELiveries Gu/y</td>
+		<td><code>DEL</code></td>
+		<td><a href=#DELDI><code>DELDI</code></a> <a href=#PNIS><code>PNIS</code></a> <a href=#EPP><code>EPP</code></a> </td>
+		<td><a href=#PPU><code>PPU</code></a> <a href=#DDI1980><code>DDI1980</code></a> </td>
+		<td><a href=#INV><code>INV</code></a> <a href=#RS><code>RS</code></a> <a href=#SA><code>SA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DEL}\left(t\right)=\frac{\mathtt{DDI1980}\cdot\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{PNIS}\left(t\right),1\right)\cdot\mathtt{EPP}\left(t\right)}{\mathtt{PPU}\cdot\mathtt{DELDI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DELDI">
+		<td>DELivery Delay - Index (1)</td>
+		<td><code>DELDI</code></td>
+		<td><a href=#CDDI><code>CDDI</code></a> </td>
+		<td></td>
+		<td><a href=#CDDI><code>CDDI</code></a> <a href=#DEL><code>DEL</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{DELDI}\left(t\right)}{\mathrm{d}t}=\mathtt{CDDI}\left(t\right)\)</td>
+	</tr>
+	<tr id="DSWI">
+		<td>Desired Shifts Worked - Index (1)</td>
+		<td><code>DSWI</code></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td><a href=#DRI><code>DRI</code></a> <a href=#INVEOSWI><code>INVEOSWI</code></a> </td>
+		<td><a href=#SSWI><code>SSWI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DSWI}\left(t\right)=1+\mathtt{INVEOSWI}\cdot\left(-1+\frac{\mathtt{PRI}\left(t\right)}{\mathtt{DRI}}\right)\)</td>
+	</tr>
+	<tr id="EPP">
+		<td>Effective Purchasing Power Gdollar/y</td>
+		<td><code>EPP</code></td>
+		<td><a href="demand.html#TPP"><code>TPP</code></a> <a href=#EPP><code>EPP</code></a> </td>
+		<td><a href=#DAT><code>DAT</code></a> </td>
+		<td><a href=#EPP><code>EPP</code></a> <a href=#DEL><code>DEL</code></a> </td>
+		<td>28087.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{EPP}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{EPP}\left(t\right)+\mathtt{TPP}\left(t\right)}{\mathtt{DAT}}\)</td>
+	</tr>
+	<tr id="GDP">
+		<td>GDP Gdollar/y</td>
+		<td><code>GDP</code></td>
+		<td><a href=#OUTP><code>OUTP</code></a> </td>
+		<td><a href=#PPU><code>PPU</code></a> </td>
+		<td><a href="climate.html#CO2GDP"><code>CO2GDP</code></a> <a href="energy.html#TCENSGDP"><code>TCENSGDP</code></a> <a href="energy.html#CESGDP"><code>CESGDP</code></a> <a href="energy.html#ECETSGDP"><code>ECETSGDP</code></a> <a href="foodland.html#COFO"><code>COFO</code></a> <a href="foodland.html#ECFTSGDP"><code>ECFTSGDP</code></a> <a href="output.html#CIPIS"><code>CIPIS</code></a> <a href="output.html#CIPUS"><code>CIPUS</code></a> <a href="output.html#ISGDP"><code>ISGDP</code></a> <a href="population.html#GDPP"><code>GDPP</code></a> <a href="public.html#ECTAGDP"><code>ECTAGDP</code></a> <a href="public.html#GSSGDP"><code>GSSGDP</code></a> <a href="public.html#SC"><code>SC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GDP}\left(t\right)=\mathtt{PPU}\cdot\mathtt{OUTP}\left(t\right)\)</td>
+	</tr>
+	<tr id="IC">
+		<td>Inventory Coverage y</td>
+		<td><code>IC</code></td>
+		<td><a href=#INV><code>INV</code></a> <a href=#RS><code>RS</code></a> </td>
+		<td></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IC}\left(t\right)=\frac{\mathtt{INV}\left(t\right)}{\mathtt{RS}\left(t\right)}\)</td>
+	</tr>
+	<tr id="INV">
+		<td>INVentory Gu</td>
+		<td><code>INV</code></td>
+		<td><a href=#OUTP><code>OUTP</code></a> <a href=#DEL><code>DEL</code></a> </td>
+		<td></td>
+		<td><a href=#IC><code>IC</code></a> </td>
+		<td>11234.8</td>
+		<td>\(\frac{\mathrm{d}\mathtt{INV}\left(t\right)}{\mathrm{d}t}=-\mathtt{DEL}\left(t\right)+\mathtt{OUTP}\left(t\right)\)</td>
+	</tr>
+	<tr id="IR">
+		<td>Inflation Rate 1/y</td>
+		<td><code>IR</code></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td><a href=#MRIWI><code>MRIWI</code></a> <a href=#INVEOIN><code>INVEOIN</code></a> </td>
+		<td><a href="finance.html#PI"><code>PI</code></a> <a href=#CPI><code>CPI</code></a> <a href="labourmarket.html#WRER"><code>WRER</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IR}\left(t\right)=\mathtt{INVEOIN}\cdot\left(-1+\frac{\mathtt{PRI}\left(t\right)}{\mathtt{MRIWI}}\right)\)</td>
+	</tr>
+	<tr id="NI">
+		<td>National Income Gdollar/y</td>
+		<td><code>NI</code></td>
+		<td><a href=#SA><code>SA</code></a> </td>
+		<td></td>
+		<td><a href="demand.html#BCISNI"><code>BCISNI</code></a> <a href="demand.html#CSGDP"><code>CSGDP</code></a> <a href="demand.html#EGTF2022"><code>EGTF2022</code></a> <a href="demand.html#GDB"><code>GDB</code></a> <a href="demand.html#GFSNI"><code>GFSNI</code></a> <a href="demand.html#GGIS"><code>GGIS</code></a> <a href="demand.html#GND"><code>GND</code></a> <a href="demand.html#GNISNI"><code>GNISNI</code></a> <a href="demand.html#GSGDP"><code>GSGDP</code></a> <a href="demand.html#IC2022"><code>IC2022</code></a> <a href="demand.html#ITO"><code>ITO</code></a> <a href="demand.html#ITW"><code>ITW</code></a> <a href="demand.html#MGD"><code>MGD</code></a> <a href="demand.html#OI"><code>OI</code></a> <a href="demand.html#SSGDP"><code>SSGDP</code></a> <a href="demand.html#WI"><code>WI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{NI}\left(t\right)=\mathtt{SA}\left(t\right)\)</td>
+	</tr>
+	<tr id="OUTP">
+		<td>OUTPut Gu/y</td>
+		<td><code>OUTP</code></td>
+		<td><a href="output.html#ORO"><code>ORO</code></a> <a href=#SSWI><code>SSWI</code></a> </td>
+		<td><a href=#SWI1980><code>SWI1980</code></a> </td>
+		<td><a href=#INV><code>INV</code></a> <a href=#GDP><code>GDP</code></a> <a href="labourmarket.html#LAPR"><code>LAPR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OUTP}\left(t\right)=\frac{\mathtt{ORO}\left(t\right)\cdot\mathtt{SSWI}\left(t\right)}{\mathtt{SWI1980}}\)</td>
+	</tr>
+	<tr id="PNIS">
+		<td>Pink Noise In Sales (1)</td>
+		<td><code>PNIS</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#DEL><code>DEL</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PNIS}\left(t\right)=1\)</td>
+	</tr>
+	<tr id="PRI">
+		<td>Perceived Relative Inventory (1)</td>
+		<td><code>PRI</code></td>
+		<td><a href=#PRI><code>PRI</code></a> <a href=#IC><code>IC</code></a> </td>
+		<td><a href=#ICPT><code>ICPT</code></a> <a href=#DIC><code>DIC</code></a> </td>
+		<td><a href=#PRI><code>PRI</code></a> <a href=#DSWI><code>DSWI</code></a> <a href=#IR><code>IR</code></a> <a href=#ROCDDI><code>ROCDDI</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PRI}\left(t\right)}{\mathrm{d}t}=\frac{\frac{\mathtt{IC}\left(t\right)}{\mathtt{DIC}}-\mathtt{PRI}\left(t\right)}{\mathtt{ICPT}}\)</td>
+	</tr>
+	<tr id="PRIN">
+		<td>PRice INdex (1980=1)</td>
+		<td><code>PRIN</code></td>
+		<td><a href=#CPI><code>CPI</code></a> </td>
+		<td></td>
+		<td><a href=#CPI><code>CPI</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PRIN}\left(t\right)}{\mathrm{d}t}=\mathtt{CPI}\left(t\right)\)</td>
+	</tr>
+	<tr id="ROCDDI">
+		<td>ROC in DDI 1/y</td>
+		<td><code>ROCDDI</code></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td><a href=#INVEODDI><code>INVEODDI</code></a> <a href=#SRI><code>SRI</code></a> </td>
+		<td><a href=#CDDI><code>CDDI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ROCDDI}\left(t\right)=\mathtt{INVEODDI}\cdot\left(-1+\frac{\mathtt{PRI}\left(t\right)}{\mathtt{SRI}}\right)\)</td>
+	</tr>
+	<tr id="RS">
+		<td>Recent Sales Gu/y</td>
+		<td><code>RS</code></td>
+		<td><a href=#RS><code>RS</code></a> <a href=#DEL><code>DEL</code></a> </td>
+		<td><a href=#SAT><code>SAT</code></a> </td>
+		<td><a href=#RS><code>RS</code></a> <a href=#IC><code>IC</code></a> </td>
+		<td>28087.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{RS}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{RS}\left(t\right)+\mathtt{DEL}\left(t\right)}{\mathtt{SAT}}\)</td>
+	</tr>
+	<tr id="SA">
+		<td>SAles Gdollar/y</td>
+		<td><code>SA</code></td>
+		<td><a href=#DEL><code>DEL</code></a> </td>
+		<td><a href=#PPU><code>PPU</code></a> </td>
+		<td><a href=#NI><code>NI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{SA}\left(t\right)=\mathtt{PPU}\cdot\mathtt{DEL}\left(t\right)\)</td>
+	</tr>
+	<tr id="SSWI">
+		<td>ShiftS Worked - Index (1)</td>
+		<td><code>SSWI</code></td>
+		<td><a href=#DSWI><code>DSWI</code></a> <a href=#SSWI><code>SSWI</code></a> </td>
+		<td><a href=#TAS><code>TAS</code></a> </td>
+		<td><a href=#SSWI><code>SSWI</code></a> <a href=#OUTP><code>OUTP</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{SSWI}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{SSWI}\left(t\right)+\mathtt{DSWI}\left(t\right)}{\mathtt{TAS}}\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="DAT">
+		<td>Demand Adjustment Time y</td>
+		<td><code>DAT</code></td>
+		<td><a href=#EPP><code>EPP</code></a> </td>
+		<td>1.2</td>
+	</tr>
+	<tr id="DDI1980">
+		<td>DDI in 1980 y</td>
+		<td><code>DDI1980</code></td>
+		<td><a href=#DEL><code>DEL</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="DIC">
+		<td>Desired Inventory Coverage y</td>
+		<td><code>DIC</code></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td>0.4</td>
+	</tr>
+	<tr id="DRI">
+		<td>Desired Relative Inventory</td>
+		<td><code>DRI</code></td>
+		<td><a href=#DSWI><code>DSWI</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="ICPT">
+		<td>Inventory Coverage Perception Time y</td>
+		<td><code>ICPT</code></td>
+		<td><a href=#PRI><code>PRI</code></a> </td>
+		<td>0.25</td>
+	</tr>
+	<tr id="INVEODDI">
+		<td>sINVeoDDI < 0: INVentory Effect On Delivery Delay Index</td>
+		<td><code>INVEODDI</code></td>
+		<td><a href=#ROCDDI><code>ROCDDI</code></a> </td>
+		<td>-0.6</td>
+	</tr>
+	<tr id="INVEOIN">
+		<td>sINVeoIN < 0: INVentory Effect On INflation</td>
+		<td><code>INVEOIN</code></td>
+		<td><a href=#IR><code>IR</code></a> </td>
+		<td>-0.26</td>
+	</tr>
+	<tr id="INVEOSWI">
+		<td>sINVeoSWI < 0: INVentory Effect On Shifts Worked Index</td>
+		<td><code>INVEOSWI</code></td>
+		<td><a href=#DSWI><code>DSWI</code></a> </td>
+		<td>-0.6</td>
+	</tr>
+	<tr id="MRIWI">
+		<td>Minimum Relative Inventory Without Inflation</td>
+		<td><code>MRIWI</code></td>
+		<td><a href=#IR><code>IR</code></a> </td>
+		<td>1.07</td>
+	</tr>
+	<tr id="PPU">
+		<td>Price Per Unit /u</td>
+		<td><code>PPU</code></td>
+		<td><a href=#DEL><code>DEL</code></a> <a href=#GDP><code>GDP</code></a> <a href=#SA><code>SA</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="SAT">
+		<td>Sales Averaging Time y</td>
+		<td><code>SAT</code></td>
+		<td><a href=#RS><code>RS</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="SRI">
+		<td>Sufficient Relative Inventory</td>
+		<td><code>SRI</code></td>
+		<td><a href=#ROCDDI><code>ROCDDI</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="SWI1980">
+		<td>SWI in 1980</td>
+		<td><code>SWI1980</code></td>
+		<td><a href=#OUTP><code>OUTP</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TAS">
+		<td>Time to Adjust Shifts y</td>
+		<td><code>TAS</code></td>
+		<td><a href=#SSWI><code>SSWI</code></a> </td>
+		<td>0.24</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

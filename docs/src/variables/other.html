@@ -1,0 +1,181 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The OTHER sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CFETA">
+		<td>Cost of Food and Energy TAs GDollar/y</td>
+		<td><code>CFETA</code></td>
+		<td><a href="foodland.html#COFO"><code>COFO</code></a> <a href="energy.html#CE"><code>CE</code></a> </td>
+		<td></td>
+		<td><a href=#CTA><code>CTA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CFETA}\left(t\right)=\mathtt{CE}\left(t\right)+\mathtt{COFO}\left(t\right)\)</td>
+	</tr>
+	<tr id="CTA">
+		<td>Cost of TAs GDollar/y</td>
+		<td><code>CTA</code></td>
+		<td><a href=#CFETA><code>CFETA</code></a> </td>
+		<td></td>
+		<td><a href="public.html#ECTAF2022"><code>ECTAF2022</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CTA}\left(t\right)=\mathtt{CFETA}\left(t\right)\)</td>
+	</tr>
+	<tr id="FB15">
+		<td>Fraction Below 15 kDollar/p/y (1)</td>
+		<td><code>FB15</code></td>
+		<td><a href=#LK><code>LK</code></a> <a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td></td>
+		<td><a href=#PB15><code>PB15</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FB15}\left(t\right)=1+\frac{-1}{1+e^{\left(14-\mathtt{GDPP}\left(t\right)\right)\cdot\mathtt{LK}\left(t\right)}}\)</td>
+	</tr>
+	<tr id="IEL">
+		<td>Inequity Effect on Logistic k (1)</td>
+		<td><code>IEL</code></td>
+		<td><a href="demand.html#INEQ"><code>INEQ</code></a> </td>
+		<td><a href=#INELOK><code>INELOK</code></a> </td>
+		<td><a href=#LK><code>LK</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IEL}\left(t\right)=1+\mathtt{INELOK}\cdot\left(-1+2\cdot\mathtt{INEQ}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="LK">
+		<td>Logistic K (1)</td>
+		<td><code>LK</code></td>
+		<td><a href=#IEL><code>IEL</code></a> </td>
+		<td><a href=#NK><code>NK</code></a> </td>
+		<td><a href=#FB15><code>FB15</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LK}\left(t\right)=\mathtt{NK}\cdot\mathtt{IEL}\left(t\right)\)</td>
+	</tr>
+	<tr id="PB15">
+		<td>Population Below 15 kDollar/p/y Mp</td>
+		<td><code>PB15</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#FB15><code>FB15</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{PB15}\left(t\right)=\mathtt{FB15}\left(t\right)\cdot\mathtt{POP}\left(t\right)\)</td>
+	</tr>
+	<tr id="PGDPP">
+		<td>Past GDP per Person kDollar/y</td>
+		<td><code>PGDPP</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> <a href=#PGDPP><code>PGDPP</code></a> </td>
+		<td><a href=#TEGR><code>TEGR</code></a> </td>
+		<td><a href=#PGDPP><code>PGDPP</code></a> <a href=#RGGDPP><code>RGGDPP</code></a> </td>
+		<td>5.952</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PGDPP}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PGDPP}\left(t\right)+\mathtt{GDPP}\left(t\right)}{\mathtt{TEGR}}\)</td>
+	</tr>
+	<tr id="RGGDPP">
+		<td>Rate of Growth in GDP per Person 1/y</td>
+		<td><code>RGGDPP</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> <a href=#PGDPP><code>PGDPP</code></a> </td>
+		<td><a href=#TEGR><code>TEGR</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{RGGDPP}\left(t\right)=\frac{-\mathtt{PGDPP}\left(t\right)+\mathtt{GDPP}\left(t\right)}{\mathtt{TEGR}\cdot\mathtt{PGDPP}\left(t\right)}\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="INELOK">
+		<td>sINEeoLOK<0: INequity Effect on LOgistic K</td>
+		<td><code>INELOK</code></td>
+		<td><a href=#IEL><code>IEL</code></a> </td>
+		<td>-0.5</td>
+	</tr>
+	<tr id="NK">
+		<td>Normal K</td>
+		<td><code>NK</code></td>
+		<td><a href=#LK><code>LK</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="TEGR">
+		<td>Time to Establish Growth Rate y</td>
+		<td><code>TEGR</code></td>
+		<td><a href=#PGDPP><code>PGDPP</code></a> <a href=#RGGDPP><code>RGGDPP</code></a> </td>
+		<td>4.0</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

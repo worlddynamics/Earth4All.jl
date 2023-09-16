@@ -1,0 +1,481 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The POPULATION sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="A0020">
+		<td>Aged 0-20 years Mp</td>
+		<td><code>A0020</code></td>
+		<td><a href=#PASS20><code>PASS20</code></a> <a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td></td>
+		<td><a href=#DR><code>DR</code></a> <a href=#POP><code>POP</code></a> </td>
+		<td>2170.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{A0020}\left(t\right)}{\mathrm{d}t}=-\mathtt{PASS20}\left(t\right)+\mathtt{BIRTHS}\left(t\right)\)</td>
+	</tr>
+	<tr id="A2040">
+		<td>Aged 20-40 years Mp</td>
+		<td><code>A2040</code></td>
+		<td><a href=#PASS20><code>PASS20</code></a> <a href=#PASS40><code>PASS40</code></a> </td>
+		<td></td>
+		<td><a href=#A20PA><code>A20PA</code></a> <a href=#BIRTHS><code>BIRTHS</code></a> <a href=#DR><code>DR</code></a> <a href=#POP><code>POP</code></a> </td>
+		<td>1100.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{A2040}\left(t\right)}{\mathrm{d}t}=-\mathtt{PASS40}\left(t\right)+\mathtt{PASS20}\left(t\right)\)</td>
+	</tr>
+	<tr id="A20PA">
+		<td>Aged 20-Pension Age Mp</td>
+		<td><code>A20PA</code></td>
+		<td><a href=#OP><code>OP</code></a> <a href=#A2040><code>A2040</code></a> <a href=#A4060><code>A4060</code></a> <a href=#A60PL><code>A60PL</code></a> </td>
+		<td></td>
+		<td><a href="labourmarket.html#WAP"><code>WAP</code></a> <a href=#PW><code>PW</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{A20PA}\left(t\right)=-\mathtt{OP}\left(t\right)+\mathtt{A2040}\left(t\right)+\mathtt{A4060}\left(t\right)+\mathtt{A60PL}\left(t\right)\)</td>
+	</tr>
+	<tr id="A4060">
+		<td>Aged 40-60 Mp</td>
+		<td><code>A4060</code></td>
+		<td><a href=#PASS60><code>PASS60</code></a> <a href=#PASS40><code>PASS40</code></a> </td>
+		<td></td>
+		<td><a href=#A20PA><code>A20PA</code></a> <a href=#DR><code>DR</code></a> <a href=#POP><code>POP</code></a> </td>
+		<td>768.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{A4060}\left(t\right)}{\mathrm{d}t}=-\mathtt{PASS60}\left(t\right)+\mathtt{PASS40}\left(t\right)\)</td>
+	</tr>
+	<tr id="A60PL">
+		<td>Aged 60 + Mp</td>
+		<td><code>A60PL</code></td>
+		<td><a href=#PASS60><code>PASS60</code></a> <a href=#DEATHS><code>DEATHS</code></a> </td>
+		<td></td>
+		<td><a href=#A20PA><code>A20PA</code></a> <a href=#DR><code>DR</code></a> <a href=#OP><code>OP</code></a> <a href=#POP><code>POP</code></a> </td>
+		<td>382.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{A60PL}\left(t\right)}{\mathrm{d}t}=-\mathtt{DEATHS}\left(t\right)+\mathtt{PASS60}\left(t\right)\)</td>
+	</tr>
+	<tr id="BIRTHR">
+		<td>Birth Rate 1/y</td>
+		<td><code>BIRTHR</code></td>
+		<td><a href=#POP><code>POP</code></a> <a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td></td>
+		<td><a href=#PGR><code>PGR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{BIRTHR}\left(t\right)=\frac{\mathtt{BIRTHS}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="BIRTHS">
+		<td>Births Mp/y</td>
+		<td><code>BIRTHS</code></td>
+		<td><a href=#OF><code>OF</code></a> <a href=#A2040><code>A2040</code></a> </td>
+		<td><a href=#FP><code>FP</code></a> <a href=#FW><code>FW</code></a> </td>
+		<td><a href=#A0020><code>A0020</code></a> <a href=#BIRTHR><code>BIRTHR</code></a> <a href=#PASS20><code>PASS20</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{BIRTHS}\left(t\right)=\frac{\mathtt{FW}\cdot\mathtt{A2040}\left(t\right)\cdot\mathtt{OF}\left(t\right)}{\mathtt{FP}}\)</td>
+	</tr>
+	<tr id="CEFR">
+		<td>Cost of Extra Fertility Reduction (share of GDP)</td>
+		<td><code>CEFR</code></td>
+		<td><a href=#EFR><code>EFR</code></a> </td>
+		<td><a href=#CMFR><code>CMFR</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CEFR}\left(t\right)=\mathtt{CMFR}\cdot\mathtt{EFR}\left(t\right)\)</td>
+	</tr>
+	<tr id="DEATHR">
+		<td>Death Rate 1/y</td>
+		<td><code>DEATHR</code></td>
+		<td><a href=#POP><code>POP</code></a> <a href=#DEATHS><code>DEATHS</code></a> </td>
+		<td></td>
+		<td><a href=#PGR><code>PGR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DEATHR}\left(t\right)=\frac{\mathtt{DEATHS}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DEATHS">
+		<td>Deaths Mp/y</td>
+		<td><code>DEATHS</code></td>
+		<td><a href=#PASS60><code>PASS60</code></a> </td>
+		<td></td>
+		<td><a href=#A60PL><code>A60PL</code></a> <a href=#DEATHR><code>DEATHR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DEATHS}\left(t\right)=\mathtt{delayn}\left(\mathtt{PASS60}, \mathtt{LE60}, \mathtt{init}(\mathtt{DEATHS}), \mathtt{ORDER}\right)\)</td>
+	</tr>
+	<tr id="DNC">
+		<td>Desired No of Children 1</td>
+		<td><code>DNC</code></td>
+		<td><a href=#EGDPP><code>EGDPP</code></a> <a href=#EFR><code>EFR</code></a> <a href=#FM><code>FM</code></a> </td>
+		<td><a href=#DNCA><code>DNCA</code></a> <a href=#DNC80><code>DNC80</code></a> <a href=#DNCG><code>DNCG</code></a> <a href=#DNCM><code>DNCM</code></a> </td>
+		<td><a href=#OF><code>OF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DNC}\left(t\right)=\left(1-\mathtt{EFR}\left(t\right)\right)\cdot\left(1+\mathtt{DNCA}\cdot\left(-6.4+\mathtt{EGDPP}\left(t\right)\right)\right)\cdot\left(\mathtt{DNCM}+\left(\mathtt{DNC80}-\mathtt{DNCM}\right)\cdot e^{-\mathtt{DNCG}\cdot\left(-6.4+\mathtt{EGDPP}\left(t\right)\right)}\right)\cdot\mathtt{FM}\left(t\right)\)</td>
+	</tr>
+	<tr id="DR">
+		<td>Dependency Ratio p/p</td>
+		<td><code>DR</code></td>
+		<td><a href=#A0020><code>A0020</code></a> <a href=#A2040><code>A2040</code></a> <a href=#A4060><code>A4060</code></a> <a href=#A60PL><code>A60PL</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{DR}\left(t\right)=\frac{\mathtt{A0020}\left(t\right)+\mathtt{A60PL}\left(t\right)}{\mathtt{A2040}\left(t\right)+\mathtt{A4060}\left(t\right)}\)</td>
+	</tr>
+	<tr id="EFR">
+		<td>Extra Fertility Reduction (1)</td>
+		<td><code>EFR</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#GEFR><code>GEFR</code></a> </td>
+		<td><a href=#CEFR><code>CEFR</code></a> <a href=#DNC><code>DNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EFR}\left(t\right)=\mathtt{ramp}\left(t,\frac{\mathtt{GEFR}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="EGDPP">
+		<td>Effective GDP per Person kDollar/p/y</td>
+		<td><code>EGDPP</code></td>
+		<td><a href=#GDPP><code>GDPP</code></a> <a href=#EGDPP><code>EGDPP</code></a> </td>
+		<td><a href=#TAHI><code>TAHI</code></a> </td>
+		<td><a href="demand.html#OSF"><code>OSF</code></a> <a href=#EGDPP><code>EGDPP</code></a> <a href=#DNC><code>DNC</code></a> <a href=#LE><code>LE</code></a> </td>
+		<td>6.4</td>
+		<td>\(\frac{\mathrm{d}\mathtt{EGDPP}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{EGDPP}\left(t\right)+\mathtt{GDPP}\left(t\right)}{\mathtt{TAHI}}\)</td>
+	</tr>
+	<tr id="EPA">
+		<td>Extra Pension Age y</td>
+		<td><code>EPA</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#GEPA><code>GEPA</code></a> </td>
+		<td><a href=#PA><code>PA</code></a> </td>
+		<td>0.0</td>
+		<td>\(\mathtt{EPA}\left(t\right)=\mathtt{ramp}\left(t,\frac{\mathtt{GEPA}}{\mathtt{IPP}\left(t\right)},2000,22000+\mathtt{IPP}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="FM">
+		<td>Fertility Multiplier (1)</td>
+		<td><code>FM</code></td>
+		<td></td>
+		<td><a href=#SSP2FA2022F><code>SSP2FA2022F</code></a> <a href=#MFM><code>MFM</code></a> </td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FM}\left(t\right)=\mathtt{ifelse}\left(\left(\mathtt{SSP2FA2022F}>0\right),\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{ramp}\left(t,\frac{1}{78}\cdot\left(-1+\mathtt{MFM}\right),2000,2100\right),1\right),1\right)\)</td>
+	</tr>
+	<tr id="GDPP">
+		<td>GDP per Person kDollar/p/y</td>
+		<td><code>GDPP</code></td>
+		<td><a href=#POP><code>POP</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> </td>
+		<td></td>
+		<td><a href="energy.html#NFCO2PP"><code>NFCO2PP</code></a> <a href="energy.html#TPPUEBEE"><code>TPPUEBEE</code></a> <a href="energy.html#TPPUFFNEUBEE"><code>TPPUFFNEUBEE</code></a> <a href="foodland.html#TUCP"><code>TUCP</code></a> <a href="foodland.html#TURMP"><code>TURMP</code></a> <a href="labourmarket.html#GDPPEROCCLR"><code>GDPPEROCCLR</code></a> <a href="labourmarket.html#HWMGDPP"><code>HWMGDPP</code></a> <a href="other.html#PGDPP"><code>PGDPP</code></a> <a href="other.html#FB15"><code>FB15</code></a> <a href="other.html#RGGDPP"><code>RGGDPP</code></a> <a href="output.html#FRACAMGDPPL"><code>FRACAMGDPPL</code></a> <a href="output.html#FRACAMGDPPT"><code>FRACAMGDPPT</code></a> <a href=#EGDPP><code>EGDPP</code></a> <a href="public.html#IROTA"><code>IROTA</code></a> <a href="wellbeing.html#PSSGDP"><code>PSSGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GDPP}\left(t\right)=\frac{\mathtt{GDP}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="LE">
+		<td>Life Expectancy y</td>
+		<td><code>LE</code></td>
+		<td><a href=#LEM><code>LEM</code></a> <a href=#WELE><code>WELE</code></a> <a href=#EGDPP><code>EGDPP</code></a> </td>
+		<td><a href=#LEMAX><code>LEMAX</code></a> <a href=#LEA><code>LEA</code></a> <a href=#LEG><code>LEG</code></a> </td>
+		<td><a href=#LE60><code>LE60</code></a> <a href=#OP><code>OP</code></a> <a href=#PA><code>PA</code></a> </td>
+		<td>67.0</td>
+		<td>\(\mathtt{LE}\left(t\right)=\left(1+\mathtt{LEA}\cdot\left(-6.4+\mathtt{EGDPP}\left(t\right)\right)\right)\cdot\left(\mathtt{LEMAX}+\left(67-\mathtt{LEMAX}\right)\cdot e^{-\mathtt{LEG}\cdot\left(-6.4+\mathtt{EGDPP}\left(t\right)\right)}\right)\cdot\mathtt{LEM}\left(t\right)\cdot\mathtt{WELE}\left(t\right)\)</td>
+	</tr>
+	<tr id="LE60">
+		<td>LE at 60 y</td>
+		<td><code>LE60</code></td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{LE60}\left(t\right)=-60+\mathtt{LE}\left(t\right)\)</td>
+	</tr>
+	<tr id="LEM">
+		<td>Life Expectancy Multipler (1)</td>
+		<td><code>LEM</code></td>
+		<td></td>
+		<td><a href=#MLEM><code>MLEM</code></a> <a href=#SSP2FA2022F><code>SSP2FA2022F</code></a> </td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LEM}\left(t\right)=\mathtt{ifelse}\left(\left(\mathtt{SSP2FA2022F}>0\right),\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{ramp}\left(t,\frac{1}{78}\cdot\left(-1+\mathtt{MLEM}\right),2000,2100\right),1\right),1\right)\)</td>
+	</tr>
+	<tr id="OF">
+		<td>Observed Fertility 1</td>
+		<td><code>OF</code></td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td><a href=#FADFS><code>FADFS</code></a> </td>
+		<td><a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OF}\left(t\right)=\mathtt{FADFS}\cdot\mathtt{DNC}\left(t\right)\)</td>
+	</tr>
+	<tr id="OP">
+		<td>On Pension Mp</td>
+		<td><code>OP</code></td>
+		<td><a href=#PA><code>PA</code></a> <a href=#LE><code>LE</code></a> <a href=#A60PL><code>A60PL</code></a> </td>
+		<td></td>
+		<td><a href=#A20PA><code>A20PA</code></a> <a href=#PW><code>PW</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OP}\left(t\right)=\frac{\left(-\mathtt{PA}\left(t\right)+\mathtt{LE}\left(t\right)\right)\cdot\mathtt{A60PL}\left(t\right)}{-60+\mathtt{LE}\left(t\right)}\)</td>
+	</tr>
+	<tr id="PA">
+		<td>Pension Age y</td>
+		<td><code>PA</code></td>
+		<td><a href=#EPA><code>EPA</code></a> <a href=#LE><code>LE</code></a> </td>
+		<td><a href=#LEEPA><code>LEEPA</code></a> </td>
+		<td><a href=#OP><code>OP</code></a> </td>
+		<td>62.0</td>
+		<td>\(\mathtt{PA}\left(t\right)=\mathtt{ifelse}\left(\left(\mathtt{LE}\left(t\right)<67\right),62,62+\mathtt{LEEPA}\cdot\left(-67+\mathtt{EPA}\left(t\right)+\mathtt{LE}\left(t\right)\right)\right)\)</td>
+	</tr>
+	<tr id="PASS20">
+		<td>Passing 20 Mp/y</td>
+		<td><code>PASS20</code></td>
+		<td><a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td></td>
+		<td><a href=#A0020><code>A0020</code></a> <a href=#A2040><code>A2040</code></a> <a href=#PASS40><code>PASS40</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PASS20}\left(t\right)=\mathtt{delayn}\left(\mathtt{BIRTHS}, 20, \mathtt{init}(\mathtt{PASS20}), \mathtt{ORDER}\right)\)</td>
+	</tr>
+	<tr id="PASS40">
+		<td>Passing 40 Mp/y</td>
+		<td><code>PASS40</code></td>
+		<td><a href=#PASS20><code>PASS20</code></a> </td>
+		<td></td>
+		<td><a href=#A2040><code>A2040</code></a> <a href=#A4060><code>A4060</code></a> <a href=#PASS60><code>PASS60</code></a> </td>
+		<td>64.0</td>
+		<td>\(\mathtt{PASS40}\left(t\right)=\mathtt{delayn}\left(\mathtt{PASS20}, 20, \mathtt{init}(\mathtt{PASS40}), \mathtt{ORDER}\right)\)</td>
+	</tr>
+	<tr id="PASS60">
+		<td>Passing 60 Mp/y</td>
+		<td><code>PASS60</code></td>
+		<td><a href=#PASS40><code>PASS40</code></a> </td>
+		<td></td>
+		<td><a href=#A4060><code>A4060</code></a> <a href=#A60PL><code>A60PL</code></a> <a href=#DEATHS><code>DEATHS</code></a> </td>
+		<td>38.0</td>
+		<td>\(\mathtt{PASS60}\left(t\right)=\mathtt{delayn}\left(\mathtt{PASS40}, 20, \mathtt{init}(\mathtt{PASS60}), \mathtt{ORDER}\right)\)</td>
+	</tr>
+	<tr id="PGR">
+		<td>Population Growth Rate 1/y</td>
+		<td><code>PGR</code></td>
+		<td><a href=#BIRTHR><code>BIRTHR</code></a> <a href=#DEATHR><code>DEATHR</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{PGR}\left(t\right)=-\mathtt{DEATHR}\left(t\right)+\mathtt{BIRTHR}\left(t\right)\)</td>
+	</tr>
+	<tr id="POP">
+		<td>Population Mp</td>
+		<td><code>POP</code></td>
+		<td><a href=#A0020><code>A0020</code></a> <a href=#A2040><code>A2040</code></a> <a href=#A4060><code>A4060</code></a> <a href=#A60PL><code>A60PL</code></a> </td>
+		<td></td>
+		<td><a href="demand.html#CPP"><code>CPP</code></a> <a href="energy.html#CO2NFIP"><code>CO2NFIP</code></a> <a href="energy.html#CO2EMPP"><code>CO2EMPP</code></a> <a href="energy.html#DEBNE"><code>DEBNE</code></a> <a href="energy.html#DFFNEUBNE"><code>DFFNEUBNE</code></a> <a href="energy.html#EUPP"><code>EUPP</code></a> <a href="foodland.html#CRUSP"><code>CRUSP</code></a> <a href="foodland.html#DRM"><code>DRM</code></a> <a href="foodland.html#FUP"><code>FUP</code></a> <a href="foodland.html#IUL"><code>IUL</code></a> <a href="foodland.html#RMSP"><code>RMSP</code></a> <a href="foodland.html#TUC"><code>TUC</code></a> <a href="foodland.html#TUCERMP"><code>TUCERMP</code></a> <a href="foodland.html#TUFRM"><code>TUFRM</code></a> <a href="other.html#PB15"><code>PB15</code></a> <a href=#BIRTHR><code>BIRTHR</code></a> <a href=#DEATHR><code>DEATHR</code></a> <a href=#GDPP><code>GDPP</code></a> <a href="public.html#PSEP"><code>PSEP</code></a> <a href="public.html#PSP"><code>PSP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{POP}\left(t\right)=\mathtt{A0020}\left(t\right)+\mathtt{A2040}\left(t\right)+\mathtt{A4060}\left(t\right)+\mathtt{A60PL}\left(t\right)\)</td>
+	</tr>
+	<tr id="PW">
+		<td>Pensioners per Worker p/p</td>
+		<td><code>PW</code></td>
+		<td><a href=#OP><code>OP</code></a> <a href=#A20PA><code>A20PA</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{PW}\left(t\right)=\frac{\mathtt{OP}\left(t\right)}{\mathtt{A20PA}\left(t\right)}\)</td>
+	</tr>
+	<tr id="WELE">
+		<td>Warming Effect on Life Expectancy (1)</td>
+		<td><code>WELE</code></td>
+		<td><a href="climate.html#OW"><code>OW</code></a> </td>
+		<td><a href=#OWELE><code>OWELE</code></a> <a href=#OW2022><code>OW2022</code></a> </td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WELE}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{max}\left(0,1+\mathtt{OWELE}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{OW2022}}\right)\right),1\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CMFR">
+		<td>Cost of Max Fertility Reduction (share of GDP)</td>
+		<td><code>CMFR</code></td>
+		<td><a href=#CEFR><code>CEFR</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="DNC80">
+		<td>DNC in 1980</td>
+		<td><code>DNC80</code></td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td>4.3</td>
+	</tr>
+	<tr id="DNCA">
+		<td>DNCalfa<0</td>
+		<td><code>DNCA</code></td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="DNCG">
+		<td>DNCgamma</td>
+		<td><code>DNCG</code></td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td>0.14</td>
+	</tr>
+	<tr id="DNCM">
+		<td>DNCmin</td>
+		<td><code>DNCM</code></td>
+		<td><a href=#DNC><code>DNC</code></a> </td>
+		<td>1.2</td>
+	</tr>
+	<tr id="FADFS">
+		<td>Fraction Achieving Desired Family Size</td>
+		<td><code>FADFS</code></td>
+		<td><a href=#OF><code>OF</code></a> </td>
+		<td>0.8</td>
+	</tr>
+	<tr id="FP">
+		<td>Fertile Period</td>
+		<td><code>FP</code></td>
+		<td><a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td>20.0</td>
+	</tr>
+	<tr id="FW">
+		<td>Fraction Women</td>
+		<td><code>FW</code></td>
+		<td><a href=#BIRTHS><code>BIRTHS</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="GEFR">
+		<td>Goal for Extra Fertility Reduction</td>
+		<td><code>GEFR</code></td>
+		<td><a href=#EFR><code>EFR</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="GEPA">
+		<td>Goal for Extra Pension Age y</td>
+		<td><code>GEPA</code></td>
+		<td><a href=#EPA><code>EPA</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="LEA">
+		<td>LEalfa</td>
+		<td><code>LEA</code></td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td>0.001</td>
+	</tr>
+	<tr id="LEEPA">
+		<td>sLEeoPa>0: Life Expectancy Effect on Pension Age</td>
+		<td><code>LEEPA</code></td>
+		<td><a href=#PA><code>PA</code></a> </td>
+		<td>0.75</td>
+	</tr>
+	<tr id="LEG">
+		<td>LEgamma</td>
+		<td><code>LEG</code></td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td>0.15</td>
+	</tr>
+	<tr id="LEMAX">
+		<td>LEmax</td>
+		<td><code>LEMAX</code></td>
+		<td><a href=#LE><code>LE</code></a> </td>
+		<td>85.0</td>
+	</tr>
+	<tr id="MFM">
+		<td>Max Fertility Multiplier</td>
+		<td><code>MFM</code></td>
+		<td><a href=#FM><code>FM</code></a> </td>
+		<td>1.6</td>
+	</tr>
+	<tr id="MLEM">
+		<td>Max Life Expectancy Multiplier</td>
+		<td><code>MLEM</code></td>
+		<td><a href=#LEM><code>LEM</code></a> </td>
+		<td>1.1</td>
+	</tr>
+	<tr id="OW2022">
+		<td>Observed Warming in 2022 deg C</td>
+		<td><code>OW2022</code></td>
+		<td><a href=#WELE><code>WELE</code></a> </td>
+		<td>1.35</td>
+	</tr>
+	<tr id="OWELE">
+		<td>sOWeoLE<0: Observed Warming Effect on Life Expectancy</td>
+		<td><code>OWELE</code></td>
+		<td><a href=#WELE><code>WELE</code></a> </td>
+		<td>-0.02</td>
+	</tr>
+	<tr id="SSP2FA2022F">
+		<td>SSP2 Family Action from 2022 Flag</td>
+		<td><code>SSP2FA2022F</code></td>
+		<td><a href=#FM><code>FM</code></a> <a href=#LEM><code>LEM</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TAHI">
+		<td>Time to adapt to higher income y</td>
+		<td><code>TAHI</code></td>
+		<td><a href=#EGDPP><code>EGDPP</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

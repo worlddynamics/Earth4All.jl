@@ -1,0 +1,916 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The DEMAND sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="BCIL">
+		<td>Bank Cash Inflow from Lending GDollar/y</td>
+		<td><code>BCIL</code></td>
+		<td><a href=#CFWB><code>CFWB</code></a> <a href=#CFGB><code>CFGB</code></a> </td>
+		<td></td>
+		<td><a href=#BCISNI><code>BCISNI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{BCIL}\left(t\right)=\mathtt{CFGB}\left(t\right)+\mathtt{CFWB}\left(t\right)\)</td>
+	</tr>
+	<tr id="BCISNI">
+		<td>Bank Cash Inflow as Share of NI (1)</td>
+		<td><code>BCISNI</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href=#BCIL><code>BCIL</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{BCISNI}\left(t\right)=\frac{\mathtt{BCIL}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="BITRO">
+		<td>Basic Income Tax Rate Owners (1)</td>
+		<td><code>BITRO</code></td>
+		<td></td>
+		<td><a href=#ITRO1980><code>ITRO1980</code></a> <a href=#GITRO><code>GITRO</code></a> <a href=#ITRO2022><code>ITRO2022</code></a> </td>
+		<td><a href=#ITO><code>ITO</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{BITRO}\left(t\right)=\mathtt{min}\left(1,\mathtt{ITRO1980}\right)+\mathtt{ramp}\left(t,\frac{1}{78}\cdot\left(\mathtt{GITRO}-\mathtt{ITRO2022}\right),2000,2100\right)+\mathtt{ramp}\left(t,\frac{1}{42}\cdot\left(\mathtt{ITRO2022}-\mathtt{ITRO1980}\right),2000,2000\right)\)</td>
+	</tr>
+	<tr id="CANCD">
+		<td>CANCellation of Debt GDollar/y</td>
+		<td><code>CANCD</code></td>
+		<td><a href=#GD><code>GD</code></a> </td>
+		<td><a href=#FGDC2022><code>FGDC2022</code></a> </td>
+		<td><a href=#GD><code>GD</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CANCD}\left(t\right)=\mathtt{FGDC2022}\cdot\mathtt{pulse}\left(t,2000,1\right)\cdot\mathtt{GD}\left(t\right)\)</td>
+	</tr>
+	<tr id="CD">
+		<td>Consumption Demand GDollar/y</td>
+		<td><code>CD</code></td>
+		<td><a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> <a href=#OC><code>OC</code></a> <a href=#WCD><code>WCD</code></a> </td>
+		<td></td>
+		<td><a href=#CPP><code>CPP</code></a> <a href=#CSGDP><code>CSGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CD}\left(t\right)=-\mathtt{STO}\left(t\right)-\mathtt{STW}\left(t\right)+\mathtt{OC}\left(t\right)+\mathtt{WCD}\left(t\right)\)</td>
+	</tr>
+	<tr id="CFGB">
+		<td>Cash Flow from Govmnt to Banks GDollar/y</td>
+		<td><code>CFGB</code></td>
+		<td><a href=#GND><code>GND</code></a> <a href=#GIC><code>GIC</code></a> <a href=#GP><code>GP</code></a> </td>
+		<td></td>
+		<td><a href=#BCIL><code>BCIL</code></a> <a href=#GCIN><code>GCIN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CFGB}\left(t\right)=-\mathtt{GND}\left(t\right)+\mathtt{GIC}\left(t\right)+\mathtt{GP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CFWB">
+		<td>Cash Flow from Workers to Banks GDollar/y</td>
+		<td><code>CFWB</code></td>
+		<td><a href=#WIC><code>WIC</code></a> <a href=#WND><code>WND</code></a> <a href=#WP><code>WP</code></a> </td>
+		<td></td>
+		<td><a href=#BCIL><code>BCIL</code></a> <a href=#WCIN><code>WCIN</code></a> <a href=#WFCSI><code>WFCSI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CFWB}\left(t\right)=-\mathtt{WND}\left(t\right)+\mathtt{WIC}\left(t\right)+\mathtt{WP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CONTR">
+		<td>CONTRol: (C+G+S)/NI = 1</td>
+		<td><code>CONTR</code></td>
+		<td><a href=#CSGDP><code>CSGDP</code></a> <a href=#GSGDP><code>GSGDP</code></a> <a href=#SSGDP><code>SSGDP</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CONTR}\left(t\right)=\mathtt{CSGDP}\left(t\right)+\mathtt{GSGDP}\left(t\right)+\mathtt{SSGDP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CPP">
+		<td>Consumption Per Person GDollar/y</td>
+		<td><code>CPP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#CD><code>CD</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CPP}\left(t\right)=\frac{\mathtt{CD}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CSGDP">
+		<td>Consumption Share of GDP (1)</td>
+		<td><code>CSGDP</code></td>
+		<td><a href=#CD><code>CD</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td></td>
+		<td><a href=#CONTR><code>CONTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CSGDP}\left(t\right)=\frac{\mathtt{CD}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="EGTF2022">
+		<td>Extra General Tax From 2022 Gdollar/y</td>
+		<td><code>EGTF2022</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td><a href=#EETF2022><code>EETF2022</code></a> <a href=#EGTRF2022><code>EGTRF2022</code></a> <a href=#EPTF2022><code>EPTF2022</code></a> </td>
+		<td><a href=#GETF2022><code>GETF2022</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EGTF2022}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{EETF2022}+\mathtt{EGTRF2022}+\mathtt{EPTF2022},0\right)\cdot\mathtt{NI}\left(t\right)\)</td>
+	</tr>
+	<tr id="ETF2022">
+		<td>Extra Taxes From 2022 GDollar/y</td>
+		<td><code>ETF2022</code></td>
+		<td><a href=#ETF2022><code>ETF2022</code></a> <a href=#GETF2022><code>GETF2022</code></a> </td>
+		<td><a href=#TINT><code>TINT</code></a> </td>
+		<td><a href=#ETF2022><code>ETF2022</code></a> <a href=#OT><code>OT</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td>0.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ETF2022}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{ETF2022}\left(t\right)+\mathtt{GETF2022}\left(t\right)}{\mathtt{TINT}}\)</td>
+	</tr>
+	<tr id="ETTAF2022">
+		<td>Extra Taxes for TAs From 2022 GDollar/y</td>
+		<td><code>ETTAF2022</code></td>
+		<td><a href="public.html#ECTAF2022"><code>ECTAF2022</code></a> </td>
+		<td><a href=#FETACPET><code>FETACPET</code></a> </td>
+		<td><a href=#GETF2022><code>GETF2022</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ETTAF2022}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{FETACPET}\cdot\mathtt{ECTAF2022}\left(t\right),0\right)\)</td>
+	</tr>
+	<tr id="FGBW">
+		<td>Fraction of Govmnt Budget to Workers (1)</td>
+		<td><code>FGBW</code></td>
+		<td><a href=#FGBW><code>FGBW</code></a> <a href=#GFGBW><code>GFGBW</code></a> </td>
+		<td><a href=#TINT><code>TINT</code></a> </td>
+		<td><a href=#FGBW><code>FGBW</code></a> <a href=#TP><code>TP</code></a> </td>
+		<td>0.3</td>
+		<td>\(\frac{\mathrm{d}\mathtt{FGBW}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{FGBW}\left(t\right)+\mathtt{GFGBW}\left(t\right)}{\mathtt{TINT}}\)</td>
+	</tr>
+	<tr id="GCIN">
+		<td>Govmnt Cash INflow GDollar/y</td>
+		<td><code>GCIN</code></td>
+		<td><a href=#CFGB><code>CFGB</code></a> <a href=#GNI><code>GNI</code></a> </td>
+		<td></td>
+		<td><a href=#PGCIN><code>PGCIN</code></a> <a href=#TPP><code>TPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GCIN}\left(t\right)=-\mathtt{CFGB}\left(t\right)+\mathtt{GNI}\left(t\right)\)</td>
+	</tr>
+	<tr id="GD">
+		<td>Govmnt Debt Gdollar</td>
+		<td><code>GD</code></td>
+		<td><a href=#GND><code>GND</code></a> <a href=#CANCD><code>CANCD</code></a> <a href=#GP><code>GP</code></a> </td>
+		<td></td>
+		<td><a href=#CANCD><code>CANCD</code></a> <a href=#GDB><code>GDB</code></a> <a href=#GIC><code>GIC</code></a> <a href=#GND><code>GND</code></a> <a href=#GP><code>GP</code></a> </td>
+		<td>17975.68</td>
+		<td>\(\frac{\mathrm{d}\mathtt{GD}\left(t\right)}{\mathrm{d}t}=-\mathtt{CANCD}\left(t\right)-\mathtt{GP}\left(t\right)+\mathtt{GND}\left(t\right)\)</td>
+	</tr>
+	<tr id="GDB">
+		<td>Govmnt Debt Burden y</td>
+		<td><code>GDB</code></td>
+		<td><a href=#GD><code>GD</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GDB}\left(t\right)=\frac{\mathtt{GD}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="GETF2022">
+		<td>Goal for Extra Taxes From 2022 GDollar/y</td>
+		<td><code>GETF2022</code></td>
+		<td><a href=#ETTAF2022><code>ETTAF2022</code></a> <a href=#EGTF2022><code>EGTF2022</code></a> </td>
+		<td></td>
+		<td><a href=#ETF2022><code>ETF2022</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GETF2022}\left(t\right)=\mathtt{EGTF2022}\left(t\right)+\mathtt{ETTAF2022}\left(t\right)\)</td>
+	</tr>
+	<tr id="GFGBW">
+		<td>Goal for Fraction of Govmnt Budget to Workers (1)</td>
+		<td><code>GFGBW</code></td>
+		<td></td>
+		<td><a href=#ETGBW><code>ETGBW</code></a> <a href=#FT1980><code>FT1980</code></a> </td>
+		<td><a href=#FGBW><code>FGBW</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GFGBW}\left(t\right)=\mathtt{FT1980}+\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{ETGBW},0\right)\)</td>
+	</tr>
+	<tr id="GFSNI">
+		<td>Govmnt Finance as Share of NI (1)</td>
+		<td><code>GFSNI</code></td>
+		<td><a href=#GIC><code>GIC</code></a> <a href=#GP><code>GP</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GFSNI}\left(t\right)=\frac{\mathtt{GIC}\left(t\right)+\mathtt{GP}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="GGI">
+		<td>Govmnt Gross Income GDollar/y</td>
+		<td><code>GGI</code></td>
+		<td><a href=#OT><code>OT</code></a> <a href=#IC2022><code>IC2022</code></a> <a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td><a href=#GGIS><code>GGIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GGI}\left(t\right)=\mathtt{IC2022}\left(t\right)+\mathtt{OT}\left(t\right)+\mathtt{STO}\left(t\right)+\mathtt{STW}\left(t\right)+\mathtt{WT}\left(t\right)\)</td>
+	</tr>
+	<tr id="GGIS">
+		<td>Govmnt Gross Income (as Share of NI)</td>
+		<td><code>GGIS</code></td>
+		<td><a href=#GGI><code>GGI</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GGIS}\left(t\right)=\frac{\mathtt{GGI}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="GIC">
+		<td>Govmnt Interest Cost GDollar/y</td>
+		<td><code>GIC</code></td>
+		<td><a href=#GD><code>GD</code></a> <a href="finance.html#GBC"><code>GBC</code></a> </td>
+		<td></td>
+		<td><a href=#CFGB><code>CFGB</code></a> <a href=#GFSNI><code>GFSNI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GIC}\left(t\right)=\mathtt{GBC}\left(t\right)\cdot\mathtt{GD}\left(t\right)\)</td>
+	</tr>
+	<tr id="GIPC">
+		<td>Govmnt Investment in Public Capacity GDollar/y</td>
+		<td><code>GIPC</code></td>
+		<td><a href=#PGCIN><code>PGCIN</code></a> <a href=#GPU><code>GPU</code></a> </td>
+		<td></td>
+		<td><a href=#GS><code>GS</code></a> <a href="output.html#CIPUS"><code>CIPUS</code></a> <a href="output.html#ISGDP"><code>ISGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GIPC}\left(t\right)=-\mathtt{GPU}\left(t\right)+\mathtt{PGCIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="GND">
+		<td>Govmnt New Debt GDollar/y</td>
+		<td><code>GND</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href=#GD><code>GD</code></a> <a href=#MGD><code>MGD</code></a> </td>
+		<td><a href=#GDDP><code>GDDP</code></a> <a href=#GSF2022><code>GSF2022</code></a> </td>
+		<td><a href=#GD><code>GD</code></a> <a href=#CFGB><code>CFGB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GND}\left(t\right)=\mathtt{ifelse}\left(\left(t\geq2000\right),\mathtt{GSF2022},0\right)\cdot\mathtt{NI}\left(t\right)+\mathtt{max}\left(0,\frac{-\mathtt{GD}\left(t\right)+\mathtt{MGD}\left(t\right)}{\mathtt{GDDP}}\right)\)</td>
+	</tr>
+	<tr id="GNI">
+		<td>Govmnt Net Income GDollar/y</td>
+		<td><code>GNI</code></td>
+		<td><a href=#TP><code>TP</code></a> <a href=#OT><code>OT</code></a> <a href=#IC2022><code>IC2022</code></a> <a href=#ST><code>ST</code></a> <a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td><a href=#GCIN><code>GCIN</code></a> <a href=#GNISNI><code>GNISNI</code></a> </td>
+		<td>6531.07</td>
+		<td>\(\mathtt{GNI}\left(t\right)=-\mathtt{TP}\left(t\right)+\mathtt{IC2022}\left(t\right)+\mathtt{OT}\left(t\right)+\mathtt{ST}\left(t\right)+\mathtt{STO}\left(t\right)+\mathtt{STW}\left(t\right)+\mathtt{WT}\left(t\right)\)</td>
+	</tr>
+	<tr id="GNISNI">
+		<td>Govmnt Net Income as Share of NI (1)</td>
+		<td><code>GNISNI</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href=#GNI><code>GNI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{GNISNI}\left(t\right)=\frac{\mathtt{GNI}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="GP">
+		<td>Govmnt Payback GDollar/y</td>
+		<td><code>GP</code></td>
+		<td><a href=#GD><code>GD</code></a> </td>
+		<td><a href=#GPP><code>GPP</code></a> </td>
+		<td><a href=#GD><code>GD</code></a> <a href=#CFGB><code>CFGB</code></a> <a href=#GFSNI><code>GFSNI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GP}\left(t\right)=\frac{\mathtt{GD}\left(t\right)}{\mathtt{GPP}}\)</td>
+	</tr>
+	<tr id="GPU">
+		<td>Govmnt PUrchases GDollar/y</td>
+		<td><code>GPU</code></td>
+		<td><a href=#PGCIN><code>PGCIN</code></a> </td>
+		<td><a href=#GCF><code>GCF</code></a> </td>
+		<td><a href=#GIPC><code>GIPC</code></a> <a href=#GS><code>GS</code></a> <a href="public.html#IPR"><code>IPR</code></a> <a href="public.html#VPSS"><code>VPSS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GPU}\left(t\right)=\mathtt{GCF}\cdot\mathtt{PGCIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="GS">
+		<td>Govmnt Spending GDollar/y</td>
+		<td><code>GS</code></td>
+		<td><a href=#GIPC><code>GIPC</code></a> <a href=#GPU><code>GPU</code></a> </td>
+		<td></td>
+		<td><a href=#GSGDP><code>GSGDP</code></a> <a href="public.html#GSSGDP"><code>GSSGDP</code></a> <a href="public.html#PSP"><code>PSP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GS}\left(t\right)=\mathtt{GIPC}\left(t\right)+\mathtt{GPU}\left(t\right)\)</td>
+	</tr>
+	<tr id="GSGDP">
+		<td>Govmnt Share of GDP (1)</td>
+		<td><code>GSGDP</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href=#GS><code>GS</code></a> </td>
+		<td></td>
+		<td><a href=#CONTR><code>CONTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GSGDP}\left(t\right)=\frac{\mathtt{GS}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="IC2022">
+		<td>Income from Commons from 2022 GDollar/y</td>
+		<td><code>IC2022</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td><a href=#GEIC><code>GEIC</code></a> </td>
+		<td><a href=#GGI><code>GGI</code></a> <a href=#GNI><code>GNI</code></a> <a href=#TP><code>TP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IC2022}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{ramp}\left(t,\frac{\mathtt{GEIC}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right),0\right)\cdot\mathtt{NI}\left(t\right)\)</td>
+	</tr>
+	<tr id="INEQ">
+		<td>INEQuality (1)</td>
+		<td><code>INEQ</code></td>
+		<td><a href=#OOIAT><code>OOIAT</code></a> <a href=#WIAT><code>WIAT</code></a> </td>
+		<td></td>
+		<td><a href=#INEQI><code>INEQI</code></a> <a href="other.html#IEL"><code>IEL</code></a> <a href="wellbeing.html#AWBIN"><code>AWBIN</code></a> <a href="wellbeing.html#IEST"><code>IEST</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{INEQ}\left(t\right)=\frac{\mathtt{OOIAT}\left(t\right)}{\mathtt{WIAT}\left(t\right)}\)</td>
+	</tr>
+	<tr id="INEQI">
+		<td>INEQuality Index (1980=1)</td>
+		<td><code>INEQI</code></td>
+		<td><a href=#INEQ><code>INEQ</code></a> </td>
+		<td><a href=#INEQ1980><code>INEQ1980</code></a> </td>
+		<td><a href="public.html#RROTAI"><code>RROTAI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{INEQI}\left(t\right)=\frac{\mathtt{INEQ}\left(t\right)}{\mathtt{INEQ1980}}\)</td>
+	</tr>
+	<tr id="ITO">
+		<td>Income Tax Owners (1)</td>
+		<td><code>ITO</code></td>
+		<td><a href=#BITRO><code>BITRO</code></a> <a href="inventory.html#NI"><code>NI</code></a> <a href="labourmarket.html#WSO"><code>WSO</code></a> </td>
+		<td></td>
+		<td><a href=#OT><code>OT</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ITO}\left(t\right)=\left(1-\mathtt{WSO}\left(t\right)\right)\cdot\mathtt{BITRO}\left(t\right)\cdot\mathtt{NI}\left(t\right)\)</td>
+	</tr>
+	<tr id="ITW">
+		<td>Income Tax Workers (1)</td>
+		<td><code>ITW</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href="labourmarket.html#WSO"><code>WSO</code></a> </td>
+		<td><a href=#BITRW><code>BITRW</code></a> </td>
+		<td><a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ITW}\left(t\right)=\mathtt{BITRW}\cdot\mathtt{NI}\left(t\right)\cdot\mathtt{WSO}\left(t\right)\)</td>
+	</tr>
+	<tr id="MGD">
+		<td>Max Govmnt Debt GDollar</td>
+		<td><code>MGD</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td><a href=#MGDB><code>MGDB</code></a> </td>
+		<td><a href=#GND><code>GND</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MGD}\left(t\right)=\mathtt{MGDB}\cdot\mathtt{NI}\left(t\right)\)</td>
+	</tr>
+	<tr id="MWD">
+		<td>Max Workers Debt GDollar</td>
+		<td><code>MWD</code></td>
+		<td><a href=#WI><code>WI</code></a> </td>
+		<td><a href=#MWDB><code>MWDB</code></a> </td>
+		<td><a href=#WND><code>WND</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{MWD}\left(t\right)=\mathtt{MWDB}\cdot\mathtt{WI}\left(t\right)\)</td>
+	</tr>
+	<tr id="OC">
+		<td>Owner Consumption GDollar/y</td>
+		<td><code>OC</code></td>
+		<td><a href=#POCI><code>POCI</code></a> <a href=#OCF><code>OCF</code></a> </td>
+		<td></td>
+		<td><a href=#CD><code>CD</code></a> <a href=#OS><code>OS</code></a> <a href=#STO><code>STO</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OC}\left(t\right)=\mathtt{OCF}\left(t\right)\cdot\mathtt{POCI}\left(t\right)\)</td>
+	</tr>
+	<tr id="OCF">
+		<td>Owner Consumptin Fraction (1)</td>
+		<td><code>OCF</code></td>
+		<td><a href=#OSF><code>OSF</code></a> </td>
+		<td></td>
+		<td><a href=#OC><code>OC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OCF}\left(t\right)=1-\mathtt{OSF}\left(t\right)\)</td>
+	</tr>
+	<tr id="OCIN">
+		<td>Owner Cash INflow GDollar/y</td>
+		<td><code>OCIN</code></td>
+		<td><a href=#OOIAT><code>OOIAT</code></a> </td>
+		<td></td>
+		<td><a href=#POCI><code>POCI</code></a> <a href=#TPP><code>TPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OCIN}\left(t\right)=\mathtt{OOIAT}\left(t\right)\)</td>
+	</tr>
+	<tr id="OI">
+		<td>Owner Income GDollar/y</td>
+		<td><code>OI</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href="labourmarket.html#WSO"><code>WSO</code></a> </td>
+		<td></td>
+		<td><a href=#OOIAT><code>OOIAT</code></a> <a href=#OTR><code>OTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OI}\left(t\right)=\left(1-\mathtt{WSO}\left(t\right)\right)\cdot\mathtt{NI}\left(t\right)\)</td>
+	</tr>
+	<tr id="OOIAT">
+		<td>Owner Operating Income After Tax GDollar/y</td>
+		<td><code>OOIAT</code></td>
+		<td><a href=#OT><code>OT</code></a> <a href=#OI><code>OI</code></a> </td>
+		<td></td>
+		<td><a href=#INEQ><code>INEQ</code></a> <a href=#OCIN><code>OCIN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OOIAT}\left(t\right)=-\mathtt{OT}\left(t\right)+\mathtt{OI}\left(t\right)\)</td>
+	</tr>
+	<tr id="OS">
+		<td>Owner Savings GDollar/y</td>
+		<td><code>OS</code></td>
+		<td><a href=#POCI><code>POCI</code></a> <a href=#OC><code>OC</code></a> </td>
+		<td></td>
+		<td><a href=#TS><code>TS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OS}\left(t\right)=-\mathtt{OC}\left(t\right)+\mathtt{POCI}\left(t\right)\)</td>
+	</tr>
+	<tr id="OSF">
+		<td>Owner Savings Fraction (1)</td>
+		<td><code>OSF</code></td>
+		<td><a href="population.html#EGDPP"><code>EGDPP</code></a> </td>
+		<td><a href=#OSF1980><code>OSF1980</code></a> <a href=#GDPOSR><code>GDPOSR</code></a> <a href=#GDPP1980><code>GDPP1980</code></a> </td>
+		<td><a href=#OCF><code>OCF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OSF}\left(t\right)=\mathtt{OSF1980}\cdot\left(1+\mathtt{GDPOSR}\cdot\left(-1+\frac{\mathtt{EGDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\)</td>
+	</tr>
+	<tr id="OT">
+		<td>Owner Taxes GDollar/y</td>
+		<td><code>OT</code></td>
+		<td><a href=#ITO><code>ITO</code></a> <a href=#ETF2022><code>ETF2022</code></a> </td>
+		<td><a href=#FETPO><code>FETPO</code></a> </td>
+		<td><a href=#GGI><code>GGI</code></a> <a href=#GNI><code>GNI</code></a> <a href=#OOIAT><code>OOIAT</code></a> <a href=#OTR><code>OTR</code></a> <a href=#TP><code>TP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OT}\left(t\right)=\mathtt{FETPO}\cdot\mathtt{ETF2022}\left(t\right)+\mathtt{ITO}\left(t\right)\)</td>
+	</tr>
+	<tr id="OTR">
+		<td>Owner Tax Rate (1)</td>
+		<td><code>OTR</code></td>
+		<td><a href=#OT><code>OT</code></a> <a href=#OI><code>OI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{OTR}\left(t\right)=\frac{\mathtt{OT}\left(t\right)}{\mathtt{OI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="PGCIN">
+		<td>Permanent Govmnt Cash INflow GDollar/y</td>
+		<td><code>PGCIN</code></td>
+		<td><a href=#GCIN><code>GCIN</code></a> <a href=#PGCIN><code>PGCIN</code></a> </td>
+		<td><a href=#TAB><code>TAB</code></a> </td>
+		<td><a href=#PGCIN><code>PGCIN</code></a> <a href=#GIPC><code>GIPC</code></a> <a href=#GPU><code>GPU</code></a> </td>
+		<td>5400.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PGCIN}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PGCIN}\left(t\right)+\mathtt{GCIN}\left(t\right)}{\mathtt{TAB}}\)</td>
+	</tr>
+	<tr id="POCI">
+		<td>Permanent Owner Cash Inflow GDollar/y</td>
+		<td><code>POCI</code></td>
+		<td><a href=#POCI><code>POCI</code></a> <a href=#OCIN><code>OCIN</code></a> </td>
+		<td><a href=#TAOC><code>TAOC</code></a> </td>
+		<td><a href=#POCI><code>POCI</code></a> <a href=#OC><code>OC</code></a> <a href=#OS><code>OS</code></a> </td>
+		<td>7081.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{POCI}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{POCI}\left(t\right)+\mathtt{OCIN}\left(t\right)}{\mathtt{TAOC}}\)</td>
+	</tr>
+	<tr id="PWCIN">
+		<td>Permanent Worker Cash INflow GDollar/y</td>
+		<td><code>PWCIN</code></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> <a href=#WCIN><code>WCIN</code></a> </td>
+		<td><a href=#TAWC><code>TAWC</code></a> </td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> <a href=#WCD><code>WCD</code></a> <a href=#WDI><code>WDI</code></a> <a href=#WS><code>WS</code></a> </td>
+		<td>13000.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PWCIN}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PWCIN}\left(t\right)+\mathtt{WCIN}\left(t\right)}{\mathtt{TAWC}}\)</td>
+	</tr>
+	<tr id="SSGDP">
+		<td>Savings Share of GDP (1)</td>
+		<td><code>SSGDP</code></td>
+		<td><a href=#TS><code>TS</code></a> <a href="inventory.html#NI"><code>NI</code></a> </td>
+		<td></td>
+		<td><a href=#CONTR><code>CONTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{SSGDP}\left(t\right)=\frac{\mathtt{TS}\left(t\right)}{\mathtt{NI}\left(t\right)}\)</td>
+	</tr>
+	<tr id="ST">
+		<td>Sales Tax GDollar/y</td>
+		<td><code>ST</code></td>
+		<td><a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> </td>
+		<td></td>
+		<td><a href=#GNI><code>GNI</code></a> <a href=#TPP><code>TPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ST}\left(t\right)=\mathtt{STO}\left(t\right)+\mathtt{STW}\left(t\right)\)</td>
+	</tr>
+	<tr id="STO">
+		<td>Sales Tax Owners GDollar/y</td>
+		<td><code>STO</code></td>
+		<td><a href=#OC><code>OC</code></a> </td>
+		<td><a href=#STR><code>STR</code></a> </td>
+		<td><a href=#CD><code>CD</code></a> <a href=#GGI><code>GGI</code></a> <a href=#GNI><code>GNI</code></a> <a href=#ST><code>ST</code></a> <a href=#TP><code>TP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{STO}\left(t\right)=\mathtt{STR}\cdot\mathtt{OC}\left(t\right)\)</td>
+	</tr>
+	<tr id="STW">
+		<td>Sales Tax Workers GDollar/y</td>
+		<td><code>STW</code></td>
+		<td><a href=#WCD><code>WCD</code></a> </td>
+		<td><a href=#STR><code>STR</code></a> </td>
+		<td><a href=#CD><code>CD</code></a> <a href=#GGI><code>GGI</code></a> <a href=#GNI><code>GNI</code></a> <a href=#ST><code>ST</code></a> <a href=#TP><code>TP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{STW}\left(t\right)=\mathtt{STR}\cdot\mathtt{WCD}\left(t\right)\)</td>
+	</tr>
+	<tr id="TP">
+		<td>Transfer Payments GDollar/y</td>
+		<td><code>TP</code></td>
+		<td><a href=#OT><code>OT</code></a> <a href=#FGBW><code>FGBW</code></a> <a href=#IC2022><code>IC2022</code></a> <a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td><a href=#GNI><code>GNI</code></a> <a href=#WIAT><code>WIAT</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TP}\left(t\right)=\left(\mathtt{IC2022}\left(t\right)+\mathtt{OT}\left(t\right)+\mathtt{STO}\left(t\right)+\mathtt{STW}\left(t\right)+\mathtt{WT}\left(t\right)\right)\cdot\mathtt{FGBW}\left(t\right)\)</td>
+	</tr>
+	<tr id="TPP">
+		<td>Total Purchasing Power GDollar/y</td>
+		<td><code>TPP</code></td>
+		<td><a href=#GCIN><code>GCIN</code></a> <a href=#ST><code>ST</code></a> <a href=#OCIN><code>OCIN</code></a> <a href=#WCIN><code>WCIN</code></a> </td>
+		<td></td>
+		<td><a href="inventory.html#EPP"><code>EPP</code></a> <a href="output.html#EDE"><code>EDE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TPP}\left(t\right)=-\mathtt{ST}\left(t\right)+\mathtt{GCIN}\left(t\right)+\mathtt{OCIN}\left(t\right)+\mathtt{WCIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="TS">
+		<td>Total Savings GDollar/y</td>
+		<td><code>TS</code></td>
+		<td><a href=#OS><code>OS</code></a> <a href=#WS><code>WS</code></a> </td>
+		<td></td>
+		<td><a href=#SSGDP><code>SSGDP</code></a> <a href="output.html#AVCA"><code>AVCA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TS}\left(t\right)=\mathtt{OS}\left(t\right)+\mathtt{WS}\left(t\right)\)</td>
+	</tr>
+	<tr id="WCD">
+		<td>Worker consumption demand GDollar/y</td>
+		<td><code>WCD</code></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> </td>
+		<td><a href=#WCF><code>WCF</code></a> </td>
+		<td><a href=#CD><code>CD</code></a> <a href=#STW><code>STW</code></a> <a href=#WS><code>WS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WCD}\left(t\right)=\mathtt{WCF}\cdot\mathtt{PWCIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="WCIN">
+		<td>Worker Cash INflow GDollar/y</td>
+		<td><code>WCIN</code></td>
+		<td><a href=#CFWB><code>CFWB</code></a> <a href=#WIAT><code>WIAT</code></a> </td>
+		<td></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> <a href=#TPP><code>TPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WCIN}\left(t\right)=-\mathtt{CFWB}\left(t\right)+\mathtt{WIAT}\left(t\right)\)</td>
+	</tr>
+	<tr id="WD">
+		<td>Workers Debt GDollar</td>
+		<td><code>WD</code></td>
+		<td><a href=#WND><code>WND</code></a> <a href=#WP><code>WP</code></a> </td>
+		<td></td>
+		<td><a href=#WIC><code>WIC</code></a> <a href=#WND><code>WND</code></a> <a href=#WP><code>WP</code></a> <a href=#WDB><code>WDB</code></a> </td>
+		<td>7406.88</td>
+		<td>\(\frac{\mathrm{d}\mathtt{WD}\left(t\right)}{\mathrm{d}t}=-\mathtt{WP}\left(t\right)+\mathtt{WND}\left(t\right)\)</td>
+	</tr>
+	<tr id="WDB">
+		<td>Worker Debt Burden y</td>
+		<td><code>WDB</code></td>
+		<td><a href=#WD><code>WD</code></a> <a href=#WIAT><code>WIAT</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{WDB}\left(t\right)=\frac{\mathtt{WD}\left(t\right)}{\mathtt{WIAT}\left(t\right)}\)</td>
+	</tr>
+	<tr id="WDI">
+		<td>Worker Disposable Income kDollar/p/y</td>
+		<td><code>WDI</code></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> <a href="labourmarket.html#WF"><code>WF</code></a> </td>
+		<td></td>
+		<td><a href="wellbeing.html#AWBDI"><code>AWBDI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WDI}\left(t\right)=\frac{\mathtt{PWCIN}\left(t\right)}{\mathtt{WF}\left(t\right)}\)</td>
+	</tr>
+	<tr id="WFCSI">
+		<td>Worker Finance Cost as Share of Income (1)</td>
+		<td><code>WFCSI</code></td>
+		<td><a href=#CFWB><code>CFWB</code></a> <a href=#WIAT><code>WIAT</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{WFCSI}\left(t\right)=\frac{\mathtt{CFWB}\left(t\right)}{\mathtt{WIAT}\left(t\right)}\)</td>
+	</tr>
+	<tr id="WI">
+		<td>Worker Income GDollar/y</td>
+		<td><code>WI</code></td>
+		<td><a href="inventory.html#NI"><code>NI</code></a> <a href="labourmarket.html#WSO"><code>WSO</code></a> </td>
+		<td></td>
+		<td><a href=#MWD><code>MWD</code></a> <a href=#WIAT><code>WIAT</code></a> <a href=#WTR><code>WTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WI}\left(t\right)=\mathtt{NI}\left(t\right)\cdot\mathtt{WSO}\left(t\right)\)</td>
+	</tr>
+	<tr id="WIAT">
+		<td>Worker Income After Tax GDollar/y</td>
+		<td><code>WIAT</code></td>
+		<td><a href=#TP><code>TP</code></a> <a href=#WI><code>WI</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td><a href=#INEQ><code>INEQ</code></a> <a href=#WCIN><code>WCIN</code></a> <a href=#WFCSI><code>WFCSI</code></a> <a href=#WDB><code>WDB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WIAT}\left(t\right)=-\mathtt{WT}\left(t\right)+\mathtt{TP}\left(t\right)+\mathtt{WI}\left(t\right)\)</td>
+	</tr>
+	<tr id="WIC">
+		<td>Worker Interest Cost GDollar/y</td>
+		<td><code>WIC</code></td>
+		<td><a href="finance.html#WBC"><code>WBC</code></a> <a href=#WD><code>WD</code></a> </td>
+		<td></td>
+		<td><a href=#CFWB><code>CFWB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WIC}\left(t\right)=\mathtt{WBC}\left(t\right)\cdot\mathtt{WD}\left(t\right)\)</td>
+	</tr>
+	<tr id="WND">
+		<td>Workers New Debt GDollar/y</td>
+		<td><code>WND</code></td>
+		<td><a href=#WD><code>WD</code></a> <a href=#MWD><code>MWD</code></a> </td>
+		<td><a href=#WDP><code>WDP</code></a> </td>
+		<td><a href=#WD><code>WD</code></a> <a href=#CFWB><code>CFWB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WND}\left(t\right)=\mathtt{max}\left(0,\frac{-\mathtt{WD}\left(t\right)+\mathtt{MWD}\left(t\right)}{\mathtt{WDP}}\right)\)</td>
+	</tr>
+	<tr id="WP">
+		<td>Workers Payback GDollar/y</td>
+		<td><code>WP</code></td>
+		<td><a href=#WD><code>WD</code></a> </td>
+		<td><a href=#WPP><code>WPP</code></a> </td>
+		<td><a href=#WD><code>WD</code></a> <a href=#CFWB><code>CFWB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WP}\left(t\right)=\frac{\mathtt{WD}\left(t\right)}{\mathtt{WPP}}\)</td>
+	</tr>
+	<tr id="WS">
+		<td>Worker Savings GDollar/y</td>
+		<td><code>WS</code></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> <a href=#WCD><code>WCD</code></a> </td>
+		<td></td>
+		<td><a href=#TS><code>TS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WS}\left(t\right)=-\mathtt{WCD}\left(t\right)+\mathtt{PWCIN}\left(t\right)\)</td>
+	</tr>
+	<tr id="WT">
+		<td>Worker Taxes GDollar/y</td>
+		<td><code>WT</code></td>
+		<td><a href=#ETF2022><code>ETF2022</code></a> <a href=#ITW><code>ITW</code></a> </td>
+		<td><a href=#FETPO><code>FETPO</code></a> </td>
+		<td><a href=#GGI><code>GGI</code></a> <a href=#GNI><code>GNI</code></a> <a href=#TP><code>TP</code></a> <a href=#WIAT><code>WIAT</code></a> <a href=#WTR><code>WTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WT}\left(t\right)=\left(1-\mathtt{FETPO}\right)\cdot\mathtt{ETF2022}\left(t\right)+\mathtt{ITW}\left(t\right)\)</td>
+	</tr>
+	<tr id="WTR">
+		<td>Worker Tax Rate (1)</td>
+		<td><code>WTR</code></td>
+		<td><a href=#WI><code>WI</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{WTR}\left(t\right)=\frac{\mathtt{WT}\left(t\right)}{\mathtt{WI}\left(t\right)}\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="BITRW">
+		<td>Basic Income Tax Rate Workers</td>
+		<td><code>BITRW</code></td>
+		<td><a href=#ITW><code>ITW</code></a> </td>
+		<td>0.2</td>
+	</tr>
+	<tr id="EETF2022">
+		<td>Extra Empowerment Tax From 2022 (share of NI)</td>
+		<td><code>EETF2022</code></td>
+		<td><a href=#EGTF2022><code>EGTF2022</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="EGTRF2022">
+		<td>Extra General Tax Rate From 2022</td>
+		<td><code>EGTRF2022</code></td>
+		<td><a href=#EGTF2022><code>EGTF2022</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="EPTF2022">
+		<td>Extra Pension Tax From 2022 (share of NI)</td>
+		<td><code>EPTF2022</code></td>
+		<td><a href=#EGTF2022><code>EGTF2022</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="ETGBW">
+		<td>Extra Transfer of Govmnt Budget to Workers</td>
+		<td><code>ETGBW</code></td>
+		<td><a href=#GFGBW><code>GFGBW</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="FETACPET">
+		<td>Fraction of Extra TA Cost Paid by Extra Taxes</td>
+		<td><code>FETACPET</code></td>
+		<td><a href=#ETTAF2022><code>ETTAF2022</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="FETPO">
+		<td>Fraction of Extra Taxes Paid by Owners</td>
+		<td><code>FETPO</code></td>
+		<td><a href=#OT><code>OT</code></a> <a href=#WT><code>WT</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="FGDC2022">
+		<td>Fraction of Govmnt Debt Cancelled in 2022 1/y</td>
+		<td><code>FGDC2022</code></td>
+		<td><a href=#CANCD><code>CANCD</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="FT1980">
+		<td>Fraction Transferred in 1980</td>
+		<td><code>FT1980</code></td>
+		<td><a href=#GFGBW><code>GFGBW</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="GCF">
+		<td>Govmnt Consumption Fraction</td>
+		<td><code>GCF</code></td>
+		<td><a href=#GPU><code>GPU</code></a> </td>
+		<td>0.75</td>
+	</tr>
+	<tr id="GDDP">
+		<td>Govmnt DrawDown Period y</td>
+		<td><code>GDDP</code></td>
+		<td><a href=#GND><code>GND</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="GDPOSR">
+		<td>sGDPeoOSR<0</td>
+		<td><code>GDPOSR</code></td>
+		<td><a href=#OSF><code>OSF</code></a> </td>
+		<td>-0.06</td>
+	</tr>
+	<tr id="GDPP1980">
+		<td>GDP per Person in 1980 kDollar/p/y</td>
+		<td><code>GDPP1980</code></td>
+		<td><a href=#OSF><code>OSF</code></a> </td>
+		<td>6.4</td>
+	</tr>
+	<tr id="GEIC">
+		<td>Goal for Extra Income from Commons (share of NI)</td>
+		<td><code>GEIC</code></td>
+		<td><a href=#IC2022><code>IC2022</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="GITRO">
+		<td>Goal for Income Tax Rate Owners</td>
+		<td><code>GITRO</code></td>
+		<td><a href=#BITRO><code>BITRO</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="GPP">
+		<td>Govmnt Payback Period y</td>
+		<td><code>GPP</code></td>
+		<td><a href=#GP><code>GP</code></a> </td>
+		<td>200.0</td>
+	</tr>
+	<tr id="GSF2022">
+		<td>Govmnt Stimulus From 2022 (share of NI)</td>
+		<td><code>GSF2022</code></td>
+		<td><a href=#GND><code>GND</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="INEQ1980">
+		<td>INEQuality in 1980</td>
+		<td><code>INEQ1980</code></td>
+		<td><a href=#INEQI><code>INEQI</code></a> </td>
+		<td>0.61</td>
+	</tr>
+	<tr id="ITRO1980">
+		<td>Income Tax Rate Owners in 1980</td>
+		<td><code>ITRO1980</code></td>
+		<td><a href=#BITRO><code>BITRO</code></a> </td>
+		<td>0.4</td>
+	</tr>
+	<tr id="ITRO2022">
+		<td>Income Tax Rate Owners in 2022</td>
+		<td><code>ITRO2022</code></td>
+		<td><a href=#BITRO><code>BITRO</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="MGDB">
+		<td>Max Govmnt Debt Burden y</td>
+		<td><code>MGDB</code></td>
+		<td><a href=#MGD><code>MGD</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="MWDB">
+		<td>Max Workers Debt Burden y</td>
+		<td><code>MWDB</code></td>
+		<td><a href=#MWD><code>MWD</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="OSF1980">
+		<td>Owner Savings Fraction in 1980</td>
+		<td><code>OSF1980</code></td>
+		<td><a href=#OSF><code>OSF</code></a> </td>
+		<td>0.9</td>
+	</tr>
+	<tr id="STR">
+		<td>Sales Tax Rate</td>
+		<td><code>STR</code></td>
+		<td><a href=#STO><code>STO</code></a> <a href=#STW><code>STW</code></a> </td>
+		<td>0.03</td>
+	</tr>
+	<tr id="TAB">
+		<td>Time to Adjust Budget y</td>
+		<td><code>TAB</code></td>
+		<td><a href=#PGCIN><code>PGCIN</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TAOC">
+		<td>Time to Adjust Owner Consumption y</td>
+		<td><code>TAOC</code></td>
+		<td><a href=#POCI><code>POCI</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TAWC">
+		<td>Time to Adjust Worker Consumption y</td>
+		<td><code>TAWC</code></td>
+		<td><a href=#PWCIN><code>PWCIN</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TINT">
+		<td>Time to Implement New Taxes y</td>
+		<td><code>TINT</code></td>
+		<td><a href=#ETF2022><code>ETF2022</code></a> <a href=#FGBW><code>FGBW</code></a> </td>
+		<td>5.0</td>
+	</tr>
+	<tr id="WCF">
+		<td>Worker Consumption Fraction</td>
+		<td><code>WCF</code></td>
+		<td><a href=#WCD><code>WCD</code></a> </td>
+		<td>0.9</td>
+	</tr>
+	<tr id="WDP">
+		<td>Worker Drawdown Period y</td>
+		<td><code>WDP</code></td>
+		<td><a href=#WND><code>WND</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="WPP">
+		<td>Worker Payback Period y</td>
+		<td><code>WPP</code></td>
+		<td><a href=#WP><code>WP</code></a> </td>
+		<td>20.0</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

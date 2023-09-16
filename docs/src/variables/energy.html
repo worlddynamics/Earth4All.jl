@@ -1,0 +1,1057 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The ENERGY sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="ACSWCF">
+		<td>ACcumulated Sun and Wind Capacity from 1980 GW</td>
+		<td><code>ACSWCF</code></td>
+		<td><a href=#ASWC><code>ASWC</code></a> </td>
+		<td></td>
+		<td><a href=#NDSWC><code>NDSWC</code></a> </td>
+		<td>10.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ACSWCF}\left(t\right)}{\mathrm{d}t}=\mathtt{ASWC}\left(t\right)\)</td>
+	</tr>
+	<tr id="AFEC">
+		<td>Addition of fossil el capacity GW/y</td>
+		<td><code>AFEC</code></td>
+		<td><a href=#DFECC><code>DFECC</code></a> </td>
+		<td></td>
+		<td><a href=#FEC><code>FEC</code></a> <a href=#CAPEXFEG><code>CAPEXFEG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AFEC}\left(t\right)=\mathtt{max}\left(0,\mathtt{DFECC}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="AREC">
+		<td>Addition of renewable el capacity GW/y</td>
+		<td><code>AREC</code></td>
+		<td><a href=#DRECC><code>DRECC</code></a> <a href=#DIREC><code>DIREC</code></a> </td>
+		<td><a href=#RECT><code>RECT</code></a> </td>
+		<td><a href=#REC><code>REC</code></a> <a href=#ASWC><code>ASWC</code></a> <a href=#CAPEXREG><code>CAPEXREG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AREC}\left(t\right)=\mathtt{max}\left(0,\frac{\mathtt{DRECC}\left(t\right)}{\mathtt{RECT}}+\mathtt{DIREC}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="ASWC">
+		<td>Addition of sun and wind capacity GW/y</td>
+		<td><code>ASWC</code></td>
+		<td><a href=#AREC><code>AREC</code></a> </td>
+		<td></td>
+		<td><a href=#ACSWCF><code>ACSWCF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ASWC}\left(t\right)=\mathtt{AREC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CAPEXFEG">
+		<td>CAPEX fossil el GDollar/y</td>
+		<td><code>CAPEXFEG</code></td>
+		<td><a href=#AFEC><code>AFEC</code></a> </td>
+		<td><a href=#CAPEXFED><code>CAPEXFED</code></a> </td>
+		<td><a href=#CFE><code>CFE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAPEXFEG}\left(t\right)=\mathtt{CAPEXFED}\cdot\mathtt{AFEC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CAPEXRED">
+		<td>CAPEX renewable el dollar/W</td>
+		<td><code>CAPEXRED</code></td>
+		<td><a href=#CISWC><code>CISWC</code></a> </td>
+		<td><a href=#CAPEXRE1980><code>CAPEXRE1980</code></a> </td>
+		<td><a href=#CAPEXREG><code>CAPEXREG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAPEXRED}\left(t\right)=\mathtt{CAPEXRE1980}\cdot\mathtt{CISWC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CAPEXREG">
+		<td>CAPEX renewable el Gdollar/y</td>
+		<td><code>CAPEXREG</code></td>
+		<td><a href=#CAPEXRED><code>CAPEXRED</code></a> <a href=#AREC><code>AREC</code></a> </td>
+		<td></td>
+		<td><a href=#CRE><code>CRE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAPEXREG}\left(t\right)=\mathtt{AREC}\left(t\right)\cdot\mathtt{CAPEXRED}\left(t\right)\)</td>
+	</tr>
+	<tr id="CCCSG">
+		<td>Cost of CCS GDollar/y</td>
+		<td><code>CCCSG</code></td>
+		<td><a href=#ICCSC><code>ICCSC</code></a> </td>
+		<td><a href=#CCCSt><code>CCCSt</code></a> </td>
+		<td><a href=#CE><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CCCSG}\left(t\right)=\mathtt{CCCSt}\cdot\mathtt{ICCSC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CE">
+		<td>Cost of energy GDollar/y</td>
+		<td><code>CE</code></td>
+		<td><a href=#CG><code>CG</code></a> <a href=#CFFFNEU><code>CFFFNEU</code></a> <a href="climate.html#CAC"><code>CAC</code></a> <a href=#CCCSG><code>CCCSG</code></a> <a href=#CEL><code>CEL</code></a> <a href=#CNE><code>CNE</code></a> </td>
+		<td></td>
+		<td><a href=#RECTEC><code>RECTEC</code></a> <a href=#CESGDP><code>CESGDP</code></a> <a href=#ECETSGDP><code>ECETSGDP</code></a> <a href="other.html#CFETA"><code>CFETA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CE}\left(t\right)=\mathtt{CAC}\left(t\right)+\mathtt{CCCSG}\left(t\right)+\mathtt{CEL}\left(t\right)+\mathtt{CFFFNEU}\left(t\right)+\mathtt{CG}\left(t\right)+\mathtt{CNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="CEL">
+		<td>Cost of electricity GDollar/y</td>
+		<td><code>CEL</code></td>
+		<td><a href=#CRE><code>CRE</code></a> <a href=#CFE><code>CFE</code></a> <a href=#CNEL><code>CNEL</code></a> </td>
+		<td></td>
+		<td><a href=#CE><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CEL}\left(t\right)=\mathtt{CFE}\left(t\right)+\mathtt{CNEL}\left(t\right)+\mathtt{CRE}\left(t\right)\)</td>
+	</tr>
+	<tr id="CESGDP">
+		<td>Cost of energy as share of GDP (1)</td>
+		<td><code>CESGDP</code></td>
+		<td><a href=#CE><code>CE</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CESGDP}\left(t\right)=\frac{\mathtt{CE}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CFE">
+		<td>Cost of fossil electricity GDollar/y</td>
+		<td><code>CFE</code></td>
+		<td><a href=#OPEXFEG><code>OPEXFEG</code></a> <a href=#CAPEXFEG><code>CAPEXFEG</code></a> </td>
+		<td></td>
+		<td><a href=#CEL><code>CEL</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CFE}\left(t\right)=\mathtt{CAPEXFEG}\left(t\right)+\mathtt{OPEXFEG}\left(t\right)\)</td>
+	</tr>
+	<tr id="CFFFNEU">
+		<td>Cost of Fossil Fuel For Non-El Use Gdollar/y</td>
+		<td><code>CFFFNEU</code></td>
+		<td><a href=#DFFFNEU><code>DFFFNEU</code></a> </td>
+		<td><a href=#TCFFFNEU><code>TCFFFNEU</code></a> </td>
+		<td><a href=#CE><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CFFFNEU}\left(t\right)=\frac{1}{1000}\cdot\mathtt{TCFFFNEU}\cdot\mathtt{DFFFNEU}\left(t\right)\)</td>
+	</tr>
+	<tr id="CG">
+		<td>Cost of grid GDollar/y</td>
+		<td><code>CG</code></td>
+		<td><a href=#EP><code>EP</code></a> </td>
+		<td><a href=#TC><code>TC</code></a> </td>
+		<td><a href=#CE><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CG}\left(t\right)=\mathtt{TC}\cdot\mathtt{EP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CISWC">
+		<td>Cost index for sun and wind capacity (1)</td>
+		<td><code>CISWC</code></td>
+		<td><a href=#NDSWC><code>NDSWC</code></a> </td>
+		<td><a href=#CRDSWC><code>CRDSWC</code></a> </td>
+		<td><a href=#CAPEXRED><code>CAPEXRED</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CISWC}\left(t\right)=\left(1-\mathtt{CRDSWC}\right)^{\mathtt{NDSWC}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CNE">
+		<td>Cost of new electrification GDollar/y</td>
+		<td><code>CNE</code></td>
+		<td><a href=#ERDNEFFFNE><code>ERDNEFFFNE</code></a> </td>
+		<td><a href=#ECRUNEFF><code>ECRUNEFF</code></a> </td>
+		<td><a href=#CE><code>CE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CNE}\left(t\right)=\frac{1}{1000}\cdot\mathtt{ECRUNEFF}\cdot\mathtt{ERDNEFFFNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="CNEL">
+		<td>Cost of Nuclear ELectricity Gdollar/y</td>
+		<td><code>CNEL</code></td>
+		<td><a href=#NEP><code>NEP</code></a> </td>
+		<td><a href=#CNED><code>CNED</code></a> </td>
+		<td><a href=#CEL><code>CEL</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CNEL}\left(t\right)=\mathtt{CNED}\cdot\mathtt{NEP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2EI">
+		<td>CO2 from energy and industry GtCO2/y</td>
+		<td><code>CO2EI</code></td>
+		<td><a href=#CO2EP><code>CO2EP</code></a> <a href=#CO2NFIP><code>CO2NFIP</code></a> </td>
+		<td></td>
+		<td><a href="climate.html#CO2E"><code>CO2E</code></a> <a href=#CO2EMPP><code>CO2EMPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2EI}\left(t\right)=\mathtt{CO2EP}\left(t\right)+\mathtt{CO2NFIP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2EMPP">
+		<td>CO2 EMissions per person tCO2/y</td>
+		<td><code>CO2EMPP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#CO2EI><code>CO2EI</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CO2EMPP}\left(t\right)=\frac{1000\cdot\mathtt{CO2EI}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CO2EP">
+		<td>CO2 from energy production GtCO2/y</td>
+		<td><code>CO2EP</code></td>
+		<td><a href=#UFF><code>UFF</code></a> <a href=#TCO2PT><code>TCO2PT</code></a> <a href=#FCO2SCCS><code>FCO2SCCS</code></a> </td>
+		<td></td>
+		<td><a href=#CO2EI><code>CO2EI</code></a> <a href=#ICCSC><code>ICCSC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2EP}\left(t\right)=\frac{1}{1000}\cdot\left(1-\mathtt{FCO2SCCS}\left(t\right)\right)\cdot\mathtt{TCO2PT}\left(t\right)\cdot\mathtt{UFF}\left(t\right)\)</td>
+	</tr>
+	<tr id="CO2NFIP">
+		<td>CO2 from non-fossil industrial processes GtCO2/y</td>
+		<td><code>CO2NFIP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#NFCO2PP><code>NFCO2PP</code></a> <a href=#FCO2SCCS><code>FCO2SCCS</code></a> </td>
+		<td></td>
+		<td><a href=#CO2EI><code>CO2EI</code></a> <a href=#ICCSC><code>ICCSC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CO2NFIP}\left(t\right)=\frac{1}{1000}\cdot\left(1-\mathtt{FCO2SCCS}\left(t\right)\right)\cdot\mathtt{NFCO2PP}\left(t\right)\cdot\mathtt{POP}\left(t\right)\)</td>
+	</tr>
+	<tr id="CRE">
+		<td>Cost of renewable electricity GDollar/y</td>
+		<td><code>CRE</code></td>
+		<td><a href=#CAPEXREG><code>CAPEXREG</code></a> <a href=#OPEXREG><code>OPEXREG</code></a> </td>
+		<td></td>
+		<td><a href=#CEL><code>CEL</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CRE}\left(t\right)=\mathtt{CAPEXREG}\left(t\right)+\mathtt{OPEXREG}\left(t\right)\)</td>
+	</tr>
+	<tr id="DE">
+		<td>Demand for electricity TWh/y</td>
+		<td><code>DE</code></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> <a href=#EIDEFNE><code>EIDEFNE</code></a> </td>
+		<td></td>
+		<td><a href=#DSRE><code>DSRE</code></a> <a href=#DFE><code>DFE</code></a> <a href=#ELB><code>ELB</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DE}\left(t\right)=\mathtt{DEBNE}\left(t\right)+\mathtt{EIDEFNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="DEBNE">
+		<td>Demand for electricity before NE TWh/y</td>
+		<td><code>DEBNE</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#TPPUEBEE><code>TPPUEBEE</code></a> <a href=#EEPI2022><code>EEPI2022</code></a> </td>
+		<td><a href=#NIEE><code>NIEE</code></a> </td>
+		<td><a href=#DE><code>DE</code></a> <a href=#TCEG><code>TCEG</code></a> <a href=#TGC><code>TGC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DEBNE}\left(t\right)=\frac{\mathtt{POP}\left(t\right)\cdot\mathtt{TPPUEBEE}\left(t\right)\cdot e^{-\mathtt{NIEE}\cdot\left(-2000+t\right)}}{\mathtt{EEPI2022}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DFE">
+		<td>Demand for fossil electricity TWh/y</td>
+		<td><code>DFE</code></td>
+		<td><a href=#LCEP><code>LCEP</code></a> <a href=#DE><code>DE</code></a> </td>
+		<td></td>
+		<td><a href=#DFEC><code>DFEC</code></a> <a href=#FCUT><code>FCUT</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DFE}\left(t\right)=\mathtt{max}\left(0,-\mathtt{LCEP}\left(t\right)+\mathtt{DE}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="DFEC">
+		<td>Desired fossil el capacity GW</td>
+		<td><code>DFEC</code></td>
+		<td><a href=#DFE><code>DFE</code></a> </td>
+		<td><a href=#EKHPY><code>EKHPY</code></a> </td>
+		<td><a href=#DFECC><code>DFECC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DFEC}\left(t\right)=\frac{\mathtt{DFE}\left(t\right)}{\mathtt{EKHPY}}\)</td>
+	</tr>
+	<tr id="DFECC">
+		<td>Desired fossil el capacity change GW/y</td>
+		<td><code>DFECC</code></td>
+		<td><a href=#DIFEC><code>DIFEC</code></a> <a href=#FEC><code>FEC</code></a> <a href=#DFEC><code>DFEC</code></a> </td>
+		<td><a href=#FECCT><code>FECCT</code></a> </td>
+		<td><a href=#AFEC><code>AFEC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DFECC}\left(t\right)=\frac{-\mathtt{FEC}\left(t\right)+\mathtt{DFEC}\left(t\right)}{\mathtt{FECCT}}+\mathtt{DIFEC}\left(t\right)\)</td>
+	</tr>
+	<tr id="DFFFNEU">
+		<td>Demand for fossil fuel for non-el use Mtoe/y</td>
+		<td><code>DFFFNEU</code></td>
+		<td><a href=#ERDNEFFFNE><code>ERDNEFFFNE</code></a> <a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td></td>
+		<td><a href=#UFF><code>UFF</code></a> <a href=#EU><code>EU</code></a> <a href=#CFFFNEU><code>CFFFNEU</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DFFFNEU}\left(t\right)=-\mathtt{ERDNEFFFNE}\left(t\right)+\mathtt{DFFNEUBNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="DFFNEUBNE">
+		<td>Demand for fossil fuel for non-el use before NE Mtoe/y</td>
+		<td><code>DFFNEUBNE</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#TPPUFFNEUBEE><code>TPPUFFNEUBEE</code></a> <a href=#EEPI2022><code>EEPI2022</code></a> </td>
+		<td><a href=#NIEE><code>NIEE</code></a> </td>
+		<td><a href=#ERDNEFFFNE><code>ERDNEFFFNE</code></a> <a href=#DFFFNEU><code>DFFFNEU</code></a> <a href=#TCFFFNEUG><code>TCFFFNEUG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DFFNEUBNE}\left(t\right)=\frac{\mathtt{POP}\left(t\right)\cdot\mathtt{TPPUFFNEUBEE}\left(t\right)\cdot e^{-\mathtt{NIEE}\cdot\left(-2000+t\right)}}{\mathtt{EEPI2022}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DIFEC">
+		<td>DIscard of Fossil El Capacity GW/y</td>
+		<td><code>DIFEC</code></td>
+		<td><a href=#LFEC><code>LFEC</code></a> <a href=#FEC><code>FEC</code></a> </td>
+		<td></td>
+		<td><a href=#FEC><code>FEC</code></a> <a href=#DFECC><code>DFECC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DIFEC}\left(t\right)=\frac{\mathtt{FEC}\left(t\right)}{\mathtt{LFEC}\left(t\right)}\)</td>
+	</tr>
+	<tr id="DIREC">
+		<td>Discard of renewable el capacity GW/y</td>
+		<td><code>DIREC</code></td>
+		<td><a href=#REC><code>REC</code></a> </td>
+		<td><a href=#LREC><code>LREC</code></a> </td>
+		<td><a href=#REC><code>REC</code></a> <a href=#AREC><code>AREC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DIREC}\left(t\right)=\frac{\mathtt{REC}\left(t\right)}{\mathtt{LREC}}\)</td>
+	</tr>
+	<tr id="DREC">
+		<td>Desired renewable el capacity GW</td>
+		<td><code>DREC</code></td>
+		<td><a href=#DSRE><code>DSRE</code></a> </td>
+		<td><a href=#RCUT><code>RCUT</code></a> </td>
+		<td><a href=#DRECC><code>DRECC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DREC}\left(t\right)=\frac{\mathtt{DSRE}\left(t\right)}{\mathtt{RCUT}}\)</td>
+	</tr>
+	<tr id="DRECC">
+		<td>Desired renewable el capacity change GW</td>
+		<td><code>DRECC</code></td>
+		<td><a href=#DREC><code>DREC</code></a> <a href=#REC><code>REC</code></a> </td>
+		<td></td>
+		<td><a href=#AREC><code>AREC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DRECC}\left(t\right)=-\mathtt{REC}\left(t\right)+\mathtt{DREC}\left(t\right)\)</td>
+	</tr>
+	<tr id="DRES">
+		<td>Desired renewable electricity share (1)</td>
+		<td><code>DRES</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#REFF1980><code>REFF1980</code></a> <a href=#GREF><code>GREF</code></a> <a href=#REFF2022><code>REFF2022</code></a> </td>
+		<td><a href=#DSRE><code>DSRE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DRES}\left(t\right)=\mathtt{REFF1980}+\mathtt{ramp}\left(t,\frac{\mathtt{GREF}-\mathtt{REFF2022}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right)+\mathtt{ramp}\left(t,\frac{1}{42}\cdot\left(\mathtt{REFF2022}-\mathtt{REFF1980}\right),2000,2000\right)\)</td>
+	</tr>
+	<tr id="DSRE">
+		<td>Desired supply of renewable electricity TWh/y</td>
+		<td><code>DSRE</code></td>
+		<td><a href=#DRES><code>DRES</code></a> <a href=#DE><code>DE</code></a> </td>
+		<td></td>
+		<td><a href=#DREC><code>DREC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{DSRE}\left(t\right)=\mathtt{DE}\left(t\right)\cdot\mathtt{DRES}\left(t\right)\)</td>
+	</tr>
+	<tr id="ECETSGDP">
+		<td>Extra cost of Energy Turnaround as share of GDP (1)</td>
+		<td><code>ECETSGDP</code></td>
+		<td><a href=#CE><code>CE</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> <a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{ECETSGDP}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\frac{-\mathtt{TCEN}\left(t\right)+\mathtt{CE}\left(t\right)}{\mathtt{GDP}\left(t\right)},0\right)\)</td>
+	</tr>
+	<tr id="EEPI2022">
+		<td>Extra energy productivity index 2022=1</td>
+		<td><code>EEPI2022</code></td>
+		<td><a href=#IEEPI><code>IEEPI</code></a> </td>
+		<td></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> <a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{EEPI2022}\left(t\right)}{\mathrm{d}t}=\mathtt{IEEPI}\left(t\right)\)</td>
+	</tr>
+	<tr id="EIDEFNE">
+		<td>Extra increase in demand for electricity from NE TWh/y</td>
+		<td><code>EIDEFNE</code></td>
+		<td><a href=#ERDNEFFFNE><code>ERDNEFFFNE</code></a> </td>
+		<td><a href=#EUEPRUNEFF><code>EUEPRUNEFF</code></a> </td>
+		<td><a href=#DE><code>DE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EIDEFNE}\left(t\right)=\mathtt{EUEPRUNEFF}\cdot\mathtt{ERDNEFFFNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="ELB">
+		<td>ELectricity balance (1)</td>
+		<td><code>ELB</code></td>
+		<td><a href=#EP><code>EP</code></a> <a href=#DE><code>DE</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{ELB}\left(t\right)=\frac{\mathtt{EP}\left(t\right)}{\mathtt{DE}\left(t\right)}\)</td>
+	</tr>
+	<tr id="EP">
+		<td>Electricity production TWh/y</td>
+		<td><code>EP</code></td>
+		<td><a href=#NEP><code>NEP</code></a> <a href=#REP><code>REP</code></a> <a href=#FEP><code>FEP</code></a> </td>
+		<td></td>
+		<td><a href=#ELB><code>ELB</code></a> <a href=#FFPNE><code>FFPNE</code></a> <a href=#EU><code>EU</code></a> <a href=#CG><code>CG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EP}\left(t\right)=\mathtt{FEP}\left(t\right)+\mathtt{NEP}\left(t\right)+\mathtt{REP}\left(t\right)\)</td>
+	</tr>
+	<tr id="ERDNEFFFNE">
+		<td>Extra reduction in demand for non-el fossil fuel from NE Mtoe/y</td>
+		<td><code>ERDNEFFFNE</code></td>
+		<td><a href=#FNE><code>FNE</code></a> <a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td></td>
+		<td><a href=#CNE><code>CNE</code></a> <a href=#EIDEFNE><code>EIDEFNE</code></a> <a href=#DFFFNEU><code>DFFFNEU</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ERDNEFFFNE}\left(t\right)=\mathtt{DFFNEUBNE}\left(t\right)\cdot\mathtt{FNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="EU">
+		<td>Energy use Mtoe/y</td>
+		<td><code>EU</code></td>
+		<td><a href=#EP><code>EP</code></a> <a href=#RHP><code>RHP</code></a> <a href=#FTWEPMt><code>FTWEPMt</code></a> <a href=#DFFFNEU><code>DFFFNEU</code></a> </td>
+		<td></td>
+		<td><a href=#EUPP><code>EUPP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EU}\left(t\right)=\frac{\mathtt{EP}\left(t\right)}{\mathtt{FTWEPMt}\left(t\right)}+\mathtt{DFFFNEU}\left(t\right)+\mathtt{RHP}\left(t\right)\)</td>
+	</tr>
+	<tr id="EUPP">
+		<td>Energy use per person toe/p/y</td>
+		<td><code>EUPP</code></td>
+		<td><a href="population.html#POP"><code>POP</code></a> <a href=#EU><code>EU</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{EUPP}\left(t\right)=\frac{\mathtt{EU}\left(t\right)}{\mathtt{POP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="FCO2SCCS">
+		<td>Fraction of CO2-sources with CCS (1)</td>
+		<td><code>FCO2SCCS</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#GFCO2SCCS><code>GFCO2SCCS</code></a> <a href=#FCO2SCCS2022><code>FCO2SCCS2022</code></a> </td>
+		<td><a href=#CO2NFIP><code>CO2NFIP</code></a> <a href=#CO2EP><code>CO2EP</code></a> <a href=#ICCSC><code>ICCSC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FCO2SCCS}\left(t\right)=\mathtt{FCO2SCCS2022}+\mathtt{ramp}\left(t,\frac{\mathtt{GFCO2SCCS}-\mathtt{FCO2SCCS2022}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="FCUT">
+		<td>Fossil capacity up-time kh/y</td>
+		<td><code>FCUT</code></td>
+		<td><a href=#FEC><code>FEC</code></a> <a href=#DFE><code>DFE</code></a> </td>
+		<td></td>
+		<td><a href=#FCUTLOFC><code>FCUTLOFC</code></a> <a href=#FEP><code>FEP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FCUT}\left(t\right)=\frac{\mathtt{DFE}\left(t\right)}{\mathtt{FEC}\left(t\right)}\)</td>
+	</tr>
+	<tr id="FCUTLOFC">
+		<td>FCUTeoLOFC (1)</td>
+		<td><code>FCUTLOFC</code></td>
+		<td><a href=#FCUT><code>FCUT</code></a> </td>
+		<td><a href=#sFCUTLOFC><code>sFCUTLOFC</code></a> <a href=#EKHPY><code>EKHPY</code></a> </td>
+		<td><a href=#LFEC><code>LFEC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FCUTLOFC}\left(t\right)=1+\mathtt{sFCUTLOFC}\cdot\left(-1+\frac{\mathtt{FCUT}\left(t\right)}{\mathtt{EKHPY}}\right)\)</td>
+	</tr>
+	<tr id="FEC">
+		<td>Fossil electricity capacity GW</td>
+		<td><code>FEC</code></td>
+		<td><a href=#AFEC><code>AFEC</code></a> <a href=#DIFEC><code>DIFEC</code></a> </td>
+		<td></td>
+		<td><a href=#DFECC><code>DFECC</code></a> <a href=#DIFEC><code>DIFEC</code></a> <a href=#FCUT><code>FCUT</code></a> <a href=#FEP><code>FEP</code></a> </td>
+		<td>980.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{FEC}\left(t\right)}{\mathrm{d}t}=-\mathtt{DIFEC}\left(t\right)+\mathtt{AFEC}\left(t\right)\)</td>
+	</tr>
+	<tr id="FEP">
+		<td>Fossil Electricity Production TWh/y</td>
+		<td><code>FEP</code></td>
+		<td><a href=#FCUT><code>FCUT</code></a> <a href=#FEC><code>FEC</code></a> </td>
+		<td></td>
+		<td><a href=#OPEXFEG><code>OPEXFEG</code></a> <a href=#EP><code>EP</code></a> <a href=#FFPNE><code>FFPNE</code></a> <a href=#FFE><code>FFE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FEP}\left(t\right)=\mathtt{FCUT}\left(t\right)\cdot\mathtt{FEC}\left(t\right)\)</td>
+	</tr>
+	<tr id="FFE">
+		<td>Fossil fuels for electricity Mtoe/y</td>
+		<td><code>FFE</code></td>
+		<td><a href=#FEP><code>FEP</code></a> <a href=#FTWEPMt><code>FTWEPMt</code></a> </td>
+		<td></td>
+		<td><a href=#UFF><code>UFF</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FFE}\left(t\right)=\frac{\mathtt{FEP}\left(t\right)}{\mathtt{FTWEPMt}\left(t\right)}\)</td>
+	</tr>
+	<tr id="FFPNE">
+		<td>Fraction fossil plus nuclear electricity (1)</td>
+		<td><code>FFPNE</code></td>
+		<td><a href=#NEP><code>NEP</code></a> <a href=#FEP><code>FEP</code></a> <a href=#EP><code>EP</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{FFPNE}\left(t\right)=\frac{\mathtt{FEP}\left(t\right)+\mathtt{NEP}\left(t\right)}{\mathtt{EP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="FNE">
+		<td>Fraction new electrification (1)</td>
+		<td><code>FNE</code></td>
+		<td><a href="wellbeing.html#IPP"><code>IPP</code></a> </td>
+		<td><a href=#GFNE><code>GFNE</code></a> <a href=#FNE2022><code>FNE2022</code></a> <a href=#FNE1980><code>FNE1980</code></a> </td>
+		<td><a href=#ERDNEFFFNE><code>ERDNEFFFNE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FNE}\left(t\right)=\mathtt{FNE1980}+\mathtt{ramp}\left(t,\frac{1}{42}\cdot\left(\mathtt{FNE2022}-\mathtt{FNE1980}\right),2000,2000\right)+\mathtt{ramp}\left(t,\frac{\mathtt{GFNE}-\mathtt{FNE2022}}{\mathtt{IPP}\left(t\right)},2000,2000+\mathtt{IPP}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="FTWEPMt">
+		<td>4 TWh-el per Mtoe</td>
+		<td><code>FTWEPMt</code></td>
+		<td><a href=#TWEPEJEE><code>TWEPEJEE</code></a> </td>
+		<td><a href=#MTPEJCE><code>MTPEJCE</code></a> </td>
+		<td><a href=#EU><code>EU</code></a> <a href=#FFE><code>FFE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{FTWEPMt}\left(t\right)=\frac{\mathtt{TWEPEJEE}\left(t\right)}{\mathtt{MTPEJCE}}\)</td>
+	</tr>
+	<tr id="GHMH2">
+		<td>Green hydrogen MtH2/y</td>
+		<td><code>GHMH2</code></td>
+		<td><a href=#REP><code>REP</code></a> </td>
+		<td><a href=#FREH><code>FREH</code></a> <a href=#KWEPKGH2><code>KWEPKGH2</code></a> </td>
+		<td><a href=#GHMt><code>GHMt</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GHMH2}\left(t\right)=\frac{\mathtt{FREH}\cdot\mathtt{REP}\left(t\right)}{\mathtt{KWEPKGH2}}\)</td>
+	</tr>
+	<tr id="GHMt">
+		<td>Green hydrogen Mtoe/y</td>
+		<td><code>GHMt</code></td>
+		<td><a href=#GHMH2><code>GHMH2</code></a> </td>
+		<td><a href=#TPTH2><code>TPTH2</code></a> </td>
+		<td><a href=#RHP><code>RHP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{GHMt}\left(t\right)=\mathtt{TPTH2}\cdot\mathtt{GHMH2}\left(t\right)\)</td>
+	</tr>
+	<tr id="ICCSC">
+		<td>Installed CCS capacity GtCO2/y</td>
+		<td><code>ICCSC</code></td>
+		<td><a href=#CO2EP><code>CO2EP</code></a> <a href=#CO2NFIP><code>CO2NFIP</code></a> <a href=#FCO2SCCS><code>FCO2SCCS</code></a> </td>
+		<td></td>
+		<td><a href=#CCCSG><code>CCCSG</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ICCSC}\left(t\right)=\frac{\left(\mathtt{CO2EP}\left(t\right)+\mathtt{CO2NFIP}\left(t\right)\right)\cdot\mathtt{FCO2SCCS}\left(t\right)}{1-\mathtt{FCO2SCCS}\left(t\right)}\)</td>
+	</tr>
+	<tr id="IEEPI">
+		<td>Increase in extra energy productivity index 1/y</td>
+		<td><code>IEEPI</code></td>
+		<td></td>
+		<td><a href=#EROCEPA2022><code>EROCEPA2022</code></a> </td>
+		<td><a href=#EEPI2022><code>EEPI2022</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IEEPI}\left(t\right)=\mathtt{ifelse}\left(\left(t\geq2000\right),\mathtt{EROCEPA2022},0\right)\)</td>
+	</tr>
+	<tr id="IIASAFEP">
+		<td>IIASA Fossil energy production EJ/yr</td>
+		<td><code>IIASAFEP</code></td>
+		<td><a href=#UFF><code>UFF</code></a> </td>
+		<td><a href=#MTPEJCE><code>MTPEJCE</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{IIASAFEP}\left(t\right)=\frac{\mathtt{UFF}\left(t\right)}{\mathtt{MTPEJCE}}\)</td>
+	</tr>
+	<tr id="IIASAREP">
+		<td>IIASA Renewable energy production EJ/yr</td>
+		<td><code>IIASAREP</code></td>
+		<td><a href=#REP><code>REP</code></a> <a href=#RHP><code>RHP</code></a> <a href=#TWEPEJEE><code>TWEPEJEE</code></a> </td>
+		<td><a href=#MTPEJCE><code>MTPEJCE</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{IIASAREP}\left(t\right)=\frac{\mathtt{REP}\left(t\right)}{\mathtt{TWEPEJEE}\left(t\right)}+\frac{\mathtt{RHP}\left(t\right)}{\mathtt{MTPEJCE}}\)</td>
+	</tr>
+	<tr id="LCEP">
+		<td>Low-carbon el production TWh/y</td>
+		<td><code>LCEP</code></td>
+		<td><a href=#NEP><code>NEP</code></a> <a href=#REP><code>REP</code></a> </td>
+		<td></td>
+		<td><a href=#DFE><code>DFE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LCEP}\left(t\right)=\mathtt{NEP}\left(t\right)+\mathtt{REP}\left(t\right)\)</td>
+	</tr>
+	<tr id="LFEC">
+		<td>Life of fossil el capacity y</td>
+		<td><code>LFEC</code></td>
+		<td><a href=#FCUTLOFC><code>FCUTLOFC</code></a> </td>
+		<td><a href=#NLFEC><code>NLFEC</code></a> </td>
+		<td><a href=#DIFEC><code>DIFEC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LFEC}\left(t\right)=\mathtt{NLFEC}\cdot\mathtt{FCUTLOFC}\left(t\right)\)</td>
+	</tr>
+	<tr id="NC">
+		<td>Nuclear capacity GW</td>
+		<td><code>NC</code></td>
+		<td></td>
+		<td></td>
+		<td><a href=#NEP><code>NEP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(t, [(1980.0, 75.0), (2000.0, 310.0), (2020.0, 310.0), (2098.9, 310.0)])\)</td>
+	</tr>
+	<tr id="NDSWC">
+		<td>Number of doublings in sun and wind capacity (1)</td>
+		<td><code>NDSWC</code></td>
+		<td><a href=#ACSWCF><code>ACSWCF</code></a> </td>
+		<td><a href=#SWC1980><code>SWC1980</code></a> </td>
+		<td><a href=#CISWC><code>CISWC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{NDSWC}\left(t\right)=0.69+\log\left(\frac{\mathtt{ACSWCF}\left(t\right)}{\mathtt{SWC1980}}\right)\)</td>
+	</tr>
+	<tr id="NEP">
+		<td>Nuclear electricity production TWh/y</td>
+		<td><code>NEP</code></td>
+		<td><a href=#NC><code>NC</code></a> </td>
+		<td><a href=#NCUT><code>NCUT</code></a> </td>
+		<td><a href=#CNEL><code>CNEL</code></a> <a href=#LCEP><code>LCEP</code></a> <a href=#EP><code>EP</code></a> <a href=#FFPNE><code>FFPNE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{NEP}\left(t\right)=\mathtt{NCUT}\cdot\mathtt{NC}\left(t\right)\)</td>
+	</tr>
+	<tr id="NFCO2PP">
+		<td>Non-fossil CO2 per person tCO2/p/y</td>
+		<td><code>NFCO2PP</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td><a href=#MNFCO2PP><code>MNFCO2PP</code></a> </td>
+		<td><a href=#CO2NFIP><code>CO2NFIP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{NFCO2PP}\left(t\right)=\mathtt{MNFCO2PP}\cdot\left(1-e^{-\frac{1}{10}\cdot\mathtt{GDPP}\left(t\right)}\right)\)</td>
+	</tr>
+	<tr id="OPEXFEG">
+		<td>OPEX fossil el GDollar/y</td>
+		<td><code>OPEXFEG</code></td>
+		<td><a href=#FEP><code>FEP</code></a> </td>
+		<td><a href=#OPEXFED><code>OPEXFED</code></a> </td>
+		<td><a href=#CFE><code>CFE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OPEXFEG}\left(t\right)=\mathtt{OPEXFED}\cdot\mathtt{FEP}\left(t\right)\)</td>
+	</tr>
+	<tr id="OPEXREG">
+		<td>OPEX renewable el Gdollar/y</td>
+		<td><code>OPEXREG</code></td>
+		<td><a href=#REP><code>REP</code></a> </td>
+		<td><a href=#OPEXRED><code>OPEXRED</code></a> </td>
+		<td><a href=#CRE><code>CRE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OPEXREG}\left(t\right)=\mathtt{OPEXRED}\cdot\mathtt{REP}\left(t\right)\)</td>
+	</tr>
+	<tr id="REC">
+		<td>Renewable electricity capacity GW</td>
+		<td><code>REC</code></td>
+		<td><a href=#AREC><code>AREC</code></a> <a href=#DIREC><code>DIREC</code></a> </td>
+		<td></td>
+		<td><a href=#DRECC><code>DRECC</code></a> <a href=#DIREC><code>DIREC</code></a> <a href=#REP><code>REP</code></a> </td>
+		<td>300.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{REC}\left(t\right)}{\mathrm{d}t}=-\mathtt{DIREC}\left(t\right)+\mathtt{AREC}\left(t\right)\)</td>
+	</tr>
+	<tr id="RECTEC">
+		<td>Ratio of Energy cost to Trad Energy cost (1)</td>
+		<td><code>RECTEC</code></td>
+		<td><a href=#CE><code>CE</code></a> <a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{RECTEC}\left(t\right)=\frac{\mathtt{CE}\left(t\right)}{\mathtt{TCEN}\left(t\right)}\)</td>
+	</tr>
+	<tr id="REP">
+		<td>Renewable electricity production TWh/y</td>
+		<td><code>REP</code></td>
+		<td><a href=#REC><code>REC</code></a> </td>
+		<td><a href=#RCUT><code>RCUT</code></a> </td>
+		<td><a href=#OPEXREG><code>OPEXREG</code></a> <a href=#GHMH2><code>GHMH2</code></a> <a href=#IIASAREP><code>IIASAREP</code></a> <a href=#LCEP><code>LCEP</code></a> <a href=#EP><code>EP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{REP}\left(t\right)=\mathtt{RCUT}\cdot\mathtt{REC}\left(t\right)\)</td>
+	</tr>
+	<tr id="RHP">
+		<td>Renewable heat production Mtoe/y</td>
+		<td><code>RHP</code></td>
+		<td><a href=#GHMt><code>GHMt</code></a> </td>
+		<td><a href=#BEM><code>BEM</code></a> </td>
+		<td><a href=#IIASAREP><code>IIASAREP</code></a> <a href=#EU><code>EU</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{RHP}\left(t\right)=\mathtt{BEM}+\mathtt{GHMt}\left(t\right)\)</td>
+	</tr>
+	<tr id="TCEG">
+		<td>Traditional cost of electricity GDollar/y</td>
+		<td><code>TCEG</code></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> </td>
+		<td><a href=#TCE><code>TCE</code></a> <a href=#AFMCM><code>AFMCM</code></a> </td>
+		<td><a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{\mathtt{TCE}G}\left(t\right)=\frac{1}{1000}\cdot\mathtt{AFMCM}\cdot\mathtt{TCE}\cdot\mathtt{DEBNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="TCEN">
+		<td>Traditional Cost of ENergy Gdollar/y</td>
+		<td><code>TCEN</code></td>
+		<td><a href=#TCEG><code>TCEG</code></a> <a href=#TCFFFNEUG><code>TCFFFNEUG</code></a> <a href=#TGC><code>TGC</code></a> </td>
+		<td></td>
+		<td><a href=#TCENSGDP><code>TCENSGDP</code></a> <a href=#RECTEC><code>RECTEC</code></a> <a href=#ECETSGDP><code>ECETSGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TCEN}\left(t\right)=\mathtt{TCEG}\left(t\right)+\mathtt{TCFFFNEUG}\left(t\right)+\mathtt{TGC}\left(t\right)\)</td>
+	</tr>
+	<tr id="TCENSGDP">
+		<td>Traditional cost of energy as share of GDP (1)</td>
+		<td><code>TCENSGDP</code></td>
+		<td><a href="inventory.html#GDP"><code>GDP</code></a> <a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{TCENSGDP}\left(t\right)=\frac{\mathtt{TCEN}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="TCFFFNEUG">
+		<td>Traditional cost of fossil fuel for non-el use Gdollar/y</td>
+		<td><code>TCFFFNEUG</code></td>
+		<td><a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td><a href=#TCFFFNEU><code>TCFFFNEU</code></a> <a href=#AFMCM><code>AFMCM</code></a> </td>
+		<td><a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{\mathtt{TCFFFNEU}G}\left(t\right)=\frac{1}{1000}\cdot\mathtt{AFMCM}\cdot\mathtt{TCFFFNEU}\cdot\mathtt{DFFNEUBNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="TCO2PT">
+		<td>tCO2 per toe</td>
+		<td><code>TCO2PT</code></td>
+		<td></td>
+		<td><a href=#ROCTCO2PT><code>ROCTCO2PT</code></a> </td>
+		<td><a href=#CO2EP><code>CO2EP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TCO2PT}\left(t\right)=2.8\cdot e^{\mathtt{ROCTCO2PT}\cdot\left(-2000+t\right)}\)</td>
+	</tr>
+	<tr id="TGC">
+		<td>Traditional grid cost GDollar/y</td>
+		<td><code>TGC</code></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> </td>
+		<td><a href=#TC><code>TC</code></a> </td>
+		<td><a href=#TCEN><code>TCEN</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TGC}\left(t\right)=\mathtt{TC}\cdot\mathtt{DEBNE}\left(t\right)\)</td>
+	</tr>
+	<tr id="TPPUEBEE">
+		<td>Traditional per person use of electricity before EE MWh/p/y</td>
+		<td><code>TPPUEBEE</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(\mathtt{GDPP}(t), [(0.0, 0.0), (10.0, 4.0), (20.0, 7.0), (30.0, 9.0), (50.0, 12.0), (65.0, 13.0)])\)</td>
+	</tr>
+	<tr id="TPPUFFNEUBEE">
+		<td>Traditional per person use of fossil fuels for non-el-use before EE toe/p/y</td>
+		<td><code>TPPUFFNEUBEE</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td></td>
+		<td><a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}(\mathtt{GDPP}(t), [(0.0, 0.3), (15.0, 2.0), (25.0, 3.1), (35.0, 4.0), (50.0, 5.0)])\)</td>
+	</tr>
+	<tr id="TWEPEJEE">
+		<td>TWh-el per EJ - engineering equivalent</td>
+		<td><code>TWEPEJEE</code></td>
+		<td></td>
+		<td><a href=#EFPP><code>EFPP</code></a> <a href=#TWHPEJCE><code>TWHPEJCE</code></a> </td>
+		<td><a href=#IIASAREP><code>IIASAREP</code></a> <a href=#FTWEPMt><code>FTWEPMt</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{TWEPEJEE}\left(t\right)=\mathtt{EFPP}\cdot\mathtt{TWHPEJCE}\)</td>
+	</tr>
+	<tr id="UFF">
+		<td>Use of fossil fuels Mtoe/y</td>
+		<td><code>UFF</code></td>
+		<td><a href=#DFFFNEU><code>DFFFNEU</code></a> <a href=#FFE><code>FFE</code></a> </td>
+		<td></td>
+		<td><a href=#CO2EP><code>CO2EP</code></a> <a href=#IIASAFEP><code>IIASAFEP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{UFF}\left(t\right)=\mathtt{DFFFNEU}\left(t\right)+\mathtt{FFE}\left(t\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AFMCM">
+		<td>Adjustment factor to make cost match 1980 - 2022</td>
+		<td><code>AFMCM</code></td>
+		<td><a href=#TCEG><code>TCEG</code></a> <a href=#TCFFFNEUG><code>TCFFFNEUG</code></a> </td>
+		<td>1.35</td>
+	</tr>
+	<tr id="BEM">
+		<td>Biomass energy Mtoe/y</td>
+		<td><code>BEM</code></td>
+		<td><a href=#RHP><code>RHP</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="CAPEXFED">
+		<td>CAPEX fossil el Dollar/W</td>
+		<td><code>CAPEXFED</code></td>
+		<td><a href=#CAPEXFEG><code>CAPEXFEG</code></a> </td>
+		<td>0.7</td>
+	</tr>
+	<tr id="CAPEXRE1980">
+		<td>CAPEX of renewable el in 1980 Dollar/W</td>
+		<td><code>CAPEXRE1980</code></td>
+		<td><a href=#CAPEXRED><code>CAPEXRED</code></a> </td>
+		<td>7.0</td>
+	</tr>
+	<tr id="CCCSt">
+		<td>Cost of CCS Dollar/tCO2</td>
+		<td><code>CCCSt</code></td>
+		<td><a href=#CCCSG><code>CCCSG</code></a> </td>
+		<td>95.0</td>
+	</tr>
+	<tr id="CNED">
+		<td>Cost of Nuclear El Dollar/kWh</td>
+		<td><code>CNED</code></td>
+		<td><a href=#CNEL><code>CNEL</code></a> </td>
+		<td>0.033</td>
+	</tr>
+	<tr id="CRDSWC">
+		<td>Cost reduction per dubling of sun and wind capacity</td>
+		<td><code>CRDSWC</code></td>
+		<td><a href=#CISWC><code>CISWC</code></a> </td>
+		<td>0.2</td>
+	</tr>
+	<tr id="ECRUNEFF">
+		<td>Extra cost per reduced use og non-el FF Dollar/toe</td>
+		<td><code>ECRUNEFF</code></td>
+		<td><a href=#CNE><code>CNE</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="EFPP">
+		<td>Efficiency of fossil power plant TWh-el/TWh-heat</td>
+		<td><code>EFPP</code></td>
+		<td><a href=#TWEPEJEE><code>TWEPEJEE</code></a> </td>
+		<td>0.345</td>
+	</tr>
+	<tr id="EKHPY">
+		<td>8 khours per year</td>
+		<td><code>EKHPY</code></td>
+		<td><a href=#DFEC><code>DFEC</code></a> <a href=#FCUTLOFC><code>FCUTLOFC</code></a> </td>
+		<td>8.0</td>
+	</tr>
+	<tr id="EROCEPA2022">
+		<td>Extra ROC in energy productivity after 2022 1/y</td>
+		<td><code>EROCEPA2022</code></td>
+		<td><a href=#IEEPI><code>IEEPI</code></a> </td>
+		<td>0.002</td>
+	</tr>
+	<tr id="EUEPRUNEFF">
+		<td>Extra use of electricity per reduced use of non-el FF MWh/toe</td>
+		<td><code>EUEPRUNEFF</code></td>
+		<td><a href=#EIDEFNE><code>EIDEFNE</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	<tr id="FCO2SCCS2022">
+		<td>Fraction of CO2-sources with CCS in 2022</td>
+		<td><code>FCO2SCCS2022</code></td>
+		<td><a href=#FCO2SCCS><code>FCO2SCCS</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="FECCT">
+		<td>Fossil el cap construction time y</td>
+		<td><code>FECCT</code></td>
+		<td><a href=#DFECC><code>DFECC</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	<tr id="FNE1980">
+		<td>Fraction new electrification in 1980</td>
+		<td><code>FNE1980</code></td>
+		<td><a href=#FNE><code>FNE</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="FNE2022">
+		<td>Fraction new electrification in 2022</td>
+		<td><code>FNE2022</code></td>
+		<td><a href=#FNE><code>FNE</code></a> </td>
+		<td>0.03</td>
+	</tr>
+	<tr id="FREH">
+		<td>Fraction of renewable electricity to hydrogen</td>
+		<td><code>FREH</code></td>
+		<td><a href=#GHMH2><code>GHMH2</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="GFCO2SCCS">
+		<td>Goal for fraction of CO2-sources with CCS</td>
+		<td><code>GFCO2SCCS</code></td>
+		<td><a href=#FCO2SCCS><code>FCO2SCCS</code></a> </td>
+		<td>0.2</td>
+	</tr>
+	<tr id="GFNE">
+		<td>Goal for fraction new electrification</td>
+		<td><code>GFNE</code></td>
+		<td><a href=#FNE><code>FNE</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="GREF">
+		<td>Goal for renewable el fraction</td>
+		<td><code>GREF</code></td>
+		<td><a href=#DRES><code>DRES</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="KWEPKGH2">
+		<td>kWh electricity per kg of hydrogen</td>
+		<td><code>KWEPKGH2</code></td>
+		<td><a href=#GHMH2><code>GHMH2</code></a> </td>
+		<td>40.0</td>
+	</tr>
+	<tr id="LREC">
+		<td>Life of renewable el capacity y</td>
+		<td><code>LREC</code></td>
+		<td><a href=#DIREC><code>DIREC</code></a> </td>
+		<td>40.0</td>
+	</tr>
+	<tr id="MNFCO2PP">
+		<td>Max non-fossil CO2 per person tCO2/p/y</td>
+		<td><code>MNFCO2PP</code></td>
+		<td><a href=#NFCO2PP><code>NFCO2PP</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="MTPEJCE">
+		<td>Mtoe per EJ - calorific equivalent</td>
+		<td><code>MTPEJCE</code></td>
+		<td><a href=#IIASAREP><code>IIASAREP</code></a> <a href=#FTWEPMt><code>FTWEPMt</code></a> <a href=#IIASAFEP><code>IIASAFEP</code></a> </td>
+		<td>24.0</td>
+	</tr>
+	<tr id="NCUT">
+		<td>Nuclear capacity up-time kh/y</td>
+		<td><code>NCUT</code></td>
+		<td><a href=#NEP><code>NEP</code></a> </td>
+		<td>8.0</td>
+	</tr>
+	<tr id="NIEE">
+		<td>Normal increase in energy efficiency 1/y</td>
+		<td><code>NIEE</code></td>
+		<td><a href=#DEBNE><code>DEBNE</code></a> <a href=#DFFNEUBNE><code>DFFNEUBNE</code></a> </td>
+		<td>0.01</td>
+	</tr>
+	<tr id="NLFEC">
+		<td>Normal life of fossil el capacity y</td>
+		<td><code>NLFEC</code></td>
+		<td><a href=#LFEC><code>LFEC</code></a> </td>
+		<td>40.0</td>
+	</tr>
+	<tr id="OPEXFED">
+		<td>OPEX fossil el Dollar/kWh</td>
+		<td><code>OPEXFED</code></td>
+		<td><a href=#OPEXFEG><code>OPEXFEG</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="OPEXRED">
+		<td>OPEX renewable el Dollar/kWh</td>
+		<td><code>OPEXRED</code></td>
+		<td><a href=#OPEXREG><code>OPEXREG</code></a> </td>
+		<td>0.001</td>
+	</tr>
+	<tr id="RCUT">
+		<td>Renewable capacity up-time kh/y</td>
+		<td><code>RCUT</code></td>
+		<td><a href=#DREC><code>DREC</code></a> <a href=#REP><code>REP</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	<tr id="RECT">
+		<td>Renewable el contruction time y</td>
+		<td><code>RECT</code></td>
+		<td><a href=#AREC><code>AREC</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	<tr id="REFF1980">
+		<td>Renewable el fraction in 1980</td>
+		<td><code>REFF1980</code></td>
+		<td><a href=#DRES><code>DRES</code></a> </td>
+		<td>0.065</td>
+	</tr>
+	<tr id="REFF2022">
+		<td>Renewable el fraction in 2022</td>
+		<td><code>REFF2022</code></td>
+		<td><a href=#DRES><code>DRES</code></a> </td>
+		<td>0.23</td>
+	</tr>
+	<tr id="ROCTCO2PT">
+		<td>ROC in tCO2 per toe 1/y</td>
+		<td><code>ROCTCO2PT</code></td>
+		<td><a href=#TCO2PT><code>TCO2PT</code></a> </td>
+		<td>-0.003</td>
+	</tr>
+	<tr id="SWC1980">
+		<td>Sun and wind capacity in 1980 GW</td>
+		<td><code>SWC1980</code></td>
+		<td><a href=#NDSWC><code>NDSWC</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="TC">
+		<td>Transmission cost Dollar/kWh</td>
+		<td><code>TC</code></td>
+		<td><a href=#CG><code>CG</code></a> <a href=#TGC><code>TGC</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="TCE">
+		<td>Traditional cost of electricity Dollar/kWh</td>
+		<td><code>TCE</code></td>
+		<td><a href=#TCEG><code>TCEG</code></a> </td>
+		<td>0.03</td>
+	</tr>
+	<tr id="TCFFFNEU">
+		<td>Traditional cost of fossil fuels for non-el use Dollar/toe</td>
+		<td><code>TCFFFNEU</code></td>
+		<td><a href=#TCFFFNEUG><code>TCFFFNEUG</code></a> <a href=#CFFFNEU><code>CFFFNEU</code></a> </td>
+		<td>240.0</td>
+	</tr>
+	<tr id="TPTH2">
+		<td>toe per tH2</td>
+		<td><code>TPTH2</code></td>
+		<td><a href=#GHMt><code>GHMt</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="TWHPEJCE">
+		<td>TWh-heat per EJ - calorific equivalent</td>
+		<td><code>TWHPEJCE</code></td>
+		<td><a href=#TWEPEJEE><code>TWEPEJEE</code></a> </td>
+		<td>278.0</td>
+	</tr>
+	<tr id="sFCUTLOFC">
+		<td>sFCUTeoLOFC>0</td>
+		<td><code>sFCUTLOFC</code></td>
+		<td><a href=#FCUTLOFC><code>FCUTLOFC</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

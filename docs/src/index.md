@@ -1,5 +1,5 @@
 # Home 
-This is the documentation of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/). This implementation refers to the model described in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/) and in [Randers2022](https://eartharxiv.org/repository/view/5111/), and to the Vensim implementation of the model available at [E4A2022](https://stockholmuniversity.app.box.com/s/uh7fjh52pvh7yx1mqfwqcyxdcvegrodf).
+This is the documentation page for [Earth4All.jl](https://github.com/worlddynamics/Earth4All.jl), a Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/). This implementation refers to the model described in [Dixson2022](https://www.clubofrome.org/publication/earth4all-book/) and in [Randers2022](https://eartharxiv.org/repository/view/5111/), and to the Vensim implementation of the model available at [E4A2022](https://stockholmuniversity.app.box.com/s/uh7fjh52pvh7yx1mqfwqcyxdcvegrodf).
 
 ## Index
 
@@ -25,7 +25,7 @@ This is the documentation of the Julia implementation of the [Earth4All model](h
   * [Food and land variables](variables/foodland.html)
   * [Inventory variables](variables/inventory.html)
   * [Labour market variables](variables/labourmarket.html)
-  * [Other performance indicators variables](variables/other.html)
+  * [Other performance indicator variables](variables/other.html)
   * [Output variables](variables/output.html)
   * [Population variables](variables/population.html)
   * [Public variables](variables/public.html)

@@ -1,0 +1,421 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The WELLBEING sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AWBDI">
+		<td>Average WellBeing from Disposable Income (1)</td>
+		<td><code>AWBDI</code></td>
+		<td><a href="demand.html#WDI"><code>WDI</code></a> </td>
+		<td><a href=#DRDI><code>DRDI</code></a> <a href=#TDI><code>TDI</code></a> </td>
+		<td><a href=#AWBI><code>AWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBDI}\left(t\right)=e^{\mathtt{DRDI}+\log\left(\frac{\mathtt{WDI}\left(t\right)}{\mathtt{TDI}}\right)}\)</td>
+	</tr>
+	<tr id="AWBGW">
+		<td>Average WellBeing from Global Warming (1)</td>
+		<td><code>AWBGW</code></td>
+		<td><a href="climate.html#PWA"><code>PWA</code></a> </td>
+		<td><a href=#TW><code>TW</code></a> <a href=#MWBGW><code>MWBGW</code></a> <a href=#GWEAWBGWF><code>GWEAWBGWF</code></a> </td>
+		<td><a href=#AWBI><code>AWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBGW}\left(t\right)=\mathtt{max}\left(\mathtt{MWBGW},\mathtt{min}\left(1,1+\mathtt{GWEAWBGWF}\cdot\left(-1+\frac{\mathtt{PWA}\left(t\right)}{\mathtt{TW}}\right)\right)\right)\)</td>
+	</tr>
+	<tr id="AWBI">
+		<td>Average WellBeing Index (1)</td>
+		<td><code>AWBI</code></td>
+		<td><a href=#AWBDI><code>AWBDI</code></a> <a href=#AWBGW><code>AWBGW</code></a> <a href=#AWBIN><code>AWBIN</code></a> <a href=#AWBP><code>AWBP</code></a> <a href=#AWBPS><code>AWBPS</code></a> </td>
+		<td></td>
+		<td><a href=#ORP><code>ORP</code></a> <a href=#PAWBI><code>PAWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBI}\left(t\right)=\left(0.5\cdot\mathtt{AWBDI}\left(t\right)+0.5\cdot\mathtt{AWBPS}\left(t\right)\right)\cdot\mathtt{AWBGW}\left(t\right)\cdot\mathtt{AWBIN}\left(t\right)\cdot\mathtt{AWBP}\left(t\right)\)</td>
+	</tr>
+	<tr id="AWBIN">
+		<td>Average WellBeing from INequality (1)</td>
+		<td><code>AWBIN</code></td>
+		<td><a href="demand.html#INEQ"><code>INEQ</code></a> </td>
+		<td><a href=#TI><code>TI</code></a> <a href=#IEAWBIF><code>IEAWBIF</code></a> </td>
+		<td><a href=#AWBI><code>AWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBIN}\left(t\right)=1+\mathtt{IEAWBIF}\cdot\left(-1+\frac{\mathtt{INEQ}\left(t\right)}{\mathtt{TI}}\right)\)</td>
+	</tr>
+	<tr id="AWBP">
+		<td>Average WellBeing from Progress (1)</td>
+		<td><code>AWBP</code></td>
+		<td><a href=#ORP><code>ORP</code></a> <a href=#WBEP><code>WBEP</code></a> </td>
+		<td><a href=#TPR><code>TPR</code></a> <a href=#PREAWBF><code>PREAWBF</code></a> </td>
+		<td><a href=#AWBI><code>AWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBP}\left(t\right)=\left(1+\mathtt{PREAWBF}\cdot\left(-\mathtt{TPR}+\mathtt{ORP}\left(t\right)\right)\right)\cdot\mathtt{WBEP}\left(t\right)\)</td>
+	</tr>
+	<tr id="AWBPS">
+		<td>Average WellBeing from Public Spending (1)</td>
+		<td><code>AWBPS</code></td>
+		<td><a href="public.html#PSP"><code>PSP</code></a> </td>
+		<td><a href=#DRPS><code>DRPS</code></a> <a href=#TPS><code>TPS</code></a> </td>
+		<td><a href=#AWBI><code>AWBI</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AWBPS}\left(t\right)=e^{\mathtt{DRPS}+\log\left(\frac{\mathtt{PSP}\left(t\right)}{\mathtt{TPS}}\right)}\)</td>
+	</tr>
+	<tr id="IEST">
+		<td>Inequity Effect on Social Trust (1)</td>
+		<td><code>IEST</code></td>
+		<td><a href="demand.html#INEQ"><code>INEQ</code></a> </td>
+		<td><a href=#AI><code>AI</code></a> </td>
+		<td><a href=#IST><code>IST</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}\left(\frac{\mathtt{INEQ}(t)}{\mathtt{AI}}, [(0.0, 1.0), (1.0, 1.0), (2.0, 0.0)]\right)\)</td>
+	</tr>
+	<tr id="IPP">
+		<td>Introduction Period for Policy y</td>
+		<td><code>IPP</code></td>
+		<td><a href=#RD><code>RD</code></a> </td>
+		<td><a href=#EIP><code>EIP</code></a> <a href=#EIPF><code>EIPF</code></a> </td>
+		<td><a href="climate.html#DACCO2"><code>DACCO2</code></a> <a href="demand.html#IC2022"><code>IC2022</code></a> <a href="energy.html#FCO2SCCS"><code>FCO2SCCS</code></a> <a href="energy.html#FNE"><code>FNE</code></a> <a href="energy.html#DRES"><code>DRES</code></a> <a href="foodland.html#CWR"><code>CWR</code></a> <a href="foodland.html#FNRM"><code>FNRM</code></a> <a href="foodland.html#FRA"><code>FRA</code></a> <a href="labourmarket.html#ENLPR2022"><code>ENLPR2022</code></a> <a href="population.html#EFR"><code>EFR</code></a> <a href="population.html#EPA"><code>EPA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IPP}\left(t\right)=\mathtt{ifelse}\left(\left(\mathtt{EIPF}>0\right),\mathtt{EIP},\mathtt{RD}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="IRD">
+		<td>Indicated Reform Delay y</td>
+		<td><code>IRD</code></td>
+		<td><a href=#STRERD><code>STRERD</code></a> <a href=#STEERD><code>STEERD</code></a> </td>
+		<td><a href=#NRD><code>NRD</code></a> </td>
+		<td><a href=#RD><code>RD</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IRD}\left(t\right)=\mathtt{NRD}\cdot\mathtt{STEERD}\left(t\right)\cdot\mathtt{STRERD}\left(t\right)\)</td>
+	</tr>
+	<tr id="IST">
+		<td>Indicated Social Trust (1)</td>
+		<td><code>IST</code></td>
+		<td><a href=#IEST><code>IEST</code></a> <a href=#PSESTR><code>PSESTR</code></a> </td>
+		<td></td>
+		<td><a href=#STR><code>STR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{IST}\left(t\right)=\mathtt{IEST}\left(t\right)\cdot\mathtt{PSESTR}\left(t\right)\)</td>
+	</tr>
+	<tr id="ORP">
+		<td>Observed Rate of Progress 1/y</td>
+		<td><code>ORP</code></td>
+		<td><a href=#AWBI><code>AWBI</code></a> <a href=#ORP><code>ORP</code></a> <a href=#PAWBI><code>PAWBI</code></a> </td>
+		<td><a href=#AWBPD><code>AWBPD</code></a> </td>
+		<td><a href=#ORP><code>ORP</code></a> <a href=#AWBP><code>AWBP</code></a> <a href=#STE><code>STE</code></a> </td>
+		<td>0.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ORP}\left(t\right)}{\mathrm{d}t}=\frac{\frac{-\mathtt{PAWBI}\left(t\right)+\mathtt{AWBI}\left(t\right)}{\mathtt{AWBPD}\cdot\mathtt{AWBI}\left(t\right)}-\mathtt{ORP}\left(t\right)}{\mathtt{AWBPD}}\)</td>
+	</tr>
+	<tr id="PAWBI">
+		<td>Past AWI (1)</td>
+		<td><code>PAWBI</code></td>
+		<td><a href=#AWBI><code>AWBI</code></a> <a href=#PAWBI><code>PAWBI</code></a> </td>
+		<td><a href=#AWBPD><code>AWBPD</code></a> </td>
+		<td><a href=#ORP><code>ORP</code></a> <a href=#PAWBI><code>PAWBI</code></a> </td>
+		<td>0.65</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PAWBI}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PAWBI}\left(t\right)+\mathtt{AWBI}\left(t\right)}{\mathtt{AWBPD}}\)</td>
+	</tr>
+	<tr id="PSESTR">
+		<td>Public Spending Effect on Social TRust (1)</td>
+		<td><code>PSESTR</code></td>
+		<td><a href=#PSSGDP><code>PSSGDP</code></a> </td>
+		<td><a href=#SPS><code>SPS</code></a> </td>
+		<td><a href=#IST><code>IST</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{withlookup}\left(\frac{\mathtt{PSSGDP}(t)}{\mathtt{SPS}}, [(0.0, 0.0), (1.0, 1.0)]\right)\)</td>
+	</tr>
+	<tr id="PSSGDP">
+		<td>Public Spending as Share of GDP</td>
+		<td><code>PSSGDP</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> <a href="public.html#PSP"><code>PSP</code></a> </td>
+		<td></td>
+		<td><a href=#PSESTR><code>PSESTR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{PSSGDP}\left(t\right)=\frac{\mathtt{PSP}\left(t\right)}{\mathtt{GDPP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="RD">
+		<td>Reform Delay y</td>
+		<td><code>RD</code></td>
+		<td><a href=#RD><code>RD</code></a> <a href=#IRD><code>IRD</code></a> </td>
+		<td><a href=#TCRD><code>TCRD</code></a> </td>
+		<td><a href=#RD><code>RD</code></a> <a href=#IPP><code>IPP</code></a> </td>
+		<td>30.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{RD}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{RD}\left(t\right)+\mathtt{IRD}\left(t\right)}{\mathtt{TCRD}}\)</td>
+	</tr>
+	<tr id="STE">
+		<td>Social TEnsion (1)</td>
+		<td><code>STE</code></td>
+		<td><a href=#ORP><code>ORP</code></a> </td>
+		<td><a href=#PESTF><code>PESTF</code></a> <a href=#AP><code>AP</code></a> </td>
+		<td><a href=#STEERD><code>STEERD</code></a> </td>
+		<td>1.3</td>
+		<td>\(\mathtt{STE}\left(t\right)=1+\mathtt{PESTF}\cdot\left(-\mathtt{AP}+\mathtt{ORP}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="STEERD">
+		<td>Social TEnsion Effect on Reform Delay (1)</td>
+		<td><code>STEERD</code></td>
+		<td><a href=#STE><code>STE</code></a> </td>
+		<td><a href=#STEERDF><code>STEERDF</code></a> </td>
+		<td><a href=#IRD><code>IRD</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{STEERD}\left(t\right)=1+\mathtt{STEERDF}\cdot\left(-1+0.77\cdot\mathtt{STE}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="STR">
+		<td>Social Trust (1)</td>
+		<td><code>STR</code></td>
+		<td><a href=#STR><code>STR</code></a> <a href=#IST><code>IST</code></a> </td>
+		<td><a href=#TEST><code>TEST</code></a> </td>
+		<td><a href=#STR><code>STR</code></a> <a href=#STRERD><code>STRERD</code></a> </td>
+		<td>0.6</td>
+		<td>\(\frac{\mathrm{d}\mathtt{STR}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{STR}\left(t\right)+\mathtt{IST}\left(t\right)}{\mathtt{TEST}}\)</td>
+	</tr>
+	<tr id="STRERD">
+		<td>Social TRust Effect on Reform Delay (1)</td>
+		<td><code>STRERD</code></td>
+		<td><a href=#STR><code>STR</code></a> </td>
+		<td><a href=#STRERDF><code>STRERDF</code></a> </td>
+		<td><a href=#IRD><code>IRD</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{STRERD}\left(t\right)=1+\mathtt{STRERDF}\cdot\left(-1+1.7\cdot\mathtt{STR}\left(t\right)\right)\)</td>
+	</tr>
+	<tr id="WBEP">
+		<td>WellBeing Effect of Participation (1)</td>
+		<td><code>WBEP</code></td>
+		<td><a href="labourmarket.html#LPR"><code>LPR</code></a> </td>
+		<td><a href=#TP><code>TP</code></a> <a href=#PAEAWBF><code>PAEAWBF</code></a> </td>
+		<td><a href=#AWBP><code>AWBP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WBEP}\left(t\right)=1+\mathtt{PAEAWBF}\cdot\left(-1+\frac{\mathtt{LPR}\left(t\right)}{\mathtt{TP}}\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AI">
+		<td>Acceptable Inequality</td>
+		<td><code>AI</code></td>
+		<td><a href=#IEST><code>IEST</code></a> </td>
+		<td>0.6</td>
+	</tr>
+	<tr id="AP">
+		<td>Acceptable Progress 1/y</td>
+		<td><code>AP</code></td>
+		<td><a href=#STE><code>STE</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="AWBPD">
+		<td>Average WellBeing Perception Delay y</td>
+		<td><code>AWBPD</code></td>
+		<td><a href=#ORP><code>ORP</code></a> <a href=#PAWBI><code>PAWBI</code></a> </td>
+		<td>9.0</td>
+	</tr>
+	<tr id="DRDI">
+		<td>Diminishing Return Disposable Income</td>
+		<td><code>DRDI</code></td>
+		<td><a href=#AWBDI><code>AWBDI</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="DRPS">
+		<td>Diminishing Return Public Spending</td>
+		<td><code>DRPS</code></td>
+		<td><a href=#AWBPS><code>AWBPS</code></a> </td>
+		<td>0.7</td>
+	</tr>
+	<tr id="EIP">
+		<td>Exogenous Introduction Period y</td>
+		<td><code>EIP</code></td>
+		<td><a href=#IPP><code>IPP</code></a> </td>
+		<td>30.0</td>
+	</tr>
+	<tr id="EIPF">
+		<td>Exogenous Introduction Period Flag</td>
+		<td><code>EIPF</code></td>
+		<td><a href=#IPP><code>IPP</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="GWEAWBGWF">
+		<td>sGWeoAW<0: Global Warming Effect on Average WellBeing from Global Warming Flag</td>
+		<td><code>GWEAWBGWF</code></td>
+		<td><a href=#AWBGW><code>AWBGW</code></a> </td>
+		<td>-0.58</td>
+	</tr>
+	<tr id="IEAWBIF">
+		<td>sIIeoAW<0: Inequality Effect on Average WellBeing from Inequality Flag</td>
+		<td><code>IEAWBIF</code></td>
+		<td><a href=#AWBIN><code>AWBIN</code></a> </td>
+		<td>-0.6</td>
+	</tr>
+	<tr id="MWBGW">
+		<td>Min WellBeing from Global Warming</td>
+		<td><code>MWBGW</code></td>
+		<td><a href=#AWBGW><code>AWBGW</code></a> </td>
+		<td>0.2</td>
+	</tr>
+	<tr id="NRD">
+		<td>Normal Reform Delay y</td>
+		<td><code>NRD</code></td>
+		<td><a href=#IRD><code>IRD</code></a> </td>
+		<td>30.0</td>
+	</tr>
+	<tr id="PAEAWBF">
+		<td>sLPeoAWP>0: PArtecipation Effect on Average WellBeing Flag</td>
+		<td><code>PAEAWBF</code></td>
+		<td><a href=#WBEP><code>WBEP</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="PESTF">
+		<td>sPPReoSTE<0: Progress Effect on Social Tension Flag</td>
+		<td><code>PESTF</code></td>
+		<td><a href=#STE><code>STE</code></a> </td>
+		<td>-15.0</td>
+	</tr>
+	<tr id="PREAWBF">
+		<td>sROPeoAW>0: PRogress Effect on Average WellBeing Flag</td>
+		<td><code>PREAWBF</code></td>
+		<td><a href=#AWBP><code>AWBP</code></a> </td>
+		<td>6.0</td>
+	</tr>
+	<tr id="SPS">
+		<td>Satisfactory Public Spending</td>
+		<td><code>SPS</code></td>
+		<td><a href=#PSESTR><code>PSESTR</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="STEERDF">
+		<td>sSTEeoRD>0: Social Tension Effect on Reform Delay Flag</td>
+		<td><code>STEERDF</code></td>
+		<td><a href=#STEERD><code>STEERD</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="STRERDF">
+		<td>sSTReoRD<0: Social Trust Effect on Reform Delay Flag</td>
+		<td><code>STRERDF</code></td>
+		<td><a href=#STRERD><code>STRERD</code></a> </td>
+		<td>-1.0</td>
+	</tr>
+	<tr id="TCRD">
+		<td>Time to Change Reform Delay y</td>
+		<td><code>TCRD</code></td>
+		<td><a href=#RD><code>RD</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="TDI">
+		<td>Threshold Disposable Income kdollar/p/y</td>
+		<td><code>TDI</code></td>
+		<td><a href=#AWBDI><code>AWBDI</code></a> </td>
+		<td>15.0</td>
+	</tr>
+	<tr id="TEST">
+		<td>Time to Establish Social Trust y</td>
+		<td><code>TEST</code></td>
+		<td><a href=#STR><code>STR</code></a> </td>
+		<td>10.0</td>
+	</tr>
+	<tr id="TI">
+		<td>Threshold Inequality</td>
+		<td><code>TI</code></td>
+		<td><a href=#AWBIN><code>AWBIN</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="TP">
+		<td>Threshold Participation</td>
+		<td><code>TP</code></td>
+		<td><a href=#WBEP><code>WBEP</code></a> </td>
+		<td>0.8</td>
+	</tr>
+	<tr id="TPR">
+		<td>Threshold Progress Rate 1/y</td>
+		<td><code>TPR</code></td>
+		<td><a href=#AWBP><code>AWBP</code></a> </td>
+		<td>0.02</td>
+	</tr>
+	<tr id="TPS">
+		<td>Threshold Public Spending kdollar/p/y</td>
+		<td><code>TPS</code></td>
+		<td><a href=#AWBPS><code>AWBPS</code></a> </td>
+		<td>3.0</td>
+	</tr>
+	<tr id="TW">
+		<td>Threshold Warming deg C</td>
+		<td><code>TW</code></td>
+		<td><a href=#AWBGW><code>AWBGW</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>

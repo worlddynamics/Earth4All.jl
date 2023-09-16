@@ -1,0 +1,616 @@
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+      .styled-table {
+          border-collapse: collapse;
+          border-radius: 10px;
+          margin: 25px 0;
+          font-size: 1.5em;
+          font-family: sans-serif;
+          min-width: 400px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          overflow:hidden;
+      }
+      .styled-table thead tr {
+          background-color: #009879;
+          color: #ffffff;
+          text-align: left;
+      }
+      .styled-table th,
+      .styled-table td {
+          padding: 12px 15px;
+      }
+      .styled-table tbody tr {
+          border-bottom: 1px solid #dddddd;
+      }
+      .styled-table tbody tr:nth-of-type(even) {
+          background-color: #f3f3f3;
+      }
+      .styled-table tbody tr:last-of-type {
+          border-bottom: 2px solid #009879;
+      }
+      .styled-table tbody tr.active-row {
+          font-weight: bold;
+          color: #009879;
+      }
+      h1 {
+         font-size: 70px;
+         font-weight: 600;
+         background-image: linear-gradient(to left, #553c9a, #b393d3);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+      h2 {
+         font-size: 50px;
+         font-weight: 400;
+         background-image: linear-gradient(to left, #009879, #009879);
+         color: transparent;
+         background-clip: text;
+         -webkit-background-clip: text;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+	<h1>The OUTPUT sector</h1>
+	<h2 style="text-align:left">The variables</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Used variables</th>
+			<th>Used parameters</th>
+			<th>Variables using it</th>
+			<th>Initial value</th>
+			<th>Equation</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="AVCA">
+		<td>AVailable CApital Gdollar/y</td>
+		<td><code>AVCA</code></td>
+		<td><a href="demand.html#TS"><code>TS</code></a> </td>
+		<td><a href=#FCI><code>FCI</code></a> </td>
+		<td><a href=#INCPIS><code>INCPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{AVCA}\left(t\right)=\mathtt{FCI}+\mathtt{TS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CAP">
+		<td>CAPacity Gcu</td>
+		<td><code>CAP</code></td>
+		<td><a href=#CPUS><code>CPUS</code></a> <a href=#CPIS><code>CPIS</code></a> </td>
+		<td></td>
+		<td><a href="labourmarket.html#OPWO"><code>OPWO</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAP}\left(t\right)=\mathtt{CPIS}\left(t\right)+\mathtt{CPUS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CAPIS">
+		<td>Capacity Addition PIS Gcu/y</td>
+		<td><code>CAPIS</code></td>
+		<td><a href=#CUCPIS><code>CUCPIS</code></a> </td>
+		<td><a href=#CTPIS><code>CTPIS</code></a> </td>
+		<td><a href=#CPIS><code>CPIS</code></a> <a href=#CUCPIS><code>CUCPIS</code></a> <a href=#CRR><code>CRR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAPIS}\left(t\right)=\frac{\mathtt{CUCPIS}\left(t\right)}{\mathtt{CTPIS}}\)</td>
+	</tr>
+	<tr id="CAPUS">
+		<td>Capacity Addition PUS Gcu/y</td>
+		<td><code>CAPUS</code></td>
+		<td><a href=#CUCPUS><code>CUCPUS</code></a> </td>
+		<td><a href=#CTPUS><code>CTPUS</code></a> </td>
+		<td><a href=#CPUS><code>CPUS</code></a> <a href=#CUCPUS><code>CUCPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CAPUS}\left(t\right)=\frac{\mathtt{CUCPUS}\left(t\right)}{\mathtt{CTPUS}}\)</td>
+	</tr>
+	<tr id="CBCEFCA">
+		<td>CBC Effect on Flow to Capacity Addion (1)</td>
+		<td><code>CBCEFCA</code></td>
+		<td><a href="finance.html#CBC"><code>CBC</code></a> <a href="finance.html#CBC1980"><code>CBC1980</code></a> </td>
+		<td><a href=#CBCEFRA><code>CBCEFRA</code></a> </td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CBCEFCA}\left(t\right)=1+\mathtt{CBCEFRA}\cdot\left(-1+\frac{\mathtt{CBC}\left(t\right)}{\mathtt{CBC1980}\left(t\right)}\right)\)</td>
+	</tr>
+	<tr id="CDPIS">
+		<td>Capacity Discard PIS Gcu/y</td>
+		<td><code>CDPIS</code></td>
+		<td><a href=#LCPIS><code>LCPIS</code></a> <a href=#CPIS><code>CPIS</code></a> </td>
+		<td></td>
+		<td><a href=#CPIS><code>CPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CDPIS}\left(t\right)=\frac{\mathtt{CPIS}\left(t\right)}{\mathtt{LCPIS}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CDPUS">
+		<td>Capacity Discard PUS Gcu/y</td>
+		<td><code>CDPUS</code></td>
+		<td><a href=#CPUS><code>CPUS</code></a> <a href=#LCPUS><code>LCPUS</code></a> </td>
+		<td></td>
+		<td><a href=#CPUS><code>CPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CDPUS}\left(t\right)=\frac{\mathtt{CPUS}\left(t\right)}{\mathtt{LCPUS}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CIPIS">
+		<td>Capacity Initiation PIS Gcu/y</td>
+		<td><code>CIPIS</code></td>
+		<td><a href=#INCPIS><code>INCPIS</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> <a href=#OBSGIPIS><code>OBSGIPIS</code></a> <a href=#COCA><code>COCA</code></a> </td>
+		<td></td>
+		<td><a href=#CUCPIS><code>CUCPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CIPIS}\left(t\right)=\mathtt{max}\left(\frac{\mathtt{GDP}\left(t\right)\cdot\mathtt{OBSGIPIS}\left(t\right)+\mathtt{INCPIS}\left(t\right)}{\mathtt{COCA}\left(t\right)},0\right)\)</td>
+	</tr>
+	<tr id="CIPUS">
+		<td>Capacity Initiation PUS Gcu/y</td>
+		<td><code>CIPUS</code></td>
+		<td><a href="demand.html#GIPC"><code>GIPC</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> <a href=#OBSGIPUS><code>OBSGIPUS</code></a> <a href=#COCA><code>COCA</code></a> </td>
+		<td></td>
+		<td><a href=#CUCPUS><code>CUCPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CIPUS}\left(t\right)=\mathtt{max}\left(\frac{\mathtt{GDP}\left(t\right)\cdot\mathtt{OBSGIPUS}\left(t\right)+\mathtt{GIPC}\left(t\right)}{\mathtt{COCA}\left(t\right)},0\right)\)</td>
+	</tr>
+	<tr id="COCA">
+		<td>COst of CApacity dollar/cu</td>
+		<td><code>COCA</code></td>
+		<td><a href=#OWECC><code>OWECC</code></a> </td>
+		<td><a href=#CC1980><code>CC1980</code></a> </td>
+		<td><a href=#CIPIS><code>CIPIS</code></a> <a href=#CIPUS><code>CIPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{COCA}\left(t\right)=\mathtt{CC1980}\cdot\mathtt{OWECC}\left(t\right)\)</td>
+	</tr>
+	<tr id="CPIS">
+		<td>Capacity PIS Gcu</td>
+		<td><code>CPIS</code></td>
+		<td><a href=#CDPIS><code>CDPIS</code></a> <a href=#CAPIS><code>CAPIS</code></a> </td>
+		<td></td>
+		<td><a href=#CDPIS><code>CDPIS</code></a> <a href=#CRR><code>CRR</code></a> <a href=#CAP><code>CAP</code></a> <a href=#ORO><code>ORO</code></a> </td>
+		<td>59250.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CPIS}\left(t\right)}{\mathrm{d}t}=-\mathtt{CDPIS}\left(t\right)+\mathtt{CAPIS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CPUS">
+		<td>Capacity PUS Gcu</td>
+		<td><code>CPUS</code></td>
+		<td><a href=#CDPUS><code>CDPUS</code></a> <a href=#CAPUS><code>CAPUS</code></a> </td>
+		<td></td>
+		<td><a href=#CDPUS><code>CDPUS</code></a> <a href=#CAP><code>CAP</code></a> <a href=#ORO><code>ORO</code></a> <a href="public.html#IPR"><code>IPR</code></a> </td>
+		<td>5350.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CPUS}\left(t\right)}{\mathrm{d}t}=-\mathtt{CDPUS}\left(t\right)+\mathtt{CAPUS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CRR">
+		<td>Capacity Renewal Rate 1/y</td>
+		<td><code>CRR</code></td>
+		<td><a href=#CAPIS><code>CAPIS</code></a> <a href=#CPIS><code>CPIS</code></a> </td>
+		<td></td>
+		<td><a href=#ECR><code>ECR</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{CRR}\left(t\right)=\frac{\mathtt{CAPIS}\left(t\right)}{\mathtt{CPIS}\left(t\right)}\)</td>
+	</tr>
+	<tr id="CUCPIS">
+		<td>Capacity Under Construction PIS Gcu</td>
+		<td><code>CUCPIS</code></td>
+		<td><a href=#CAPIS><code>CAPIS</code></a> <a href=#CIPIS><code>CIPIS</code></a> </td>
+		<td></td>
+		<td><a href=#CAPIS><code>CAPIS</code></a> </td>
+		<td>10072.5</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CUCPIS}\left(t\right)}{\mathrm{d}t}=-\mathtt{CAPIS}\left(t\right)+\mathtt{CIPIS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CUCPUS">
+		<td>Capacity Under Construction PUS Gcu</td>
+		<td><code>CUCPUS</code></td>
+		<td><a href=#CIPUS><code>CIPUS</code></a> <a href=#CAPUS><code>CAPUS</code></a> </td>
+		<td></td>
+		<td><a href=#CAPUS><code>CAPUS</code></a> </td>
+		<td>909.5</td>
+		<td>\(\frac{\mathrm{d}\mathtt{CUCPUS}\left(t\right)}{\mathrm{d}t}=-\mathtt{CAPUS}\left(t\right)+\mathtt{CIPUS}\left(t\right)\)</td>
+	</tr>
+	<tr id="CUCPUS1980">
+		<td>CUC PUS in 1980 Gcu</td>
+		<td><code>CUCPUS1980</code></td>
+		<td><a href=#LCPUS1980><code>LCPUS1980</code></a> </td>
+		<td><a href=#EMCUC><code>EMCUC</code></a> <a href=#CAPPUS1980><code>CAPPUS1980</code></a> <a href=#CTPUS><code>CTPUS</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{CUCPUS1980}\left(t\right)=\frac{\mathtt{CAPPUS1980}\cdot\mathtt{CTPUS}\cdot\mathtt{EMCUC}}{\mathtt{LCPUS1980}\left(t\right)}\)</td>
+	</tr>
+	<tr id="ECR">
+		<td>Effect of Capacity Renewal 1/y</td>
+		<td><code>ECR</code></td>
+		<td><a href=#CRR><code>CRR</code></a> <a href="public.html#ITFP"><code>ITFP</code></a> <a href=#ETFP><code>ETFP</code></a> </td>
+		<td></td>
+		<td><a href=#ETFP><code>ETFP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ECR}\left(t\right)=\left(-\mathtt{ETFP}\left(t\right)+\mathtt{ITFP}\left(t\right)\right)\cdot\mathtt{CRR}\left(t\right)\)</td>
+	</tr>
+	<tr id="EDE">
+		<td>Excess DEmand (1)</td>
+		<td><code>EDE</code></td>
+		<td><a href=#OOV><code>OOV</code></a> <a href="demand.html#TPP"><code>TPP</code></a> </td>
+		<td></td>
+		<td><a href=#PEDE><code>PEDE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EDE}\left(t\right)=\frac{\mathtt{TPP}\left(t\right)}{\mathtt{OOV}\left(t\right)}\)</td>
+	</tr>
+	<tr id="EDEFCA">
+		<td>ED Effect on Flow to Capacity Addition (1)</td>
+		<td><code>EDEFCA</code></td>
+		<td><a href=#PEDE><code>PEDE</code></a> </td>
+		<td><a href=#EDEFRA><code>EDEFRA</code></a> <a href=#ED1980><code>ED1980</code></a> </td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EDEFCA}\left(t\right)=1+\mathtt{EDEFRA}\cdot\left(-1+\frac{\mathtt{PEDE}\left(t\right)}{\mathtt{ED1980}}\right)\)</td>
+	</tr>
+	<tr id="EDELC">
+		<td>Excess Demand Effect on Life of Capacity (1)</td>
+		<td><code>EDELC</code></td>
+		<td><a href=#PEDE><code>PEDE</code></a> </td>
+		<td><a href=#EDELCM><code>EDELCM</code></a> <a href=#ED1980><code>ED1980</code></a> </td>
+		<td><a href=#LCPIS><code>LCPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{EDELC}\left(t\right)=1+\mathtt{EDELCM}\cdot\left(-1+\frac{\mathtt{PEDE}\left(t\right)}{\mathtt{ED1980}}\right)\)</td>
+	</tr>
+	<tr id="ETFP">
+		<td>Embedded TFP (1)</td>
+		<td><code>ETFP</code></td>
+		<td><a href=#ECR><code>ECR</code></a> </td>
+		<td></td>
+		<td><a href=#ECR><code>ECR</code></a> <a href=#ORO><code>ORO</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{ETFP}\left(t\right)}{\mathrm{d}t}=\mathtt{ECR}\left(t\right)\)</td>
+	</tr>
+	<tr id="FACNC">
+		<td>Fraction of Available Capital to New Capacity (1)</td>
+		<td><code>FACNC</code></td>
+		<td><a href=#EDEFCA><code>EDEFCA</code></a> <a href=#CBCEFCA><code>CBCEFCA</code></a> <a href=#FRACAMGDPPL><code>FRACAMGDPPL</code></a> <a href=#FACNC><code>FACNC</code></a> <a href=#WSOEFCA><code>WSOEFCA</code></a> </td>
+		<td><a href=#FRA1980><code>FRA1980</code></a> <a href=#IPT><code>IPT</code></a> </td>
+		<td><a href=#FACNC><code>FACNC</code></a> <a href=#INCPIS><code>INCPIS</code></a> </td>
+		<td>1.0515</td>
+		<td>\(\frac{\mathrm{d}\mathtt{FACNC}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{FACNC}\left(t\right)+\frac{1}{3}\cdot\mathtt{FRA1980}\cdot\left(\mathtt{CBCEFCA}\left(t\right)+\mathtt{EDEFCA}\left(t\right)+\mathtt{WSOEFCA}\left(t\right)\right)\cdot\mathtt{FRACAMGDPPL}\left(t\right)}{\mathtt{IPT}}\)</td>
+	</tr>
+	<tr id="FRACAMGDPPL">
+		<td>FRACA Mult from GDPpP - Line (1)</td>
+		<td><code>FRACAMGDPPL</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td><a href=#GDPP1980><code>GDPP1980</code></a> <a href=#FRACAM><code>FRACAM</code></a> <a href=#GDPPEFRACA><code>GDPPEFRACA</code></a> </td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{\mathtt{FRACAM}GDPPL}\left(t\right)=\mathtt{max}\left(\mathtt{FRACAM},1+\mathtt{GDPPEFRACA}\cdot\left(-1+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\)</td>
+	</tr>
+	<tr id="FRACAMGDPPT">
+		<td>FRACA Mult from GDPpP - Table (1)</td>
+		<td><code>FRACAMGDPPT</code></td>
+		<td><a href="population.html#GDPP"><code>GDPP</code></a> </td>
+		<td><a href=#GDPP1980><code>GDPP1980</code></a> </td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{FRACAMGDPPT}\left(t\right)=\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq0\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<1\right)+0.5\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq16\right)+\left(0.85-0.1\cdot\left(-2+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq2\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<2.1\right)+\left(0.55-0.0063\cdot\left(-8+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq8\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<16\right)+\left(0.65-0.025\cdot\left(-4+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq4\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<8\right)+\left(1-0.15\cdot\left(-1+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq1\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<2\right)+\left(0.84-0.1\cdot\left(-2.1+\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\right)\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}\geq2.1\right)\cdot\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<4\right)+\left(\frac{\mathtt{GDPP}\left(t\right)}{\mathtt{GDPP1980}}<0\right)\)</td>
+	</tr>
+	<tr id="INCPIS">
+		<td>Investment in New Capacity PIS Gdollar/y</td>
+		<td><code>INCPIS</code></td>
+		<td><a href=#AVCA><code>AVCA</code></a> <a href=#FACNC><code>FACNC</code></a> </td>
+		<td></td>
+		<td><a href=#CIPIS><code>CIPIS</code></a> <a href=#ISGDP><code>ISGDP</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{INCPIS}\left(t\right)=\mathtt{AVCA}\left(t\right)\cdot\mathtt{FACNC}\left(t\right)\)</td>
+	</tr>
+	<tr id="ISGDP">
+		<td>Investment Share of GDP (1)</td>
+		<td><code>ISGDP</code></td>
+		<td><a href="demand.html#GIPC"><code>GIPC</code></a> <a href=#INCPIS><code>INCPIS</code></a> <a href="inventory.html#GDP"><code>GDP</code></a> </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>\(\mathtt{ISGDP}\left(t\right)=\frac{\mathtt{GIPC}\left(t\right)+\mathtt{INCPIS}\left(t\right)}{\mathtt{GDP}\left(t\right)}\)</td>
+	</tr>
+	<tr id="LCPIS">
+		<td>Life of Capacity PIS y</td>
+		<td><code>LCPIS</code></td>
+		<td><a href=#EDELC><code>EDELC</code></a> <a href=#OWELC><code>OWELC</code></a> </td>
+		<td><a href=#LCPIS1980><code>LCPIS1980</code></a> </td>
+		<td><a href=#CDPIS><code>CDPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LCPIS}\left(t\right)=\frac{\mathtt{LCPIS1980}\cdot\mathtt{OWELC}\left(t\right)}{\mathtt{EDELC}\left(t\right)}\)</td>
+	</tr>
+	<tr id="LCPUS">
+		<td>Life of Capacity PUS y</td>
+		<td><code>LCPUS</code></td>
+		<td><a href=#LCPUS1980><code>LCPUS1980</code></a> </td>
+		<td></td>
+		<td><a href=#CDPUS><code>CDPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LCPUS}\left(t\right)=\mathtt{LCPUS1980}\left(t\right)\)</td>
+	</tr>
+	<tr id="LCPUS1980">
+		<td>Life of Capacity PUS in 1980 y</td>
+		<td><code>LCPUS1980</code></td>
+		<td><a href=#OWELC><code>OWELC</code></a> </td>
+		<td></td>
+		<td><a href=#CUCPUS1980><code>CUCPUS1980</code></a> <a href=#LCPUS><code>LCPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{LCPUS1980}\left(t\right)=15\cdot\mathtt{OWELC}\left(t\right)\)</td>
+	</tr>
+	<tr id="OBSGIPIS">
+		<td>Off-Balance Sheet Govmnt Inv in PIS (share of GDP)</td>
+		<td><code>OBSGIPIS</code></td>
+		<td></td>
+		<td><a href=#USPIS2022><code>USPIS2022</code></a> </td>
+		<td><a href=#CIPIS><code>CIPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OBSGIPIS}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),\mathtt{USPIS2022},0\right)\)</td>
+	</tr>
+	<tr id="OBSGIPUS">
+		<td>Off-Balance-Sheet Govmnt Inv in PUS (share of GDP)</td>
+		<td><code>OBSGIPUS</code></td>
+		<td></td>
+		<td><a href=#USPUS2022><code>USPUS2022</code></a> </td>
+		<td><a href=#CIPUS><code>CIPUS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OBSGIPUS}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),0.01+\mathtt{USPUS2022},0.01\right)\)</td>
+	</tr>
+	<tr id="OGR">
+		<td>Output Growth Rate 1/y</td>
+		<td><code>OGR</code></td>
+		<td><a href=#OLY><code>OLY</code></a> <a href=#ORO><code>ORO</code></a> <a href=#OGR><code>OGR</code></a> </td>
+		<td></td>
+		<td><a href="finance.html#NCCR"><code>NCCR</code></a> <a href=#OGR><code>OGR</code></a> </td>
+		<td>0.06</td>
+		<td>\(\frac{\mathrm{d}\mathtt{OGR}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{OLY}\left(t\right)+\mathtt{ORO}\left(t\right)}{\mathtt{OLY}\left(t\right)}-\mathtt{OGR}\left(t\right)\)</td>
+	</tr>
+	<tr id="OLY">
+		<td>Output Last Year Gdollar/y</td>
+		<td><code>OLY</code></td>
+		<td><a href=#OLY><code>OLY</code></a> <a href=#ORO><code>ORO</code></a> </td>
+		<td></td>
+		<td><a href=#OGR><code>OGR</code></a> <a href=#OLY><code>OLY</code></a> </td>
+		<td>26497.1</td>
+		<td>\(\frac{\mathrm{d}\mathtt{OLY}\left(t\right)}{\mathrm{d}t}=-\mathtt{OLY}\left(t\right)+\mathtt{ORO}\left(t\right)\)</td>
+	</tr>
+	<tr id="OOV">
+		<td>Optimal Ouput - Value Gdollar/y</td>
+		<td><code>OOV</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td><a href=#PRUN><code>PRUN</code></a> </td>
+		<td><a href=#EDE><code>EDE</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OOV}\left(t\right)=\mathtt{PRUN}\cdot\mathtt{ORO}\left(t\right)\)</td>
+	</tr>
+	<tr id="ORO">
+		<td>Optimal Real Output Gu/y</td>
+		<td><code>ORO</code></td>
+		<td><a href=#CPUS><code>CPUS</code></a> <a href="labourmarket.html#LAUS"><code>LAUS</code></a> <a href=#CPIS><code>CPIS</code></a> <a href=#ETFP><code>ETFP</code></a> </td>
+		<td><a href=#OO1980><code>OO1980</code></a> <a href=#LAMBDA><code>LAMBDA</code></a> <a href=#LAUS1980><code>LAUS1980</code></a> <a href=#KAPPA><code>KAPPA</code></a> <a href=#CAPPUS1980><code>CAPPUS1980</code></a> <a href=#CAPPIS1980><code>CAPPIS1980</code></a> </td>
+		<td><a href="inventory.html#OUTP"><code>OUTP</code></a> <a href=#OGR><code>OGR</code></a> <a href=#OLY><code>OLY</code></a> <a href=#OOV><code>OOV</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{ORO}\left(t\right)=\left(\frac{\mathtt{LAUS}\left(t\right)}{\mathtt{LAUS1980}}\right)^{\mathtt{LAMBDA}}\cdot\left(\frac{\mathtt{CPIS}\left(t\right)+\mathtt{CPUS}\left(t\right)}{\mathtt{CAPPIS1980}+\mathtt{CAPPUS1980}}\right)^{\mathtt{KAPPA}}\cdot\mathtt{OO1980}\cdot\mathtt{ETFP}\left(t\right)\)</td>
+	</tr>
+	<tr id="OWECC">
+		<td>OWeoCOC (1)</td>
+		<td><code>OWECC</code></td>
+		<td><a href="climate.html#OW"><code>OW</code></a> </td>
+		<td><a href=#OWECCM><code>OWECCM</code></a> <a href=#OW2022><code>OW2022</code></a> </td>
+		<td><a href=#COCA><code>COCA</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OWECC}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{OWECCM}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{OW2022}}\right),1\right)\)</td>
+	</tr>
+	<tr id="OWELC">
+		<td>OWeoLOC (1)</td>
+		<td><code>OWELC</code></td>
+		<td><a href="climate.html#OW"><code>OW</code></a> </td>
+		<td><a href=#OWELCM><code>OWELCM</code></a> <a href=#OW2022><code>OW2022</code></a> </td>
+		<td><a href=#LCPUS1980><code>LCPUS1980</code></a> <a href=#LCPIS><code>LCPIS</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{OWELC}\left(t\right)=\mathtt{ifelse}\left(\left(t>2000\right),1+\mathtt{OWELCM}\cdot\left(-1+\frac{\mathtt{OW}\left(t\right)}{\mathtt{OW2022}}\right),1\right)\)</td>
+	</tr>
+	<tr id="PEDE">
+		<td>Perceived Excess DEmand (1)</td>
+		<td><code>PEDE</code></td>
+		<td><a href=#EDE><code>EDE</code></a> <a href=#PEDE><code>PEDE</code></a> </td>
+		<td><a href=#TOED><code>TOED</code></a> </td>
+		<td><a href=#PEDE><code>PEDE</code></a> <a href=#EDEFCA><code>EDEFCA</code></a> <a href=#EDELC><code>EDELC</code></a> </td>
+		<td>1.0</td>
+		<td>\(\frac{\mathrm{d}\mathtt{PEDE}\left(t\right)}{\mathrm{d}t}=\frac{-\mathtt{PEDE}\left(t\right)+\mathtt{EDE}\left(t\right)}{\mathtt{TOED}}\)</td>
+	</tr>
+	<tr id="WSOEFCA">
+		<td>WSO Effect on Flow to Capacity Addition (1)</td>
+		<td><code>WSOEFCA</code></td>
+		<td><a href="labourmarket.html#WASH"><code>WASH</code></a> </td>
+		<td><a href=#WSOEFRA><code>WSOEFRA</code></a> </td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td></td>
+		<td>\(\mathtt{WSOEFCA}\left(t\right)=1+\mathtt{WSOEFRA}\cdot\left(-1+2\cdot\mathtt{WASH}\left(t\right)\right)\)</td>
+	</tr>
+	</tbody>
+</table>
+
+	<h2 style="text-align:left">The parameters</h2>
+<table class="styled-table">
+	<thead>
+		<tr>
+			<th>Vensim name</th>
+			<th>Name</th>
+			<th>Is used by</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+	<tr id="CAPPIS1980">
+		<td>CAP PIS in 1980 Gcu</td>
+		<td><code>CAPPIS1980</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td>59250.0</td>
+	</tr>
+	<tr id="CAPPUS1980">
+		<td>CAP PUS in 1980 Gcu</td>
+		<td><code>CAPPUS1980</code></td>
+		<td><a href=#CUCPUS1980><code>CUCPUS1980</code></a> <a href=#ORO><code>ORO</code></a> </td>
+		<td>5350.0</td>
+	</tr>
+	<tr id="CBCEFRA">
+		<td>sCBCeoFRA<0: Corporate Borrowing Cost Effect on FRA</td>
+		<td><code>CBCEFRA</code></td>
+		<td><a href=#CBCEFCA><code>CBCEFCA</code></a> </td>
+		<td>-0.8</td>
+	</tr>
+	<tr id="CC1980">
+		<td>Cost of Capacity in 1980 dollar/cu</td>
+		<td><code>CC1980</code></td>
+		<td><a href=#COCA><code>COCA</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="CTPIS">
+		<td>Construction Time PIS y</td>
+		<td><code>CTPIS</code></td>
+		<td><a href=#CAPIS><code>CAPIS</code></a> </td>
+		<td>1.5</td>
+	</tr>
+	<tr id="CTPUS">
+		<td>Construction Time PUS y</td>
+		<td><code>CTPUS</code></td>
+		<td><a href=#CAPUS><code>CAPUS</code></a> <a href=#CUCPUS1980><code>CUCPUS1980</code></a> </td>
+		<td>1.5</td>
+	</tr>
+	<tr id="ED1980">
+		<td>Excess Demand in 1980</td>
+		<td><code>ED1980</code></td>
+		<td><a href=#EDEFCA><code>EDEFCA</code></a> <a href=#EDELC><code>EDELC</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="EDEFRA">
+		<td>sEDeoFRA>0: Excess Demand Effect on FRA</td>
+		<td><code>EDEFRA</code></td>
+		<td><a href=#EDEFCA><code>EDEFCA</code></a> </td>
+		<td>5.0</td>
+	</tr>
+	<tr id="EDELCM">
+		<td>sEDeoLOC>0: Excess Demand Effect on Life of Capacity</td>
+		<td><code>EDELCM</code></td>
+		<td><a href=#EDELC><code>EDELC</code></a> </td>
+		<td>0.5</td>
+	</tr>
+	<tr id="EMCUC">
+		<td>Extra Mult on CUC, to avoid initial transient in investment share of GDP</td>
+		<td><code>EMCUC</code></td>
+		<td><a href=#CUCPUS1980><code>CUCPUS1980</code></a> </td>
+		<td>1.7</td>
+	</tr>
+	<tr id="FCI">
+		<td>Foreign Capital Inflow Gdollar/y</td>
+		<td><code>FCI</code></td>
+		<td><a href=#AVCA><code>AVCA</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="FRA1980">
+		<td>FRA in 1980</td>
+		<td><code>FRA1980</code></td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td>0.9</td>
+	</tr>
+	<tr id="FRACAM">
+		<td>FRACA Min</td>
+		<td><code>FRACAM</code></td>
+		<td><a href=#FRACAMGDPPL><code>FRACAMGDPPL</code></a> </td>
+		<td>0.65</td>
+	</tr>
+	<tr id="GDPP1980">
+		<td>GDP per Person in 1980</td>
+		<td><code>GDPP1980</code></td>
+		<td><a href=#FRACAMGDPPL><code>FRACAMGDPPL</code></a> <a href=#FRACAMGDPPT><code>FRACAMGDPPT</code></a> </td>
+		<td>6.4</td>
+	</tr>
+	<tr id="GDPPEFRACA">
+		<td>sGDPppeoFRACA<0: GDP per Person Effect on FRACA</td>
+		<td><code>GDPPEFRACA</code></td>
+		<td><a href=#FRACAMGDPPL><code>FRACAMGDPPL</code></a> </td>
+		<td>-0.2</td>
+	</tr>
+	<tr id="IPT">
+		<td>Investment Planning Time y</td>
+		<td><code>IPT</code></td>
+		<td><a href=#FACNC><code>FACNC</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="KAPPA">
+		<td>Kappa</td>
+		<td><code>KAPPA</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td>0.3</td>
+	</tr>
+	<tr id="LAMBDA">
+		<td>Lambda</td>
+		<td><code>LAMBDA</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td>0.7</td>
+	</tr>
+	<tr id="LAUS1980">
+		<td>Labour Use in 1980 Gph/y</td>
+		<td><code>LAUS1980</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td>3060.0</td>
+	</tr>
+	<tr id="LCPIS1980">
+		<td>Life of Capacity PIS in 1980 y</td>
+		<td><code>LCPIS1980</code></td>
+		<td><a href=#LCPIS><code>LCPIS</code></a> </td>
+		<td>15.0</td>
+	</tr>
+	<tr id="OO1980">
+		<td>Optimal output in 1980 Gu/y</td>
+		<td><code>OO1980</code></td>
+		<td><a href=#ORO><code>ORO</code></a> </td>
+		<td>28087.0</td>
+	</tr>
+	<tr id="OW2022">
+		<td>OBserved WArming in 2022 deg C</td>
+		<td><code>OW2022</code></td>
+		<td><a href=#OWECC><code>OWECC</code></a> <a href=#OWELC><code>OWELC</code></a> </td>
+		<td>1.35</td>
+	</tr>
+	<tr id="OWECCM">
+		<td>sOWeoCOC>0: Observed Warming Effect on Cost of Capacity Multiplier</td>
+		<td><code>OWECCM</code></td>
+		<td><a href=#OWECC><code>OWECC</code></a> </td>
+		<td>0.2</td>
+	</tr>
+	<tr id="OWELCM">
+		<td>sOWeoLOC<0: Observed Warming Effect on Life of Capacity Multiplier</td>
+		<td><code>OWELCM</code></td>
+		<td><a href=#OWELC><code>OWELC</code></a> </td>
+		<td>-0.1</td>
+	</tr>
+	<tr id="PRUN">
+		<td>Price per Unit dollar/u</td>
+		<td><code>PRUN</code></td>
+		<td><a href=#OOV><code>OOV</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="TOED">
+		<td>Time to observe excess demand y</td>
+		<td><code>TOED</code></td>
+		<td><a href=#PEDE><code>PEDE</code></a> </td>
+		<td>1.0</td>
+	</tr>
+	<tr id="USPIS2022">
+		<td>Unconventional Stimulus in PIS from 2022 (share of GDP)</td>
+		<td><code>USPIS2022</code></td>
+		<td><a href=#OBSGIPIS><code>OBSGIPIS</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="USPUS2022">
+		<td>Unconventional Stimulus in PUS from 2022 (share of GDP)</td>
+		<td><code>USPUS2022</code></td>
+		<td><a href=#OBSGIPUS><code>OBSGIPUS</code></a> </td>
+		<td>0.0</td>
+	</tr>
+	<tr id="WSOEFRA">
+		<td>sWSOeoFRA<0: Worker Share of Output Effect on FRA</td>
+		<td><code>WSOEFRA</code></td>
+		<td><a href=#WSOEFCA><code>WSOEFCA</code></a> </td>
+		<td>-2.5</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>
