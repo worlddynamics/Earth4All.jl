@@ -84,3 +84,52 @@ function run_gl(;
 
     return WorldDynamics.compose(systems, connection_eqs)
 end
+
+function run_pars_inits(;
+    cli_pars=Climate.getparameters(),
+    dem_pars=Demand.getparameters(),
+    ene_pars=Energy.getparameters(),
+    fin_pars=Finance.getparameters(),
+    foo_pars=FoodLand.getparameters(),
+    inv_pars=Inventory.getparameters(),
+    lab_pars=LabourMarket.getparameters(),
+    oth_pars=Other.getparameters(),
+    out_pars=Output.getparameters(),
+    pop_pars=Population.getparameters(),
+    pub_pars=Public.getparameters(),
+    wel_pars=Wellbeing.getparameters(),
+    cli_inits=Climate.getinitialisations(),
+    dem_inits=Demand.getinitialisations(),
+    ene_inits=Energy.getinitialisations(),
+    fin_inits=Finance.getinitialisations(),
+    foo_inits=FoodLand.getinitialisations(),
+    inv_inits=Inventory.getinitialisations(),
+    lab_inits=LabourMarket.getinitialisations(),
+    oth_inits=Other.getinitialisations(),
+    out_inits=Output.getinitialisations(),
+    pop_inits=Population.getinitialisations(),
+    pub_inits=Public.getinitialisations(),
+    wel_inits=Wellbeing.getinitialisations(),
+    kwargs...
+)
+    @named cli = Climate.climate(; params=cli_pars, inits=cli_inits, kwargs...)
+    @named dem = Demand.demand(; params=dem_pars, inits=dem_inits, kwargs...)
+    @named ene = Energy.energy(; params=ene_pars, inits=ene_inits, kwargs...)
+    @named fin = Finance.finance(; params=fin_pars, inits=fin_inits, kwargs...)
+    @named foo = FoodLand.foodland(; params=foo_pars, inits=foo_inits, kwargs...)
+    @named inv = Inventory.inventory(; params=inv_pars, inits=inv_inits, kwargs...)
+    @named lab = LabourMarket.labour_market(; params=lab_pars, inits=lab_inits, kwargs...)
+    @named oth = Other.other(; params=oth_pars, inits=oth_inits, kwargs...)
+    @named out = Output.output(; params=out_pars, inits=out_inits, kwargs...)
+    @named pop = Population.population(; params=pop_pars, inits=pop_inits, kwargs...)
+    @named pub = Public.public(; params=pub_pars, inits=pub_inits, kwargs...)
+    @named wel = Wellbeing.wellbeing(; params=wel_pars, inits=wel_inits, kwargs...)
+
+    systems = [
+        dem, cli, ene, fin, foo, inv, lab, oth, out, pop, pub, wel,
+    ]
+
+    connection_eqs = variable_connections(systems)
+
+    return WorldDynamics.compose(systems, connection_eqs)
+end

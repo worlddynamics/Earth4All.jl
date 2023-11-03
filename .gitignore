@@ -1,4 +1,6 @@
 *.json
 
 figures/
+html/
+txt/
 .DS_Store

@@ -253,20 +253,20 @@ end
 
 function foodland_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
     @variables CO2CA(t) [description = "Climate.CO2 Concentration in Atm ppm"]
-    # @variables GDP(t) [description = "Inventory.GDP"]
-    # @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
-    # @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables GDP(t) [description = "Inventory.GDP"]
+    @variables GDPP(t) [description = "Population.GDP per Person kdollar/p/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
     @variables OW(t) [description = "Climate.Observed warming deg C"]
-    # @variables POP(t) [description = "Population.Population Mp"]
+    @variables POP(t) [description = "Population.Population Mp"]
 
     eqs = []
 
     add_equation!(eqs, CO2CA ~ WorldDynamics.interpolate(t, tables[:CO2CA], ranges[:CO2CA]))
-    # add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
-    # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
-    # add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
+    add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
     return ODESystem(eqs; name=name)
 end

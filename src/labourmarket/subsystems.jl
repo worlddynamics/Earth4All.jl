@@ -141,21 +141,21 @@ function labour_market_full_support(; name, params=_params, inits=_inits, tables
 end
 
 function labour_market_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
-    # @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
-    # @variables CAP(t) [description = "Output.CAPacity Gcu"]
-    # @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
-    # @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
-    # @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
-    # @variables OUTP(t) [description = "Inventory.OUTput Gu/y"]
+    @variables A20PA(t) [description = "Population.Aged 20-Pension Age Mp"]
+    @variables CAP(t) [description = "Output.CAPacity Gcu"]
+    @variables GDPP(t) [description = "Population.GDP per Person kDollar/p/y"]
+    @variables IR(t) [description = "Inventory.Inflation Rate 1/y"]
+    @variables IPP(t) [description = "Wellbeing.Introduction Period for Policy y"]
+    @variables OUTP(t) [description = "Inventory.OUTput Gu/y"]
 
     eqs = []
 
-    # add_equation!(eqs, A20PA ~ WorldDynamics.interpolate(t, tables[:A20PA], ranges[:A20PA]))
-    # add_equation!(eqs, CAP ~ WorldDynamics.interpolate(t, tables[:CAP], ranges[:CAP]))
-    # add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
-    # add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
-    # add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
-    # add_equation!(eqs, OUTP ~ WorldDynamics.interpolate(t, tables[:OUTP], ranges[:OUTP]))
+    add_equation!(eqs, A20PA ~ WorldDynamics.interpolate(t, tables[:A20PA], ranges[:A20PA]))
+    add_equation!(eqs, CAP ~ WorldDynamics.interpolate(t, tables[:CAP], ranges[:CAP]))
+    add_equation!(eqs, GDPP ~ WorldDynamics.interpolate(t, tables[:GDPP], ranges[:GDPP]))
+    add_equation!(eqs, IR ~ WorldDynamics.interpolate(t, tables[:IR], ranges[:IR]))
+    add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
+    add_equation!(eqs, OUTP ~ WorldDynamics.interpolate(t, tables[:OUTP], ranges[:OUTP]))
 
     return ODESystem(eqs; name=name)
 end
