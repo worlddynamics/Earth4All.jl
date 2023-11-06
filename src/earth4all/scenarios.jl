@@ -85,7 +85,7 @@ function run_gl(;
     return WorldDynamics.compose(systems, connection_eqs)
 end
 
-function run_pars_inits(;
+function run_e4a(;
     cli_pars=Climate.getparameters(),
     dem_pars=Demand.getparameters(),
     ene_pars=Energy.getparameters(),
