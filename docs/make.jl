@@ -13,7 +13,7 @@ PAGES = [
 ]
 
 makedocs(
-    sitename="Earth4All.jl documentation",
+    sitename="Earth4All.jl",
     authors="Pierluigi Crescenzi, Emanuele Natale, Aurora Rossi",
     pages=PAGES
 )
