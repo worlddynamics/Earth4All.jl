@@ -2,7 +2,7 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://worlddynamics.github.io/Earth4All.jl/)
 [![DOI](https://zenodo.org/badge/629418296.svg)](https://zenodo.org/badge/latestdoi/629418296)
 
-Repository of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/) using the [WorldDynamics framework](https://github.com/worlddynamics/WorldDynamics.jl).
+Repository of the Julia implementation of the [Earth4All model](https://earth4all.life/the-science-rp/) using the [WorldDynamics framework](https://github.com/worlddynamics/WorldDynamics.jl), based on the [April 2023 Vensim version](https://web.archive.org/web/20220830093115/https://earth4all.life/the-science/) available [here](https://stockholmuniversity.app.box.com/s/uh7fjh52pvh7yx1mqfwqcyxdcvegrodf/folder/170558692760) (a copy is also available in the `vensim_source` folder of the current repository).
 
 ## How to run the model 
 
