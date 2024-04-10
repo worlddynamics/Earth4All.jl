@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -110,7 +110,7 @@ function population(; name, params=_params, inits=_inits, tables=_tables, ranges
     add_equation!(eqs, PW ~ OP / A20PA)
     add_equation!(eqs, WELE ~ IfElse.ifelse(t > 2022, max(0, 1 + OWELE * (OW / OW2022 - 1)), 1))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function population_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -124,7 +124,7 @@ function population_full_support(; name, params=_params, inits=_inits, tables=_t
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function population_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -138,5 +138,5 @@ function population_partial_support(; name, params=_params, inits=_inits, tables
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

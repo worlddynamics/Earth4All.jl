@@ -12,7 +12,7 @@ end
 
 """
    `delay_n!(eqs, x, rt, lv, delay, order)`
-   
+
 Returns an N'th order exponential delay.
 """
 function delay_n!(eqs, x, rt, lv, delay, order)
@@ -103,7 +103,7 @@ Print the description, the name, and the initial value (when specified) of all t
 function print_vars(sys)
    println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
-   for s in ModelingToolkit.get_states(sys)
+   for s in ModelingToolkit.get_unknowns(sys)
       if (ModelingToolkit.getdescription(s) != "")
          try
             v = round(ModelingToolkit.getdefault(s), digits=4)
@@ -136,7 +136,7 @@ For each exogenous variable, print the description, the name, and the name of th
 function print_exo_vars(sys)
    println("| Vensim name | Name | Initial value |")
    println("| --- | --- | --- |")
-   for s in ModelingToolkit.get_states(sys)
+   for s in ModelingToolkit.get_unknowns(sys)
       desc = ModelingToolkit.getdescription(s)
       if (desc != "")
          desc_split = split(desc, ".")

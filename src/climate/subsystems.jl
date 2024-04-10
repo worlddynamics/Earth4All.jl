@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -172,7 +172,7 @@ function climate(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
 
     smooth!(eqs, PWA, OW, PD)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function climate_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -192,7 +192,7 @@ function climate_full_support(; name, params=_params, inits=_inits, tables=_tabl
     add_equation!(eqs, CO2EI ~ WorldDynamics.interpolate(t, tables[:CO2EI], ranges[:CO2EI]))
     add_equation!(eqs, CO2ELULUC ~ WorldDynamics.interpolate(t, tables[:CO2ELULUC], ranges[:CO2ELULUC]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function climate_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -212,5 +212,5 @@ function climate_partial_support(; name, params=_params, inits=_inits, tables=_t
     add_equation!(eqs, CO2EI ~ WorldDynamics.interpolate(t, tables[:CO2EI], ranges[:CO2EI]))
     add_equation!(eqs, CO2ELULUC ~ WorldDynamics.interpolate(t, tables[:CO2ELULUC], ranges[:CO2ELULUC]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

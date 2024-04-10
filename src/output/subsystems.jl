@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -147,7 +147,7 @@ function output(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     # add_equation!(eqs, FACNC ~ WorldDynamics.interpolate(t, tables[:FACNC], ranges[:FACNC]))
     # add_equation!(eqs, LCPIS ~ WorldDynamics.interpolate(t, tables[:LCPIS], ranges[:LCPIS]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function output_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -177,7 +177,7 @@ function output_full_support(; name, params=_params, inits=_inits, tables=_table
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
     add_equation!(eqs, WASH ~ WorldDynamics.interpolate(t, tables[:WASH], ranges[:WASH]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function output_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -207,5 +207,5 @@ function output_partial_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
     add_equation!(eqs, WASH ~ WorldDynamics.interpolate(t, tables[:WASH], ranges[:WASH]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

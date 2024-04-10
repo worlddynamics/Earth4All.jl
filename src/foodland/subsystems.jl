@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 
 @variables t
@@ -228,7 +228,7 @@ function foodland(; name, params=_params, inits=_inits, tables=_tables, ranges=_
     add_equation!(eqs, D(URLA) ~ UREX)
     add_equation!(eqs, WELY ~ IfElse.ifelse(t > 2022, 1 + OWEACY * (OW / OW2022 - 1), 1))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function foodland_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -248,7 +248,7 @@ function foodland_full_support(; name, params=_params, inits=_inits, tables=_tab
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function foodland_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -268,5 +268,5 @@ function foodland_partial_support(; name, params=_params, inits=_inits, tables=_
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

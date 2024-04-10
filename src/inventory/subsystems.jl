@@ -1,6 +1,6 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
-@register pulse(x, start, width)
+@register_symbolic ramp(x, slope, startx, endx)
+@register_symbolic pulse(x, start, width)
 
 @variables t
 D = Differential(t)
@@ -71,7 +71,7 @@ function inventory(; name, params=_params, inits=_inits, tables=_tables, ranges=
     add_equation!(eqs, SA ~ DEL * PPU)
     smooth!(eqs, SSWI, DSWI, TAS)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function inventory_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -83,7 +83,7 @@ function inventory_full_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, ORO ~ WorldDynamics.interpolate(t, tables[:ORO], ranges[:ORO]))
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function inventory_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -95,7 +95,7 @@ function inventory_partial_support(; name, params=_params, inits=_inits, tables=
     add_equation!(eqs, ORO ~ WorldDynamics.interpolate(t, tables[:ORO], ranges[:ORO]))
     add_equation!(eqs, TPP ~ WorldDynamics.interpolate(t, tables[:TPP], ranges[:TPP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 

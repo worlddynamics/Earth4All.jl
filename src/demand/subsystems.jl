@@ -1,6 +1,6 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
-@register pulse(x, start, width)
+@register_symbolic ramp(x, slope, startx, endx)
+@register_symbolic pulse(x, start, width)
 
 
 @variables t
@@ -197,7 +197,7 @@ function demand(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, WDB ~ WD / WIAT)
     add_equation!(eqs, WS ~ PWCIN - WCD)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function demand_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -226,7 +226,7 @@ function demand_full_support(; name, params=_params, inits=_inits, tables=_table
     add_equation!(eqs, WF ~ WorldDynamics.interpolate(t, tables[:WF], ranges[:WF]))
     add_equation!(eqs, WSO ~ WorldDynamics.interpolate(t, tables[:WSO], ranges[:WSO]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function demand_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -255,6 +255,6 @@ function demand_partial_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, WF ~ WorldDynamics.interpolate(t, tables[:WF], ranges[:WF]))
     add_equation!(eqs, WSO ~ WorldDynamics.interpolate(t, tables[:WSO], ranges[:WSO]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 

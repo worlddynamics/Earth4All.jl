@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -82,7 +82,7 @@ function wellbeing(; name, params=_params, inits=_inits, tables=_tables, ranges=
     smooth!(eqs, STR, IST, TEST)
     add_equation!(eqs, WBEP ~ 1 + PAEAWBF * (LPR / TP - 1))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function wellbeing_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -102,7 +102,7 @@ function wellbeing_full_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
     add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function wellbeing_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -122,5 +122,5 @@ function wellbeing_partial_support(; name, params=_params, inits=_inits, tables=
     add_equation!(eqs, PWA ~ WorldDynamics.interpolate(t, tables[:PWA], ranges[:PWA]))
     add_equation!(eqs, WDI ~ WorldDynamics.interpolate(t, tables[:WDI], ranges[:WDI]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
