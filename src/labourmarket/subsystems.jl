@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -117,7 +117,7 @@ function labour_market(; name, params=_params, inits=_inits, tables=_tables, ran
     add_equation!(eqs, WRER ~ IR * (1 - FIC))
     add_equation!(eqs, D(WSO) ~ CWSO - LTEWSO)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function labour_market_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -137,7 +137,7 @@ function labour_market_full_support(; name, params=_params, inits=_inits, tables
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OUTP ~ WorldDynamics.interpolate(t, tables[:OUTP], ranges[:OUTP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function labour_market_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -157,5 +157,5 @@ function labour_market_partial_support(; name, params=_params, inits=_inits, tab
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, OUTP ~ WorldDynamics.interpolate(t, tables[:OUTP], ranges[:OUTP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

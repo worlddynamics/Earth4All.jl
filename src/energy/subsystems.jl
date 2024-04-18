@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 
 @variables t
@@ -219,7 +219,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, CESGDP ~ CE / GDP)
     add_equation!(eqs, ECETSGDP ~ IfElse.ifelse(t > 2022, (CE - TCEN) / GDP, 0))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function energy_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -237,7 +237,7 @@ function energy_full_support(; name, params=_params, inits=_inits, tables=_table
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function energy_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -255,6 +255,6 @@ function energy_partial_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, IPP ~ WorldDynamics.interpolate(t, tables[:IPP], ranges[:IPP]))
     add_equation!(eqs, GDP ~ WorldDynamics.interpolate(t, tables[:GDP], ranges[:GDP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 

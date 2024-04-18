@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -55,7 +55,7 @@ function finance(; name, params=_params, inits=_inits, tables=_tables, ranges=_r
     add_equation!(eqs, TIR ~ CBSR + NBBM)
     add_equation!(eqs, WBC ~ CCSD)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function finance_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -69,7 +69,7 @@ function finance_full_support(; name, params=_params, inits=_inits, tables=_tabl
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
     add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function finance_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -83,5 +83,5 @@ function finance_partial_support(; name, params=_params, inits=_inits, tables=_t
     add_equation!(eqs, OGR ~ WorldDynamics.interpolate(t, tables[:OGR], ranges[:OGR]))
     add_equation!(eqs, UR ~ WorldDynamics.interpolate(t, tables[:UR], ranges[:UR]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

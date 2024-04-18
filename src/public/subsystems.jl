@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -79,7 +79,7 @@ function public(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, VPSS ~ GPU * PPP)
     add_equation!(eqs, XECTAGDP ~ XETAC2022 + ramp(t, (XETAC2100 - XETAC2022) / 78, 2022, 2022 + 78))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function public_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -105,7 +105,7 @@ function public_full_support(; name, params=_params, inits=_inits, tables=_table
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function public_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -131,5 +131,5 @@ function public_partial_support(; name, params=_params, inits=_inits, tables=_ta
     add_equation!(eqs, OW ~ WorldDynamics.interpolate(t, tables[:OW], ranges[:OW]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end

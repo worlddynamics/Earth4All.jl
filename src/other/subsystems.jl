@@ -1,5 +1,5 @@
 include("../functions.jl")
-@register ramp(x, slope, startx, endx)
+@register_symbolic ramp(x, slope, startx, endx)
 
 @variables t
 D = Differential(t)
@@ -35,7 +35,7 @@ function other(; name, params=_params, inits=_inits, tables=_tables, ranges=_ran
     add_equation!(eqs, RGGDPP ~ ((GDPP - PGDPP) / PGDPP) / TEGR)
     smooth!(eqs, PGDPP, GDPP, TEGR)
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function other_full_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -53,7 +53,7 @@ function other_full_support(; name, params=_params, inits=_inits, tables=_tables
     add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
 
 function other_partial_support(; name, params=_params, inits=_inits, tables=_tables, ranges=_ranges)
@@ -71,5 +71,5 @@ function other_partial_support(; name, params=_params, inits=_inits, tables=_tab
     add_equation!(eqs, INEQ ~ WorldDynamics.interpolate(t, tables[:INEQ], ranges[:INEQ]))
     add_equation!(eqs, POP ~ WorldDynamics.interpolate(t, tables[:POP], ranges[:POP]))
 
-    return ODESystem(eqs; name=name)
+    return ODESystem(eqs, t; name=name)
 end
