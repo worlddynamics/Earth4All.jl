@@ -40,8 +40,9 @@ The plots should look like the two of the first line, instead the ones of the se
 |---|---|
 |![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/3de4ce87-f1c8-4c9a-ad83-fb8d3e903f04) | ![image](https://github.com/worlddynamics/Earth4All.jl/assets/65721467/d9a3ca28-dcf7-462a-a07e-6d60dc985324) |
 
-## White paper
+## Papers
 - Pierluigi Crescenzi, Aurora Rossi, Emanuele Natale. *An open source implementation of the Earth4All integrated assessment model.* 2023. [hal-04293350](https://hal.science/hal-04293350)
+- Pierluigi Crescenzi, Giorgio Gambosi, Lucia Nasti, Emanuele Natale, Aurora Rossi. [*A sensitivity analysis of the Earth for all model: Getting the giant leap scenario with fewer policies.*](https://onlinelibrary.wiley.com/doi/10.1111/jiec.13582?af=R) Journal of Industrial Ecology, 2024. 
 
 ## Acknowledgments 
 
