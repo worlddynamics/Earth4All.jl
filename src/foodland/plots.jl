@@ -4,7 +4,7 @@ using DifferentialEquations
 
 function foo_run_solution()
     isdefined(@__MODULE__, :_solution_foodland_run) && return _solution_foodland_run
-    global _solution_foodland_run = WorldDynamics.solve(foodland_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625)
+    global _solution_foodland_run = WorldDynamics.solve(foodland_run(), (1980, 2100), solver=Euler(), dt=0.015625, dtmax=0.015625, initializealg=CheckInit())
     return _solution_foodland_run
 end
 
