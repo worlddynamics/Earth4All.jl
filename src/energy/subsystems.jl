@@ -201,7 +201,7 @@ function energy(; name, params=_params, inits=_inits, tables=_tables, ranges=_ra
     add_equation!(eqs, FEP ~ FEC * FCUT)
     add_equation!(eqs, NC ~ withlookup(t, [(1980.0, 75.0), (2000.0, 310.0), (2020.0, 310.0), (2098.9, 310.0)]))
     add_equation!(eqs, NEP ~ NC * NCUT)
-    add_equation!(eqs, EP ~ FEP + NEP + REP)
+    add_equation!(eqs, EP ~ FEP + LCEP)
     add_equation!(eqs, ELB ~ EP / DE)
     add_equation!(eqs, FFPNE ~ (FEP + NEP) / EP)
     add_equation!(eqs, EU ~ DFFFNEU + EP / FTWEPMt + RHP)
